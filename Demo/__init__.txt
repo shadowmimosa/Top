@@ -1,0 +1,2 @@
+*** Settings ***
+Documentation     Demo模板【包括Get类型、Post类型、无参类型、游客Post类型】

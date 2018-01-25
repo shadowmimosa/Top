@@ -1,0 +1,13 @@
+*** Settings ***
+Documentation     公共资源、公共变量、第三方库
+Resource          ../Public/business/thejoyrun.txt
+Variables         ../Public/Config.py
+Library           ../Public/Verification.py
+Library           ../Public/tool_Libary.py
+Library           ../Public/Verification_Field.py
+
+*** Variable ***
+${acshow_version}    6550
+${acshow_platform}    5
+${acshow_device}    198cab3ebf8148cc821d2981f464c3cb
+${acshow_channel}    201

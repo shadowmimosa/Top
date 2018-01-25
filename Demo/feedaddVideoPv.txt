@@ -1,0 +1,49 @@
+*** Settings ***
+Documentation     Get接口Demo示例【示例中仅提供最基础内容，实际编写时，可以此基础上扩展】
+Resource          ../Public/business/thejoyrun.txt
+Variables         ../Public/Config.py
+Library           ../Public/Verification.py
+Library           ../Public/tool_Libary.py
+Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    fid                userName               expected
+Class_01              [Documentation]    个人massage
+                      [Tags]             Demo
+                      [Template]         aaa_Get_assertClass
+                      123                13829744542            "0"
+
+*** Keywords ***
+aaa_Get_assertClass
+    [Arguments]    ${fid}    ${userName}    ${expected}
+    [Documentation]    get的demo请求，这里get请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数；
+    ${path}=    set variable    /feed/addVideoPv
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    log    ---输出预期值---
+    log    ${expected}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${expected}
+    log    ret 符合预期为:${expected}
+    log    验证msg是否符合预期
+    ${msg}=    charconver    "成功"
+    Run Keyword If    ${expected}=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #should contain    ${data}    "temp":
+    #当验证的内容有中文时，需要先转码再验证；
+    #${weather}=    charconver    "多云"
+    #should contain    ${data}    ${weather}
+    log    ------------------------ It is OK!!!!-------------------------------------
