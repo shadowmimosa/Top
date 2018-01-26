@@ -24,11 +24,11 @@ Class_02              [Documentation]     post多用例情况
 
 Class_03              [Documentation]     此接口黑名单接口，取消黑名单成员
                       [Tags]              Demo                                               test
-                      [Template]          user_checkRealNameVerification_Post_assertClass
+                      [Template]          userusersetting_Post_assertClass
                       setunblockmoment    32518384                                           13829744542    "0"
 
 *** Keywords ***
-user_checkRealNameVerification_Post_assertClass
+userusersetting_Post_assertClass
     [Arguments]    ${option}    ${touid}    ${userName}    ${expected_code}
     [Documentation]    post的demo请求，这里post请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数；提交的参数是以params方式，会出现在url中；
     Evaluate    reload(sys)    sys

@@ -1,2 +1,2 @@
 *** Settings ***
-Documentation     RF接口Demo示例
+Documentation     EnJoyrun 服务端接口测试用例集
