@@ -12,7 +12,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    option              touid                                                                                                                                                                                                                        userName       expected_code
-Class_01              [Documentation]     POST 带cookie和heards的请求；\n例如：POST的URL为http://u-test.api.thejoyrun.com/user/checkRealNameVerification\n \ \ \ \ \ \ \ 传参为：signature=D0F7AFD785A13B8624D3984D5361A465&timestamp=1516336210\n \ \ \ \ \ \ \ 要求传cookie 和heards
+Class_01              [Documentation]     post
                       [Tags]              Demo                                                                                                                                                                                                                         test
                       [Template]          user_checkRealNameVerification_Post_assertClass
                       listblockmoment     \                                                                                                                                                                                                                            13829744542    "0"
