@@ -46,6 +46,10 @@ advert_URL='http://advert-test.api.thejoyrun.com'
 # training工程,与训练相关
 training_URL='http://training-test.api.thejoyrun.com'
 
+# wear工程,与穿戴相关
+wear_URL='http://wear-test.api.thejoyrun.com'
+
+
 
 #各版本测试（3.1）密钥
 appkey1='fb1931e425f84313bfae4b93ab3ccdc4'
