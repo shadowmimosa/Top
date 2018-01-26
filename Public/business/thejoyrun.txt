@@ -44,9 +44,11 @@ thejoyrun_postd
     ${sid}=  Get From Dictionary   ${heards}    sid
     ${timestamp}=  Get From Dictionary   ${heards}    timestamp
     ${ypcookie}=  Get From Dictionary   ${heards}    ypcookie
-    ${heards_dict}=    create dictionary   ypcookie=${ypcookie}  
+    ${heards_dict}=    create dictionary   ypcookie=${ypcookie} 
+	##将ypcookie转为url编码
+    ${ypcookie1}=     urlencode	    ${ypcookie}	
     ${cookies}=    create dictionary     
-    set to dictionary    ${cookies}    ypcookie=${ypcookie}
+    set to dictionary    ${cookies}    ypcookie=${ypcookie1}
     set to dictionary    ${cookies}    app_version=${appversion}    
     #log  uid ===${uid}
     #log  sid ===${sid}  
@@ -130,8 +132,10 @@ thejoyrun_postp
     ${timestamp}=  Get From Dictionary   ${heards}    timestamp
     ${ypcookie}=  Get From Dictionary   ${heards}    ypcookie
     ${heards_dict}=    create dictionary   ypcookie=${ypcookie}  
+	##将ypcookie转为url编码
+    ${ypcookie1}=     urlencode	    ${ypcookie}	
     ${cookies}=    create dictionary     
-    set to dictionary    ${cookies}    ypcookie=${ypcookie}
+    set to dictionary    ${cookies}    ypcookie=${ypcookie1}
     set to dictionary    ${cookies}    app_version=${appversion}     
     log  uid ===${uid}
     log  sid ===${sid}  
@@ -215,8 +219,10 @@ thejoyrun_postjson
     ${timestamp}=  Get From Dictionary   ${heards}    timestamp
     ${ypcookie}=  Get From Dictionary   ${heards}    ypcookie
     ${heards_dict}=    create dictionary   ypcookie=${ypcookie}  
+	##将ypcookie转为url编码
+    ${ypcookie1}=     urlencode	    ${ypcookie}
     ${cookies}=    create dictionary     
-    set to dictionary    ${cookies}    ypcookie=${ypcookie}
+    set to dictionary    ${cookies}    ypcookie=${ypcookie1}
     set to dictionary    ${cookies}    app_version=${appversion}  
     ${appid}=  set variable    wx1fef2e38049c8d5f	
     log  uid ===${uid}
@@ -294,9 +300,13 @@ thejoyrun_getp
     ${sid}=  Get From Dictionary   ${heards}    sid
     ${timestamp}=  Get From Dictionary   ${heards}    timestamp
     ${ypcookie}=  Get From Dictionary   ${heards}    ypcookie
-    ${heards_dict}=    create dictionary   ypcookie=${ypcookie}  
+    ${heards_dict}=    create dictionary   ypcookie=${ypcookie} 
+    #${ypcookie1}=    Replace String    ${ypcookie}    =    %3d
+    #${ypcookie1}=    Replace String    ${ypcookie1}    &    %26
+	##将ypcookie转为url编码
+    ${ypcookie1}=     urlencode	    ${ypcookie}
     ${cookies}=    create dictionary     
-    set to dictionary    ${cookies}    ypcookie=${ypcookie}
+    set to dictionary    ${cookies}    ypcookie=${ypcookie1}
     set to dictionary    ${cookies}    app_version=${appversion}      
     #log  uid ===${uid}
     #log  sid ===${sid}  
@@ -379,8 +389,10 @@ thejoyrun_get_nosign
     ${timestamp}=  Get From Dictionary   ${heards}    timestamp
     ${ypcookie}=  Get From Dictionary   ${heards}    ypcookie
     ${heards_dict}=    create dictionary   ypcookie=${ypcookie}  
+	##将ypcookie转为url编码
+    ${ypcookie1}=     urlencode	    ${ypcookie}	
     ${cookies}=    create dictionary     
-    set to dictionary    ${cookies}    ypcookie=${ypcookie}
+    set to dictionary    ${cookies}    ypcookie=${ypcookie1}
     set to dictionary    ${cookies}    app_version=${appversion}      
     #log  uid ===${uid}
     #log  sid ===${sid}  

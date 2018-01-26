@@ -1,0 +1,2 @@
+*** Settings ***
+Documentation     与广告消息通告相关

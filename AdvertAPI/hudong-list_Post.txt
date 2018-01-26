@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     动态列表
+Documentation     活动列表
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -11,26 +11,25 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    lasttime           expected_code
-Class_01              [Documentation]    个人信息列表-无传参
-                      [Tags]             Online                           Test
-                      [Template]         datamessages_Post_assertClass
-                      0                  "0"
+*** Test Cases ***    expected_code
+Class_01              [Documentation]    活动列表-无传参
+                      [Tags]             Test                           Online
+                      [Template]         hudonglist_Post_assertClass
+                      "0"
 
 *** Keywords ***
-datamessages_Post_assertClass
-    [Arguments]    ${lasttime}    ${expected_code}
-    [Documentation]    Datamessage 基本验证
+hudonglist_Post_assertClass
+    [Arguments]    ${expected_code}
+    [Documentation]    基本验证-活动列表
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /dataMessages
+    ${path}=    set variable    /huodong-list
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    lasttime=${lasttime}
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
-    log    ${api_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    log    ${advert_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${advert_URL}
     ${content}=    charconver    ${resp.content}
     ${data}    get json value    ${content}    /data
     ${data}=    charconver    ${data}

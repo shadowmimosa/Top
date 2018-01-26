@@ -1,51 +1,46 @@
 *** Settings ***
-Documentation     动态列表
+Documentation     BannerList列表-无参数
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
 Library           ../Public/tool_Libary.py
 Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    lasttime           expected_code
-Class_01              [Documentation]    个人信息列表-无传参
-                      [Tags]             Online                           Test
-                      [Template]         datamessages_Post_assertClass
-                      0                  "0"
+*** Test Cases ***    userName           expected
+Class_01              [Documentation]    bannerlist
+                      [Tags]             Test                             Online
+                      [Template]         getBannerList_Get_assertClass
+                      13829744541        "0"
 
 *** Keywords ***
-datamessages_Post_assertClass
-    [Arguments]    ${lasttime}    ${expected_code}
-    [Documentation]    Datamessage 基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /dataMessages
+getBannerList_Get_assertClass
+    [Arguments]    ${userName}    ${expected}
+    [Documentation]    Bannerlist列表验证
+    ${path}=    set variable    /newTopic/getBannerList
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    lasttime=${lasttime}
-    log    ---输出参数---
-    log    ${maps}
-    log    ---输出测试地址---
-    log    ${api_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    #set to dictionary    ${maps}    lasttime=${lasttime}
+    log    ---输出预期值---
+    log    ${expected}
+    log    ${topic_URL}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${topic_URL}
     ${content}=    charconver    ${resp.content}
-    ${data}    get json value    ${content}    /data
-    ${data}=    charconver    ${data}
-    log json    ${resp.content}
     log    ---输出返回内容----
     log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected_code}
-    log    ret 符合预期为:${expected_code}
+    should contain    ${content}    "ret":${expected}
+    log    ret 符合预期为:${expected}
     log    验证msg是否符合预期
     ${msg}=    charconver    "成功"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    Run Keyword If    ${expected}=="0"    verfication_data    ${content}
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
     #should contain    ${data}    "temp":

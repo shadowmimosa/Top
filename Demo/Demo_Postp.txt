@@ -11,21 +11,21 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    option              touid                                                                                                                                                                                                                        userName       expected_code
+*** Test Cases ***    option              touid                                              userName       expected_code
 Class_01              [Documentation]     post
-                      [Tags]              Demo                                                                                                                                                                                                                         test
+                      [Tags]              Demo                                               test
                       [Template]          user_checkRealNameVerification_Post_assertClass
-                      listblockmoment     \                                                                                                                                                                                                                            13829744542    "0"
+                      listblockmoment     \                                                  13829744542    "0"
 
 Class_02              [Documentation]     post多用例情况
                       [Tags]              Demo
                       [Template]          user_checkRealNameVerification_Post_assertClass
-                      setblockmoment      32518383                                                                                                                                                                                                                     13829744542    -1
+                      setblockmoment      32518383                                           13829744542    -1
 
-Class_03              [Documentation]     POST 带cookie和heards的请求；\n例如：POST的URL为http://u-test.api.thejoyrun.com/user/checkRealNameVerification\n \ \ \ \ \ \ \ 传参为：signature=D0F7AFD785A13B8624D3984D5361A465&timestamp=1516336210\n \ \ \ \ \ \ \ 要求传cookie 和heards
-                      [Tags]              Demo                                                                                                                                                                                                                         test
+Class_03              [Documentation]     此接口黑名单接口，取消黑名单成员
+                      [Tags]              Demo                                               test
                       [Template]          user_checkRealNameVerification_Post_assertClass
-                      setunblockmoment    32518384                                                                                                                                                                                                                     13829744542    "0"
+                      setunblockmoment    32518384                                           13829744542    "0"
 
 *** Keywords ***
 user_checkRealNameVerification_Post_assertClass
@@ -53,7 +53,7 @@ user_checkRealNameVerification_Post_assertClass
     should contain    ${content}    "ret":${expected_code}
     log    ret 符合预期为:${expected_code}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "服务器繁忙"
+    ${msg}=    charconver    "服务器"
     Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式

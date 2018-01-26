@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     消息列表
+Documentation     训练计划-无参数
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -13,23 +13,23 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    expected_code
 Class_01              [Documentation]    消息列表-无参数
-                      [Tags]             Test                           Online
-                      [Template]         notifylist_Post_assertClass
+                      [Tags]             Test                                    Online
+                      [Template]         getPlanCategoriesV2_Post_assertClass
                       "0"
 
 *** Keywords ***
-notifylist_Post_assertClass
+getPlanCategoriesV2_Post_assertClass
     [Arguments]    ${expected_code}
-    [Documentation]    Post的demo请求，这里post请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数；另外post的参数是data方式提交，不出现在URL中；
+    [Documentation]    getplancategoriesV2基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /notify-list
+    ${path}=    set variable    /getPlanCategoriesV2
     ${maps}=    create dictionary
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
-    log    ${advert_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${advert_URL}
+    log    ${training_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}
     ${content}=    charconver    ${resp.content}
     ${data}    get json value    ${content}    /data
     ${data}=    charconver    ${data}

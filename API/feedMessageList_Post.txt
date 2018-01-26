@@ -20,7 +20,7 @@ Class_01              [Documentation]    动态信息列表-无传参
 *** Keywords ***
 feedMessageList_Post_assertClass
     [Arguments]    ${lasttime}    ${expected_code}
-    [Documentation]    Post的demo请求，这里post请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数；另外post的参数是data方式提交，不出现在URL中；
+    [Documentation]    FeedmessageList 基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /feedMessageList.aspx

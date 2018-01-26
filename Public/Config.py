@@ -31,14 +31,21 @@ login_URL='http://api-test.thejoyrun.com'
 #api项目地址
 api_URL='http://api-test.thejoyrun.com' 
 
-# user用户信息工程,与用户相关
+# user用户工程,与用户信息相关
 user_URL='http://u-test.api.thejoyrun.com' 
+
+# topic工程,与首页相关
+topic_URL='http://topic-test.api.thejoyrun.com' 
 
 # ec电商工程,与订单相关
 ec_URL='http://ec-test.thejoyrun.com'
 
-# advert工程,与订单相关
+# advert工程,与消息广告通告相关
 advert_URL='http://advert-test.api.thejoyrun.com'
+
+# training工程,与训练相关
+training_URL='http://training-test.api.thejoyrun.com'
+
 
 #各版本测试（3.1）密钥
 appkey1='fb1931e425f84313bfae4b93ab3ccdc4'

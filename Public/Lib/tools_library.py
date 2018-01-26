@@ -13,6 +13,8 @@ import shutil
 import struct
 from multiprocessing import Process
 from threading import Thread
+from urllib import quote
+from urllib import unquote   
 
 #socket
 import socket
@@ -231,6 +233,16 @@ class tools_library(object):
 	def utf8urlencode(self,content):
 		str = urllib.urlencode({"a":content.encode("utf8")})
 		return str	
+		
+	def urlencode(self,content):
+		str = quote(content.encode("utf8"))
+		return str	
+		
+	def urluncode(self,content):
+		str = quote(content.encode("utf8"))
+		return str		
+		
+		
 ###获取本地ip
 	def getip(self, iptype = 'str'):
 		"""获取本地ip，不传参默认返回字符串，传任意参返回unsignlong类型的ip
