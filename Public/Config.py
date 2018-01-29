@@ -37,6 +37,12 @@ user_URL='http://u-test.api.thejoyrun.com'
 # topic工程,与首页相关
 topic_URL='http://topic-test.api.thejoyrun.com' 
 
+#crew-muilt 与跑团相关1
+crew_muilt_URL='http://crew-muilt-test.api.thejoyrun.com' 
+
+#crew 与跑团相关2
+crew_URL='http://crew-test.api.thejoyrun.com' 
+
 # ec电商工程,与订单相关
 ec_URL='http://ec-test.thejoyrun.com'
 

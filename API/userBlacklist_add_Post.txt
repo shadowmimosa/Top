@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     增加黑名单
+Default Tags      V3.2
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
