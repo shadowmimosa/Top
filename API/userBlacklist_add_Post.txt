@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Post接口Demo示例【示例中仅提供最基础内容，实际编写时，可以此基础上扩展】
+Documentation     增加黑名单
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -11,33 +11,22 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    option              touid                               userName       expected_code
-Class_01              [Documentation]     post
-                      [Tags]              Demo
-                      [Template]          userusersetting_Post_assertClass
-                      listblockmoment     \                                   13829744541    "0"
-
-Class_02              [Documentation]     post多用例情况
-                      [Tags]              Demo
-                      [Template]          userusersetting_Post_assertClass
-                      setblockmoment      32518666                            13829744541    "0"
-                      setblockmoment      32518335                            13829744541    "0"
-
-Class_03              [Documentation]     此接口黑名单接口，取消黑名单成员
-                      [Tags]              Demo
-                      [Template]          userusersetting_Post_assertClass
-                      setunblockmoment    32518359                            13829744542    "0"
+*** Test Cases ***    toUid              userName                              expected_code
+Class_01              [Documentation]    增加黑名单
+                      [Tags]             Test
+                      [Template]         userBlacklist_add_Post_assertClass
+                      32518666           13829744541                           "0"
+                      32518335           13829744541                           "0"
 
 *** Keywords ***
-userusersetting_Post_assertClass
-    [Arguments]    ${option}    ${touid}    ${userName}    ${expected_code}
-    [Documentation]    post的demo请求，这里post请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数；提交的参数是以params方式，会出现在url中；
+userBlacklist_add_Post_assertClass
+    [Arguments]    ${toUid}    ${userName}    ${expected_code}
+    [Documentation]    增加黑名单
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /userusersetting.aspx
+    ${path}=    set variable    /userBlacklist/add
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    option=${option}
-    set to dictionary    ${maps}    touid=${touid}
+    set to dictionary    ${maps}    toUid=${toUid}
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
