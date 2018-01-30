@@ -1,0 +1,60 @@
+*** Settings ***
+Documentation     upnt-point-info接口
+Resource          ../Public/business/thejoyrun.txt
+Variables         ../Public/Config.py
+Library           ../Public/Verification.py
+Library           ../Public/tool_Libary.py
+Library           ../Public/Verification_Field.py
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    uid                expected_code
+Class_01              [Documentation]    upnt-point-info个人信息列表-测试传参
+                      [Tags]             Test
+                      [Template]         upnt-point-info_Post_assertClass
+                      32518359           "0"
+
+Class_02              [Documentation]    upnt-point-info个人信息列表-测试传参
+                      [Tags]             Online
+                      [Template]         upnt-point-info_Post_assertClass
+                      86072310           "0"
+
+*** Keywords ***
+upnt-point-info_Post_assertClass
+    [Arguments]    ${uid}    ${expected_code}
+    [Documentation]    upnt-point-info基本验证
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /upnt-point-info
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    uid=${uid}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${point_UrL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${point_UrL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${expected_code}
+    log    ret 符合预期为:${expected_code}
+    log    验证msg是否符合预期
+    ${msg}=    charconver    "成功"
+    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    #${data}=    charconver    ${data}
+    #should contain    ${data}    "temp":
+    #当验证的内容有中文时，需要先转码再验证；
+    #${weather}=    charconver    "多云"
+    #should contain    ${data}    ${weather}
+    log    ------------------------ It is OK!!!!-------------------------------------

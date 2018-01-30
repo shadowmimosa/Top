@@ -55,6 +55,9 @@ training_URL='http://training-test.api.thejoyrun.com'
 # wear工程,与穿戴相关
 wear_URL='http://wear-test.api.thejoyrun.com'
 
+#point_
+point_URL='http://point-test.api.thejoyrun.com'
+
 
 
 #各版本测试（3.1）密钥
