@@ -16,7 +16,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 Class_01              [Documentation]    个人massage
                       [Tags]             Demo
                       [Template]         aaa_Get_assertClass
-                      123                13829744542            "0"
+                      123                13829744541            "0"
 
 *** Keywords ***
 aaa_Get_assertClass

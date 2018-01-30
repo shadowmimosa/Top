@@ -1,6 +1,5 @@
 *** Settings ***
-Documentation     Post接口Demo示例【示例中仅提供最基础内容，实际编写时，可以此基础上扩展】
-...               POST 带cookie和heards的请求；
+Documentation     weatherr_Post接口示例，这里post请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数；另外post的参数是data方式提交，不出现在URL中；
 ...               例如：POST的URL为http://u-test.api.thejoyrun.com/user/checkRealNameVerification
 ...               \ \ \ \ \ \ \ 传参为：signature=D0F7AFD785A13B8624D3984D5361A465&timestamp=1516336210
 ...               \ \ \ \ \ \ \ 要求传cookie 和heards
@@ -15,21 +14,21 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    city               citycode                                                                                                                                                                                                                     longitude            latitude             province    expected_code
-Class_01              [Documentation]    POST 带cookie和heards的请求；\n例如：POST的URL为http://u-test.api.thejoyrun.com/user/checkRealNameVerification\n \ \ \ \ \ \ \ 传参为：signature=D0F7AFD785A13B8624D3984D5361A465&timestamp=1516336210\n \ \ \ \ \ \ \ 要求传cookie 和heards
-                      [Tags]             Demo                                                                                                                                                                                                                         Test
+*** Test Cases ***    city               citycode                     longitude            latitude             province    expected_code
+Class_01              [Documentation]    weatherr_Post接口
+                      [Tags]             Demo                         Test
                       [Template]         weatherr_Post_assertClass
-                      广州                 020                                                                                                                                                                                                                          23.17738273605205    113.3347177208698    广东省         "0"
+                      广州                 020                          23.17738273605205    113.3347177208698    广东省         "0"
 
-Class_02              [Documentation]    POST 带cookie和heards的请求；\n例如：POST的URL为http://u-test.api.thejoyrun.com/user/checkRealNameVerification\n \ \ \ \ \ \ \ 传参为：signature=D0F7AFD785A13B8624D3984D5361A465&timestamp=1516336210\n \ \ \ \ \ \ \ 要求传cookie 和heards
-                      [Tags]             Demo                                                                                                                                                                                                                         Test
+Class_02              [Documentation]    weatherr_Post接口
+                      [Tags]             Demo                         Test
                       [Template]         weatherr_Post_assertClass
-                      上海                 010                                                                                                                                                                                                                          180                  180                  江西省         "0"
+                      上海                 010                          180                  180                  江西省         "0"
 
 *** Keywords ***
 weatherr_Post_assertClass
     [Arguments]    ${city}    ${citycode}    ${longitude}    ${latitude}    ${province}    ${expected_code}
-    [Documentation]    Post的demo请求，这里post请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数；另外post的参数是data方式提交，不出现在URL中；
+    [Documentation]    weatherr_Post接口，【示例中仅提供最基础内容，实际编写时，可以此基础上扩展】
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /weather

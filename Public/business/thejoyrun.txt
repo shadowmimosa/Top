@@ -72,7 +72,6 @@ thejoyrun_postd
     ${signparam}=    Replace String    ${signparam}    ')    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}    
     ${signparam}=    Replace String    ${signparam}    ]    ${EMPTY}
-    #${signparam}=    Replace String    ${signparam}    &    ${EMPTY} 
     ${signparam}=    Evaluate    '${signparam}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     #log    ${signparam}
     #排序及格式处理

@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Get接口Demo示例【示例中仅提供最基础内容，实际编写时，可以此基础上扩展】get的demo请求，这里get请求参数是没有有公共参数（signature和timestamp），但仍需求heards和cookies；
+Documentation     ec_api/orders商务订单接口，这里get请求参数是没有有公共参数（signature和timestamp），但仍需求heards和cookies；
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -13,15 +13,15 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    rootSalesRuleId    expected
-Class_01              [Documentation]    demo \ get
-                      [Tags]             Demo                     Online    Test
-                      [Template]         getnosign_assertClass
+Class_01              [Documentation]    ec_api/orders商务订单接口
+                      [Tags]             Demo                         Test
+                      [Template]         ec_api_orders_assertClass
                       101277             "0"
 
 *** Keywords ***
-getnosign_assertClass
+ec_api_orders_assertClass
     [Arguments]    ${rootSalesRuleId}    ${expected}
-    [Documentation]    get的demo请求，这里get请求参数是没有有公共参数（signature和timestamp），但仍需求heards和cookies；
+    [Documentation]    ec_api/orders商务订单接口,【demo示例中仅提供最基础内容，实际编写时，可以此基础上扩展】
     ${path}=    set variable    /ec_api/orders
     ${maps}=    create dictionary
     set to dictionary    ${maps}    rootSalesRuleId=${rootSalesRuleId}

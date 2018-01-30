@@ -15,7 +15,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 Class_01              [Documentation]    动态信息列表-无传参
                       [Tags]             Online                              Test
                       [Template]         feedMessageList_Post_assertClass
-                      0                  "0"
+                      177777777          "0"
 
 *** Keywords ***
 feedMessageList_Post_assertClass
@@ -24,6 +24,10 @@ feedMessageList_Post_assertClass
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /feedMessageList.aspx
+    ${time}=    Get Time    epoch
+    log    time= ${time}
+    ${lasttime}=    convert to string    ${time}
+    log    lasttime=${lasttime}
     ${maps}=    create dictionary
     set to dictionary    ${maps}    lasttime=${lasttime}
     log    ---输出参数---
