@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     消息列表
+Documentation     regdevicetoken注册token
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -11,25 +11,26 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    expected_code
-Class_01              [Documentation]    消息列表-无参数
-                      [Tags]             Test                           Online
-                      [Template]         notifylist_Post_assertClass
-                      "0"
+*** Test Cases ***    deviceToken                                                         expected_code
+Class_01              [Documentation]                                                     regdevicetoken注册token-无传参
+                      [Tags]                                                              Online                             Test
+                      [Template]                                                          regdevicetoken_Post_assertClass
+                      cb9012fd0302813461884e4a3fcc382886b73f6518c1dbe1f031a3901ee72eb4    "0"
 
 *** Keywords ***
-notifylist_Post_assertClass
-    [Arguments]    ${expected_code}
-    [Documentation]    消息列表-基本验证
+regdevicetoken_Post_assertClass
+    [Arguments]    ${deviceToken}    ${expected_code}
+    [Documentation]    regdevicetoken注册token 基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /notify-list
+    ${path}=    set variable    /regdevicetoken.aspx
     ${maps}=    create dictionary
+    set to dictionary    ${maps}    deviceToken=${deviceToken}
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
-    log    ${advert_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${advert_URL}
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
     log    ---输出返回内容----

@@ -48,6 +48,8 @@ userBlacklist_remove_Post_assertClass
     Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    #${data}=    charconver    ${data}
     #should contain    ${data}    "temp":
     #当验证的内容有中文时，需要先转码再验证；
     #${weather}=    charconver    "多云"
