@@ -31,6 +31,9 @@ login_URL='http://api-test.thejoyrun.com'
 #api项目地址
 api_URL='http://api-test.thejoyrun.com' 
 
+#beta项目
+beta_URL='http://beta-test.thejoyrun.com'
+
 # user用户工程,与用户信息相关
 user_URL='http://u-test.api.thejoyrun.com' 
 
