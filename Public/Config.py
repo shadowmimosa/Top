@@ -31,8 +31,11 @@ login_URL='http://api-test.thejoyrun.com'
 #api项目地址
 api_URL='http://api-test.thejoyrun.com' 
 
-#beta项目
+#beta约定跑相关
 beta_URL='http://beta-test.thejoyrun.com'
+
+#bet 动态配置相关
+bet_URL='http://bet-test.api.thejoyrun.com'
 
 # user用户工程,与用户信息相关
 user_URL='http://u-test.api.thejoyrun.com' 
@@ -45,6 +48,9 @@ crew_muilt_URL='http://crew-muilt-test.api.thejoyrun.com'
 
 #crew 与跑团相关2
 crew_URL='http://crew-test.api.thejoyrun.com' 
+
+#crewapp 跑团相关3
+crewapp_URL='http://crewapp-test.api.thejoyrun.com'
 
 # ec电商工程,与订单相关
 ec_URL='http://ec-test.thejoyrun.com'
@@ -61,6 +67,29 @@ wear_URL='http://wear-test.api.thejoyrun.com'
 #point_
 point_URL='http://point-test.api.thejoyrun.com'
 
+#im 消息相关
+im_URL='http://im-test.api.thejoyrun.com'
+
+#marathon 马拉松相关
+marathon_URL='http://marathon-test.api.thejoyrun.com'
+
+#recommend 推荐相关
+recommend_URL='http://recommend-test.api.thejoyrun.com'
+
+#live 赛事直播相关
+live_URL='http://live-test.api.thejoyrun.com'
+
+#wallet 推荐相关
+wallet_URL='http://wallet-test.api.thejoyrun.com'
+
+#media 媒体资讯相关
+media_URL='http://media-test.api.thejoyrun.com'
+
+#challenge 挑战相关
+challenge_URL='http://challenge-test.api.thejoyrun.com'
+
+#event 事件相关
+event_URL='http://event-test.api.thejoyrun.com'
 
 
 #各版本测试（3.1）密钥
@@ -77,23 +106,79 @@ APPVERSION='100.3.1.0'
 
 #=======================线上发布连接地址(Online)========================
 
+
 # # 登录地址
 # login_URL='http://api.thejoyrun.com' 
 
 # #api项目地址
 # api_URL='http://api.thejoyrun.com' 
 
-# # user用户信息工程,与用户相关
+# #beta约定跑相关
+# beta_URL='http://beta.thejoyrun.com'
+
+# #bet 动态配置相关
+# bet_URL='http://bet.api.thejoyrun.com'
+
+# # user用户工程,与用户信息相关
 # user_URL='http://u.api.thejoyrun.com' 
 
-# # ec电商相关,与php相关
+# # topic工程,与首页相关
+# topic_URL='http://topic.api.thejoyrun.com' 
+
+# #crew-muilt 与跑团相关1
+# crew_muilt_URL='http://crew-muilt.api.thejoyrun.com' 
+
+# #crew 与跑团相关2
+# crew_URL='http://crew.api.thejoyrun.com' 
+
+# #crewapp 跑团相关3
+# crewapp_URL='http://crewapp.api.thejoyrun.com'
+
+# # ec电商工程,与订单相关
 # ec_URL='http://ec.thejoyrun.com'
 
-# #各版本测试（3.1）密钥----需要更换成线上版本的密钥
+# # advert工程,与消息广告通告相关
+# advert_URL='http://advert.api.thejoyrun.com'
+
+# # training工程,与训练相关
+# training_URL='http://training.api.thejoyrun.com'
+
+# # wear工程,与穿戴相关
+# wear_URL='http://wear.api.thejoyrun.com'
+
+# #point_
+# point_URL='http://point.api.thejoyrun.com'
+
+# #im 消息相关
+# im_URL='http://im.api.thejoyrun.com'
+
+# #marathon 马拉松相关
+# marathon_URL='http://marathon.api.thejoyrun.com'
+
+# #recommend 推荐相关
+# recommend_URL='http://recommend.api.thejoyrun.com'
+
+# #live 赛事直播相关
+# live_URL='http://live.api.thejoyrun.com'
+
+# #wallet 推荐相关
+# wallet_URL='http://wallet.api.thejoyrun.com'
+
+# #media 媒体资讯相关
+# media_URL='http://media.api.thejoyrun.com'
+
+# #challenge 挑战相关
+# challenge_URL='http://challenge.api.thejoyrun.com'
+
+# #event 事件相关
+# event_URL='http://event.api.thejoyrun.com'
+
+# #各版本测试（3.1）密钥
 # appkey1='fb1931e425f84313bfae4b93ab3ccdc4'
 
-# #业务测试密钥----需要更换成线上版本的密钥
+# #业务测试密钥
 # appkey2='1fd6e28fd158406995f77727b35bf20a'
 
 # #前端验签名的版本号（需要与appkey1相对应，服务根据这个版本号验证appkey1）
 # APPVERSION='100.3.1.0'
+

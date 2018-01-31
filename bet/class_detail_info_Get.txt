@@ -1,53 +1,52 @@
 *** Settings ***
-Documentation     查询本人跑团信息
+Documentation     跑班详情
+Default Tags
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
 Library           ../Public/tool_Libary.py
 Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    userName           expected_code
-Class_01              [Documentation]    getMyCrewInfo-无传参
-                      [Tags]             Test                              Online
-                      [Template]         getMyCrewInfo_Post_assertClass
-                      13829744541        "0"
+*** Test Cases ***    classId            userName                           expected
+Class_01              [Documentation]    /class/detail/info跑班6879详情
+                      [Tags]             Online
+                      [Template]         classdetailinfo_Get_assertClass
+                      6879               13829744541                        "0"
 
-Class_02              [Documentation]    getMyCrewInfo-无传参
+Class_02              [Documentation]    /class/detail/info跑班444详情
                       [Tags]             Test
-                      [Template]         getMyCrewInfo_Post_assertClass
-                      13829744542        "2"
+                      [Template]         classdetailinfo_Get_assertClass
+                      444                13829744541                        "0"
 
 *** Keywords ***
-getMyCrewInfo_Post_assertClass
-    [Arguments]    ${userName}    ${expected_code}
-    [Documentation]    getMyCrewInfo基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /structure/getMyCrewInfo
+classdetailinfo_Get_assertClass
+    [Arguments]    ${classId}    ${userName}    ${expected}
+    [Documentation]    /class/detail/info跑班详情
+    ${path}=    set variable    /class/detail/info
     ${maps}=    create dictionary
-    log    ---输出参数---
-    log    ${maps}
-    log    ---输出测试地址---
-    log    ${crew_muilt_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
+    set to dictionary    ${maps}    classId=${classId}
+    log    ---输出预期值---
+    log    ${expected}
+    log    ${bet_URL}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${bet_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
     log    ---输出返回内容----
     log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected_code}
-    log    ret 符合预期为:${expected_code}
+    should contain    ${content}    "ret":${expected}
+    log    ret 符合预期为:${expected}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "您不属于任何跑团"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    ${msg}=    charconver    "成功"
+    Run Keyword If    ${expected}=="0"    verfication_data    ${content}
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
     #${data}    get json value    ${content}    /data
