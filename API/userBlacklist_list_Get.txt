@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     新的黑名单列表接口
+Documentation     V3.2查询本人黑名单userBlacklist/list
 Default Tags      V3.2
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
@@ -14,7 +14,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    userName           expected
-Class_01              [Documentation]    查询个人黑名单
+Class_01              [Documentation]    V3.2查询本人黑名单userBlacklist/list
                       [Tags]             Test                             Online
                       [Template]         userBlacklist_Get_assertClass
                       13829744541        "0"
@@ -22,7 +22,7 @@ Class_01              [Documentation]    查询个人黑名单
 *** Keywords ***
 userBlacklist_Get_assertClass
     [Arguments]    ${userName}    ${expected}
-    [Documentation]    get的demo请求，这里get请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数；
+    [Documentation]    V3.2查询本人黑名单userBlacklist/list；
     ${path}=    set variable    /userBlacklist/list
     ${maps}=    create dictionary
     #set to dictionary    ${maps}    lasttime=${lasttime}

@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     新的黑名单检查接口
+Documentation     V3.2新的黑名单检查接口userBlacklist/checkAndSync
 Default Tags      V3.2
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
@@ -14,7 +14,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    toUid              userName                                      expected
-Class_01              [Documentation]    查询个人黑名单
+Class_01              [Documentation]    V3.2新的黑名单检查接口userBlacklist/checkAndSync
                       [Tags]             Test                                          Online
                       [Template]         userBlacklist_checkAndSync_Get_assertClass
                       32518335           13829744541                                   "0"

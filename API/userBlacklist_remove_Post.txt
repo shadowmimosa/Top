@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     取消黑名单
+Documentation     V3.2取消黑名单
 Default Tags      V3.2
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
@@ -13,7 +13,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    toUid              userName                                 expected_code
-Class_01              [Documentation]    取消黑名单
+Class_01              [Documentation]    V3.2取消黑名单
                       [Tags]             Test
                       [Template]         userBlacklist_remove_Post_assertClass
                       32518666           13829744541                              "0"
@@ -22,7 +22,7 @@ Class_01              [Documentation]    取消黑名单
 *** Keywords ***
 userBlacklist_remove_Post_assertClass
     [Arguments]    ${toUid}    ${userName}    ${expected_code}
-    [Documentation]    取消黑名单
+    [Documentation]    V3.2取消黑名单
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /userBlacklist/remove
