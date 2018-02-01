@@ -11,16 +11,16 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    touid              option                        expected_code
+*** Test Cases ***    touid              option                              expected_code
 Class_01              [Documentation]    upnt-point-info个人信息列表-测试传参
                       [Tags]             Test
                       [Template]         user_Post_assertClass
-                      32518359           info                          "0"
+                      32518359           info                                "0"
 
-Class_02              [Documentation]    upnt-point-info个人信息列表-测试传参
+Class_02              [Documentation]    upnt-point-info个人信息列表-传参86072310
                       [Tags]             Online
                       [Template]         user_Post_assertClass
-                      86072310           info                          "0"
+                      86072310           info                                "0"
 
 *** Keywords ***
 user_Post_assertClass

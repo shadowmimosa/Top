@@ -12,7 +12,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    expected_code
-Class_01              [Documentation]    消息列表-无参数
+Class_01              [Documentation]    训练计划getPlanCategoriesV2-无参数
                       [Tags]             Test                                    Online
                       [Template]         getPlanCategoriesV2_Post_assertClass
                       "0"
@@ -20,7 +20,7 @@ Class_01              [Documentation]    消息列表-无参数
 *** Keywords ***
 getPlanCategoriesV2_Post_assertClass
     [Arguments]    ${expected_code}
-    [Documentation]    getplancategoriesV2基本验证
+    [Documentation]    训练计划getplancategoriesV2基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /getPlanCategoriesV2

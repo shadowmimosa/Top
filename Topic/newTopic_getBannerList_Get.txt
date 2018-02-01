@@ -13,7 +13,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    userName           expected
-Class_01              [Documentation]    bannerlist
+Class_01              [Documentation]    BannerList列表-无参数
                       [Tags]             Test                             Online
                       [Template]         getBannerList_Get_assertClass
                       13829744541        "0"

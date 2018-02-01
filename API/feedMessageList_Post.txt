@@ -12,7 +12,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    lasttime           expected_code
-Class_01              [Documentation]    动态信息列表-无传参
+Class_01              [Documentation]    动态信息列表-无传参feedMessageList.aspx
                       [Tags]             Online                              Test
                       [Template]         feedMessageList_Post_assertClass
                       177777777          "0"

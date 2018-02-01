@@ -20,7 +20,7 @@ Class_01              [Documentation]    活动列表-无传参
 *** Keywords ***
 hudonglist_Post_assertClass
     [Arguments]    ${expected_code}
-    [Documentation]    基本验证-活动列表
+    [Documentation]    基本验证-活动列表/huodong-list
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /huodong-list

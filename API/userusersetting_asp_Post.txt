@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     屏蔽用户动态
+Documentation     屏蔽用户动态userusersetting.aspx
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -12,17 +12,17 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    option              touid                               userName       expected_code
-Class_01              [Documentation]     查询屏蔽用户列表
+Class_01              [Documentation]     查询屏蔽用户列表userusersetting.aspx
                       [Tags]              Test
                       [Template]          userusersetting_Post_assertClass
                       listblockmoment     \                                   13829744541    "0"
 
-Class_02              [Documentation]     屏蔽用户动态
+Class_02              [Documentation]     屏蔽用户动态userusersetting.aspx
                       [Tags]              Test
                       [Template]          userusersetting_Post_assertClass
                       setblockmoment      32518359                            13829744542    "0"
 
-Class_03              [Documentation]     取消屏蔽用户动态
+Class_03              [Documentation]     取消屏蔽用户动态userusersetting.aspx
                       [Tags]              Test
                       [Template]          userusersetting_Post_assertClass
                       setunblockmoment    32518359                            13829744542    "0"
@@ -30,7 +30,7 @@ Class_03              [Documentation]     取消屏蔽用户动态
 *** Keywords ***
 userusersetting_Post_assertClass
     [Arguments]    ${option}    ${touid}    ${userName}    ${expected_code}
-    [Documentation]    屏蔽用户列表
+    [Documentation]    屏蔽用户列表userusersetting.aspx
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /userusersetting.aspx

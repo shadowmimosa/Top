@@ -13,7 +13,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    page               limit                                       userName       expected
-Class_01              [Documentation]    getHot feedlist
+Class_01              [Documentation]    getHotsFeedListt列表-通用参数
                       [Tags]             Test                                        Online
                       [Template]         newTopic_getHotsFeedList_Get_assertClass
                       1                  20                                          13829744541    "0"

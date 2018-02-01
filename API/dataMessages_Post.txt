@@ -12,7 +12,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    lasttime           expected_code
-Class_01              [Documentation]    个人信息列表-无传参
+Class_01              [Documentation]    个人信息列表-无传参dataMessages
                       [Tags]             Online                           Test
                       [Template]         datamessages_Post_assertClass
                       0                  "0"
