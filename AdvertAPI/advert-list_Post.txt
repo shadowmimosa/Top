@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     消息列表
+Documentation     氛围广告启动页接口
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -12,7 +12,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    expected_code
-Class_01              [Documentation]    advert-list消息列表-无参数
+Class_01              [Documentation]    氛围广告启动页接口advert-list-无参数
                       [Tags]             Test                            Online
                       [Template]         advert-list_Post_assertClass
                       "0"
@@ -20,7 +20,7 @@ Class_01              [Documentation]    advert-list消息列表-无参数
 *** Keywords ***
 advert-list_Post_assertClass
     [Arguments]    ${expected_code}
-    [Documentation]    advert-list消息列表-基本验证
+    [Documentation]    氛围广告启动页接口advert-list-无参数-基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /advert-list
