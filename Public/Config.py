@@ -22,6 +22,8 @@ appversion='ios3.1.1'
 #请求头参数Content-Type
 #ContentType='application/x-www-form-urlencoded'
 
+# # 环境变量（Test,Online）
+# env='Test'
 
 #===============测试环境下连接地址(Test)=======================
 
@@ -101,9 +103,7 @@ appkey2='1fd6e28fd158406995f77727b35bf20a'
 #前端验签名的版本号（需要与appkey1相对应，服务根据这个版本号验证appkey1）
 APPVERSION='100.3.1.0'
 
-
-
-
+# # else:
 #=======================线上发布连接地址(Online)========================
 
 
@@ -181,4 +181,13 @@ APPVERSION='100.3.1.0'
 
 # #前端验签名的版本号（需要与appkey1相对应，服务根据这个版本号验证appkey1）
 # APPVERSION='100.3.1.0'
+
+
+
+
+
+
+
+
+
 

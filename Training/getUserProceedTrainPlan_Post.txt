@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     训练计划-无参数
+Documentation     获取本人训练计划无参数getUserProceedTrainPlan
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -12,23 +12,23 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    expected_code
-Class_01              [Documentation]    训练计划getPlanCategoriesV2-无参数
-                      [Tags]             Test                                    Online
-                      [Template]         getPlanCategoriesV2_Post_assertClass
+Class_01              [Documentation]    获取本人训练计划getUserProceedTrainPlan-无参数
+                      [Tags]             Test                                        Online
+                      [Template]         getUserProceedTrainPlan_Post_assertClass
                       "0"
 
 *** Keywords ***
-getPlanCategoriesV2_Post_assertClass
+getUserProceedTrainPlan_Post_assertClass
     [Arguments]    ${expected_code}
-    [Documentation]    训练计划getplancategoriesV2基本验证
+    [Documentation]    获取本人训练计划基本验证getUserProceedTrainPlan
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /getPlanCategoriesV2
+    ${path}=    set variable    /getUserProceedTrainPlan
     ${maps}=    create dictionary
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
-    log    ${training_URL}
+    log    ${training_URL}${maps}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
@@ -37,15 +37,15 @@ getPlanCategoriesV2_Post_assertClass
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}
-    log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected_code}
-    log    ret 符合预期为:${expected_code}
-    ${data}    get json value    ${content}    /data
+    #log    验证ret是否符合预期
+    #should contain    ${content}    "ret":${expected_code}
+    #log    ret 符合预期为:${expected_code}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${data}
+    ${msg}=    charconver    "用户当前没有参与训练计划！"
+    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
     #${data}=    charconver    ${data}
     #should contain    ${data}    "temp":
     #当验证的内容有中文时，需要先转码再验证；

@@ -11,6 +11,7 @@ import urllib
 import base64
 import shutil
 import struct
+import json
 from multiprocessing import Process
 from threading import Thread
 from urllib import quote
@@ -216,6 +217,8 @@ class tools_library(object):
 		#file.write(data)
 		file.writelines(data+'\n')
 		file.close()
+		
+
 
 ###清空文件内容
 	def filetruncate(self,conf_dir):
@@ -385,8 +388,6 @@ class tools_library(object):
 		except socket.error, msg:
 			print 'socketsend. Error Code : %s, Message: %s' % (str(msg[0]), msg[1])
 			
-			
-
 	def queryRoomInfo(self, *userid):
 		"""用于校验进房是否成功，请勿单独调用
 		"""

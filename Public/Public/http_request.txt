@@ -297,7 +297,7 @@ post_request_general
 
 curl_post_request1
     [Arguments]    ${body}    ${url}
-    [Documentation]   curl post request
+    [Documentation]    curl post request
     ...
     ...    return value: ${resp}
     ...
@@ -313,21 +313,18 @@ curl_post_request1
 joyrun_POST_heardsession
     [Arguments]    ${username}    ${pwd}
     log    -----------------cookies mothod is log start;--------------------------
-	##通过服务器获取timestamp
+    ##通过服务器获取timestamp
     #Create Session    timestamp    ${login_URL}
     #${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
     #${contentime}=    charconver    ${resptime.content}
     #log json    ${resptime.content}
     #${timestamp}    get json value    ${contentime}    /lasttime
-	#log  --------Server time ={timestamp}--------
-	
-	##通过本地获取timestamp
+    #log    --------Server time ={timestamp}--------
+    ##通过本地获取timestamp
     ${time}=    Get Time    epoch
     log    time= ${time}
     ${timestamp}=    convert to string    ${time}
-	log  --------Client time ={timestamp}--------
-	
-
+    log    --------Client time ={timestamp}--------
     ${Url}=    set variable    ${login_URL}
     ${loginUri}=    set variable    /user/login/normal
     ${pwdmd5}=    encrypt    ${pwd}    md5    32

@@ -41,7 +41,7 @@ test=['songId',  'hash', 'singerId']
 
 def verfication_Field(data,test,msg=None):
     '''
-    1、验证传入的参数，如果为字典，则遍历字典中的各个key，再校验各个key对应的value值，如果为字符串型，则校验字符串为非空，如果为整型，则校验字符串大于0
+    1、验证传入的参数，如果为字典，则遍历字典中的各个key，再校验各个key对应的value值，如果为字符串型，则校验字符串为非空，如果为整型，则校验字符串>=0
     2、如果传入的参数为列表，则将列表中各个参数取出，如果列表中各个参数为字典，处理方法参照第1步。
     3、入参格式: Verfication Field	${data}	[parm1,parm2,parm3...]
     '''
@@ -69,13 +69,13 @@ def verfication_Field(data,test,msg=None):
         logging.info('---开始进行字段校验---'.decode('utf-8'))
         listContain(test,keys)
         # #定义变量，计算遍历次数
-        # times=0
-        # for key,value in data.iteritems():
-        #     times=times+1
-        #     logging.info("")
-        #     logging.info(("---传入的data数据，第%s对象元素,key值对应为:%s---"%(times,key)).decode('utf-8'))
-        #     logging.info(('%s:%s' % (key, value)).decode('utf-8'))
-        #     analysis_subItem(value,msg)
+        times=0
+        for key,value in data.iteritems():
+            times=times+1
+            logging.info("")
+            logging.info(("---传入的data数据，第%s对象元素,key值对应为:%s---"%(times,key)).decode('utf-8'))
+            logging.info(('%s:%s' % (key, value)).decode('utf-8'))
+            analysis_subItem(value,msg)
 
     elif isinstance(data,list):
            logging.info("---基本信息获取---".decode('utf-8'))
@@ -150,7 +150,7 @@ def analysis_subItem(item,test,msg):
         if get_length(item) == 0:
             raise AssertionError(msg or "'%s' should not be empty." % str)
     elif isinstance(item,int):
-        if int(item)<=0:
+        if int(item)<0:
             raise AssertionError("当前int型获取到的数字小于等于0".decode('utf-8'))
 
     elif isinstance(item,list):
@@ -166,14 +166,14 @@ def analysis_subItem(item,test,msg):
            logging.info(('%s对应值的类型为dict且长度为%s'%(item,value_dict_len)).decode('utf-8'))
            subkey=item.keys()
            listContain(test,subkey)
-           # times=0
-           # for subkey,subvalue in item.iteritems():
-           #      times=times+1
-           #      logging.info("")
-           #      logging.info(("---内嵌的字典中,第%s对象元素,key值对应为:%s---"%(times,subkey)).decode('utf-8'))
-           #      logging.info(('%s:%s' % (subkey, subvalue)).decode('utf-8'))
-           #
-           #      analysis_subItem(subvalue,msg)
+           times=0
+           for subkey,subvalue in item.iteritems():
+                times=times+1
+                logging.info("")
+                logging.info(("---内嵌的字典中,第%s对象元素,key值对应为:%s---"%(times,subkey)).decode('utf-8'))
+                logging.info(('%s:%s' % (subkey, subvalue)).decode('utf-8'))
+           
+                analysis_subItem(subvalue,msg)
 
 
 #计算字符串长度
