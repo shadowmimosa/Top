@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     upnt-point-info接口
+Documentation     corpcrew/crewMemberTotal/getRankByPage跑团排名接口
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -9,33 +9,38 @@ Library           ../Public/Verification_Field.py
 *** Variable ***
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
-${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+${ContentType}    application/json;charset=UTF-8    # POST数据格式
+${Isuid}          1    #是否需要传uid,0不需要，1需要；
 
-*** Test Cases ***    uid                expected_code
-Class_01              [Documentation]    upnt-point-info个人信息列表-测试传参
+*** Test Cases ***    uid                cycle                                                      page    pageSize    crewId    expected_code
+Class_01              [Documentation]    corpcrew/crewMemberTotal/getRankByPage跑团排名接口-测试传参
                       [Tags]             Test
-                      [Template]         upnt-point-info_Post_assertClass
-                      32518359           "0"
+                      [Template]         getRankByPage_Post_assertClass
+                      32518359           day                                                        0       100         10012     "0"
 
-Class_02              [Documentation]    upnt-point-info个人信息列表-线上传参
+Class_02              [Documentation]    corpcrew/crewMemberTotal/getRankByPage跑团排名接口-86072310参数
                       [Tags]             Online
-                      [Template]         upnt-point-info_Post_assertClass
-                      86072310           "0"
+                      [Template]         getRankByPage_Post_assertClass
+                      86072310           day                                                        0       100         10001     "0"
 
 *** Keywords ***
-upnt-point-info_Post_assertClass
-    [Arguments]    ${uid}    ${expected_code}
-    [Documentation]    upnt-point-info基本验证
+getRankByPage_Post_assertClass
+    [Arguments]    ${uid}    ${cycle}    ${page}    ${pageSize}    ${crewId}    ${expected_code}
+    [Documentation]    corpcrew/crewMemberTotal/getRankByPage跑团排名接口
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /upnt-point-info
+    ${path}=    set variable    /corpcrew/crewMemberTotal/getRankByPage
     ${maps}=    create dictionary
     set to dictionary    ${maps}    uid=${uid}
+    set to dictionary    ${maps}    cycle=${cycle}
+    set to dictionary    ${maps}    page=${page}
+    set to dictionary    ${maps}    pageSize=${pageSize}
+    set to dictionary    ${maps}    crewId=${crewId}
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
-    log    ${point_UrL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${point_UrL}
+    log    ${mapp_URL} ${maps}
+    ${resp}=    thejoyrun_postjson    ${path}    ${maps}    ${userName}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
     log    ---输出返回内容----

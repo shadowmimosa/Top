@@ -359,7 +359,7 @@ joyrun_POST_heardsession
     ${header}    create dictionary    APPVERSION=${APPVERSION}
     set to dictionary    ${header}    User-Agent=${UserAgent}
     set to dictionary    ${header}    APP_DEV_INFO=${APPDEVINFO}
-    set to dictionary    ${header}    Content-Type=${ContentType}
+    set to dictionary    ${header}    Content-Type=application/x-www-form-urlencoded
     set to dictionary    ${header}    SYSVERSION=${SYSVERSION}
     set to dictionary    ${header}    _sign=${_sign}
     set to dictionary    ${header}    MODELTYPE=${MODELTYPE}

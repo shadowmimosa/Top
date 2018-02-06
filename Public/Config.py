@@ -25,7 +25,7 @@ appversion='ios3.1.1'
 # # 环境变量（Test,Online）
 # env='Test'
 
-#===============测试环境下连接地址(Test)=======================
+# #===============测试环境下连接地址(Test)=======================
 
 # 登录地址
 login_URL='http://api-test.thejoyrun.com' 
@@ -93,6 +93,9 @@ challenge_URL='http://challenge-test.api.thejoyrun.com'
 #event 事件相关
 event_URL='http://event-test.api.thejoyrun.com'
 
+#跑团小程序
+mapp_URL='https://mapp-test.api.thejoyrun.com'
+
 
 #各版本测试（3.1）密钥
 appkey1='fb1931e425f84313bfae4b93ab3ccdc4'
@@ -102,6 +105,15 @@ appkey2='1fd6e28fd158406995f77727b35bf20a'
 
 #前端验签名的版本号（需要与appkey1相对应，服务根据这个版本号验证appkey1）
 APPVERSION='100.3.1.0'
+
+#跑团小程序密钥
+crewappkey='hello-joyrun-micro-app'
+
+#跑团小程序APPID
+appid='wx1fef2e38049c8d5f'
+
+#跑团小程序用户身份sid  2018-02-06 12:30 
+sid='eda1412c27f249189d4a0901d9c18c4b8'
 
 # # else:
 #=======================线上发布连接地址(Online)========================
@@ -173,6 +185,9 @@ APPVERSION='100.3.1.0'
 # #event 事件相关
 # event_URL='http://event.api.thejoyrun.com'
 
+# #跑团小程序
+# mapp_URL='https://mapp.api.thejoyrun.com'
+
 # #各版本测试（3.1）密钥
 # appkey1='fb1931e425f84313bfae4b93ab3ccdc4'
 
@@ -182,7 +197,14 @@ APPVERSION='100.3.1.0'
 # #前端验签名的版本号（需要与appkey1相对应，服务根据这个版本号验证appkey1）
 # APPVERSION='100.3.1.0'
 
+# #跑团小程序密钥
+# crewappkey='0a7d4aa5-c13c-40c2-9b1e-3476071a6f82'
 
+# #跑团小程序APPID
+# appid='wx24fffb22401a1157'
+
+# #跑团小程序用户身份sid===2018-02-06  10:28
+# sid='d6a7abb5ff534d95b398dece8789e1533'
 
 
 
