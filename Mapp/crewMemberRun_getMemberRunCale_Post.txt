@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     corpcrew/crewInfo/getMemberCrewInfos跑团信息接口
+Documentation     /corpcrew/crewMemberRun/getMemberRunCale个人在跑团中的跑量接口
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -10,28 +10,31 @@ Library           ../Public/Verification_Field.py
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/json;charset=UTF-8    # POST数据格式
-${Isuid}          0    #是否需要传uid,0不需要，1需要；
+${Isuid}          1    #是否需要传uid,0不需要，1需要；
 
-*** Test Cases ***    targetUid          expected_code
-Class_01              [Documentation]    corpcrew/crewInfo/getMemberCrewInfos跑团信息-测试传参
+*** Test Cases ***    uid                startDay                                                          endDay      crewId    expected_code
+Class_01              [Documentation]    /corpcrew/crewMemberRun/getMemberRunCale个人在跑团中的跑量接口-测试传参
                       [Tags]             Test
-                      [Template]         corpcrew_crewInfo_getMemberCrewInfos_Post_assertClass
-                      32518359           "0"
+                      [Template]         getMemberRunCale_Post_assertClass
+                      32518359           20180201                                                          20180228    10012     "0"
 
-Class_02              [Documentation]    corpcrew/crewInfo/getMemberCrewInfos跑团信息-86072310参数
+Class_02              [Documentation]    /corpcrew/crewMemberRun/getMemberRunCale个人在跑团中的跑量接口-86072310参数
                       [Tags]             Online
-                      [Template]         corpcrew_crewInfo_getMemberCrewInfos_Post_assertClass
-                      86072310           "0"
+                      [Template]         getMemberRunCale_Post_assertClass
+                      86072310           20180201                                                          20180228    10001     "0"
 
 *** Keywords ***
-corpcrew_crewInfo_getMemberCrewInfos_Post_assertClass
-    [Arguments]    ${targetUid}    ${expected_code}
-    [Documentation]    corpcrew/crewInfo/getMemberCrewInfos跑团信息基本验证
+getMemberRunCale_Post_assertClass
+    [Arguments]    ${uid}    ${startDay}    ${endDay}    ${crewId}    ${expected_code}
+    [Documentation]    /corpcrew/crewMemberRun/getMemberRunCale个人在跑团中的跑量接口
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /corpcrew/crewInfo/getMemberCrewInfos/
+    ${path}=    set variable    /corpcrew/crewMemberRun/getMemberRunCale
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    targetUid=${targetUid}
+    set to dictionary    ${maps}    uid=${uid}
+    set to dictionary    ${maps}    startDay=${startDay}
+    set to dictionary    ${maps}    endDay=${endDay}
+    set to dictionary    ${maps}    crewId=${crewId}
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---

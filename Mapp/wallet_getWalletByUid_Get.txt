@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     corpcrew/crewInfo/getMemberCrewInfos跑团信息接口
+Documentation     /wallet/getWalletByUid查询本人钱包余额接口
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -8,35 +8,35 @@ Library           ../Public/Verification_Field.py
 
 *** Variable ***
 ${pwd}            67889911    # 密码
-${userName}       13829744541    # 用户名
+${userName}       13829744541    # 用户名32518359
 ${ContentType}    application/json;charset=UTF-8    # POST数据格式
-${Isuid}          0    #是否需要传uid,0不需要，1需要；
+${Isuid}          1    #是否需要传uid,0不需要，1需要；
 
-*** Test Cases ***    targetUid          expected_code
-Class_01              [Documentation]    corpcrew/crewInfo/getMemberCrewInfos跑团信息-测试传参
+*** Test Cases ***    uid                expected_code
+Class_01              [Documentation]    /wallet/getWalletByUid查询本人钱包余额接口-32518359
                       [Tags]             Test
-                      [Template]         corpcrew_crewInfo_getMemberCrewInfos_Post_assertClass
+                      [Template]         getListByPage_Post_assertClass
                       32518359           "0"
 
-Class_02              [Documentation]    corpcrew/crewInfo/getMemberCrewInfos跑团信息-86072310参数
+Class_02              [Documentation]    /wallet/getWalletByUid查询本人钱包余额接口-86072310
                       [Tags]             Online
-                      [Template]         corpcrew_crewInfo_getMemberCrewInfos_Post_assertClass
+                      [Template]         getListByPage_Post_assertClass
                       86072310           "0"
 
 *** Keywords ***
-corpcrew_crewInfo_getMemberCrewInfos_Post_assertClass
-    [Arguments]    ${targetUid}    ${expected_code}
-    [Documentation]    corpcrew/crewInfo/getMemberCrewInfos跑团信息基本验证
+getListByPage_Post_assertClass
+    [Arguments]    ${uid}    ${expected_code}
+    [Documentation]    /wallet/getWalletByUid查询本人钱包余额接口
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /corpcrew/crewInfo/getMemberCrewInfos/
+    ${path}=    set variable    /wallet/getWalletByUid
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    targetUid=${targetUid}
+    set to dictionary    ${maps}    uid=${uid}
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
     log    ${mapp_URL} ${maps}
-    ${resp}=    thejoyrun_postjson_crew    ${path}    ${maps}    ${userName}    ${mapp_URL}
+    ${resp}=    thejoyrun_get_crew    ${path}    ${maps}    ${userName}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
     log    ---输出返回内容----

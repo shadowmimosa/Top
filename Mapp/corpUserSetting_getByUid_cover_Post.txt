@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     corpcrew/crewInfo/getMemberCrewInfos跑团信息接口
+Documentation     corpUserSetting/getByUid/cover接口
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -13,23 +13,23 @@ ${ContentType}    application/json;charset=UTF-8    # POST数据格式
 ${Isuid}          0    #是否需要传uid,0不需要，1需要；
 
 *** Test Cases ***    targetUid          expected_code
-Class_01              [Documentation]    corpcrew/crewInfo/getMemberCrewInfos跑团信息-测试传参
+Class_01              [Documentation]    corpUserSetting/getByUid/cover接口-测试传参
                       [Tags]             Test
-                      [Template]         corpcrew_crewInfo_getMemberCrewInfos_Post_assertClass
+                      [Template]         corpUserSetting_getByUid_cover_Post_assertClass
                       32518359           "0"
 
-Class_02              [Documentation]    corpcrew/crewInfo/getMemberCrewInfos跑团信息-86072310参数
+Class_02              [Documentation]    corpUserSetting/getByUid/cover接口-86072310参数
                       [Tags]             Online
-                      [Template]         corpcrew_crewInfo_getMemberCrewInfos_Post_assertClass
+                      [Template]         corpUserSetting_getByUid_cover_Post_assertClass
                       86072310           "0"
 
 *** Keywords ***
-corpcrew_crewInfo_getMemberCrewInfos_Post_assertClass
+corpUserSetting_getByUid_cover_Post_assertClass
     [Arguments]    ${targetUid}    ${expected_code}
-    [Documentation]    corpcrew/crewInfo/getMemberCrewInfos跑团信息基本验证
+    [Documentation]    /corpUserSetting/getByUid/cover接口
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /corpcrew/crewInfo/getMemberCrewInfos/
+    ${path}=    set variable    /corpcrew/corpUserSetting/getByUid/cover
     ${maps}=    create dictionary
     set to dictionary    ${maps}    targetUid=${targetUid}
     log    ---输出参数---
