@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     listOnlineLiveRace接口
+Documentation     marathon/online-mls-lis接口
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -12,25 +12,25 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    expected_code
-Class_01              [Documentation]    listOnlineLiveRace-无传参
-                      [Tags]             Test                                   Online
-                      [Template]         listOnlineLiveRace_Post_assertClass
+Class_01              [Documentation]    lmarathon/online-mls-lis-无传参
+                      [Tags]             Test                                Online
+                      [Template]         online-mls-list_Post_assertClass
                       "0"
 
 *** Keywords ***
-listOnlineLiveRace_Post_assertClass
+online-mls-list_Post_assertClass
     [Arguments]    ${expected_code}
-    [Documentation]    listOnlineLiveRace基本验证
+    [Documentation]    online-mls-list基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /listOnlineLiveRace
+    ${path}=    set variable    /marathon/online-mls-list
     ${maps}=    create dictionary
     #set to dictionary    ${maps}    uid=${uid}
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
-    log    ${live_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${live_URL}
+    log    ${marathon_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${marathon_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
     log    ---输出返回内容----

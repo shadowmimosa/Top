@@ -1,2 +1,2 @@
 *** Settings ***
-Documentation     beta
+Documentation     动态配置beta, beta.thejoyrun.com

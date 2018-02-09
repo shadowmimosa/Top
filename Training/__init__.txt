@@ -1,2 +1,2 @@
 *** Settings ***
-Documentation     与训练相关
+Documentation     与训练相关,training.api.thejoyrun.com

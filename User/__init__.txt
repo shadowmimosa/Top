@@ -1,0 +1,2 @@
+*** Settings ***
+Documentation     用户相关的接口，u.api.thejoyrun.com

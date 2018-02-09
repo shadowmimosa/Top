@@ -1,2 +1,2 @@
 *** Settings ***
-Documentation     与穿戴相关
+Documentation     与穿戴相关,wear.api.thejoyrun.com

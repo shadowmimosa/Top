@@ -1,0 +1,2 @@
+*** Settings ***
+Documentation     马拉松相关接口,marathon.api.thejoyrun.com

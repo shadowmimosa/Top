@@ -1,2 +1,2 @@
 *** Settings ***
-Documentation     与广告消息通告相关
+Documentation     与广告消息通告相关，advert.api.thejoyrun.com

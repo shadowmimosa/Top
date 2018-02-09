@@ -1,2 +1,2 @@
 *** Settings ***
-Documentation     动态配置
+Documentation     约定跑相关接口，bet.api.thejoyrun.com

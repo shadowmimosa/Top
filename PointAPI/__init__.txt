@@ -1,2 +1,2 @@
 *** Settings ***
-Documentation     PointAPI
+Documentation     PointAPI接口,point.api.thejoyrun.com
