@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     feedmessagelist动态信息
+Documentation     /api/dynamic_config.do动态升级接口
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -11,33 +11,27 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    lasttime           expected_code
-Class_01              [Documentation]    动态信息列表-无传参feedMessageList.aspx
-                      [Tags]             Online                              Test
-                      [Template]         feedMessageList_Post_assertClass
-                      177777777          "0"
+*** Test Cases ***    expected_code
+Class_01              [Documentation]    /api/dynamic_config.do动态升级接口- 无传参
+                      [Tags]             Test                                 Online
+                      [Template]         dynamic_config_Post_assertClass
+                      version_code
 
 *** Keywords ***
-feedMessageList_Post_assertClass
-    [Arguments]    ${lasttime}    ${expected_code}
-    [Documentation]    FeedmessageList 基本验证
+dynamic_config_Post_assertClass
+    [Arguments]    ${expected_code}
+    [Documentation]    /api/dynamic_config.do基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /feedMessageList.aspx
-    ${time}=    Get Time    epoch
-    log    time= ${time}
-    ${lasttime}=    convert to string    ${time}
-    log    lasttime=${lasttime}
+    ${path}=    set variable    /api/dynamic_config.do
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    lasttime=${lasttime}
+    #set to dictionary    ${maps}    uid=${uid}
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
-    log    ${api_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    log    ${beta_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${beta_URL}
     ${content}=    charconver    ${resp.content}
-    ${data}    get json value    ${content}    /datas
-    ${data}=    charconver    ${data}
     log json    ${resp.content}
     log    ---输出返回内容----
     log json    ${content}
@@ -45,13 +39,14 @@ feedMessageList_Post_assertClass
     log    response数据为：
     log    ${resp}
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected_code}
-    log    ret 符合预期为:${expected_code}
+    should contain    ${content}    ${expected_code}
+    log    r符合预期为:${expected_code}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
-    ...    ELSE    should contain    ${content}    "msg":${msg}
+    Run Keyword If    '${expected_code}'=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "appUpdate"
     #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    #${data}=    charconver    ${data}
     #should contain    ${data}    "temp":
     #当验证的内容有中文时，需要先转码再验证；
     #${weather}=    charconver    "多云"
