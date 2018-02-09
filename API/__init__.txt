@@ -1,2 +1,2 @@
 *** Settings ***
-Documentation     基本接口
+Documentation     社交基本接口，api.thejoyrun.com
