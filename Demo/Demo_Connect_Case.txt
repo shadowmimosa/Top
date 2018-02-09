@@ -1,0 +1,127 @@
+*** Settings ***
+Documentation     接口关联例子
+Resource          ../Public/business/thejoyrun.txt
+Variables         ../Public/Config.py
+Library           ../Public/Verification.py
+Library           ../Public/tool_Libary.py
+Library           ../Public/Verification_Field.py
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    fid                option                             rid    touid    memo    expected_code
+Class_01              [Documentation]    接口关联例子(两个用例) 点赞与取消点赞-Test
+                      [Tags]             demo
+                      [Template]         feed_aspxPost_assertClass
+                      99042848           like                               0      0        棒棒的     "0"              #点赞
+                      99042848           liked                              0      0        棒棒的     "0"              #取消点赞
+
+Class_02              [Documentation]    接口关联例子(1个用例两个关健字) 评论与删除评论-Test
+                      [Tags]             Test
+                      [Template]         feed_aspxPost_Memo2_assertClass
+                      99042939           red                                0      0        棒棒的     "0"              #删除评论
+
+*** Keywords ***
+feed_aspxPost_assertClass
+    [Arguments]    ${fid}    ${option}    ${rid}    ${touid}    ${memo}    ${expected_code}
+    [Documentation]    /feed.aspx点赞与取消点赞接口基本验证
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /feed.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${maps}    option=${option}
+    set to dictionary    ${maps}    rid=${rid}
+    set to dictionary    ${maps}    touid=${touid}
+    set to dictionary    ${maps}    memo=${memo}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${expected_code}
+    log    ret 符合预期为:${expected_code}
+    log    验证msg是否符合预期
+    ${msg}=    charconver    "成功"
+    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    log    ------------------------ It is OK!!!!-------------------------------------
+
+feed_aspxPost_Memo_assertClass
+    [Arguments]    ${fid}    ${option}    ${touid}    ${memo}
+    [Documentation]    /feed.aspx评论接口
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /feed.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${maps}    option=${option}
+    set to dictionary    ${maps}    touid=${touid}
+    set to dictionary    ${maps}    memo=${memo}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    ${ret}    get json value    ${content}    /ret
+    ${rid}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /rid
+    ...    ELSE    set variable    0
+    log    评论ID为===${rid}
+    [Return]    ${rid}
+
+feed_aspxPost_Memo2_assertClass
+    [Arguments]    ${fid}    ${option}    ${rid}    ${touid}    ${memo}    ${expected_code}
+    [Documentation]    /feed.aspx评论与删除接口基本验证
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${fid}=    feed_aspxPost_Memo_assertClass    ${fid}    re    0    棒棒的
+    log    fid=====${fid}
+    ${path}=    set variable    /feed.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${maps}    option=${option}
+    set to dictionary    ${maps}    rid=${rid}
+    set to dictionary    ${maps}    touid=${touid}
+    set to dictionary    ${maps}    memo=${memo}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${expected_code}
+    log    ret 符合预期为:${expected_code}
+    log    验证msg是否符合预期
+    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "msg"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    ${status}    get json value    ${content}    /msg
+    log    评论删除状态${status}
+    #${data}=    charconver    ${data}
+    #should contain    ${data}    "temp":
+    #当验证的内容有中文时，需要先转码再验证；
+    #${weather}=    charconver    "多云"
+    #should contain    ${data}    ${weather}
+    log    ------------------------ It is OK!!!!-------------------------------------
