@@ -375,6 +375,8 @@ joyrun_POST_heardsession
     ${type}    get json value    ${login_content}    /data/user/type
     ${ypcookie}    set variable    uid=${uid}&sid=${sid}
     ${ypcookie}=    Replace String    ${ypcookie}    "    ${EMPTY}
+	${sid}=    Replace String    ${sid}    "    ${EMPTY}
+    ${uid}=    Replace String    ${uid}    "    ${EMPTY}	
     log    登录用户信息为：nick==${nick}、type=${type}、userrunlevel=${userrunlevel}、uid==${uid}、sid==${sid}
     log    登录后的ypcookie==${ypcookie}
     ${heards_dict}=    create dictionary

@@ -1,0 +1,53 @@
+*** Settings ***
+Documentation     /po.aspx发表动态与删除动态
+Resource          ../Public/business/thejoyrun.txt
+Variables         ../Public/Config.py
+Library           ../Public/Verification.py
+Library           ../Public/tool_Libary.py
+Library           ../Public/Verification_Field.py
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    imgs                                                                                                                                                                          type                       city         province    memo
+Class_01              [Documentation]                                                                                                                                                               /po.aspx发表动态与删除动态
+                      [Tags]                                                                                                                                                                        LF_Test                    LF_Online
+                      [Template]                                                                                                                                                                    po_aspxPost_assertClass
+                      \[\{\"imgurl\":\"http:\\/\\/linked-runner.b0.upaiyun.com\\/linked-runner\\/u_20380895_postImage_20180212_121549_5249.jpg\",\"imgwidth\":\"640\",\"imgheight\":\"1138\"\}\]    2                          广州           广东          哈哈
+
+*** Keywords ***
+po_aspxPost_assertClass
+    [Arguments]    ${imgs}    ${type}    ${city}    ${province}    ${memo}
+    [Documentation]    /po.aspx 发布动态及删除动态接口基本验证
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /po.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    imgs=${imgs}
+    set to dictionary    ${maps}    type=${type}
+    set to dictionary    ${maps}    city=${city}
+    set to dictionary    ${maps}    province=${province}
+    set to dictionary    ${maps}    memo=${memo}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"0"
+    log    ret 符合预期为"0"
+    ${ret}    get json value    ${content}    /ret
+    ${fid}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /fid
+    ...    ELSE    set variable    0
+    log    动态ID为===${fid}
+    log    ------------------------ It is OK!!!!-------------------------------------
+    [Return]    ${fid}

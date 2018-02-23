@@ -1,0 +1,86 @@
+*** Settings ***
+Documentation     feed/delete 发布及删除动态
+Resource          ../Public/business/thejoyrun.txt
+Variables         ../Public/Config.py
+Library           ../Public/Verification.py
+Library           ../Public/tool_Libary.py
+Library           ../Public/Verification_Field.py
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    fid                expected_code
+Class_01              [Documentation]    feed/delete 发布及删除动态-
+                      [Tags]             Online                     Test
+                      [Template]         feed_delete_assertClass
+                      0                  "0"                        #创建及删除动态
+
+*** Keywords ***
+Addongtai
+    [Arguments]    ${imgs}    ${type}    ${city}    ${province}    ${memo}
+    [Documentation]    /po.aspx发布动态
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /po.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    imgs=${imgs}
+    set to dictionary    ${maps}    type=${type}
+    set to dictionary    ${maps}    city=${city}
+    set to dictionary    ${maps}    province=${province}
+    set to dictionary    ${maps}    memo=${memo}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    ${ret}    get json value    ${content}    /ret
+    ${fid}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /fid
+    ...    ELSE    set variable    0
+    log    动态ID为===${fid}
+    [Return]    ${fid}
+
+feed_delete_assertClass
+    [Arguments]    ${fid}    ${expected_code}
+    [Documentation]    /feed.aspx评论与删除接口基本验证
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${img}=    set variable    \[\{\"fileImgUrl\":\"/storage/emulated/0/linked-joyrun/cache/temp/1519368006857.jpg\",\"imgurl\":\"http://linked-runner.b0.upaiyun.com/feed/2018/2/23/android__u_86072310_1519367097268.jpg\",\"imgheight\":750,\"imgwidth\":750\}\]
+    ${fid}=    Addongtai    ${img}    2    广州    广东    \#悦跑圈勋章\#我获得了「2018春节」勋章
+    log    fid=====${fid}
+    ${path}=    set variable    /feed/delete
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${expected_code}
+    log    ret 符合预期为:${expected_code}
+    log    验证msg是否符合预期
+    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "msg"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    ${status}    get json value    ${content}    /msg
+    log    评论删除状态${status}
+    #${data}=    charconver    ${data}
+    #should contain    ${data}    "temp":
+    #当验证的内容有中文时，需要先转码再验证；
+    #${weather}=    charconver    "多云"
+    #should contain    ${data}    ${weather}
+    log    ------------------------ It is OK!!!!-------------------------------------

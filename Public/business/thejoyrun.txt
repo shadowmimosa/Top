@@ -63,23 +63,42 @@ thejoyrun_postd
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     #排序及格式处理
+	#log    参数编码前：${sign_dict}
+	#${signparam}    Evaluate    urllib.urlencode(${sign_dict})    urllib
+    #log    参数编码后：${signparam}
     ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.iteritems())
-    ${signparam}=    convert to string    ${sign_dict_tolist}
-    ${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    u'    '
-    ${signparam}=    Replace String    ${signparam}    ', '  ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ('    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ')    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}    
-    ${signparam}=    Replace String    ${signparam}    ]    ${EMPTY}
-    ${signparam}=    Evaluate    '${signparam}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
-    #log    ${signparam}
+	${len}=            evaluate     len(${sign_dict_tolist})
+    ${signparam}=    Run Keyword If    ${len}==1    evaluate     "".join(${sign_dict_tolist[0]}) 
+	...    ELSE IF  ${len}==2   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]})
+	...    ELSE IF  ${len}==3   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]})
+	...    ELSE IF  ${len}==4   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]})
+	...    ELSE IF  ${len}==5   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]})
+	...    ELSE IF  ${len}==6   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]})
+	...    ELSE IF  ${len}==7   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]}) + "".join(${sign_dict_tolist[6]})
+	...    ELSE IF  ${len}==8   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]}) + "".join(${sign_dict_tolist[6]}) + "".join(${sign_dict_tolist[7]})	
+	...    ELSE IF  ${len}==9   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]}) + "".join(${sign_dict_tolist[6]}) + "".join(${sign_dict_tolist[7]})	+ "".join(${sign_dict_tolist[8]})
+	...    ELSE IF  ${len}==10   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]}) + "".join(${sign_dict_tolist[6]}) + "".join(${sign_dict_tolist[7]})	+ "".join(${sign_dict_tolist[8]}) + "".join(${sign_dict_tolist[9]})	
+	...    ELSE IF  ${len}==11   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]}) + "".join(${sign_dict_tolist[6]}) + "".join(${sign_dict_tolist[7]})	+ "".join(${sign_dict_tolist[8]}) + "".join(${sign_dict_tolist[9]})	 + "".join(${sign_dict_tolist[10]})	
+	...    ELSE   set variable   error
+    #${signparam}=    convert to string    ${sign_dict_tolist}
+    #${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
+    #${signparam}=    Replace String    ${signparam}    u'    '
+    #${signparam}=    Replace String    ${signparam}    ', '  ${EMPTY}
+    #${signparam}=    Replace String    ${signparam}    ('    ${EMPTY}
+    #${signparam}=    Replace String    ${signparam}    ')    ${EMPTY}
+    #${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}    
+    #${signparam}=    Replace String    ${signparam}    ]    ${EMPTY}
+    #${signparam}=    Evaluate    '${signparam}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
+    log    signparam=======${signparam}
     #排序及格式处理
-    #log    signparam===${signparam}
-    ${signkey1}=     set variable    ${signparam}${appkey1}${uid}${sid} 
-    ${signkey2}=     set variable    ${signparam}${appkey2}${uid}${sid} 
-    ${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}  
-    ${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY} 
+	#@{keylist1}   Create List   ${signparam} ${appkey1} ${uid} ${sid}
+	#@{keylist2}   Create List   ${signparam} ${appkey2} ${uid} ${sid}
+    ${signkey1}     set variable    ${signparam}${appkey1}${uid}${sid} 
+    ${signkey2}     set variable    ${signparam}${appkey2}${uid}${sid} 
+    #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}  
+    #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY} 
+    #${signkey3}=    evaluate     "".join(list(${keylist1})) 
+    #${signkey4}=    evaluate     "".join(list(${keylist2}))
     log         signkey1=====${signkey1}
     log         signkey2=====${signkey2}
     #排序及格式处理
@@ -101,17 +120,17 @@ thejoyrun_postd
     set to dictionary    ${post_dict}    signature=${signature}
     ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
     log    参数编码前：${post_dict}
-    ${post_dict}    Evaluate    urllib.urlencode(${post_dict})    urllib
-    log    参数编码后：${post_dict}
-    ${post_param}=    convert to string    ${post_dict_tolist1}
-    ${post_param}=    Replace String    ${post_param}    [    ${EMPTY}
-    ${post_param}=    Replace String    ${post_param}    u'    '
-    ${post_param}=    Replace String    ${post_param}    ', '    =
-    ${post_param}=    Replace String    ${post_param}    ('    ${EMPTY}
-    ${post_param}=    Replace String    ${post_param}    ')    ${EMPTY}
-    ${post_param}=    Replace String    ${post_param}    ,${SPACE}    &
-    ${post_param}=    Replace String    ${post_param}    ]    ${EMPTY}
-    ${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
+    ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    log    参数编码后：${post_param}
+    #${post_param}=    convert to string    ${post_dict_tolist1}
+    #${post_param}=    Replace String    ${post_param}    [    ${EMPTY}
+    #${post_param}=    Replace String    ${post_param}    u'    '
+    #${post_param}=    Replace String    ${post_param}    ', '    =
+    #${post_param}=    Replace String    ${post_param}    ('    ${EMPTY}
+    #${post_param}=    Replace String    ${post_param}    ')    ${EMPTY}
+    #${post_param}=    Replace String    ${post_param}    ,${SPACE}    &
+    #${post_param}=    Replace String    ${post_param}    ]    ${EMPTY}
+    #${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     Create Session    run   ${URL}     headers=${heards_dict}   cookies=${cookies}
     ${resp}=   Post Request    run    uri=${path}     data=${post_param}           
     [Return]    ${resp}
@@ -165,8 +184,8 @@ thejoyrun_postp
     log    signparam===${signparam}
     ${signkey1}=     set variable    ${signparam}${appkey1}${uid}${sid} 
     ${signkey2}=     set variable    ${signparam}${appkey2}${uid}${sid} 
-    ${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}  
-    ${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY} 
+    #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}  
+    #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY} 
     log         signkey1=====${signkey1}
     log         signkey2=====${signkey2}
     #排序及格式处理
@@ -212,10 +231,9 @@ thejoyrun_postjson_crew
     #...    ELSE    set variable    ${acshow_version} 
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
-    log    time= ${time}
-    ${time}=    convert to string    ${time}
-    ${timestamp}=    set variable    ${time}000
-    ${timestamp}=    Replace String    ${timestamp}    "    ${EMPTY} 	
+	${time}    evaluate    int(${time}*1000)
+    ${timestamp}    evaluate    str(${time})
+    log    timestamp=${timestamp} 
 	#当需要传uid时，则uid从map中取，否则uid为0
     ${uid}= 	Run Keyword If    ${Isuid}==1    Get From Dictionary   ${maps}   uid
 	...    ELSE   set variable   0
@@ -341,8 +359,8 @@ thejoyrun_getp
     log    signparam===${signparam}
     ${signkey1}=     set variable    ${signparam}${appkey1}${uid}${sid} 
     ${signkey2}=     set variable    ${signparam}${appkey2}${uid}${sid} 
-    ${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}  
-    ${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY} 
+    #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}  
+    #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY} 
     #log         signkey1=====${signkey1}
     #log         signkey2=====${signkey2}
     #排序及格式处理
