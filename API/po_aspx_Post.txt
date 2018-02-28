@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     /po.aspx发表动态与删除动态
+Documentation     /po.aspx发布动态
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -20,7 +20,7 @@ Class_01              [Documentation]                                           
 *** Keywords ***
 po_aspxPost_assertClass
     [Arguments]    ${imgs}    ${type}    ${city}    ${province}    ${memo}
-    [Documentation]    /po.aspx 发布动态及删除动态接口基本验证
+    [Documentation]    /po.aspx 发布动态接口基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /po.aspx
@@ -50,4 +50,3 @@ po_aspxPost_assertClass
     ...    ELSE    set variable    0
     log    动态ID为===${fid}
     log    ------------------------ It is OK!!!!-------------------------------------
-    [Return]    ${fid}
