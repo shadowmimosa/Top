@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     user.aspx接口
+Documentation     Run/GetInfo.aspx某跑步记录数据详情接口
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -11,27 +11,28 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    touid              option                     expected_code
-Class_01              [Documentation]    user.apsx-测试传参-32518359
+*** Test Cases ***    fid                wgs                                                   ret_code    msg
+Class_01              [Documentation]    Run/GetInfo.aspx某跑步记录数据详情接口-测试传参-99043402
                       [Tags]             Test
-                      [Template]         user_Post_assertClass
-                      32518359           info                       "0"
+                      [Template]         GetInfo_Post_assertClass
+                      99043402           1                                                     "0"         成功
 
-Class_02              [Documentation]    user.apsx-传参-86072310
+Class_02              [Documentation]    Run/GetInfo.aspx某跑步记录数据详情接口-传参-181053818、182243751
                       [Tags]             Online
-                      [Template]         user_Post_assertClass
-                      86072310           info                       "0"
+                      [Template]         GetInfo_Post_assertClass
+                      181053818          1                                                     "0"         成功
+                      182243751          1                                                     "0"         成功
 
 *** Keywords ***
-user_Post_assertClass
-    [Arguments]    ${touid}    ${option}    ${expected_code}
-    [Documentation]    user.apsx基本验证
+GetInfo_Post_assertClass
+    [Arguments]    ${fid}    ${wgs}    ${ret_code}    ${msg}
+    [Documentation]    Run/GetInfo.aspx某跑步记录数据详情接口
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /user.aspx
+    ${path}=    set variable    /Run/GetInfo.aspx
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    touid=${touid}
-    set to dictionary    ${maps}    option=${option}
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${maps}    wgs=${wgs}
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
@@ -45,11 +46,11 @@ user_Post_assertClass
     log    response数据为：
     log    ${resp}
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected_code}
-    log    ret 符合预期为:${expected_code}
+    should contain    ${content}    "ret":${ret_code}
+    log    ret 符合预期为:${ret_code}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    # ret为0时，则检查data或datas，否则只检查msg
+    Run Keyword If    ${ret_code}=="0"    verfication_data    ${content}
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
     #${data}    get json value    ${content}    /data
