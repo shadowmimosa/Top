@@ -83,7 +83,7 @@ UpRunRecord
     ${node}=    replace string    ${node}    "    ${EMPTY}
     ${nodeattach}=    replace string    ${nodeattach}    "    ${EMPTY}
     ${nodetime}=    set variable    ${node}
-    ${nodetime}=    arraystoarray    ${node}    ${nodeattach}
+    #${nodetime}=    arraystoarray    ${node}    ${nodeattach}
     #加密
     ${sign}=    encrypt    ${signstring}    md5    32
     ${path}=    set variable    /po.aspx
