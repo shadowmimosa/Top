@@ -80,9 +80,9 @@ UpRunRecord
     ${stepcontent}=    arraytostring    ${stepcontent}
     ${stepremark}=    arraytostring    ${stepremark}
     #对数组类型中包括了""处理
-    #${node}=    replace string    ${node}    "    ${EMPTY}
-    #${nodeattach}=    replace string    ${nodeattach}    "    ${EMPTY}
-    #${nodetime}=    set variable    ${node}
+    ${node}=    replace string    ${node}    "    ${EMPTY}
+    ${nodeattach}=    replace string    ${nodeattach}    "    ${EMPTY}
+    ${nodetime}=    set variable    ${node}
     ${nodetime}=    arraystoarray    ${node}    ${nodeattach}
     #加密
     ${sign}=    encrypt    ${signstring}    md5    32
