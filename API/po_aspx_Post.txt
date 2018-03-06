@@ -11,11 +11,11 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    imgs                                                                                                                                                                          type                       city         province    memo
-Class_01              [Documentation]                                                                                                                                                               /po.aspx发表动态与删除动态
-                      [Tags]                                                                                                                                                                        LF_Test                    LF_Online
-                      [Template]                                                                                                                                                                    po_aspxPost_assertClass
-                      \[\{\"imgurl\":\"http:\\/\\/linked-runner.b0.upaiyun.com\\/linked-runner\\/u_20380895_postImage_20180212_121549_5249.jpg\",\"imgwidth\":\"640\",\"imgheight\":\"1138\"\}\]    2                          广州           广东          哈哈
+*** Test Cases ***    imgs                                                                                                                                                  type                       city         province    memo
+Class_01              [Documentation]                                                                                                                                       /po.aspx发表动态与删除动态
+                      [Tags]                                                                                                                                                LF_Test                    LF_Online
+                      [Template]                                                                                                                                            po_aspxPost_assertClass
+                      \[\{\"imgurl\":\"http://joyrun-activity.b0.upaiyun.com/shoe/7df8180b29d24637a5362608f58343d6.png\",\"imgwidth\":\"640\",\"imgheight\":\"1138\"\}\]    2                          广州           广东          哈哈
 
 *** Keywords ***
 po_aspxPost_assertClass
@@ -23,6 +23,8 @@ po_aspxPost_assertClass
     [Documentation]    /po.aspx 发布动态接口基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${time1}=    Get Time    epoch
+    ${memo}=    set variable    ${memo}${time1}
     ${path}=    set variable    /po.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    imgs=${imgs}

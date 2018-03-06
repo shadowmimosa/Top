@@ -1,0 +1,138 @@
+*** Settings ***
+Documentation     /po.aspx发布动态
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    courseid           ismatchcompleted    matchid    nomoment    private    wgs    type    city    province    fid
+Class_01              [Documentation]    上传跑步记录
+                      [Tags]             Test
+                      [Template]         UpRunRecord
+                      0                  0                   0          1           0          1      1       广州市     广东省         99043402
+
+Class_02              [Documentation]    上传跑步记录
+                      [Tags]             Online
+                      [Template]         UpRunRecord
+                      0                  0                   0          1           0          1      1       高雄市     台湾省         181053818
+
+*** Keywords ***
+Getrunrecode
+    [Arguments]    ${fid}    ${wgs}
+    [Documentation]    Run/GetInfo.aspx某跑步记录数据详情
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /Run/GetInfo.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${maps}    wgs=${wgs}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    [Return]    ${content}
+
+UpRunRecord
+    [Arguments]    ${courseid}    ${ismatchcompleted}    ${matchid}    ${nomoment}    ${private}    ${wgs}
+    ...    ${type}    ${city}    ${province}    ${fid}
+    [Documentation]    /po.aspx type=1为上传跑步记录
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${src}=    Getrunrecode    ${fid}    ${wgs}
+    ${altitude}=    get json value    ${src}    /runrecord/altitude
+    ${content}=    get json value    ${src}    /runrecord/content
+    ${daka}=    get json value    ${src}    /runrecord/daka
+    ${heartrate}=    get json value    ${src}    /runrecord/heartrate
+    ${ismatchcompleted}=    get json value    ${src}    /runrecord/ismatchcompleted
+    ${meter}=    get json value    ${src}    /runrecord/meter
+    ${node}=    get json value    ${src}    /runrecord/node
+    ${nodeattach}=    get json value    ${src}    /runrecord/nodeattach
+    ${sampleinterval}=    get json value    ${src}    /runrecord/sampleinterval
+    ${second}=    get json value    ${src}    /runrecord/second
+    ${stepcontent}=    get json value    ${src}    /runrecord/stepcontent
+    ${stepremark}=    get json value    ${src}    /runrecord/stepremark
+    ${totalsteps}=    get json value    ${src}    /runrecord/totalsteps
+    ${pausetime}=    get json value    ${src}    /runrecord/pause
+    ${dateline}=    get json value    ${src}    /lasttime
+    ${lasttime}=    Evaluate    ${dateline}-120
+    ${starttime}=    Evaluate    ${dateline}-${second}-120
+    ${runid}    Evaluate    uuid.uuid1()    uuid
+    ${runid}=    convert to string    ${runid}
+    ${runid}=    Replace String    ${runid}    -    ${EMPTY}
+    ${time1}=    Get Time    epoch
+    #${memo}=    set variable    ${memo}${time1}
+    ${signstring}=    set variable    raowenyuanpojoy${dateline}the${lasttime}${second}${meter}run
+    #对int类型参数处理
+    ${dateline}=    convert to string    ${dateline}
+    ${lasttime}=    convert to string    ${lasttime}
+    ${starttime}=    convert to string    ${starttime}
+    #对数组类型处理
+    ${altitude}=    arraytostring    ${altitude}
+    ${heartrate}=    arraytostring    ${heartrate}
+    ${content}=    arraytostring    ${content}
+    ${stepcontent}=    arraytostring    ${stepcontent}
+    ${stepremark}=    arraytostring    ${stepremark}
+    #对数组类型中包括了""处理
+    #${node}=    replace string    ${node}    "    ${EMPTY}
+    #${nodeattach}=    replace string    ${nodeattach}    "    ${EMPTY}
+    #${nodetime}=    set variable    ${node}
+    ${nodetime}=    arraystoarray    ${node}    ${nodeattach}
+    #加密
+    ${sign}=    encrypt    ${signstring}    md5    32
+    ${path}=    set variable    /po.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    altitude=${altitude}
+    set to dictionary    ${maps}    content=${content}
+    set to dictionary    ${maps}    courseid=${courseid}
+    set to dictionary    ${maps}    heartrate=${heartrate}
+    set to dictionary    ${maps}    dateline=${dateline}
+    set to dictionary    ${maps}    ismatchcompleted=${ismatchcompleted}
+    set to dictionary    ${maps}    lasttime=${lasttime}
+    set to dictionary    ${maps}    matchid=${matchid}
+    set to dictionary    ${maps}    meter=${meter}
+    set to dictionary    ${maps}    nodetime=${nodetime}
+    set to dictionary    ${maps}    nomoment=${nomoment}
+    set to dictionary    ${maps}    pausetime=${pausetime}
+    set to dictionary    ${maps}    private=${private}
+    set to dictionary    ${maps}    runid=${runid}
+    set to dictionary    ${maps}    sampleinterval=${sampleinterval}
+    set to dictionary    ${maps}    second=${second}
+    set to dictionary    ${maps}    sign=${sign}
+    set to dictionary    ${maps}    starttime=${starttime}
+    set to dictionary    ${maps}    stepcontent=${stepcontent}
+    set to dictionary    ${maps}    stepremark=${stepremark}
+    set to dictionary    ${maps}    totalsteps=${totalsteps}
+    set to dictionary    ${maps}    wgs=${wgs}
+    set to dictionary    ${maps}    type=${type}
+    set to dictionary    ${maps}    city=${city}
+    set to dictionary    ${maps}    province=${province}
+    set to dictionary    ${maps}    daka=${daka}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"0"
+    log    ret 符合预期为"0"
+    ${ret}    get json value    ${content}    /ret
+    ${fraud}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /fraud
+    ...    ELSE    set variable    1
+    ${postRunId}=    Run Keyword If    ${fraud}=="0"    get json value    ${content}    /postRunId
+    ...    ELSE    set variable    0
+    log    跑步记录postRunId为===${postRunId}
+    log    ------------------------ It is OK!!!!-------------------------------------

@@ -59,4 +59,6 @@ GetInfo_Post_assertClass
     #当验证的内容有中文时，需要先转码再验证；
     #${weather}=    charconver    "多云"
     #should contain    ${data}    ${weather}
+    ${uuid}    Evaluate    uuid.uuid1()    uuid
+    log    ${uuid}
     log    ------------------------ It is OK!!!!-------------------------------------

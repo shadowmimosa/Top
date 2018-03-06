@@ -10,6 +10,7 @@ import sys
 import base64
 import StringIO, gzip
 import string
+import uuid
 
 #作用：公共函数库
 
@@ -339,4 +340,6 @@ def stringbyequal(arglist):
         res = pattern.split(arglist,1) 
         return res
         
-        
+if __name__ == '__main__':
+    # verfication_data(data)
+    pass        

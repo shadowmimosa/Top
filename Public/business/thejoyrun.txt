@@ -14,7 +14,7 @@ ${password}       67889911     #可以放置一些公共参数；
 
 *** Keywords ***
 
-format string
+stringtolist
     [Arguments]    ${input}
     ${list}=    set variable    ${input}
     ${list}=    replace string    ${list}    {    ${EMPTY}
@@ -22,6 +22,39 @@ format string
     ${list}=    replace string    ${list}    "    ${EMPTY}
     @{list}=    Split String    ${list}    ,
     [Return]    @{list}
+	
+format listtostring
+    [Arguments]    @{list}
+	Documentation]  将List变量按顺序串联成字符串，例如变量值[a,b c]换成abc
+	${listtostring}=  set variable    ${EMPTY}
+	${len}=            evaluate     len(${sign_dict_tolist})
+	:FOR    ${index}   IN RANGE     ${len}
+    \       ${string}     evaluate      "".join(${list[${index}]}) 
+	\		${listtostring} =   set variable  ${listtostring}${string}
+    [Return]    ${listtostring}	
+	
+arraytostring
+    [Arguments]    ${array}
+	[Documentation]  将字符类型改为数组类型，例如变量值"[a,b c]" 换成[a,b,c]
+	${list}=    evaluate  "".join(${array})
+    [Return]    ${list}		
+
+arraystoarray
+    [Arguments]    ${array1}  ${array2}
+	[Documentation]  将字符类型改为数组类型，例如变量值[[1000, 1462], [2000, 2310]]  与 [[23176204, 113335524, 293], [23177855, 113336562, 462]]   换成[1000,1462,23198402,113341642,2310]-[2000,2310,23207402,113343142,462]
+	${listtostring}   set variable   889919527aabbcc
+	${len}=      evaluate     len(${array1})
+	${list1}=    evaluate  "".join(${array1})
+	${list2}=    evaluate  "".join(${array2})
+	:FOR    ${index}   IN RANGE  0   ${len}-1  2
+    \       ${stringa1}     evaluate      "".join(${array1[${index}]}) 
+    \       ${stringa2}     evaluate      "".join(${array1[${index}+1]}) 
+    \       ${stringb1}     evaluate      "".join(${array2[${index}]}) 
+    \       ${stringb2}     evaluate      "".join(${array2[${index}+1]}) 	
+	\		${lssss} =   set variable  [${stringa1},${stringa2},${stringb1},${stringb2}]
+	\		${listtostring} =	set variable  ${listtostring}-${lssss} 
+    [Return]    ${listtostring}			
+	
 
 countbyitem
     [Arguments]    ${content}    ${item}    ${attribute}
@@ -68,18 +101,10 @@ thejoyrun_postd
     #log    参数编码后：${signparam}
     ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.iteritems())
 	${len}=            evaluate     len(${sign_dict_tolist})
-    ${signparam}=    Run Keyword If    ${len}==1    evaluate     "".join(${sign_dict_tolist[0]}) 
-	...    ELSE IF  ${len}==2   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]})
-	...    ELSE IF  ${len}==3   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]})
-	...    ELSE IF  ${len}==4   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]})
-	...    ELSE IF  ${len}==5   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]})
-	...    ELSE IF  ${len}==6   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]})
-	...    ELSE IF  ${len}==7   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]}) + "".join(${sign_dict_tolist[6]})
-	...    ELSE IF  ${len}==8   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]}) + "".join(${sign_dict_tolist[6]}) + "".join(${sign_dict_tolist[7]})	
-	...    ELSE IF  ${len}==9   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]}) + "".join(${sign_dict_tolist[6]}) + "".join(${sign_dict_tolist[7]})	+ "".join(${sign_dict_tolist[8]})
-	...    ELSE IF  ${len}==10   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]}) + "".join(${sign_dict_tolist[6]}) + "".join(${sign_dict_tolist[7]})	+ "".join(${sign_dict_tolist[8]}) + "".join(${sign_dict_tolist[9]})	
-	...    ELSE IF  ${len}==11   evaluate     "".join(${sign_dict_tolist[0]}) + "".join(${sign_dict_tolist[1]}) + "".join(${sign_dict_tolist[2]}) + "".join(${sign_dict_tolist[3]}) + "".join(${sign_dict_tolist[4]}) + "".join(${sign_dict_tolist[5]}) + "".join(${sign_dict_tolist[6]}) + "".join(${sign_dict_tolist[7]})	+ "".join(${sign_dict_tolist[8]}) + "".join(${sign_dict_tolist[9]})	 + "".join(${sign_dict_tolist[10]})	
-	...    ELSE   set variable   error
+	${signparam} =  set variable  ${EMPTY}
+    :FOR    ${index}   IN RANGE   0   ${len}  
+    \     ${signparamsting} =     evaluate     "".join(${sign_dict_tolist[${index}]})
+	\	  ${signparam} =  set variable  ${signparam}${signparamsting}
     #${signparam}=    convert to string    ${sign_dict_tolist}
     #${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
     #${signparam}=    Replace String    ${signparam}    u'    '
