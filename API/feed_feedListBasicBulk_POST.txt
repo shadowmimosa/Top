@@ -1,0 +1,57 @@
+*** Settings ***
+Documentation     /feed/feedListBasicBulk批量获取动态的基础信息接口
+Default Tags      V3.2
+Resource          ../Public/business/thejoyrun.txt
+Variables         ../Public/Config.py
+Library           ../Public/Verification.py
+Library           ../Public/tool_Libary.py
+Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    fids                                                                                                   expected
+Class_01              [Documentation]                                                                                        /feed/feedListBasicBulk批量获取动态的基础信息接口-传参188362909,188383552,188230644,188439050,187856483,188330039,188446169,188355297,188432159,188315228
+                      [Tags]                                                                                                 Online
+                      [Template]                                                                                             feedListBasicBulk_keyword
+                      188362909,188383552,188230644,188439050,187856483,188330039,188446169,188355297,188432159,188315228    "0"
+
+Class_02              [Documentation]                                                                                        /feed/feedListBasicBulk批量获取动态的基础信息接口-传参99043453, 99043416
+                      [Tags]                                                                                                 Test
+                      [Template]                                                                                             feedListBasicBulk_keyword
+                      99043453,99043416                                                                                      "0"
+
+*** Keywords ***
+feedListBasicBulk_keyword
+    [Arguments]    ${fids}    ${expected}
+    [Documentation]    /feed/feedListBasicBulk批量获取动态的基础信息接口；
+    ${path}=    set variable    /feed/feedListBasicBulk
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fids=${fids}
+    log    ---输出预期值---
+    log    ${expected}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${expected}
+    log    ret 符合预期为:${expected}
+    log    验证msg是否符合预期
+    ${msg}=    charconver    "成功"
+    Run Keyword If    ${expected}=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /datas
+    #${data}=    charconver    ${data}
+    #should contain    ${data}    "temp":
+    #当验证的内容有中文时，需要先转码再验证；
+    #${weather}=    charconver    "多云"
+    #should contain    ${data}    ${weather}
+    log    ------------------------ It is OK!!!!-------------------------------------

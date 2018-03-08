@@ -16,7 +16,7 @@ Class_01              [Documentation]    上传跑步记录
 Class_02              [Documentation]    上传跑步记录
                       [Tags]             Online
                       [Template]         UpRunRecord
-                      0                  0                   0          1           0          1      1       高雄市     台湾省         181053818
+                      0                  0                   0          1           0          1      1       香港      香港          181053818
 
 *** Keywords ***
 Getrunrecode
@@ -69,6 +69,8 @@ UpRunRecord
     ${time1}=    Get Time    epoch
     #${memo}=    set variable    ${memo}${time1}
     ${signstring}=    set variable    raowenyuanpojoy${dateline}the${lasttime}${second}${meter}run
+    #将sting转化为int
+    ${ismatchcompleted}    Replace String    ${ismatchcompleted}    "    ${EMPTY}
     #对int类型参数处理
     ${dateline}=    convert to string    ${dateline}
     ${lasttime}=    convert to string    ${lasttime}
@@ -80,10 +82,11 @@ UpRunRecord
     ${stepcontent}=    arraytostring    ${stepcontent}
     ${stepremark}=    arraytostring    ${stepremark}
     #对数组类型中包括了""处理
-    ${node}=    replace string    ${node}    "    ${EMPTY}
-    ${nodeattach}=    replace string    ${nodeattach}    "    ${EMPTY}
-    ${nodetime}=    set variable    ${node}
-    #${nodetime}=    arraystoarray    ${node}    ${nodeattach}
+    ${node}    replace string    ${node}    "    ${EMPTY}
+    ${nodeattach}    replace string    ${nodeattach}    "    ${EMPTY}
+    ${node}    replace string    ${node}    ${SPACE}    ${EMPTY}
+    ${nodeattach}    replace string    ${nodeattach}    ${SPACE}    ${EMPTY}
+    ${nodetime}    arraystoarray    ${node}    ${nodeattach}
     #加密
     ${sign}=    encrypt    ${signstring}    md5    32
     ${path}=    set variable    /po.aspx

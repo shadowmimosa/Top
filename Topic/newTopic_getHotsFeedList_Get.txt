@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     getHotsFeedListt列表-通用参数
+Documentation     getHotsFeedListt首页获取执门动态列表-通用参数
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -13,7 +13,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    page               limit                                       userName       expected
-Class_01              [Documentation]    getHotsFeedListt列表-通用参数
+Class_01              [Documentation]    getHotsFeedListt首页获取执门动态列表-通用参数
                       [Tags]             Test                                        Online
                       [Template]         newTopic_getHotsFeedList_Get_assertClass
                       1                  20                                          13829744541    "0"
@@ -21,7 +21,7 @@ Class_01              [Documentation]    getHotsFeedListt列表-通用参数
 *** Keywords ***
 newTopic_getHotsFeedList_Get_assertClass
     [Arguments]    ${page}    ${limit}    ${userName}    ${expected}
-    [Documentation]    getHots feedlist列表验证
+    [Documentation]    getHotsFeedListt首页获取执门动态列表验证
     ${path}=    set variable    /newTopic/getHotsFeedList
     ${maps}=    create dictionary
     set to dictionary    ${maps}    page=${page}

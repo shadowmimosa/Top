@@ -38,22 +38,51 @@ arraytostring
 	[Documentation]  将字符类型改为数组类型，例如变量值"[a,b c]" 换成[a,b,c]
 	${list}=    evaluate  "".join(${array})
     [Return]    ${list}		
-
+	
+listtolist	
+	[Arguments]    ${a}  ${b} 
+	[Documentation]  将字符类型改为数组类型[aa,bb]  与[cc,dd]  合并成[aa,bb,cc,dd] ,${a}  ${b}为list类型变量@{a}@{b}
+	log   =====合并数组listtolist=========
+	${lena}=      evaluate     len(${a})
+	${lenb}=      evaluate     len(${b})
+	${listasting}=  set variable    abcdefg19527egthejoyrun9898
+	${listbsting}=  set variable    abcdefg19527egthejoyrun9898
+    :FOR    ${indexa}   IN RANGE  0   ${lena}  
+    \       ${lista1}     set variable   ${a[${indexa}]}	
+	\       ${listasting}=  set variable  ${listasting},${lista1}
+    :FOR    ${indexb}   IN RANGE  0   ${lenb}  
+    \       ${listb1}    set variable   ${b[${indexb}]}	 	
+	\       ${listbsting}=  set variable  ${listbsting},${listb1}	
+    ${abstring}  set variable   ${listasting},${listbsting}
+    ${abstring}=    replace string    ${abstring}    abcdefg19527egthejoyrun9898,    ${EMPTY}
+	${abstring}  set variable   [${abstring}]
+	[Return]  ${abstring}
+	
+	
+	
 arraystoarray
-    [Arguments]    ${array1}  ${array2}
+    [Arguments]    ${lis1}  ${lis2}
 	[Documentation]  将字符类型改为数组类型，例如变量值[[1000, 1462], [2000, 2310]]  与 [[23176204, 113335524, 293], [23177855, 113336562, 462]]   换成[1000,1462,23198402,113341642,2310]-[2000,2310,23207402,113343142,462]
-	${listtostring}   set variable   889919527aabbcc
-	${len}=      evaluate     len(${array1})
-	${list1}=    evaluate  "".join(${array1})
-	${list2}=    evaluate  "".join(${array2})
-	:FOR    ${index}   IN RANGE  0   ${len}-1  2
-    \       ${stringa1}     evaluate      "".join(${array1[${index}]}) 
-    \       ${stringa2}     evaluate      "".join(${array1[${index}+1]}) 
-    \       ${stringb1}     evaluate      "".join(${array2[${index}]}) 
-    \       ${stringb2}     evaluate      "".join(${array2[${index}+1]}) 	
-	\		${lssss} =   set variable  [${stringa1},${stringa2},${stringb1},${stringb2}]
-	\		${listtostring} =	set variable  ${listtostring}-${lssss} 
-    [Return]    ${listtostring}			
+	log  =======arraystoarray===============  
+	${lis1}   replace string  ${lis1}  [[   ${EMPTY}
+	${lis2}   replace string  ${lis2}  [[   ${EMPTY}
+	${lis1}   replace string  ${lis1}  ]]   ${EMPTY}
+	${lis2}   replace string  ${lis2}  ]]   ${EMPTY}
+	${lis1}   replace string  ${lis1}  ],[   ;
+	${lis2}   replace string  ${lis2}  ],[   ;
+	@{listt1}    Split String    ${lis1}    ;
+	@{listt2}    Split String    ${lis2}    ;
+	${Listabc}  set variable   abcdefg19527egthejoyrun9898
+	${type}=   evaluate   type(${listt1})
+	${lens1}      evaluate     len(${listt1})
+	${lens2}      evaluate     len(${listt2})
+	:FOR    ${index}   IN RANGE  0   ${lens1}
+    \       ${list1}     set variable   ${listt1[${index}]}
+    \       ${list2}     set variable   ${listt2[${index}]}
+	\       ${listab}    set variable   [${list1},${list2}]
+	\       ${Listabc}    set variable  ${Listabc}-${Listab}
+	${Listabcd}=    replace string    ${Listabc}    abcdefg19527egthejoyrun9898-    ${EMPTY}
+    [Return]    ${Listabcd}			
 	
 
 countbyitem

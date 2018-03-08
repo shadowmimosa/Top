@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     BannerList获取首页banner列表-无参数
+Documentation     getHotsFeedListt首页获取执门动态列表-通用参数
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -12,23 +12,23 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    userName           expected
-Class_01              [Documentation]    BannerList获取首页banner列表-无参数
-                      [Tags]             Test                             Online
-                      [Template]         getBannerList_Get_assertClass
-                      13829744541        "0"
+*** Test Cases ***    page               userName                                     expected    msg
+Class_01              [Documentation]    getHotsFeedListt首页获取执门动态列表-通用参数
+                      [Tags]             Test                                         Online
+                      [Template]         newTopic_getHotsFeedList_Post_assertClass
+                      1                  13829744541                                  "0"         成功
 
 *** Keywords ***
-getBannerList_Get_assertClass
-    [Arguments]    ${userName}    ${expected}
-    [Documentation]    Bannerlist获取首页banner列表
-    ${path}=    set variable    /newTopic/getBannerList
+newTopic_getHotsFeedList_Post_assertClass
+    [Arguments]    ${page}    ${userName}    ${expected}    ${msg}
+    [Documentation]    getHotsFeedListt首页获取执门动态列表验证
+    ${path}=    set variable    /newTopic/getHotsFeedList
     ${maps}=    create dictionary
-    #set to dictionary    ${maps}    lasttime=${lasttime}
+    set to dictionary    ${maps}    page=${page}
     log    ---输出预期值---
     log    ${expected}
     log    ${topic_URL}
-    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${topic_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${topic_URL}
     ${content}=    charconver    ${resp.content}
     log    ---输出返回内容----
     log json    ${content}
@@ -39,7 +39,6 @@ getBannerList_Get_assertClass
     should contain    ${content}    "ret":${expected}
     log    ret 符合预期为:${expected}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
     Run Keyword If    ${expected}=="0"    verfication_data    ${content}
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
