@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     feedmessagelist动态信息
+Documentation     userRunList用户本人的跑步记录
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -11,24 +11,26 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    lasttime           expected_code                       msg
-Class_01              [Documentation]    动态信息列表-无传参feedMessageList.aspx
-                      [Tags]             Online                              Test
-                      [Template]         feedMessageList_Post_assertClass
-                      0                  "0"                                 成功
+*** Test Cases ***    dateline           year                        expected_code    msg
+Class_01              [Documentation]    userRunList用户本人的跑步记录-无传参
+                      [Tags]             Online                      Test
+                      [Template]         userRunList
+                      0                  0                           "0"              成功
 
 *** Keywords ***
-feedMessageList_Post_assertClass
-    [Arguments]    ${lasttime}    ${expected_code}    ${msg}
-    [Documentation]    FeedmessageList 基本验证
+userRunList
+    [Arguments]    ${lasttime}    ${year}    ${expected_code}    ${msg}
+    [Documentation]    userRunList用户本人的跑步记录基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /feedMessageList.aspx
+    ${path}=    set variable    /userRunList.aspx
     ${time}=    Get Time    epoch
     log    time= ${time}
-    ${lasttime}=    convert to string    ${time}
+    ${dateline}=    convert to string    ${time}
     log    lasttime=${lasttime}
     ${maps}=    create dictionary
+    set to dictionary    ${maps}    dateline=${dateline}
+    set to dictionary    ${maps}    year=${year}
     set to dictionary    ${maps}    lasttime=${lasttime}
     log    ---输出参数---
     log    ${maps}

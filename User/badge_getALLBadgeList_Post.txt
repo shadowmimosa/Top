@@ -1,0 +1,47 @@
+*** Settings ***
+Documentation     getBadgeTypeTabSort获取本人已获得及将获得的勋章接口
+Resource          ../Public/business/thejoyrun.txt
+Variables         ../Public/Config.py
+Library           ../Public/Verification.py
+Library           ../Public/tool_Libary.py
+Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    isAcquire          targetUid                              expected    msg    env
+Class_01              [Documentation]    getBadgeTypeTabSort获取本人已获得及将获得的勋章接口
+                      [Tags]             Test                                   Online
+                      [Template]         getALLBadgeList
+                      0                  86072310                               "0"         成功     1
+
+*** Keywords ***
+getALLBadgeList
+    [Arguments]    ${isAcquire}    ${targetUid}    ${expected}    ${msg}    ${env}
+    [Documentation]    getBadgeTypeTabSort获取本人已获得及将获得的勋章接口
+    ${targetUid}=    Run Keyword If    ${env}==1    set variable    ${targetUid}
+    ...    ELSE    set variable    32518359
+    ${path}=    set variable    /badge/getALLBadgeList
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    isAcquire=${isAcquire}
+    set to dictionary    ${maps}    targetUid=${targetUid}
+    log    ---输出预期值---
+    log    ${expected}
+    log    ${user_URL}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${user_URL}
+    ${content}=    charconver    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${expected}
+    log    ret 符合预期为:${expected}
+    log    验证msg是否符合预期
+    Run Keyword If    ${expected}=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    log    ------------------------ It is OK!!!!-------------------------------------

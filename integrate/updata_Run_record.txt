@@ -69,7 +69,7 @@ UpRunRecord
     ${time1}=    Get Time    epoch
     #${memo}=    set variable    ${memo}${time1}
     ${signstring}=    set variable    raowenyuanpojoy${dateline}the${lasttime}${second}${meter}run
-    #将sting转化为int
+    #将去掉字符串中的"
     ${ismatchcompleted}    Replace String    ${ismatchcompleted}    "    ${EMPTY}
     #对int类型参数处理
     ${dateline}=    convert to string    ${dateline}
