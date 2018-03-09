@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     feedmessagelist动态信息
+Documentation     feedmessagelist获取未读的动态点赞及评论及回复
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -11,16 +11,16 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    lasttime           expected_code                       msg
-Class_01              [Documentation]    动态信息列表-无传参feedMessageList.aspx
-                      [Tags]             Online                              Test
+*** Test Cases ***    lasttime           expected_code                         msg
+Class_01              [Documentation]    feedmessagelist获取未读的动态点赞及评论及回复-无传参
+                      [Tags]             Online                                Test
                       [Template]         feedMessageList_Post_assertClass
-                      0                  "0"                                 成功
+                      0                  "0"                                   成功
 
 *** Keywords ***
 feedMessageList_Post_assertClass
     [Arguments]    ${lasttime}    ${expected_code}    ${msg}
-    [Documentation]    FeedmessageList 基本验证
+    [Documentation]    feedmessagelist获取未读的动态点赞及评论及回复
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /feedMessageList.aspx

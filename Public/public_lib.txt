@@ -1,6 +1,7 @@
 ﻿*** Settings ***
 Documentation     公共资源、公共变量、第三方库
 Resource          ../Public/business/thejoyrun.txt
+Resource          ../Public/business/joyrunbusiness.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
 Library           ../Public/tool_Libary.py

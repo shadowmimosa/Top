@@ -1,51 +1,44 @@
 *** Settings ***
 Documentation     /po.aspx发布动态
 Resource          ../Public/public_lib.txt
+Resource          ../Public/business/joyrunbusiness.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    courseid           ismatchcompleted    matchid    nomoment    private    wgs    type    city    province    fid
+*** Test Cases ***    courseid           ismatchcompleted    matchid    nomoment    private    wgs    type    city    province    fid          env
 Class_01              [Documentation]    上传跑步记录
                       [Tags]             Test
                       [Template]         UpRunRecord
-                      0                  0                   0          1           0          1      1       广州市     广东省         99043402
+                      0                  0                   0          1           0          1      1       广州市     广东省         99043402     Test
 
 Class_02              [Documentation]    上传跑步记录
                       [Tags]             Online
                       [Template]         UpRunRecord
-                      0                  0                   0          1           0          1      1       香港      香港          181053818
+                      0                  0                   0          1           0          1      1       澳门      澳门          181053818    Online
 
 *** Keywords ***
-Getrunrecode
-    [Arguments]    ${fid}    ${wgs}
-    [Documentation]    Run/GetInfo.aspx某跑步记录数据详情
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /Run/GetInfo.aspx
-    ${maps}=    create dictionary
-    set to dictionary    ${maps}    fid=${fid}
-    set to dictionary    ${maps}    wgs=${wgs}
-    log    ---输出参数---
-    log    ${maps}
-    log    ---输出测试地址---
-    log    ${api_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
-    ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
-    log    ---输出返回内容----
-    log json    ${content}
-    [Return]    ${content}
-
 UpRunRecord
     [Arguments]    ${courseid}    ${ismatchcompleted}    ${matchid}    ${nomoment}    ${private}    ${wgs}
-    ...    ${type}    ${city}    ${province}    ${fid}
+    ...    ${type}    ${city}    ${province}    ${fid}    ${env}
     [Documentation]    /po.aspx type=1为上传跑步记录
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${src}=    Getrunrecode    ${fid}    ${wgs}
+    ${userName}    env_username_randomchoice    ${env}
+    ${srcfids}    getHotsFeedList    1    10
+    @{feedlist}=    Split String    ${srcfids}    ,
+    ${lens}=    evaluate    len(${feedlist})
+    ${indexfid}    set variable    0
+    : FOR    ${indexfid}    IN RANGE    0    ${lens}
+    \    log    取fid===${feedlist[${indexfid}]}
+    \    ${fids}    feedListBasicBulk    ${feedlist[${indexfid}]}
+    \    ${indexfid} =    Run Keyword If    ${fids}>0    Exit For Loop
+    \    ...    ELSE    set variable    ${indexfid}
+    ${fid}    Run Keyword If    ${fids}>0    set variable    ${fids}
+    ...    ELSE    set variable    ${fid}
+    ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}
     ${altitude}=    get json value    ${src}    /runrecord/altitude
     ${content}=    get json value    ${src}    /runrecord/content
     ${daka}=    get json value    ${src}    /runrecord/daka
@@ -60,6 +53,12 @@ UpRunRecord
     ${stepremark}=    get json value    ${src}    /runrecord/stepremark
     ${totalsteps}=    get json value    ${src}    /runrecord/totalsteps
     ${pausetime}=    get json value    ${src}    /runrecord/pause
+    ${province1}=    get json value    ${src}    /runrecord/province
+    ${city1}=    get json value    ${src}    /runrecord/city
+    ${province}    Run Keyword If    ${province1}>0    set variable    ${province1}
+    ...    ELSE    set variable    ${province}
+    ${city}    Run Keyword If    ${city1}>0    set variable    ${city1}
+    ...    ELSE    set variable    ${city}
     ${dateline}=    get json value    ${src}    /lasttime
     ${lasttime}=    Evaluate    ${dateline}-120
     ${starttime}=    Evaluate    ${dateline}-${second}-120

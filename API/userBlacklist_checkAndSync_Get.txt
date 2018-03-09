@@ -22,7 +22,7 @@ Class_01              [Documentation]    V3.2新的黑名单检查接口userBlac
 *** Keywords ***
 userBlacklist_checkAndSync_Get_assertClass
     [Arguments]    ${toUid}    ${userName}    ${expected}
-    [Documentation]    get的demo请求，这里get请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数；
+    [Documentation]    V3.2新的黑名单检查接口userBlacklist/checkAndSync
     ${path}=    set variable    /userBlacklist/checkAndSync
     ${maps}=    create dictionary
     set to dictionary    ${maps}    toUid=${toUid}

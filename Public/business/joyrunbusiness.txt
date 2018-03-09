@@ -1,0 +1,118 @@
+*** Settings ***
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           ../Lib/tools_library.py
+Resource          ../Public/cookie_operation.txt
+Resource          ../Public/http_request.txt
+Resource          ../Public/business/thejoyrun.txt
+
+
+*** Variables ***
+${password}       67889911     #可以放置一些公共参数；
+
+*** Keywords ***
+
+
+env_username_randomchoice
+    [Arguments]    ${env}    
+	[Documentation]   用于根据环境不同随机从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online
+	${usernamerand}  Run Keyword If    '${env}'=='Test'    randomchoice   ${Testuserlist}   ,    ELSE      randomchoice   ${Onlineuserlist}   ,
+	log  ====环境为${env}======
+	log  ====随机选中的用户为：${usernamerand}=====
+	[Return]    ${usernamerand}
+			
+arraystoarray
+    [Arguments]    ${lis1}  ${lis2}
+	[Documentation]  将字符类型改为数组类型，例如变量值[[1000, 1462], [2000, 2310]]  与 [[23176204, 113335524, 293], [23177855, 113336562, 462]]   换成[1000,1462,23198402,113341642,2310]-[2000,2310,23207402,113343142,462]
+	log  =======arraystoarray===============  
+	${lis1}   replace string  ${lis1}  [[   ${EMPTY}
+	${lis2}   replace string  ${lis2}  [[   ${EMPTY}
+	${lis1}   replace string  ${lis1}  ]]   ${EMPTY}
+	${lis2}   replace string  ${lis2}  ]]   ${EMPTY}
+	${lis1}   replace string  ${lis1}  ],[   ;
+	${lis2}   replace string  ${lis2}  ],[   ;
+	@{listt1}    Split String    ${lis1}    ;
+	@{listt2}    Split String    ${lis2}    ;
+	${Listabc}  set variable   abcdefg19527egthejoyrun9898
+	${type}=   evaluate   type(${listt1})
+	${lens1}      evaluate     len(${listt1})
+	${lens2}      evaluate     len(${listt2})
+	:FOR    ${index}   IN RANGE  0   ${lens1}
+    \       ${list1}     set variable   ${listt1[${index}]}
+    \       ${list2}     set variable   ${listt2[${index}]}
+	\       ${listab}    set variable   [${list1},${list2}]
+	\       ${Listabc}    set variable  ${Listabc}-${Listab}
+	${Listabcd}=    replace string    ${Listabc}    abcdefg19527egthejoyrun9898-    ${EMPTY}
+    [Return]    ${Listabcd}			
+
+Getrunrecodeinfo
+    [Arguments]    ${fid}    ${wgs}
+    [Documentation]    Run/GetInfo.aspx某跑步记录数据详情
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /Run/GetInfo.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${maps}    wgs=${wgs}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${Getrunrecodecontent}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${Getrunrecodecontent}
+    [Return]    ${Getrunrecodecontent}	
+	
+feedListBasicBulk
+    [Arguments]    ${fids}    
+    [Documentation]    /feed/feedListBasicBulk批量获取动态的基础信息接口；
+    ${path}=    set variable    /feed/feedListBasicBulk
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fids=${fids}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${feedListBasicBulkcontent}=    charconver    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${feedListBasicBulkcontent}
+	${feeddatas}     get json value    ${feedListBasicBulkcontent}    /datas
+	${feeddatas}     charconver    ${feeddatas}
+	${feeddatas}     replace string    ${feeddatas}  [{    {
+	${feeddatas}     replace string    ${feeddatas}   ]}   }
+	${feedabc}     Get Regexp Matches     ${feeddatas}    "run":(.*),  1
+	${lens}=      evaluate     len(${feedabc})
+	${feedabcd}      Get Regexp Matches     ${feeddatas}   "fid":(.*),${SPACE}"recommend"  1
+    ${basifid}    Run Keyword If    ${lens}>0    set variable  ${feedabcd[0]}    ELSE   set variable  0
+    [Return]    ${basifid}	
+
+getHotsFeedList
+    [Arguments]    ${page}    ${limit}       
+    [Documentation]    getHotsFeedListt首页获取执门动态列表返回热度排名前列的fids
+    ${path}=    set variable    /newTopic/getHotsFeedList
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    page=${page}
+    set to dictionary    ${maps}    limit=${limit}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${topic_URL}
+    ${getHotsFeedListcontent}=    charconver    ${resp.content}
+    log json    ${getHotsFeedListcontent}
+	${hotdata}     get json value    ${getHotsFeedListcontent}    /data
+	${hotdata}      replace string    ${hotdata}  [    ${EMPTY}
+	${hotdata}      replace string    ${hotdata}  ]    ${EMPTY}
+	${hotdata}      replace string    ${hotdata}  {    ${EMPTY}
+	${hotdata}      replace string    ${hotdata}  }    ${EMPTY}	
+	@{hostlist}=    Split String    ${hotdata}    ,
+	${keykeysting}=  set variable    abcdefg19527egthejoyrun9898
+	${lens}=      evaluate     len(${hostlist})
+	:FOR    ${index}   IN RANGE  2   ${lens}  3
+	\		${hotdic}     Get From List    ${hostlist}    ${index}
+	\		${hotdic}     replace string    ${hotdic}    "fid":   	 ${EMPTY}
+	\		${hotdic}     replace string    ${hotdic}    ${SPACE}   	 ${EMPTY}	
+	\		${keykeysting}     set variable      ${keykeysting},${hotdic}
+	${hotfids}   replace string    ${keykeysting}    abcdefg19527egthejoyrun9898,    ${EMPTY}
+	${hotfids}  convert to string   ${hotfids} 
+	${hotfids}   replace string    ${hotfids}    {SPACE}    ${EMPTY}
+    [Return]    ${hotfids}	
+

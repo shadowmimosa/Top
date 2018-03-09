@@ -14,6 +14,13 @@ ${password}       67889911     #可以放置一些公共参数；
 
 *** Keywords ***
 
+randomchoice
+    [Arguments]    ${string}    ${spitsting}
+	[Documentation]  将字符串分割后随机返回   abcdef;12;aaaa;123ewq;ddd   以;分割随机返回
+    @{list}=    Split String    ${string}    ${spitsting}
+	${sting1}    evaluate    random.choice(${list})   random
+    [Return]    ${sting1}
+
 stringtolist
     [Arguments]    ${input}
     ${list}=    set variable    ${input}
@@ -25,7 +32,7 @@ stringtolist
 	
 format listtostring
     [Arguments]    @{list}
-	Documentation]  将List变量按顺序串联成字符串，例如变量值[a,b c]换成abc
+	[Documentation]  将List变量(List的单个值是字典)按顺序串联成字符串，例如变量值[(u'a', u'123'),(u'b', u'456')]换成a123b456,
 	${listtostring}=  set variable    ${EMPTY}
 	${len}=            evaluate     len(${sign_dict_tolist})
 	:FOR    ${index}   IN RANGE     ${len}
@@ -58,33 +65,6 @@ listtolist
 	${abstring}  set variable   [${abstring}]
 	[Return]  ${abstring}
 	
-	
-	
-arraystoarray
-    [Arguments]    ${lis1}  ${lis2}
-	[Documentation]  将字符类型改为数组类型，例如变量值[[1000, 1462], [2000, 2310]]  与 [[23176204, 113335524, 293], [23177855, 113336562, 462]]   换成[1000,1462,23198402,113341642,2310]-[2000,2310,23207402,113343142,462]
-	log  =======arraystoarray===============  
-	${lis1}   replace string  ${lis1}  [[   ${EMPTY}
-	${lis2}   replace string  ${lis2}  [[   ${EMPTY}
-	${lis1}   replace string  ${lis1}  ]]   ${EMPTY}
-	${lis2}   replace string  ${lis2}  ]]   ${EMPTY}
-	${lis1}   replace string  ${lis1}  ],[   ;
-	${lis2}   replace string  ${lis2}  ],[   ;
-	@{listt1}    Split String    ${lis1}    ;
-	@{listt2}    Split String    ${lis2}    ;
-	${Listabc}  set variable   abcdefg19527egthejoyrun9898
-	${type}=   evaluate   type(${listt1})
-	${lens1}      evaluate     len(${listt1})
-	${lens2}      evaluate     len(${listt2})
-	:FOR    ${index}   IN RANGE  0   ${lens1}
-    \       ${list1}     set variable   ${listt1[${index}]}
-    \       ${list2}     set variable   ${listt2[${index}]}
-	\       ${listab}    set variable   [${list1},${list2}]
-	\       ${Listabc}    set variable  ${Listabc}-${Listab}
-	${Listabcd}=    replace string    ${Listabc}    abcdefg19527egthejoyrun9898-    ${EMPTY}
-    [Return]    ${Listabcd}			
-	
-
 countbyitem
     [Arguments]    ${content}    ${item}    ${attribute}
     [Documentation]    检查每个分类返回的数据个数
