@@ -49,7 +49,7 @@ arraystoarray
     [Return]    ${Listabcd}			
 
 Getrunrecodeinfo
-    [Arguments]    ${fid}    ${wgs}
+    [Arguments]    ${fid}    ${wgs}   ${userName}
     [Documentation]    Run/GetInfo.aspx某跑步记录数据详情
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -69,7 +69,7 @@ Getrunrecodeinfo
     [Return]    ${Getrunrecodecontent}	
 	
 feedListBasicBulk
-    [Arguments]    ${fids}    
+    [Arguments]    ${fids}     ${userName}
     [Documentation]    /feed/feedListBasicBulk批量获取动态的基础信息接口；
     ${path}=    set variable    /feed/feedListBasicBulk
     ${maps}=    create dictionary
@@ -89,12 +89,13 @@ feedListBasicBulk
     [Return]    ${basifid}	
 
 getHotsFeedList
-    [Arguments]    ${page}    ${limit}       
+    [Arguments]    ${page}    ${limit}     ${userName}  
     [Documentation]    getHotsFeedListt首页获取执门动态列表返回热度排名前列的fids
     ${path}=    set variable    /newTopic/getHotsFeedList
     ${maps}=    create dictionary
     set to dictionary    ${maps}    page=${page}
     set to dictionary    ${maps}    limit=${limit}
+	log  getHotsFeedList的userName= ${userName}
     ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${topic_URL}
     ${getHotsFeedListcontent}=    charconver    ${resp.content}
     log json    ${getHotsFeedListcontent}

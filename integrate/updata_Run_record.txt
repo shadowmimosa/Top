@@ -5,7 +5,7 @@ Resource          ../Public/business/joyrunbusiness.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
-${userName}       13829744541    # 用户名
+${userName}       13926281760    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    courseid           ismatchcompleted    matchid    nomoment    private    wgs    type    city    province    fid          env
@@ -17,7 +17,7 @@ Class_01              [Documentation]    上传跑步记录
 Class_02              [Documentation]    上传跑步记录
                       [Tags]             Online
                       [Template]         UpRunRecord
-                      0                  0                   0          1           0          1      1       澳门      澳门          181053818    Online
+                      0                  0                   0          1           0          1      1       广州市     广东省         181053818    Online
 
 *** Keywords ***
 UpRunRecord
@@ -27,23 +27,24 @@ UpRunRecord
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${userName}    env_username_randomchoice    ${env}
-    ${srcfids}    getHotsFeedList    1    10
+    ${srcfids}    getHotsFeedList    1    10    ${userName}
     @{feedlist}=    Split String    ${srcfids}    ,
     ${lens}=    evaluate    len(${feedlist})
     ${indexfid}    set variable    0
     : FOR    ${indexfid}    IN RANGE    0    ${lens}
     \    log    取fid===${feedlist[${indexfid}]}
-    \    ${fids}    feedListBasicBulk    ${feedlist[${indexfid}]}
-    \    ${indexfid} =    Run Keyword If    ${fids}>0    Exit For Loop
-    \    ...    ELSE    set variable    ${indexfid}
-    ${fid}    Run Keyword If    ${fids}>0    set variable    ${fids}
-    ...    ELSE    set variable    ${fid}
-    ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}
+    \    ${fids}    feedListBasicBulk    ${feedlist[${indexfid}]}    ${userName}
+    \    ${fid}    Run Keyword If    ${fids}>0    set variable    ${fid},${fids}
+    \    ...    ELSE    set variable    ${fid}
+    ${fid}    replace string    ${fid}    181053818,    ${EMPTY}
+    ${fid}    replace string    ${fid}    99043402,    ${EMPTY}
+    ${fid}    replace string    ${fid}    ${SPACE}    ${EMPTY}
+    ${fid}    randomchoice    ${fid}    ,
+    ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
     ${altitude}=    get json value    ${src}    /runrecord/altitude
     ${content}=    get json value    ${src}    /runrecord/content
     ${daka}=    get json value    ${src}    /runrecord/daka
     ${heartrate}=    get json value    ${src}    /runrecord/heartrate
-    ${ismatchcompleted}=    get json value    ${src}    /runrecord/ismatchcompleted
     ${meter}=    get json value    ${src}    /runrecord/meter
     ${node}=    get json value    ${src}    /runrecord/node
     ${nodeattach}=    get json value    ${src}    /runrecord/nodeattach
@@ -54,6 +55,7 @@ UpRunRecord
     ${totalsteps}=    get json value    ${src}    /runrecord/totalsteps
     ${pausetime}=    get json value    ${src}    /runrecord/pause
     ${province1}=    get json value    ${src}    /runrecord/province
+    ${srcuid}=    get json value    ${src}    /runrecord/uid
     ${city1}=    get json value    ${src}    /runrecord/city
     ${province}    Run Keyword If    ${province1}>0    set variable    ${province1}
     ...    ELSE    set variable    ${province}
@@ -137,4 +139,5 @@ UpRunRecord
     ${postRunId}=    Run Keyword If    ${fraud}=="0"    get json value    ${content}    /postRunId
     ...    ELSE    set variable    0
     log    跑步记录postRunId为===${postRunId}
+    log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud}，跑步地区=${province}，原fid ID== ${fid}，原uid ===${srcuid}
     log    ------------------------ It is OK!!!!-------------------------------------
