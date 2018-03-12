@@ -70,7 +70,7 @@ Getrunrecodeinfo
 	
 feedListBasicBulk
     [Arguments]    ${fids}    
-    [Documentation]    /feed/feedListBasicBulk批量获取动态的基础信息接口；
+    [Documentation]    /feed/feedListBasicBulk批量获取动态的基础信息，返回有跑步记录的fid；
     ${path}=    set variable    /feed/feedListBasicBulk
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fids=${fids}
@@ -90,7 +90,7 @@ feedListBasicBulk
 
 getHotsFeedList
     [Arguments]    ${page}    ${limit}       
-    [Documentation]    getHotsFeedListt首页获取执门动态列表返回热度排名前列的fids
+    [Documentation]    首页获取执门动态列表返回热度排名前列的fids
     ${path}=    set variable    /newTopic/getHotsFeedList
     ${maps}=    create dictionary
     set to dictionary    ${maps}    page=${page}
@@ -115,4 +115,66 @@ getHotsFeedList
 	${hotfids}  convert to string   ${hotfids} 
 	${hotfids}   replace string    ${hotfids}    {SPACE}    ${EMPTY}
     [Return]    ${hotfids}	
-
+	
+	
+FourTopicList_TopicName
+    [Arguments]    ${userName} 
+    [Documentation]    getFourTopicList获取置顶新话题,随机选中某热门话题；
+    ${path}=    set variable    /newTopic/getFourTopicList
+    ${maps}=    create dictionary
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${topic_URL}
+    ${getFourTopicListcontent}=    charconver    ${resp.content}
+    log json    ${getFourTopicListcontent}	
+	${FourTopicdata}     get json value    ${getFourTopicListcontent}    /data
+	${FourTopicdata}      replace string    ${FourTopicdata}  [    ${EMPTY}
+	${FourTopicdata}      replace string    ${FourTopicdata}  ]    ${EMPTY}
+	${FourTopicdata}      replace string    ${FourTopicdata}  ${SPACE}    ${EMPTY}
+	@{FourTopicdatalist}   Split String    ${FourTopicdata}    },{
+	log  ${FourTopicdatalist[0]}
+	${topicNameKeyspit}  set variable   约定跑
+	${topicLen}   evaluate     len(${FourTopicdatalist})
+	:FOR    ${topindex}   IN RANGE    ${topicLen}    
+	\		${TopfourList}    	Get Regexp Matches      ${FourTopicdatalist[${topindex}]}    "topicName":"(.*)"     1
+	\       log   ${TopfourList[0]}
+	\		${topicNamesting}   Get From List    ${TopfourList}    0
+	\		${topicNameKeyspit}   set variable    ${topicNameKeyspit},${topicNamesting} 
+	#${topicNameKeyspit}   replace string    ${topicNameKeyspit}    约定跑,    ${EMPTY}
+	${topicNameKeyspit}  convert to string   ${topicNameKeyspit} 	
+    ${topicName}   randomchoice   ${topicNameKeyspit}  ,
+    [Return]    ${topicName}	
+	
+TopicDetail_Fids
+    [Arguments]    ${topicName}  ${firstFeedDateline}    ${page}  ${type}    ${userName}
+    [Documentation]    /newTopic/topicDetail获取话题的跑步列表，type:1代表该话题的热门列表，type:2代表该话题的最新列表
+    log    ================topicName:${topicName}=============
+	Run Keyword If   ${type}==1  log    ================话题的热门列表=============   ELSE  log    ================话题的最新列表=============
+    ${path}=    set variable    /newTopic/topicDetail
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    firstFeedDateline=${firstFeedDateline}
+    set to dictionary    ${maps}    topicName=${topicName}
+    set to dictionary    ${maps}    type=${type}
+    set to dictionary    ${maps}    page=${page}
+    log    ${topic_URL}
+    ${TopicDetailresp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${topic_URL}
+    ${TopicDetailcontent}=    charconver    ${TopicDetailresp.content}
+    log    ---输出返回内容----
+    log json    ${TopicDetailcontent}	
+	${feedscount} =   Get Count   ${TopicDetailcontent}   "feeds":[]   
+	${TopicDetaildata}   Run Keyword If  ${feedscount}==0  get json value    ${TopicDetailcontent}    /data/feeds   ELSE   set variable   "fid":0
+	${TopicDetaildata}      replace string    ${TopicDetaildata}  [    ${EMPTY}
+	${TopicDetaildata}      replace string    ${TopicDetaildata}  ]    ${EMPTY}
+	${TopicDetaildata}      replace string    ${TopicDetaildata}  {    ${EMPTY}
+	${TopicDetaildata}      replace string    ${TopicDetaildata}  ${SPACE}    ${EMPTY}
+	@{FidList}   Split String    ${TopicDetaildata}    },
+	log  FidList[0]======${FidList[0]}
+	${fidsKeyspit}  set variable   约定跑
+	${fidLen}   evaluate     len(${FidList})
+	:FOR    ${fidindex}   IN RANGE  0  ${fidLen}    
+	\		${TopicDetailList}    	Get Regexp Matches      ${FidList[${fidindex}]}    "fid":(.*)     1
+	\		${fidsting}   Get From List    ${TopicDetailList}    0
+	\		${fidsKeyspit}   set variable    ${fidsKeyspit},${fidsting} 
+	${fidsKeyspit}   replace string    ${fidsKeyspit}    约定跑,    ${EMPTY}
+	${fidsKeyspit}      replace string    ${fidsKeyspit}  }    ${EMPTY}
+	${Fids}  convert to string   ${fidsKeyspit} 	
+	Run Keyword If   '${Fids}'=='0'     log  ================该话题type:${type}列表没有跑步记录=============   ELSE  log    ===返回====${fidLen}个======fid
+    [Return]    ${Fids}	
