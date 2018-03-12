@@ -27,7 +27,11 @@ UpRunRecord
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${userName}    env_username_randomchoice    ${env}
-    ${srcfids}    getHotsFeedList_fids    1    10    ${userName}
+    #从热门话题的最新动态中取跑步记录
+    ${topicName}    FourTopicList_TopicName    ${userName}
+    ${srcfids}    TopicDetail_Fids    ${topicName}    0    1    2    ${userName}
+    #从首页拿跑步记录
+    #${srcfids}    getHotsFeedList_fids    1    10    ${userName}
     @{feedlist}=    Split String    ${srcfids}    ,
     ${lens}=    evaluate    len(${feedlist})
     ${indexfid}    set variable    0
@@ -139,5 +143,5 @@ UpRunRecord
     ${postRunId}=    Run Keyword If    ${fraud}=="0"    get json value    ${content}    /postRunId
     ...    ELSE    set variable    0
     log    跑步记录postRunId为===${postRunId}
-    log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud}，跑步地区=${province}，原fid ID== ${fid}，原uid ===${srcuid}
+    log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud}，跑步地区=${province}，来自话题==${topicName},原fid ID== ${fid}，原uid ===${srcuid}
     log    ------------------------ It is OK!!!!-------------------------------------
