@@ -67,13 +67,10 @@ Getrunrecodeinfo
     [Return]    ${Getrunrecodecontent}
 
 feedListBasicBulk
-<<<<<<< HEAD
     [Arguments]    ${fids}    
     [Documentation]    /feed/feedListBasicBulk批量获取动态的基础信息，返回有跑步记录的fid；
-=======
     [Arguments]    ${fids}    ${userName}
     [Documentation]    /feed/feedListBasicBulk批量获取动态的基础信息接口；
->>>>>>> origin/master
     ${path}=    set variable    /feed/feedListBasicBulk
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fids=${fids}
@@ -93,13 +90,10 @@ feedListBasicBulk
     [Return]    ${basifid}
 
 getHotsFeedList
-<<<<<<< HEAD
     [Arguments]    ${page}    ${limit}       
-    [Documentation]    首页获取执门动态列表返回热度排名前列的fids
-=======
+    [Documentation]    首页获取执门动态列表返回热度排名前列的fid
     [Arguments]    ${page}    ${limit}    ${userName}
     [Documentation]    getHotsFeedListt首页获取执门动态列表返回热度排名前列的fids
->>>>>>> origin/master
     ${path}=    set variable    /newTopic/getHotsFeedList
     ${maps}=    create dictionary
     set to dictionary    ${maps}    page=${page}
@@ -108,7 +102,6 @@ getHotsFeedList
     ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${topic_URL}
     ${getHotsFeedListcontent}=    charconver    ${resp.content}
     log json    ${getHotsFeedListcontent}
-<<<<<<< HEAD
 	${hotdata}     get json value    ${getHotsFeedListcontent}    /data
 	${hotdata}      replace string    ${hotdata}  [    ${EMPTY}
 	${hotdata}      replace string    ${hotdata}  ]    ${EMPTY}
@@ -187,24 +180,7 @@ TopicDetail_Fids
 	${fidsKeyspit}   replace string    ${fidsKeyspit}    约定跑,    ${EMPTY}
 	${fidsKeyspit}      replace string    ${fidsKeyspit}  }    ${EMPTY}
 	${Fids}  convert to string   ${fidsKeyspit} 	
-	Run Keyword If   '${Fids}'=='0'     log  ================该话题type:${type}列表没有跑步记录=============   ELSE  log    ===返回====${fidLen}个======fid
+	Run Keyword If   '${Fids}'=='0'     log  ================该话题type:${type}列表没有跑步记录=============   ELSE  log    ===返回====${fidLen}个======fid======
     [Return]    ${Fids}	
-=======
-    ${hotdata}    get json value    ${getHotsFeedListcontent}    /data
-    ${hotdata}    replace string    ${hotdata}    [    ${EMPTY}
-    ${hotdata}    replace string    ${hotdata}    ]    ${EMPTY}
-    ${hotdata}    replace string    ${hotdata}    {    ${EMPTY}
-    ${hotdata}    replace string    ${hotdata}    }    ${EMPTY}
-    @{hostlist}=    Split String    ${hotdata}    ,
-    ${keykeysting}=    set variable    abcdefg19527egthejoyrun9898
-    ${lens}=    evaluate    len(${hostlist})
-    : FOR    ${index}    IN RANGE    2    ${lens}    3
-    \    ${hotdic}    Get From List    ${hostlist}    ${index}
-    \    ${hotdic}    replace string    ${hotdic}    "fid":    ${EMPTY}
-    \    ${hotdic}    replace string    ${hotdic}    ${SPACE}    ${EMPTY}
-    \    ${keykeysting}    set variable    ${keykeysting},${hotdic}
-    ${hotfids}    replace string    ${keykeysting}    abcdefg19527egthejoyrun9898,    ${EMPTY}
-    ${hotfids}    convert to string    ${hotfids}
-    ${hotfids}    replace string    ${hotfids}    {SPACE}    ${EMPTY}
-    [Return]    ${hotfids}
->>>>>>> origin/master
+
+
