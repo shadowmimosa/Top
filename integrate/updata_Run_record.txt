@@ -27,13 +27,13 @@ UpRunRecord
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${userName}    env_username_randomchoice    ${env}
-    ${srcfids}    getHotsFeedList    1    10    ${userName}
+    ${srcfids}    getHotsFeedList_fids    1    10    ${userName}
     @{feedlist}=    Split String    ${srcfids}    ,
     ${lens}=    evaluate    len(${feedlist})
     ${indexfid}    set variable    0
     : FOR    ${indexfid}    IN RANGE    0    ${lens}
     \    log    取fid===${feedlist[${indexfid}]}
-    \    ${fids}    feedListBasicBulk    ${feedlist[${indexfid}]}    ${userName}
+    \    ${fids}    feedListBasicBulk_fids    ${feedlist[${indexfid}]}    ${userName}
     \    ${fid}    Run Keyword If    ${fids}>0    set variable    ${fid},${fids}
     \    ...    ELSE    set variable    ${fid}
     ${fid}    replace string    ${fid}    181053818,    ${EMPTY}

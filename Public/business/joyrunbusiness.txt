@@ -66,11 +66,9 @@ Getrunrecodeinfo
     log json    ${Getrunrecodecontent}
     [Return]    ${Getrunrecodecontent}
 
-feedListBasicBulk
-    [Arguments]    ${fids}    
-    [Documentation]    /feed/feedListBasicBulk批量获取动态的基础信息，返回有跑步记录的fid；
+feedListBasicBulk_fids
     [Arguments]    ${fids}    ${userName}
-    [Documentation]    /feed/feedListBasicBulk批量获取动态的基础信息接口；
+    [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回有跑步记录的fid；
     ${path}=    set variable    /feed/feedListBasicBulk
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fids=${fids}
@@ -89,9 +87,7 @@ feedListBasicBulk
     ...    ELSE    set variable    0
     [Return]    ${basifid}
 
-getHotsFeedList
-    [Arguments]    ${page}    ${limit}       
-    [Documentation]    首页获取执门动态列表返回热度排名前列的fid
+getHotsFeedList_fids
     [Arguments]    ${page}    ${limit}    ${userName}
     [Documentation]    getHotsFeedListt首页获取执门动态列表返回热度排名前列的fids
     ${path}=    set variable    /newTopic/getHotsFeedList
@@ -123,7 +119,7 @@ getHotsFeedList
 	
 FourTopicList_TopicName
     [Arguments]    ${userName} 
-    [Documentation]    getFourTopicList获取置顶新话题,随机选中某热门话题；
+    [Documentation]    getFourTopicList获取置顶新话题,随机选中某热门话题,返回4个热门话题中的一个和约定跑话题；
     ${path}=    set variable    /newTopic/getFourTopicList
     ${maps}=    create dictionary
     ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${topic_URL}
@@ -149,7 +145,7 @@ FourTopicList_TopicName
 	
 TopicDetail_Fids
     [Arguments]    ${topicName}  ${firstFeedDateline}    ${page}  ${type}    ${userName}
-    [Documentation]    /newTopic/topicDetail获取话题的跑步列表，type:1代表该话题的热门列表，type:2代表该话题的最新列表
+    [Documentation]    /newTopic/topicDetail获取话题的跑步列表返回fids，type:1代表该话题的热门列表，type:2代表该话题的最新列表
     log    ================topicName:${topicName}=============
 	Run Keyword If   ${type}==1  log    ================话题的热门列表=============   ELSE  log    ================话题的最新列表=============
     ${path}=    set variable    /newTopic/topicDetail
