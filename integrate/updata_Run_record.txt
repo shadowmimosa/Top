@@ -30,7 +30,7 @@ UpRunRecord
     #从热门话题的最新动态中取跑步记录
     ${topicName}    FourTopicList_TopicName    ${userName}
     ${srcfids}    TopicDetail_Fids    ${topicName}    0    1    2    ${userName}
-    ${fids}    feedListBasicBulk_fid    ${srcfids}    ${userName}    100    25000
+    ${fids}    feedListBasicBulk_fid    ${srcfids}    ${userName}    5000    25000
     ${fid}    Run Keyword If    "${fids}"=="0"    set variable    ${fid}
     ...    ELSE    randomchoice    ${fids}    ,
     ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
