@@ -14,6 +14,12 @@ ${password}       67889911     #可以放置一些公共参数；
 
 *** Keywords ***
 
+Getsting
+    [Arguments]   ${string}   ${str} 
+	[Documentation]  将字典类型的字符串取出相应key的值,比如字符串{"source": "", "second": 311, "meter": 1017}中取出meter的值
+	${intstart}     evaluate   ${string}[${str}]  
+	[Return]    ${intstart}
+
 randomchoice
     [Arguments]    ${string}    ${spitsting}
 	[Documentation]  将字符串分割后随机返回   abcdef;12;aaaa;123ewq;ddd   以;分割随机返回

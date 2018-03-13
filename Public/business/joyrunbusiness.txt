@@ -61,10 +61,11 @@ Getrunrecodeinfo
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${Getrunrecodecontent}=    charconver    ${resp.content}
-    log json    ${resp.content}
+	${respret}   get json value   ${Getrunrecodecontent}   /ret
+	${respruninfo}   Run Keyword If  "{respret}"=="404"   Getrunrecodeinfo  99043402  ${wgs}  ${userName}   ELSE  set variable  ${Getrunrecodecontent}
     log    ---输出返回内容----
-    log json    ${Getrunrecodecontent}
-    [Return]    ${Getrunrecodecontent}
+    log json    ${respruninfo}
+    [Return]    ${respruninfo}
 
 feedListBasicBulk_fids
     [Arguments]    ${fids}    ${userName}
@@ -86,6 +87,37 @@ feedListBasicBulk_fids
     ${basifid}    Run Keyword If    ${lens}>0    set variable    ${feedabcd[0]}
     ...    ELSE    set variable    0
     [Return]    ${basifid}
+	
+feedListBasicBulk_fid
+    [Arguments]    ${fids}    ${userName}   ${metermix}  ${metermax}
+    [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回有跑步记录的fid；
+	${feed}  set variable   abcdefg12345ab
+    ${path}=    set variable    /feed/feedListBasicBulk
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fids=${fids}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${feedListBasicBulkcontent}=    charconver    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${feedListBasicBulkcontent}
+    ${feeddatas}    get json value    ${feedListBasicBulkcontent}    /datas
+    ${feeddatas}    charconver    ${feeddatas}
+    ${feeddatas}    replace string    ${feeddatas}    [{    {
+    ${feeddatas}    replace string    ${feeddatas}    ]}    }
+	@{likesCount}   Split String    ${feeddatas}   "likesCount": 
+	${likesCountLen}   evaluate    len(${likesCount})
+	:FOR  ${index}   IN RANGE  0   ${likesCountLen}  
+	\		${feedabc}     Get From List    ${likesCount}    ${index}
+	\		${feedrun}    Get Regexp Matches    ${feedabc}    "run":(.*),${SPACE}"hasliked"    1
+	\       ${runLen}   evaluate    len(${feedrun})
+	\       ${feedruns}   Run Keyword If  ${runLen}==0  set variable  {"source": "", "second": 0, "meter": 0}   ELSE  Get From List    ${feedrun}    0 
+	\		${feedmeter}    Getsting    ${feedruns}    "meter"  
+	\		${feedabcd}   Run Keyword If  ${runLen}>0 and ${metermix}<${feedmeter}<${metermax}   Get Regexp Matches    ${feedabc}    "fid":(.*),${SPACE}"recommend"    1    ELSE    set variable  0
+	\       ${feeds}   Get From List    ${feedabcd}    0
+	\		${feed}  set variable  ${feed},${feeds}
+	${basifid}     replace string    ${feed}    abcdefg12345ab,    ${EMPTY}
+	${basifid}     replace string    ${basifid}    ,0    ${EMPTY}
+    [Return]    ${basifid}	
+	
 
 getHotsFeedList_fids
     [Arguments]    ${page}    ${limit}    ${userName}

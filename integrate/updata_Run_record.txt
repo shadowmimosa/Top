@@ -30,20 +30,9 @@ UpRunRecord
     #从热门话题的最新动态中取跑步记录
     ${topicName}    FourTopicList_TopicName    ${userName}
     ${srcfids}    TopicDetail_Fids    ${topicName}    0    1    2    ${userName}
-    #从首页拿跑步记录
-    #${srcfids}    getHotsFeedList_fids    1    10    ${userName}
-    @{feedlist}=    Split String    ${srcfids}    ,
-    ${lens}=    evaluate    len(${feedlist})
-    ${indexfid}    set variable    0
-    : FOR    ${indexfid}    IN RANGE    0    ${lens}
-    \    log    取fid===${feedlist[${indexfid}]}
-    \    ${fids}    feedListBasicBulk_fids    ${feedlist[${indexfid}]}    ${userName}
-    \    ${fid}    Run Keyword If    ${fids}>0    set variable    ${fid},${fids}
-    \    ...    ELSE    set variable    ${fid}
-    ${fid}    replace string    ${fid}    181053818,    ${EMPTY}
-    ${fid}    replace string    ${fid}    99043402,    ${EMPTY}
-    ${fid}    replace string    ${fid}    ${SPACE}    ${EMPTY}
-    ${fid}    randomchoice    ${fid}    ,
+    ${fids}    feedListBasicBulk_fid    ${srcfids}    ${userName}    100    25000
+    ${fid}    Run Keyword If    "${fids}"=="0"    set variable    ${fid}
+    ...    ELSE    randomchoice    ${fids}    ,
     ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
     ${altitude}=    get json value    ${src}    /runrecord/altitude
     ${content}=    get json value    ${src}    /runrecord/content
