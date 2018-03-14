@@ -8,32 +8,42 @@ ${pwd}            67889911    # 密码
 ${userName}       13926281760    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    courseid           ismatchcompleted    matchid    nomoment    private    wgs    type    city    province    fid          env
+*** Test Cases ***    courseid           nomoment             private    wgs
 Class_01              [Documentation]    上传跑步记录
-                      [Tags]             Test
-                      [Template]         UpRunRecord
-                      0                  0                   0          1           0          1      1       广州市     广东省         99043402     Test
-
-Class_02              [Documentation]    上传跑步记录
-                      [Tags]             Online
-                      [Template]         UpRunRecord
-                      0                  0                   0          1           0          1      1       广州市     广东省         181053818    Online
+                      [Tags]             Online               Test
+                      [Template]         RunRecord_opinion
+                      0                  1                    0          1
 
 *** Keywords ***
-UpRunRecord
-    [Arguments]    ${courseid}    ${ismatchcompleted}    ${matchid}    ${nomoment}    ${private}    ${wgs}
-    ...    ${type}    ${city}    ${province}    ${fid}    ${env}
-    [Documentation]    /po.aspx type=1为上传跑步记录
+RunRecord_opinion
+    [Arguments]    ${courseid}    ${nomoment}    ${private}    ${wgs}
+    [Documentation]    跑步判断，是否满足条件跑步
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${userName}    env_username_randomchoice    ${env}
+    #环境判定和用户的选择
+    ${userName}    env_username_randomchoice    a
+    ${env}    env_username_randomchoice    1
     #从热门话题的最新动态中取跑步记录
     ${topicName}    FourTopicList_TopicName    ${userName}
     ${srcfids}    TopicDetail_Fids    ${topicName}    0    1    2    ${userName}
-    ${fids}    feedListBasicBulk_fid    ${srcfids}    ${userName}    5000    25000
-    ${fid}    Run Keyword If    "${fids}"=="0"    set variable    ${fid}
+    ${fids}    Run Keyword If    "${srcfids}"=="0"    set variable    0
+    ...    ELSE IF    '${env}'=='Test'    feedListBasicBulk_fid    ${srcfids}    ${userName}    100
+    ...    25000
+    ...    ELSE    feedListBasicBulk_fid    ${srcfids}    ${userName}    5000    25000
+    ${fid}    Run Keyword If    "${fids}"=="0"    set variable    0
     ...    ELSE    randomchoice    ${fids}    ,
     ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
+    ${ret}=    get json value    ${src}    /ret
+    Run Keyword If    '${ret}'=='"0"'    RuningRecord    ${src}    ${courseid}    ${nomoment}    ${private}
+    ...    ${wgs}    ${userName}    ${topicName}
+    ...    ELSE    log    =====环境：${env};用户：${userName} ===俺心情不好不跑了！！！======
+
+RuningRecord
+    [Arguments]    ${src}    ${courseid}    ${nomoment}    ${private}    ${wgs}    ${userName}
+    ...    ${topicName}
+    [Documentation]    /po.aspx type=1或7，为上传跑步记录
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${altitude}=    get json value    ${src}    /runrecord/altitude
     ${content}=    get json value    ${src}    /runrecord/content
     ${daka}=    get json value    ${src}    /runrecord/daka
@@ -48,6 +58,8 @@ UpRunRecord
     ${totalsteps}=    get json value    ${src}    /runrecord/totalsteps
     ${pausetime}=    get json value    ${src}    /runrecord/pause
     ${province1}=    get json value    ${src}    /runrecord/province
+    ${fid}=    get json value    ${src}    /runrecord/fid
+    ${type}=    get json value    ${src}    /runrecord/type
     ${srcuid}=    get json value    ${src}    /runrecord/uid
     ${city1}=    get json value    ${src}    /runrecord/city
     ${province}    Run Keyword If    ${province1}>0    set variable    ${province1}
@@ -64,7 +76,9 @@ UpRunRecord
     #${memo}=    set variable    ${memo}${time1}
     ${signstring}=    set variable    raowenyuanpojoy${dateline}the${lasttime}${second}${meter}run
     #将去掉字符串中的"
-    ${ismatchcompleted}    Replace String    ${ismatchcompleted}    "    ${EMPTY}
+    ${ismatchcompleted}    set variable    0
+    ${matchid}    set variable    0
+    ${ismatchcompleted}    set variable    0
     #对int类型参数处理
     ${dateline}=    convert to string    ${dateline}
     ${lasttime}=    convert to string    ${lasttime}
@@ -132,5 +146,5 @@ UpRunRecord
     ${postRunId}=    Run Keyword If    ${fraud}=="0"    get json value    ${content}    /postRunId
     ...    ELSE    set variable    0
     log    跑步记录postRunId为===${postRunId}
-    log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud}，跑步地区=${province}，来自话题==${topicName},原fid ID== ${fid}，原uid ===${srcuid}
+    log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud}，是否室外：${type};跑步地区=${province}，来自话题==${topicName},原fid ID== ${fid}，原uid ===${srcuid}
     log    ------------------------ It is OK!!!!-------------------------------------

@@ -15,12 +15,15 @@ ${password}       67889911    #可以放置一些公共参数；
 *** Keywords ***
 env_username_randomchoice
     [Arguments]    ${env}
-    [Documentation]    用于根据环境不同随机从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online
-    ${usernamerand}    Run Keyword If    '${env}'=='Test'    randomchoice    ${Testuserlist}    ,
+    [Documentation]    根据login_URL值判定环境，再根据不同环境随机从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online，仅当${env}==1时返回环境Online、Test，其他无作用；
+    ${env1}    Run keyword If    "${login_URL}"=="http://api-test.thejoyrun.com"    set variable    Test
+    ...    ELSE    set variable    Online	
+    ${usernamerand}    Run Keyword If    '${env1}'=='Test'    randomchoice    ${Testuserlist}    ,
     ...    ELSE    randomchoice    ${Onlineuserlist}    ,
-    log    ====环境为${env}======
-    log    ====随机选中的用户为：${usernamerand}=====
-    [Return]    ${usernamerand}
+    log    ====环境为${env1}======
+	${runEU}   Run Keyword If   '${env}'=='1'  set variable  ${env1}   ELSE  set variable  ${usernamerand}
+	log    ====数据返回为为：${runEU}=====
+    [Return]    ${runEU}
 
 arraystoarray
     [Arguments]    ${lis1}    ${lis2}
@@ -34,7 +37,7 @@ arraystoarray
     ${lis2}    replace string    ${lis2}    ],[    ;
     @{listt1}    Split String    ${lis1}    ;
     @{listt2}    Split String    ${lis2}    ;
-    ${Listabc}    set variable    abcdefg19527egthejoyrun9898
+    ${Listabc}    set variable    zzqrunjoyrun9527
     ${type}=    evaluate    type(${listt1})
     ${lens1}    evaluate    len(${listt1})
     ${lens2}    evaluate    len(${listt2})
@@ -43,7 +46,7 @@ arraystoarray
     \    ${list2}    set variable    ${listt2[${index}]}
     \    ${listab}    set variable    [${list1},${list2}]
     \    ${Listabc}    set variable    ${Listabc}-${Listab}
-    ${Listabcd}=    replace string    ${Listabc}    abcdefg19527egthejoyrun9898-    ${EMPTY}
+    ${Listabcd}=    replace string    ${Listabc}    zzqrunjoyrun9527-    ${EMPTY}
     [Return]    ${Listabcd}
 
 Getrunrecodeinfo
@@ -91,7 +94,7 @@ feedListBasicBulk_fids
 feedListBasicBulk_fid
     [Arguments]    ${fids}    ${userName}   ${metermix}  ${metermax}
     [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回有跑步记录的fid；
-	${feed}  set variable   abcdefg12345ab
+	${feed}  set variable   zzqrunjoyrun9527
     ${path}=    set variable    /feed/feedListBasicBulk
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fids=${fids}
@@ -103,20 +106,23 @@ feedListBasicBulk_fid
     ${feeddatas}    charconver    ${feeddatas}
     ${feeddatas}    replace string    ${feeddatas}    [{    {
     ${feeddatas}    replace string    ${feeddatas}    ]}    }
+    ${feeddatas}    replace string    ${feeddatas}    ${SPACE}    ${EMPTY}	
 	@{likesCount}   Split String    ${feeddatas}   "likesCount": 
 	${likesCountLen}   evaluate    len(${likesCount})
 	:FOR  ${index}   IN RANGE  0   ${likesCountLen}  
 	\		${feedabc}     Get From List    ${likesCount}    ${index}
-	\		${feedrun}    Get Regexp Matches    ${feedabc}    "run":(.*),${SPACE}"hasliked"    1
+	\		${feedrun}    Get Regexp Matches    ${feedabc}    "run":(.*),"hasliked"    1
 	\       ${runLen}   evaluate    len(${feedrun})
 	\       ${feedruns}   Run Keyword If  ${runLen}==0  set variable  {"source": "", "second": 0, "meter": 0}   ELSE  Get From List    ${feedrun}    0 
 	\		${feedmeter}    Getsting    ${feedruns}    "meter"  
-	\		${feedabcd}   Run Keyword If  ${runLen}>0 and ${metermix}<${feedmeter}<${metermax}   Get Regexp Matches    ${feedabc}    "fid":(.*),${SPACE}"recommend"    1    ELSE    set variable  0
-	\       ${feeds}   Get From List    ${feedabcd}    0
+	\		${feedabcd}     Get Regexp Matches    ${feedabc}    "fid":(.*),"recommend"    1    
+	\       ${feeds}   Run Keyword If  ${runLen}>0 and ${metermix}<${feedmeter}<${metermax}    Get From List    ${feedabcd}    0   ELSE    set variable  zzqrunjoyrun9527
 	\		${feed}  set variable  ${feed},${feeds}
-	${basifid}     replace string    ${feed}    abcdefg12345ab,    ${EMPTY}
-	${basifid}     replace string    ${basifid}    ,0    ${EMPTY}
-    [Return]    ${basifid}	
+	\		${feed}     replace string    ${feed}    zzqrunjoyrun9527,    ${EMPTY}
+	${Basicfid}     replace string    ${feed}    ,zzqrunjoyrun9527    ${EMPTY}
+	${Basicfid}     replace string    ${Basicfid}    zzqrunjoyrun9527    ${EMPTY}
+	${BSfid}     Run Keyword If  '${Basicfid}'=='${EMPTY}'  set variable  0    ELSE   set variable   ${Basicfid}
+    [Return]    ${BSfid}	
 	
 
 getHotsFeedList_fids
@@ -136,14 +142,14 @@ getHotsFeedList_fids
 	${hotdata}      replace string    ${hotdata}  {    ${EMPTY}
 	${hotdata}      replace string    ${hotdata}  }    ${EMPTY}	
 	@{hostlist}=    Split String    ${hotdata}    ,
-	${keykeysting}=  set variable    abcdefg19527egthejoyrun9898
+	${keykeysting}=  set variable    zzqrunjoyrun9527
 	${lens}=      evaluate     len(${hostlist})
 	:FOR    ${index}   IN RANGE  2   ${lens}  3
 	\		${hotdic}     Get From List    ${hostlist}    ${index}
 	\		${hotdic}     replace string    ${hotdic}    "fid":   	 ${EMPTY}
 	\		${hotdic}     replace string    ${hotdic}    ${SPACE}   	 ${EMPTY}	
 	\		${keykeysting}     set variable      ${keykeysting},${hotdic}
-	${hotfids}   replace string    ${keykeysting}    abcdefg19527egthejoyrun9898,    ${EMPTY}
+	\		${hotfids}   replace string    ${keykeysting}    zzqrunjoyrun9527,    ${EMPTY}
 	${hotfids}  convert to string   ${hotfids} 
 	${hotfids}   replace string    ${hotfids}    {SPACE}    ${EMPTY}
     [Return]    ${hotfids}	
@@ -211,4 +217,85 @@ TopicDetail_Fids
 	Run Keyword If   '${Fids}'=='0'     log  ================该话题type:${type}列表没有跑步记录=============   ELSE  log    ===返回====${fidLen}个======fid======
     [Return]    ${Fids}	
 
-
+	
+FeedListv5_Fids
+    [Arguments]    ${userName} 
+    [Documentation]    我的动态列表
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /feedListv5.aspx
+    ${maps}=    create dictionary
+    log    ---输出测试地址---
+    log    ${api_URL}${path}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}    charconver    ${resp.content}
+	log json   ${content}
+    ${feeddatas}    get json value    ${content}    /datas
+    ${feeddatas}    charconver    ${feeddatas}
+    ${feeddatas}    replace string    ${feeddatas}    [{    {
+    ${feeddatas}    replace string    ${feeddatas}    ]}    }
+    ${feeddatas}    replace string    ${feeddatas}    ${SPACE}    ${EMPTY}	
+	@{likesCount}   Split String    ${feeddatas}   },{
+	${feed}    set variable     zzqrunjoyrun9527
+	${CountLen}   evaluate    len(${likesCount})
+	:FOR  ${index}   IN RANGE  0  ${CountLen}
+    \       ${feedabc}     Get From List    ${likesCount}    ${index}	
+	\		${feedabcd}    Get Regexp Matches    ${feedabc}    "fid":(.*),"recommend"    1   
+    \       ${feedlen}	  evaluate    len(${feedabcd})
+	\       ${feeds}   Run Keyword If   ${feedlen}>=1    Get From List    ${feedabcd}    0    ELSE   set variable   zzqrunjoyrun9527
+	\		${feed}  set variable  ${feed},${feeds}
+	\		${feed}     replace string    ${feed}    zzqrunjoyrun9527,    ${EMPTY}
+	${fidv5}     replace string    ${feed}    ,zzqrunjoyrun9527    ${EMPTY}
+	${fidv5}     replace string    ${fidv5}    zzqrunjoyrun9527    ${EMPTY}	
+	${V5fid}     Run Keyword If  '${fidv5}'=='${EMPTY}'  set variable  0    ELSE   set variable   ${fidv5}	
+    [Return]    ${V5fid}
+	
+	
+UserRunList_Fid
+    [Arguments]        ${year}    ${userName}   ${daysecond}   ${metermin}   ${metermax}   
+    [Documentation]    userRunList用户本人的跑步记录基本验证
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /userRunList.aspx
+    ${time}=    Get Time    epoch
+    log    time= ${time}
+    ${dateline}=    convert to string    ${time}
+	${lasttime}=    set variable    0
+    log    lasttime=${lasttime}
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    dateline=${dateline}
+    set to dictionary    ${maps}    year=${year}
+    set to dictionary    ${maps}    lasttime=${lasttime}
+    log    ---输出参数---
+    log    ${api_URL}${maps}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+	log json   ${content}
+    ${RunList}    get json value    ${content}    /datas	
+    ${RunList}    replace string    ${RunList}    [{    {
+    ${RunList}    replace string    ${RunList}    ]}    }
+    ${RunList}    replace string    ${RunList}    ${SPACE}    ${EMPTY}	
+	@{RunList}    Split String      ${RunList}   },{
+	${run}    set variable     zzqrunjoyrun9527
+	${runLen}   evaluate    len(${RunList})
+	:FOR  ${index}   IN RANGE  0  ${runLen}
+    \       ${feedabc}     Get From List    ${RunList}    ${index}
+	\		${fraud}    Get Regexp Matches    ${feedabc}    \"fraud\":([0-9]+),    1 
+	\       ${fraudlen}	  evaluate    len(${fraud})	
+	\       ${fraudint}   Run Keyword If   ${fraudlen}>=1    Get From List    ${fraud}    0    ELSE   set variable   1		
+    \	    ${feedtime}    Get Regexp Matches    ${feedabc}    "lasttime":(.*),"type   1
+	\       ${timelen}	  evaluate    len(${feedtime})
+	\       ${times}   Run Keyword If   ${timelen}>=1    Get From List    ${feedtime}    0    ELSE   set variable   0	
+	\       ${i}    evaluate  int(${time})-int(${times})
+    \	    ${feedmeter}    Get Regexp Matches    ${feedabc}    \"meter\":([0-9]+),   1
+	\       ${meterlen}	  evaluate    len(${feedmeter})	
+	\       ${meter}   Run Keyword If   ${meterlen}>=1    Get From List    ${feedmeter}    0    ELSE   set variable   0	
+	\		${feedabcd}    Get Regexp Matches    ${feedabc}    \"fid\":([0-9]+),    1   
+    \       ${feedlen}	  evaluate    len(${feedabcd})
+	\       ${feeds}   Run Keyword If   ${feedlen}>=1 and ${i}<=${daysecond} and ${fraudint}<1 and ${metermin}<=${meter}<=${metermax}   Get From List    ${feedabcd}    0    ELSE   set variable   zzqrunjoyrun9527
+	\		${run}  set variable  ${run},${feeds}
+	\		${run}     replace string    ${run}    zzqrunjoyrun9527,    ${EMPTY}
+	${runfid}     replace string    ${run}    ,zzqrunjoyrun9527    ${EMPTY}
+	${runfid}     replace string    ${runfid}    zzqrunjoyrun9527    ${EMPTY}
+	${fidRun}     Run Keyword If  '${runfid}'=='${EMPTY}'  set variable  0    ELSE   set variable   ${runfid}		
+    [Return]    ${fidRun}

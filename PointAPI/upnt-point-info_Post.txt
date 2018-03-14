@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     upnt-point-info接口
+Documentation     upnt-point-info跑者等级相关接口
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -12,12 +12,12 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    uid                expected_code
-Class_01              [Documentation]    upnt-point-info个人信息列表-测试传参
+Class_01              [Documentation]    upnt-point-info跑者等级相关接口-测试传参
                       [Tags]             Test
                       [Template]         upnt-point-info_Post_assertClass
                       32518359           "0"
 
-Class_02              [Documentation]    upnt-point-info个人信息列表-线上传参
+Class_02              [Documentation]    upnt-point-info跑者等级相关接口-线上传参
                       [Tags]             Online
                       [Template]         upnt-point-info_Post_assertClass
                       86072310           "0"

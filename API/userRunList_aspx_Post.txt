@@ -50,11 +50,7 @@ userRunList
     should contain    ${content}    "ret":${expected_code}
     log    ret 符合预期为:${expected_code}
     log    验证msg是否符合预期
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    Run Keyword If    ${expected_code}=="0"    log    ${data}
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #should contain    ${data}    "temp":
-    #当验证的内容有中文时，需要先转码再验证；
-    #${weather}=    charconver    "多云"
-    #should contain    ${data}    ${weather}
     log    ------------------------ It is OK!!!!-------------------------------------

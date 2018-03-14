@@ -12,15 +12,15 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    lasttime           userName                        expected
+*** Test Cases ***    lasttime           userName                        expected    msg
 Class_01              [Documentation]    dataMessages_Get请求
                       [Tags]             Demo                            Test
                       [Template]         dataMessages_Get_assertClass
-                      0                  13829744542                     "0"
+                      0                  13829744542                     "0"         成功
 
 *** Keywords ***
 dataMessages_Get_assertClass
-    [Arguments]    ${lasttime}    ${userName}    ${expected}
+    [Arguments]    ${lasttime}    ${userName}    ${expected}    ${msg}
     [Documentation]    dataMessages_Get请求，【demo示例中仅提供最基础内容，实际编写时，可以此基础上扩展】；
     ${path}=    set variable    /dataMessages
     ${maps}=    create dictionary
@@ -38,14 +38,7 @@ dataMessages_Get_assertClass
     should contain    ${content}    "ret":${expected}
     log    ret 符合预期为:${expected}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
-    Run Keyword If    ${expected}=="0"    verfication_data    ${content}
+    Run Keyword If    ${expected}=="0"    get json value    ${content}    /data
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    #${data}=    charconver    ${data}
-    #should contain    ${data}    "temp":
-    #当验证的内容有中文时，需要先转码再验证；
-    #${weather}=    charconver    "多云"
-    #should contain    ${data}    ${weather}
     log    ------------------------ It is OK!!!!-------------------------------------

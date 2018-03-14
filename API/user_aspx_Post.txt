@@ -1,37 +1,44 @@
 *** Settings ***
-Documentation     user.aspx接口
+Documentation     user.aspx查询用户信息（好友、用户基础、查找用户、设备、PB成绩、好友推荐等）
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
 Library           ../Public/tool_Libary.py
 Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    touid              option                     expected_code
-Class_01              [Documentation]    user.apsx-测试传参-32518359
+*** Test Cases ***    touid              to                                           option     dateline    ret    msg    env
+Class_01              [Documentation]    user.aspx查询用户信息及本人的好友列表信息接口-测试传参-32518359
                       [Tags]             Test
                       [Template]         user_Post_assertClass
-                      32518359           info                       "0"
+                      32518359           32518359                                     info       0           "0"    成功     Test
 
-Class_02              [Documentation]    user.apsx-传参-86072310
+Class_02              [Documentation]    user.aspx查询用户信息及本人的好友列表信息接口-传参-86072310
                       [Tags]             Online
                       [Template]         user_Post_assertClass
-                      86072310           info                       "0"
+                      86072310           86072310                                     friends    0           "0"    成功     Online
 
 *** Keywords ***
 user_Post_assertClass
-    [Arguments]    ${touid}    ${option}    ${expected_code}
-    [Documentation]    user.apsx基本验证
+    [Arguments]    ${touid}    ${to}    ${option}    ${dateline}    ${ret}    ${msg}
+    ...    ${env}
+    [Documentation]    user.aspx查询用户信息及本人的好友列表信息接口,随机friends、info、find、findmultiple、deviceinfo、record、friendrecommendinfeed、friendrecommendinrunnerlevel
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${userName}    env_username_randomchoice    ${env}
+    ${option}    randomchoice    record/info/friends/find/findmultiple/deviceinfo/friendrecommendinfeed/friendrecommendinrunnerlevel    /
+    #${option}    set variable    friendrecommendinrunnerlevel
     ${path}=    set variable    /user.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    touid=${touid}
+    set to dictionary    ${maps}    to=${to}
     set to dictionary    ${maps}    option=${option}
+    set to dictionary    ${maps}    dateline=${dateline}
     log    ---输出参数---
     log    ${maps}
     log    ---输出测试地址---
@@ -45,17 +52,19 @@ user_Post_assertClass
     log    response数据为：
     log    ${resp}
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected_code}
-    log    ret 符合预期为:${expected_code}
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    Run Keyword If    ${ret}=="0"    verfication_data    ${content}
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    #${data}=    charconver    ${data}
-    #should contain    ${data}    "temp":
-    #当验证的内容有中文时，需要先转码再验证；
-    #${weather}=    charconver    "多云"
-    #should contain    ${data}    ${weather}
+    Run Keyword If    '${option}'=="record"    log    userName===${userName}查询目标用户的pb成绩
+    ...    ELSE IF    '${option}'=='info'    log    userName===${userName}查询目标用户的基本信息
+    ...    ELSE IF    '${option}'=='friends'    log    userName===${userName}查询本人的好友列表信息
+    ...    ELSE IF    '${option}'=='find'    log    userName===${userName}查找某用户
+    ...    ELSE IF    '${option}'=='findmultiple'    log    userName===${userName}查找某些用户
+    ...    ELSE IF    '${option}'=='deviceinfo'    log    userName===${userName}查找目标用户的设备信息
+    ...    ELSE IF    '${option}'=='friendrecommendinfeed'    log    userName===${userName}好友推荐列表
+    ...    ELSE IF    '${option}'=='friendrecommendinrunnerlevel'    log    userName===${userName}好友等级推荐列表
+    ...    ELSE    log    userName===${userName} 未知类型
     log    ------------------------ It is OK!!!!-------------------------------------

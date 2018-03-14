@@ -14,20 +14,21 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    city               citycode                     longitude            latitude             province    expected_code
+*** Test Cases ***    city               citycode                     longitude            latitude             province    ret    msg
 Class_01              [Documentation]    weatherr_Post接口
                       [Tags]             Demo                         Test
                       [Template]         weatherr_Post_assertClass
-                      广州                 020                          23.17738273605205    113.3347177208698    广东省         "0"
+                      广州                 020                          23.17738273605205    113.3347177208698    广东省         "0"    成功
 
 Class_02              [Documentation]    weatherr_Post接口
                       [Tags]             Demo                         Test
                       [Template]         weatherr_Post_assertClass
-                      上海                 010                          180                  180                  江西省         "0"
+                      上海                 010                          180                  180                  江西省         "0"    成功
 
 *** Keywords ***
 weatherr_Post_assertClass
-    [Arguments]    ${city}    ${citycode}    ${longitude}    ${latitude}    ${province}    ${expected_code}
+    [Arguments]    ${city}    ${citycode}    ${longitude}    ${latitude}    ${province}    ${ret}
+    ...    ${msg}
     [Documentation]    weatherr_Post接口，【示例中仅提供最基础内容，实际编写时，可以此基础上扩展】
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -39,9 +40,7 @@ weatherr_Post_assertClass
     set to dictionary    ${maps}    latitude=${latitude}
     set to dictionary    ${maps}    province=${province}
     log    ---输出参数---
-    log    ${maps}
-    log    ---输出测试地址---
-    log    ${api_URL}
+    log    ${maps}${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
@@ -51,17 +50,10 @@ weatherr_Post_assertClass
     log    response数据为：
     log    ${resp}
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected_code}
-    log    ret 符合预期为:${expected_code}
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    #${data}=    charconver    ${data}
-    #should contain    ${data}    "temp":
-    #当验证的内容有中文时，需要先转码再验证；
-    #${weather}=    charconver    "多云"
-    #should contain    ${data}    ${weather}
     log    ------------------------ It is OK!!!!-------------------------------------

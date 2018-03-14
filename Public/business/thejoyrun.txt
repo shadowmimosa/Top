@@ -13,6 +13,21 @@ Resource          ../Public/http_request.txt
 ${password}       67889911     #可以放置一些公共参数；
 
 *** Keywords ***
+Removesting
+    [Arguments]   ${srcstring}   ${movestr}  ${spitsting}
+	[Documentation]  从源字符串中删除某些字符串，如：123,abc,1234,444,eee  中删除abc,eee 两个字符串的分割符需要一致，${srcstring} 源字符串，${movestr}为需要删除的字符串， ${spitsting} 为两个字符串的分割符；
+	log    原字符串${srcstring}
+	log    需要移除${movestr}
+	log    分割符${spitsting}
+    @{moveList}   Split String    ${movestr}    ${spitsting}
+	${movestrlen}  evaluate  len(${moveList})
+	:FOR   ${movesting}  IN   @{moveList}
+	\		${restr1}  replace string   ${srcstring}  ${spitsting}${spitsting}  ${spitsting}	
+	\		${srcstring}=    Remove String   ${restr1}  ${movesting}
+	\		${restr1}  replace string   ${srcstring}  ${spitsting}${spitsting}  ${spitsting}	
+	${restr}   Run Keyword If  '${restr1}'=='${spitsting}'  set variable  ${EMPTY}  ELSE   set variable  ${restr1}
+	[Return]    ${restr}
+
 
 Getsting
     [Arguments]   ${string}   ${str} 
@@ -22,7 +37,7 @@ Getsting
 
 randomchoice
     [Arguments]    ${string}    ${spitsting}
-	[Documentation]  将字符串分割后随机返回   abcdef;12;aaaa;123ewq;ddd   以;分割随机返回
+	[Documentation]  将字符串分割后随机返回   abcdef;12;aaaa;123ewq;ddd   以;分割随机返回${string}为源字符串，${spitsting}为源字符串中的分割符；
     @{list}=    Split String    ${string}    ${spitsting}
 	${sting1}    evaluate    random.choice(${list})   random
     [Return]    ${sting1}

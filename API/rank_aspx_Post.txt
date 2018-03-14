@@ -1,0 +1,60 @@
+*** Settings ***
+Documentation     rank跑友的日、周、月跑量排行榜
+Resource          ../Public/business/thejoyrun.txt
+Variables         ../Public/Config.py
+Library           ../Public/Verification.py
+Library           ../Public/tool_Libary.py
+Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    all                range                    ret    msg    env
+Class_01              [Documentation]    rank跑友的日、周、月跑量排行榜
+                      [Tags]             Test
+                      [Template]         rank_Post_assertClass
+                      0                  0                        "0"    成功     Test
+
+Class_02              [Documentation]    rank跑友的日、周、月跑量排行榜
+                      [Tags]             Online
+                      [Template]         rank_Post_assertClass
+                      0                  0                        "0"    成功     Online
+
+*** Keywords ***
+rank_Post_assertClass
+    [Arguments]    ${all}    ${range}    ${ret}    ${msg}    ${env}
+    [Documentation]    rank跑友的日、周、月跑量排行榜
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${userName}    env_username_randomchoice    ${env}
+    ${range}    randomchoice    0,1,2    ,
+    ${path}=    set variable    /rank.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    all=${all}
+    set to dictionary    ${maps}    range=${range}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    #log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    Run Keyword If    ${range}==0    log    ${userName}的跑友跑量日榜
+    ...    ELSE IF    ${range}==1    log    ${userName}的跑友跑量周榜
+    ...    ELSE    log    ${userName}的跑友跑量月榜
+    log    ----------------------It is OK!!!!------------------------

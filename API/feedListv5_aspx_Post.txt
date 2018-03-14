@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     动态列表
+Documentation     我的动态列表
 Resource          ../Public/business/thejoyrun.txt
 Variables         ../Public/Config.py
 Library           ../Public/Verification.py
@@ -12,7 +12,7 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    expected_code
-Class_01              [Documentation]    动态列表-无传参feedListv5.aspx
+Class_01              [Documentation]    我的动态列表-无传参feedListv5.aspx
                       [Tags]             Online                         Test
                       [Template]         feedListv5_Post_assertClass
                       "0"
@@ -20,7 +20,7 @@ Class_01              [Documentation]    动态列表-无传参feedListv5.aspx
 *** Keywords ***
 feedListv5_Post_assertClass
     [Arguments]    ${expected_code}
-    [Documentation]    动态列表的基本验证
+    [Documentation]    我的动态列表的基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /feedListv5.aspx
@@ -43,12 +43,6 @@ feedListv5_Post_assertClass
     should contain    ${content}    "ret":${expected_code}
     log    ret 符合预期为:${expected_code}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
-    ...    ELSE    should contain    ${content}    "msg":${msg}
-    #当需要添加对data的内容进行单独验证时，可以以下方式
-    #should contain    ${data}    "temp":
-    #当验证的内容有中文时，需要先转码再验证；
-    #${weather}=    charconver    "多云"
-    #should contain    ${data}    ${weather}
+    Run Keyword If    ${expected_code}=="0"    get json value    ${content}    /datas
+    ...    ELSE    should contain    ${content}    "msg":
     log    ------------------------ It is OK!!!!-------------------------------------

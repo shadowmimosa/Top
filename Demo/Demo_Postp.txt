@@ -11,26 +11,27 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    option              touid                                   userName       expected_code
+*** Test Cases ***    option              touid                                   userName       expected_code    msg
 Class_01              [Documentation]     userusersetting.aspx查询屏蔽 post的demo请求
                       [Tags]              Demo
                       [Template]          userusersetting_Post_assertClass
-                      listblockmoment     \                                       13829744541    "0"
+                      listblockmoment     \                                       13829744541    "0"              成功
 
 Class_02              [Documentation]     userusersetting.aspx增加屏蔽 post的demo请求
                       [Tags]              Demo
                       [Template]          userusersetting_Post_assertClass
-                      setblockmoment      32518666                                13829744541    "0"
-                      setblockmoment      32518335                                13829744541    "0"
+                      setblockmoment      32518666                                13829744541    "0"              成功
+                      setblockmoment      32518335                                13829744541    "0"              成功
 
 Class_03              [Documentation]     userusersetting.aspx取消屏蔽 post的demo请求
                       [Tags]              Demo
                       [Template]          userusersetting_Post_assertClass
-                      setunblockmoment    32518359                                13829744542    "0"
+                      setunblockmoment    32518666                                13829744541    "0"              成功
+                      setunblockmoment    32518335                                13829744541    "0"              成功
 
 *** Keywords ***
 userusersetting_Post_assertClass
-    [Arguments]    ${option}    ${touid}    ${userName}    ${expected_code}
+    [Arguments]    ${option}    ${touid}    ${userName}    ${expected_code}    ${msg}
     [Documentation]    userusersetting.aspx 屏蔽动态 post的demo请求
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -54,14 +55,7 @@ userusersetting_Post_assertClass
     should contain    ${content}    "ret":${expected_code}
     log    ret 符合预期为:${expected_code}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "服务器"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    Run Keyword If    ${expected_code}=="0"    get json value    ${content}    /sid
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    #${data}=    charconver    ${data}
-    #should contain    ${data}    "temp":
-    #当验证的内容有中文时，需要先转码再验证；
-    #${weather}=    charconver    "多云"
-    #should contain    ${data}    ${weather}
     log    ----------------------It is OK!!!!------------------------
