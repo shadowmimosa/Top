@@ -1,10 +1,5 @@
 *** Settings ***
 Documentation     dataMessages_Get接口,这里get请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

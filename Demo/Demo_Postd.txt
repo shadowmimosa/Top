@@ -3,10 +3,6 @@ Documentation     weatherr_Post接口示例，这里post请求参数是有公共
 ...               例如：POST的URL为http://u-test.api.thejoyrun.com/user/checkRealNameVerification
 ...               \ \ \ \ \ \ \ 传参为：signature=D0F7AFD785A13B8624D3984D5361A465&timestamp=1516336210
 ...               \ \ \ \ \ \ \ 要求传cookie 和heards
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
 Library           ../Public/Verification_Field.py
 
 *** Variable ***

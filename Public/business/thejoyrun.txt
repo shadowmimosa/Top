@@ -28,6 +28,52 @@ Removesting
 	${restr}   Run Keyword If  '${restr1}'=='${spitsting}'  set variable  ${EMPTY}  ELSE   set variable  ${restr1}
 	[Return]    ${restr}
 
+FilterList
+    [Arguments]   ${SrcListstr}    ${filters}   ${Returnfield} 
+	[Documentation]  支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；；SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔)；Returnfield为返回值串的字符；例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
+	log    原字符串${SrcListstr}
+	log    筛选条件${filters}
+	log    返回值串的字段${Returnfield}
+	${ReturnValue}  set variable   joyrunzzqtestspit
+	@{filterList}    Split String    ${filters}    /
+    ${filterLen}	evaluate  len(${filterList})
+	${filterstr1}   Get From List    ${filterList}    0  
+	${filterstr2}     Run Keyword If  ${filterLen}>1   Get From List    ${filterList}    1   ELSE   Get From List    ${filterList}    0
+	${filterstr3}     Run Keyword If  ${filterLen}>2   Get From List    ${filterList}    2   ELSE   Get From List    ${filterList}    0	
+	@{filterstrList1}   Split String    ${filterstr1}    ,
+	@{filterstrList2}   Split String    ${filterstr2}    ,
+	@{filterstrList3}   Split String    ${filterstr3}    ,	
+	${filterfield1}   Get From List   ${filterstrList1}   0
+	${filterfield2}   Get From List   ${filterstrList2}   0
+	${filterfield3}   Get From List   ${filterstrList3}   0	
+	${filterfield1min}   Get From List   ${filterstrList1}   1
+	${filterfield2min}   Get From List   ${filterstrList2}   1
+	${filterfield3min}   Get From List   ${filterstrList3}   1		
+	${filterfield1max}   Get From List   ${filterstrList1}   2
+	${filterfield2max}   Get From List   ${filterstrList2}   2
+	${filterfield3max}   Get From List   ${filterstrList3}   2		
+    ${SrcListstr}    replace string    ${SrcListstr}    [{    {
+    ${SrcListstr}    replace string    ${SrcListstr}    }]    }
+    ${SrcListstr}    replace string    ${SrcListstr}    ${SPACE}    ${EMPTY}	
+	${SrcListstr}    replace string    ${SrcListstr}    },{    }joyrunzzqtestspit{
+	@{SrcList}       Split String      ${SrcListstr}   joyrunzzqtestspit 	
+	:FOR  ${scrsingle}  IN   @{SrcList}  
+	\       ${filterfield1str}     Get Regexp Matches    ${scrsingle}    "${filterfield1}":([0-9]+),    1
+	\       ${filterfield1strlen}   evaluate  len(${filterfield1str})
+	\       ${field1Value}   Run Keyword If  ${filterfield1strlen}>0  get json value   ${scrsingle}   /${filterfield1}   ELSE  set variable  0
+	\       ${filterfield2str}     Get Regexp Matches    ${scrsingle}    "${filterfield2}":([0-9]+),    1
+	\       ${filterfield2strlen}   evaluate  len(${filterfield2str})
+	\       ${field2Value}   Run Keyword If  ${filterfield2strlen}>0  get json value   ${scrsingle}   /${filterfield2}   ELSE  set variable  0
+	\       ${filterfield3str}     Get Regexp Matches    ${scrsingle}    "${filterfield3}":([0-9]+),    1
+	\       ${filterfield3strlen}   evaluate  len(${filterfield3str})
+	\       ${field3Value}   Run Keyword If  ${filterfield3strlen}>0  get json value   ${scrsingle}   /${filterfield3}   ELSE  set variable  0
+	\		${ReturnfieldValue}   Run Keyword If   ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}   get json value	 ${scrsingle}   /${Returnfield}    ELSE   set variable   joyrunzzqtestspit
+	\		${ReturnValue}    Run Keyword If  "${ReturnValue}"<>"${EMPTY}"   set variable  ${ReturnValue},${ReturnfieldValue}   ELSE  set variable   ${ReturnfieldValue}
+	\		${ReturnValue}   replace string  ${ReturnValue}    ,joyrunzzqtestspit    ${EMPTY} 
+	\		${ReturnValue}   replace string  ${ReturnValue}    joyrunzzqtestspit,    ${EMPTY} 
+	\		${ReturnValue}   replace string  ${ReturnValue}    joyrunzzqtestspit    ${EMPTY}
+ 	${ReturnValuesting}	  Run Keyword If  "${ReturnValue}"<>"${EMPTY}"   set variable    ${ReturnValue}     ELSE  set variable  0
+	[Return]    ${ReturnValuesting}	
 
 Getsting
     [Arguments]   ${string}   ${str} 
@@ -36,11 +82,13 @@ Getsting
 	[Return]    ${intstart}
 
 randomchoice
-    [Arguments]    ${string}    ${spitsting}
-	[Documentation]  将字符串分割后随机返回   abcdef;12;aaaa;123ewq;ddd   以;分割随机返回${string}为源字符串，${spitsting}为源字符串中的分割符；
-    @{list}=    Split String    ${string}    ${spitsting}
-	${sting1}    evaluate    random.choice(${list})   random
-    [Return]    ${sting1}
+    [Arguments]    ${str}    ${spitstr}
+	[Documentation]  将字符串分割后随机返回   abcdef;12;aaaa;123ewq;ddd   以;分割随机返回${str}为源字符串，${spitstr}为源字符串中的分割符；
+    @{list}=    Split String    ${str}    ${spitstr}
+	${stinglen}   evaluate    len(${list})
+	${strReturn}     evaluate    random.choice(${list})   random
+	log   ======共${stinglen}数据，随机选中：${strReturn}========
+    [Return]    ${strReturn}
 
 stringtolist
     [Arguments]    ${input}

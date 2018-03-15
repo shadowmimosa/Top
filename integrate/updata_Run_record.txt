@@ -1,7 +1,6 @@
 *** Settings ***
 Documentation     /po.aspx发布动态
 Resource          ../Public/public_lib.txt
-Resource          ../Public/business/joyrunbusiness.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
@@ -12,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 Class_01              [Documentation]    上传跑步记录
                       [Tags]             Online               Test
                       [Template]         RunRecord_opinion
-                      0                  1                    0          1
+                      0                  1                    1          1
 
 *** Keywords ***
 RunRecord_opinion
@@ -23,20 +22,23 @@ RunRecord_opinion
     #环境判定和用户的选择
     ${userName}    env_username_randomchoice    a
     ${env}    env_username_randomchoice    1
-    #从热门话题的最新动态中取跑步记录
+    #从4个热门话题中随机选择一个热门话题
     ${topicName}    FourTopicList_TopicName    ${userName}
+    #从热门话题中，选择当前第1页最新的动态
     ${srcfids}    TopicDetail_Fids    ${topicName}    0    1    2    ${userName}
+    #从传入的动态中选出符合条件的跑步记录运态
     ${fids}    Run Keyword If    "${srcfids}"=="0"    set variable    0
-    ...    ELSE IF    '${env}'=='Test'    feedListBasicBulk_fid    ${srcfids}    ${userName}    100
-    ...    25000
-    ...    ELSE    feedListBasicBulk_fid    ${srcfids}    ${userName}    5000    25000
+    ...    ELSE IF    '${env}'=='Test'    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter
+    ...    2000    25000
+    ...    ELSE    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter    5000
+    ...    22000
     ${fid}    Run Keyword If    "${fids}"=="0"    set variable    0
     ...    ELSE    randomchoice    ${fids}    ,
     ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
     ${ret}=    get json value    ${src}    /ret
     Run Keyword If    '${ret}'=='"0"'    RuningRecord    ${src}    ${courseid}    ${nomoment}    ${private}
     ...    ${wgs}    ${userName}    ${topicName}
-    ...    ELSE    log    =====环境：${env};用户：${userName} ===俺心情不好不跑了！！！======
+    ...    ELSE    log    =====环境：${env};用户：${userName} ===姿势不好不跑了！！！======
 
 RuningRecord
     [Arguments]    ${src}    ${courseid}    ${nomoment}    ${private}    ${wgs}    ${userName}

@@ -1,9 +1,5 @@
 *** Settings ***
 Documentation     userusersetting.aspx 屏蔽动态post的demo请求，这里post请求参数是有公共参数（signature和timestamp）,但在这里不需要特意传这两个参数；提交的参数是以params方式，会出现在url中；
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
 Library           ../Public/Verification_Field.py
 
 *** Variable ***

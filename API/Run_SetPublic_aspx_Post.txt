@@ -1,0 +1,60 @@
+*** Settings ***
+Documentation     跑步记录地图设置公开接口SetPublic.aspx
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    fid                ret
+Class_01              [Documentation]    跑步记录地图设置私密接口SetPrivate.aspx
+                      [Tags]             Test                           Online
+                      [Template]         SetPublic_select
+                      0                  "0"                            #查询某用户动态
+
+*** Keywords ***
+SetPublic_select
+    [Arguments]    ${fid}    ${ret}
+    [Documentation]    跑步记录地图设置公开接口/Run/SetPublic.aspx
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${time}=    Get Time    epoch
+    log    time= ${time}
+    ${dateline}=    convert to string    ${time}
+    ${timemin}    evaluate    int(${time})-86400
+    ${timemax}    evaluate    int(${time})
+    ${userName}    env_username_randomchoice    a
+    ${fids}    UserRunList_Fid    2018    ${userName}    meter,1000,5000/lasttime,${timemin},${timemax}/private,1,2    fid
+    ${fid}    randomchoice    ${fids}    ,
+    Run Keyword If    ${fid}==0    log    ==选择范围内的跑步记录都已置为公开记录======
+    ...    ELSE    SetPublic_Post_assertClass    ${fid}    ${userName}    ${ret}
+
+SetPublic_Post_assertClass
+    [Arguments]    ${fid}    ${userName}    ${ret}
+    [Documentation]    跑步记录地图设置公开接口SetPublic.aspx
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /Run/SetPublic.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    #log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /sid
+    ...    ELSE    should contain    ${content}    "msg":
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ----------------------It is OK!!!!------------------------

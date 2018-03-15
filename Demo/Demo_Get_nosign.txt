@@ -1,10 +1,5 @@
 *** Settings ***
 Documentation     ec_api/orders商务订单接口，这里get请求参数是没有有公共参数（signature和timestamp），但仍需求heards和cookies；
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

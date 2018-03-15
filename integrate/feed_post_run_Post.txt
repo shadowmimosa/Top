@@ -1,7 +1,6 @@
 *** Settings ***
 Documentation     /feed/post/run发布跑步动态
 Resource          ../Public/public_lib.txt
-Resource          ../Public/business/joyrunbusiness.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
@@ -20,16 +19,21 @@ feedpostrun_opinion
     [Documentation]    /feed/post/run发布跑步动态
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${time}=    Get Time    epoch
+    log    time= ${time}
+    ${dateline}=    convert to string    ${time}
+    ${timemin}    evaluate    int(${time})-86400
+    ${timemax}    evaluate    int(${time})
     #判断环境随机选择用户
     ${userName}    env_username_randomchoice    2a
     ${env}    env_username_randomchoice    1
     #取出已发表过动态的跑步记录
     ${unfids}    FeedListv5_Fids    ${userName}
     #选择某些范围的跑步记录
-    ${Runfids}    Run Keyword If    '${env}'=='Test'    UserRunList_Fid    0    ${userName}    3600000
-    ...    1000    25000
-    ...    ELSE    UserRunList_Fid    0    ${userName}    360000    5000
-    ...    25000
+    ${Runfids}    Run Keyword If    '${env}'=='Test'    UserRunList_Fid    2018    ${userName}    meter,1000,50000/lasttime,${timemin},${timemax}
+    ...    fid
+    ...    ELSE    UserRunList_Fid    0    ${userName}    2018    ${userName}
+    ...    meter,5000,10000/lasttime,${timemin},${timemax}    fid
     #去掉已发表过的动态跑步记录
     ${fids}    Removesting    ${Runfids}    ${unfids}    ,
     #随机选择一条跑步记录发动态
