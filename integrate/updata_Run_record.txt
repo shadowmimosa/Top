@@ -31,7 +31,7 @@ RunRecord_opinion
     ...    ELSE IF    '${env}'=='Test'    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter
     ...    2000    25000
     ...    ELSE    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter    5000
-    ...    22S000
+    ...    22000
     ${fid}    Run Keyword If    "${fids}"=="0"    set variable    0
     ...    ELSE    randomchoice    ${fids}    ,
     ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
