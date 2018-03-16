@@ -122,8 +122,9 @@ feedListBasicBulk_fid
 	\       ${findtwoValue}    Get Regexp Matches    ${findtxtvalue}    "${findlisttwo}":([0-9]+)    1
 	\       ${findtwoValuelen}   evaluate    len(${findtwoValue})
 	\		${findvalue}   Run Keyword If  ${findtwoValuelen}>0  Get From List    ${findtwoValue}    0   ELSE  set variable  0
-	\		${fidtext}     Get Regexp Matches    ${feeddata}    "fid":([0-9]+),    1    
-	\       ${feedfilter}   Run Keyword If  ${min}<=${findvalue}<=${max}    Get From List    ${fidtext}    0   ELSE    set variable  zzqrunjoyrun9527
+	\		${fidtext}     Get Regexp Matches    ${feeddata}    "fid":([0-9]+)    1    
+	\       ${fidtextlen}   evaluate   len(${fidtext})
+	\       ${feedfilter}   Run Keyword If  ${min}<=${findvalue}<=${max} and ${fidtextlen}>0    Get From List    ${fidtext}    0   ELSE    set variable  zzqrunjoyrun9527
 	\		${feed}  Run Keyword If  "${feed}"<>"${EMPTY}"   set variable  ${feed},${feedfilter}   ELSE  set variable   ${feedfilter}
 	\		${feed}     replace string    ${feed}    zzqrunjoyrun9527,    ${EMPTY}
 	\		${feed}     replace string    ${feed}    ,zzqrunjoyrun9527    ${EMPTY}
