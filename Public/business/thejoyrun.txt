@@ -22,10 +22,12 @@ Removesting
     @{moveList}   Split String    ${movestr}    ${spitsting}
 	${movestrlen}  evaluate  len(${moveList})
 	:FOR   ${movesting}  IN   @{moveList}
-	\		${restr1}  replace string   ${srcstring}  ${spitsting}${spitsting}  ${spitsting}	
-	\		${srcstring}=    Remove String   ${restr1}  ${movesting}
-	\		${restr1}  replace string   ${srcstring}  ${spitsting}${spitsting}  ${spitsting}	
-	${restr}   Run Keyword If  '${restr1}'=='${spitsting}'  set variable  ${EMPTY}  ELSE   set variable  ${restr1}
+	\		${srcstring}  replace string   ${srcstring}  ${spitsting}${spitsting}  ${spitsting}	
+	\		${srcstring}=    Remove String   ${srcstring}  ${movesting}${spitsting}
+	\		${srcstring}=    Remove String   ${srcstring}  ${spitsting}${movesting}	
+	\		${srcstring}=    Remove String   ${srcstring}  ${movesting}		
+	\		${srcstring}  replace string   ${srcstring}  ${spitsting}${spitsting}  ${spitsting}	
+	${restr}   Run Keyword If  '${srcstring}'=='${spitsting}'  set variable  ${EMPTY}  ELSE   set variable  ${srcstring}
 	[Return]    ${restr}
 
 FilterList
@@ -58,15 +60,15 @@ FilterList
 	${SrcListstr}    replace string    ${SrcListstr}    },{    }joyrunzzqtestspit{
 	@{SrcList}       Split String      ${SrcListstr}   joyrunzzqtestspit 	
 	:FOR  ${scrsingle}  IN   @{SrcList}  
-	\       ${filterfield1str}     Get Regexp Matches    ${scrsingle}    "${filterfield1}":([0-9]+),    1
+	\       ${filterfield1str}     Get Regexp Matches    ${scrsingle}    "${filterfield1}":([0-9]+)    1
 	\       ${filterfield1strlen}   evaluate  len(${filterfield1str})
-	\       ${field1Value}   Run Keyword If  ${filterfield1strlen}>0  get json value   ${scrsingle}   /${filterfield1}   ELSE  set variable  0
-	\       ${filterfield2str}     Get Regexp Matches    ${scrsingle}    "${filterfield2}":([0-9]+),    1
+	\       ${field1Value}   Run Keyword If  ${filterfield1strlen}>0   Get From List    ${filterfield1str}    0    ELSE  set variable  0
+	\       ${filterfield2str}     Get Regexp Matches    ${scrsingle}    "${filterfield2}":([0-9]+)    1
 	\       ${filterfield2strlen}   evaluate  len(${filterfield2str})
-	\       ${field2Value}   Run Keyword If  ${filterfield2strlen}>0  get json value   ${scrsingle}   /${filterfield2}   ELSE  set variable  0
-	\       ${filterfield3str}     Get Regexp Matches    ${scrsingle}    "${filterfield3}":([0-9]+),    1
+	\       ${field2Value}   Run Keyword If  ${filterfield2strlen}>0   Get From List    ${filterfield2str}    0   ELSE  set variable  0
+	\       ${filterfield3str}     Get Regexp Matches    ${scrsingle}    "${filterfield3}":([0-9]+)    1
 	\       ${filterfield3strlen}   evaluate  len(${filterfield3str})
-	\       ${field3Value}   Run Keyword If  ${filterfield3strlen}>0  get json value   ${scrsingle}   /${filterfield3}   ELSE  set variable  0
+	\       ${field3Value}   Run Keyword If  ${filterfield3strlen}>0   Get From List    ${filterfield3str}    0   ELSE  set variable  0
 	\		${ReturnfieldValue}   Run Keyword If   ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}   get json value	 ${scrsingle}   /${Returnfield}    ELSE   set variable   joyrunzzqtestspit
 	\		${ReturnValue}    Run Keyword If  "${ReturnValue}"<>"${EMPTY}"   set variable  ${ReturnValue},${ReturnfieldValue}   ELSE  set variable   ${ReturnfieldValue}
 	\		${ReturnValue}   replace string  ${ReturnValue}    ,joyrunzzqtestspit    ${EMPTY} 

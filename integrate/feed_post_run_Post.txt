@@ -32,8 +32,7 @@ feedpostrun_opinion
     #选择某些范围的跑步记录
     ${Runfids}    Run Keyword If    '${env}'=='Test'    UserRunList_Fid    2018    ${userName}    meter,1000,50000/lasttime,${timemin},${timemax}
     ...    fid
-    ...    ELSE    UserRunList_Fid    0    ${userName}    2018    ${userName}
-    ...    meter,5000,10000/lasttime,${timemin},${timemax}    fid
+    ...    ELSE    UserRunList_Fid    2018    ${userName}    meter,5000,10000/lasttime,${timemin},${timemax}    fid
     #去掉已发表过的动态跑步记录
     ${fids}    Removesting    ${Runfids}    ${unfids}    ,
     #随机选择一条跑步记录发动态
@@ -49,8 +48,7 @@ feedpostrun_assertClass
     [Documentation]    /feed/post/run发布跑步动态
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${time1}=    Get Time
-    ${memo}=    set variable    ${memo}--${time1}---
+    ${memo}    Textcontrl    time
     ${path}=    set variable    /feed/post/run
     ${maps}=    create dictionary
     set to dictionary    ${maps}    imgs=${imgs}

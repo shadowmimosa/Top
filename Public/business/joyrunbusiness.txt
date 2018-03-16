@@ -94,10 +94,6 @@ feedListBasicBulk_fids
 feedListBasicBulk_fid
     [Arguments]    ${fids}  ${userName}  ${findtext}    ${min}    ${max}
     [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回有跑步记录的fid；
-	@{findlist}   Split String    ${findtext}   / 
-	${findlistlen}  evaluate   len(${findlist})
-	${findlistone}   Run Keyword If   ${findlistlen}>1   Get From List  ${findlist}   0  ELSE  set variable   ${findtext}
-	${feed}  set variable   zzqrunjoyrun9527
     ${path}=    set variable    /feed/feedListBasicBulk
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fids=${fids}
@@ -105,22 +101,29 @@ feedListBasicBulk_fid
     ${feedListBasicBulkcontent}=    charconver    ${resp.content}
     log    ---输出返回内容----
     log json    ${feedListBasicBulkcontent}
+	@{findlist}   Split String    ${findtext}   / 
+	${findlistlen}  evaluate   len(${findlist})
+	${findlistone}   Run Keyword If   ${findlistlen}>1   Get From List  ${findlist}   0  ELSE  set variable   ${findtext}
+	${findlisttwo}   Run Keyword If   ${findlistlen}>1   Get From List  ${findlist}   1  ELSE  set variable   ${findtext}	
+	${feed}  set variable   zzqrunjoyrun9527
     ${feeddatas}    get json value    ${feedListBasicBulkcontent}    /datas
-    ${feeddatas}    charconver    ${feeddatas}
+	${feeddatas}    charconver    ${feeddatas}
     ${feeddatas}    replace string    ${feeddatas}    [{    {
     ${feeddatas}    replace string    ${feeddatas}    }]    }
     ${feeddatas}    replace string    ${feeddatas}    ${SPACE}    ${EMPTY}	
 	${feeddatas}    replace string    ${feeddatas}    },{    }joyrunzzqtestspit{
 	@{dataList}   Split String    ${feeddatas}   joyrunzzqtestspit 
 	:FOR  ${feeddata}   IN    @{dataList}  
-	\       log json      ${feeddata} 
-	\       ${findoneValue}     Get Regexp Matches    ${feeddata}    "${findlistone}":(.*),    1
+	\       log      ${feeddata} 
+	\       ${findoneValue}   Run Keyword If  ${findlistlen}>1  Get Regexp Matches    ${feeddata}    "${findlistone}":{(.*)}    1  ELSE   Get Regexp Matches    ${feeddata}    ("${findlistone}":.*),    1
 	\       ${findoneValuelen}   evaluate  len(${findoneValue})
-	\       ${findtxtvalue}   Run Keyword If  ${findoneValuelen}>0  get json value   ${feeddata}   /${findtext}   ELSE  set variable  0
-	\       ${findtextlist111}    Get Regexp Matches    ${feeddata}    meter":([0-9]+),    1
-	\       ${findtxtLen111}   evaluate    len(${findtextlist111})
+	\       ${findtxtvalue}   Run Keyword If  ${findoneValuelen}>0   Get From List    ${findoneValue}    0    ELSE  set variable  0
+	\       ${findtxtvalue}   evaluate  r'${findtxtvalue}'
+	\       ${findtwoValue}    Get Regexp Matches    ${findtxtvalue}    "${findlisttwo}":([0-9]+)    1
+	\       ${findtwoValuelen}   evaluate    len(${findtwoValue})
+	\		${findvalue}   Run Keyword If  ${findtwoValuelen}>0  Get From List    ${findtwoValue}    0   ELSE  set variable  0
 	\		${fidtext}     Get Regexp Matches    ${feeddata}    "fid":([0-9]+),    1    
-	\       ${feedfilter}   Run Keyword If  ${min}<=${findtxtvalue}<=${max}    Get From List    ${fidtext}    0   ELSE    set variable  zzqrunjoyrun9527
+	\       ${feedfilter}   Run Keyword If  ${min}<=${findvalue}<=${max}    Get From List    ${fidtext}    0   ELSE    set variable  zzqrunjoyrun9527
 	\		${feed}  Run Keyword If  "${feed}"<>"${EMPTY}"   set variable  ${feed},${feedfilter}   ELSE  set variable   ${feedfilter}
 	\		${feed}     replace string    ${feed}    zzqrunjoyrun9527,    ${EMPTY}
 	\		${feed}     replace string    ${feed}    ,zzqrunjoyrun9527    ${EMPTY}
@@ -284,7 +287,9 @@ UserRunList_Fid
 	
 Textcontrl
     [Arguments]   ${type}
-    [Documentation] 根据类型做不同的随机返回文本字符串；
+    [Documentation]   根据类型做不同的随机返回文本字符串；
+	Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
 	${yyyy}  ${mm}  ${dd}  ${hour}  ${min}  ${sec}    Get Time    year,month,day,hour,min,sec
-	${returntext}   Run Keyword If  '${type}'=='time'  and  '${mm}'=='01'  and  '${dd}'=='01'  randomchoice   新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日    /   ELSE   '${type}'=='time'   randomchoice    跑了脚知道/重要坚持   /
+	${returntext}   Run Keyword If  '${type}'=='time' and '${mm}'=='01' and '${dd}'=='01'  randomchoice   新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /   ELSE IF    '${type}'=='time' and '${dd}'=='01'   randomchoice  大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！  /  ELSE IF    '${type}'=='time'   randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/  /    ELSE   randomchoice  珍惜每一天！！/跑步打卡/     /
 	[Return]    ${returntext}
