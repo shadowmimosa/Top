@@ -19,6 +19,8 @@ feedpostrun_opinion
     [Documentation]    /feed/post/run发布跑步动态
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${memo1}    Textcontrl    time
+    ${topicName}    FourTopicList_TopicName    ${userName}
     ${time}=    Get Time    epoch
     log    time= ${time}
     ${dateline}=    convert to string    ${time}
@@ -30,14 +32,16 @@ feedpostrun_opinion
     #取出已发表过动态的跑步记录
     ${unfids}    FeedListv5_Fids    ${userName}
     #选择某些范围的跑步记录
-    ${Runfids}    Run Keyword If    '${env}'=='Test'    UserRunList_Fid    2018    ${userName}    meter,1000,50000/lasttime,${timemin},${timemax}
+    ${Runfids}    Run Keyword If    '${env}'=='Test'    UserRunList_Fid    2018    ${userName}    meter,1000,50000/lasttime,${timemin},${timemax}/fraud,0,0.5
     ...    fid
-    ...    ELSE    UserRunList_Fid    2018    ${userName}    meter,5000,10000/lasttime,${timemin},${timemax}    fid
+    ...    ELSE    UserRunList_Fid    2018    ${userName}    meter,5000,10000/lasttime,${timemin},${timemax}/fraud,0,0.5    fid
     #去掉已发表过的动态跑步记录
     ${fids}    Removesting    ${Runfids}    ${unfids}    ,
     #随机选择一条跑步记录发动态
     ${fid}    Run Keyword If    '${fids}'=='${EMPTY}'    set variable    0
     ...    ELSE    randomchoice    ${fids}    ,
+    ${memo}    Run Keyword If    '${env}'=='Test'    set variable
+    ...    ELSE    set variable    ${memo1}    #${topicName}#${memo1}
     Run Keyword If    ${fid}==0    log    =====用户：${userName}没有满足动态发布条件不发布======
     ...    ELSE    feedpostrun_assertClass    ${imgs}    ${fid}    ${postRunId}    ${city}
     ...    ${province}    ${memo}    ${userName}
@@ -48,7 +52,6 @@ feedpostrun_assertClass
     [Documentation]    /feed/post/run发布跑步动态
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${memo}    Textcontrl    time
     ${path}=    set variable    /feed/post/run
     ${maps}=    create dictionary
     set to dictionary    ${maps}    imgs=${imgs}

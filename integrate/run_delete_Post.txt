@@ -1,0 +1,69 @@
+*** Settings ***
+Documentation     /feed/post/run发布跑步动态
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    fid                postRunId
+Class_01              [Documentation]    /run/delete删除跑步记录
+                      [Tags]             Test                 Online
+                      [Template]         deleteRun_selete
+                      99043675           0
+
+*** Keywords ***
+deleteRun_selete
+    [Arguments]    ${fid}    ${postRunId}
+    [Documentation]    /run/delete删除跑步记录
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${time}=    Get Time    epoch
+    log    time= ${time}
+    ${timemin}    evaluate    int(${time})-86400
+    ${timemax}    evaluate    int(${time})
+    #判断环境随机选择用户
+    ${userName}    env_username_randomchoice    2a
+    ${env}    env_username_randomchoice    1
+    #选择作弊的跑步记录
+    ${Runfids}    UserRunList_Fid    2018    ${userName}    fraud,0.5,2/lasttime, ${timemin},${timemax}    fid
+    ${postRunIds}    UserRunList_Fid    2018    ${userName}    fraud,0.5,2/lasttime, ${timemin},${timemax}    postRunId
+    #选择第一条作弊跑步记录删除
+    @{Runfidslist}    Split String    ${Runfids}    ,
+    @{postRunIdslist}    Split String    ${postRunIds}    ,
+    ${Runfidslen}    Evaluate    len(${Runfidslist})
+    ${fid}    Run Keyword If    ${Runfidslen}>0    Get From List    ${Runfidslist}    0
+    ...    ELSE    set variable    0
+    ${postRunId}    Run Keyword If    ${Runfidslen}>0    Get From List    ${postRunIdslist}    0
+    ...    ELSE    set variable    0
+    Run Keyword If    ${postRunId}==0    log    =====用户：${userName}没有作弊数据 fid==${fid} ======
+    ...    ELSE    deleteRun    ${fid}    ${postRunId}    ${userName}
+
+deleteRun
+    [Arguments]    ${fid}    ${postRunId}    ${userName}
+    [Documentation]    /feed/post/run发布跑步动态
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /run/delete
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${maps}    postRunId=${postRunId}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"0"
+    log    ret 符合预期为"0"
+    ${ret}    get json value    ${content}    /ret
+    log    用户：${userName} 删除的跑步记录id:${fid}
+    log    ------------------------ It is OK!!!!-------------------------------------

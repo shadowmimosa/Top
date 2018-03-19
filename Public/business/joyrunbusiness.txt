@@ -51,7 +51,7 @@ arraystoarray
 
 Getrunrecodeinfo
     [Arguments]    ${fid}    ${wgs}    ${userName}
-    [Documentation]    Run/GetInfo.aspx某跑步记录数据详情
+    [Documentation]    Run/GetInfo.aspx某跑步记录数据详情,如跑步记录不存在则，请求fid=181392202
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /Run/GetInfo.aspx
@@ -65,35 +65,16 @@ Getrunrecodeinfo
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${Getrunrecodecontent}=    charconver    ${resp.content}
 	${respret}   get json value   ${Getrunrecodecontent}   /ret
-	${respruninfo}   Run Keyword If  "{respret}"=="404"   Getrunrecodeinfo  99043402  ${wgs}  ${userName}   ELSE  set variable  ${Getrunrecodecontent}
+	#${respruninfo}   Run Keyword If  ${respret}<>"0"   Getrunrecodeinfo  181392202  ${wgs}  ${userName}   ELSE  set variable  ${Getrunrecodecontent}
+	${respruninfo}   set variable   ${Getrunrecodecontent}
     log    ---输出返回内容----
     log json    ${respruninfo}
     [Return]    ${respruninfo}
 
-feedListBasicBulk_fids
-    [Arguments]    ${fids}    ${userName}
-    [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回有跑步记录的fid；
-    ${path}=    set variable    /feed/feedListBasicBulk
-    ${maps}=    create dictionary
-    set to dictionary    ${maps}    fids=${fids}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
-    ${feedListBasicBulkcontent}=    charconver    ${resp.content}
-    log    ---输出返回内容----
-    log json    ${feedListBasicBulkcontent}
-    ${feeddatas}    get json value    ${feedListBasicBulkcontent}    /datas
-    ${feeddatas}    charconver    ${feeddatas}
-    ${feeddatas}    replace string    ${feeddatas}    [{    {
-    ${feeddatas}    replace string    ${feeddatas}    ]}    }
-    ${feedabc}    Get Regexp Matches    ${feeddatas}    "run":(.*),    1
-    ${lens}=    evaluate    len(${feedabc})
-    ${feedabcd}    Get Regexp Matches    ${feeddatas}    "fid":(.*),${SPACE}"recommend"    1
-    ${basifid}    Run Keyword If    ${lens}>0    set variable    ${feedabcd[0]}
-    ...    ELSE    set variable    0
-    [Return]    ${basifid}
 	
 feedListBasicBulk_fid
     [Arguments]    ${fids}  ${userName}  ${findtext}    ${min}    ${max}
-    [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回有跑步记录的fid；
+    [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回批量符合条件的跑步记录的fid串；findtext为条件字段，min,max 为条件值的最小最大值 左闭右开区间,findtext 支持两层过滤，如找run下的meter可写成run/meter
     ${path}=    set variable    /feed/feedListBasicBulk
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fids=${fids}
@@ -135,7 +116,7 @@ feedListBasicBulk_fid
 
 getHotsFeedList_fids
     [Arguments]    ${page}    ${limit}    ${userName}
-    [Documentation]    getHotsFeedListt首页获取执门动态列表返回热度排名前列的fids
+    [Documentation]    getHotsFeedListt首页获取执门动态列表返回热度排名前列的fids串
     ${path}=    set variable    /newTopic/getHotsFeedList
     ${maps}=    create dictionary
     set to dictionary    ${maps}    page=${page}
@@ -191,10 +172,14 @@ FourTopicList_TopicName
     [Return]    ${topicName}	
 	
 TopicDetail_Fids
-    [Arguments]    ${topicName}  ${firstFeedDateline}    ${page}  ${type}    ${userName}
-    [Documentation]    /newTopic/topicDetail获取话题的跑步列表返回fids，type:1代表该话题的热门列表，type:2代表该话题的最新列表
+    [Arguments]    ${topicName}     ${page}   ${type}    ${userName}   ${timelen} 
+    [Documentation]    /newTopic/topicDetail获取话题的跑步列表返回fids串，type:1代表该话题的热门列表，type:2代表该话题的最新列表,timelen 表示多少时间内的记录秒为单位；
     log    ================topicName:${topicName}=============
 	Run Keyword If   ${type}==1  log    ================话题的热门列表=============   ELSE  log    ================话题的最新列表=============
+	${firstFeedDateline}  set variable   0
+	${time}=    Get Time    epoch
+    ${timemin}    evaluate    int(${time})-${timelen} 
+    ${timemax}    evaluate    int(${time})
     ${path}=    set variable    /newTopic/topicDetail
     ${maps}=    create dictionary
     set to dictionary    ${maps}    firstFeedDateline=${firstFeedDateline}
@@ -208,22 +193,10 @@ TopicDetail_Fids
     log json    ${TopicDetailcontent}	
 	${feedscount} =   Get Count   ${TopicDetailcontent}   "feeds":[]   
 	${TopicDetaildata}   Run Keyword If  ${feedscount}==0  get json value    ${TopicDetailcontent}    /data/feeds   ELSE   set variable   "fid":0
-	${TopicDetaildata}      replace string    ${TopicDetaildata}  [    ${EMPTY}
-	${TopicDetaildata}      replace string    ${TopicDetaildata}  ]    ${EMPTY}
-	${TopicDetaildata}      replace string    ${TopicDetaildata}  {    ${EMPTY}
-	${TopicDetaildata}      replace string    ${TopicDetaildata}  ${SPACE}    ${EMPTY}
-	@{FidList}   Split String    ${TopicDetaildata}    },
-	log  FidList[0]======${FidList[0]}
-	${fidsKeyspit}  set variable   约定跑
-	${fidLen}   evaluate     len(${FidList})
-	:FOR    ${fidindex}   IN RANGE  0  ${fidLen}    
-	\		${TopicDetailList}    	Get Regexp Matches      ${FidList[${fidindex}]}    "fid":(.*)     1
-	\		${fidsting}   Get From List    ${TopicDetailList}    0
-	\		${fidsKeyspit}   Run Keyword If   "${fidsKeyspit}"<>"${EMPTY}"    set variable    ${fidsKeyspit},${fidsting}  ELSE  set variable  ${fidsting}
-	${fidsKeyspit}   replace string    ${fidsKeyspit}    约定跑,    ${EMPTY}
-	${fidsKeyspit}      replace string    ${fidsKeyspit}  }    ${EMPTY}
-	${Fids}  convert to string   ${fidsKeyspit} 	
-	Run Keyword If   '${Fids}'=='0'     log  ================该话题type:${type}列表没有跑步记录=============   ELSE  log    ===返回====${fidLen}个======fid======
+    ${Fids}   FilterList   ${TopicDetaildata}  dateline,${timemin},${timemax}     fid
+	${fidlen}   Run Keyword If   '${Fids}'<>'0'   Get Count   ${Fids}   ,  ELSE  set variable  -1
+	${fidnum}    evaluate    int(${fidlen})+1
+	Run Keyword If   '${Fids}'=='0'     log  ================该话题type:${type}列表没有跑步记录=============   ELSE  log    ===返回====${fidnum}个======fid======
     [Return]    ${Fids}	
 
 	
@@ -250,7 +223,7 @@ FeedListv5_Fids
 	${CountLen}   evaluate    len(${feeddatasList})
 	:FOR  ${index}   IN RANGE  0  ${CountLen}
     \       ${feedabc}     Get From List    ${feeddatasList}    ${index}	
-	\		${feedabcd}    Get Regexp Matches    ${feedabc}    "fid":([0-9]+),    1   
+	\		${feedabcd}    Get Regexp Matches    ${feedabc}    "fid":([0-9]+)    1   
     \       ${feedlen}	  evaluate    len(${feedabcd})
 	\       ${feeds}   Run Keyword If   ${feedlen}>=1    Get From List    ${feedabcd}    0    ELSE   set variable   zzqrunjoyrun9527
 	\		${feed}    Run Keyword If  "${feed}"<>"${EMPTY}"   set variable  ${feed},${feeds}   ELSE  set variable   ${feeds}
@@ -292,5 +265,5 @@ Textcontrl
 	Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
 	${yyyy}  ${mm}  ${dd}  ${hour}  ${min}  ${sec}    Get Time    year,month,day,hour,min,sec
-	${returntext}   Run Keyword If  '${type}'=='time' and '${mm}'=='01' and '${dd}'=='01'  randomchoice   新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /   ELSE IF    '${type}'=='time' and '${dd}'=='01'   randomchoice  大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！  /  ELSE IF    '${type}'=='time'   randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/  /    ELSE   randomchoice  珍惜每一天！！/跑步打卡/     /
+	${returntext}   Run Keyword If  '${type}'=='time' and '${mm}'=='01' and '${dd}'=='01'  randomchoice   新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /   ELSE IF    '${type}'=='time' and '${dd}'=='01'   randomchoice  大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！  /  ELSE IF    '${type}'=='time'   randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/再小的坚持X365都会很可观/跑步就是最好的放松/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/  /    ELSE   randomchoice  珍惜每一天！！/跑步打卡/     /
 	[Return]    ${returntext}

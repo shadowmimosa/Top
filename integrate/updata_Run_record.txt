@@ -25,7 +25,10 @@ RunRecord_opinion
     #从4个热门话题中随机选择一个热门话题
     ${topicName}    FourTopicList_TopicName    ${userName}
     #从热门话题中，选择当前第1页最新的动态
-    ${srcfids}    TopicDetail_Fids    ${topicName}    0    1    2    ${userName}
+    ${srcfids}    Run Keyword If    '${env}'=='Test'    TopicDetail_Fids    ${topicName}    1    2
+    ...    ${userName}    8640000
+    ...    ELSE    TopicDetail_Fids    ${topicName}    1    2    ${userName}
+    ...    7200
     #从传入的动态中选出符合条件的跑步记录运态
     ${fids}    Run Keyword If    "${srcfids}"=="0"    set variable    0
     ...    ELSE IF    '${env}'=='Test'    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter
@@ -36,7 +39,7 @@ RunRecord_opinion
     ...    ELSE    randomchoice    ${fids}    ,
     ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
     ${ret}=    get json value    ${src}    /ret
-    Run Keyword If    '${ret}'=='"0"'    RuningRecord    ${src}    ${courseid}    ${nomoment}    ${private}
+    Run Keyword If    ${ret}=="0"    RuningRecord    ${src}    ${courseid}    ${nomoment}    ${private}
     ...    ${wgs}    ${userName}    ${topicName}
     ...    ELSE    log    =====环境：${env};用户：${userName} ===姿势不好不跑了！！！======
 
