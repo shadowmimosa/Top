@@ -265,5 +265,5 @@ Textcontrl
 	Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
 	${yyyy}  ${mm}  ${dd}  ${hour}  ${min}  ${sec}    Get Time    year,month,day,hour,min,sec
-	${returntext}   Run Keyword If  '${type}'=='time' and '${mm}'=='01' and '${dd}'=='01'  randomchoice   新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /   ELSE IF    '${type}'=='time' and '${dd}'=='01'   randomchoice  大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！  /  ELSE IF    '${type}'=='time'   randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/再小的坚持X365都会很可观/跑步就是最好的放松/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/  /    ELSE   randomchoice  珍惜每一天！！/跑步打卡/     /
+	${returntext}   Run Keyword If  '${type}'=='time' and '${mm}'=='01' and '${dd}'=='01'  randomchoice   新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /   ELSE IF    '${type}'=='time' and '${dd}'=='01'   randomchoice  大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！  /  ELSE IF    '${type}'=='time'   randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/再小的坚持X365都会很可观/跑步就是最好的放松/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/小跑怡情/跑跑更健康/joyrun Go!/  /    ELSE   randomchoice  珍惜每一天！！/跑步打卡/     /
 	[Return]    ${returntext}

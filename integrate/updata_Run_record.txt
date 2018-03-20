@@ -34,7 +34,7 @@ RunRecord_opinion
     ...    ELSE IF    '${env}'=='Test'    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter
     ...    2000    25000
     ...    ELSE    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter    5000
-    ...    22000
+    ...    12000
     ${fid}    Run Keyword If    "${fids}"=="0"    set variable    0
     ...    ELSE    randomchoice    ${fids}    ,
     ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
@@ -84,9 +84,9 @@ RuningRecord
     ${ismatchcompleted}    set variable    0
     ${matchid}    set variable    0
     ${ismatchcompleted}    set variable    0
-    ${province}    Replace String    ${province}    \    ${EMPTY}
+    ${province}    Replace String    ${province}    \\    ${EMPTY}
     ${province}    Replace String    ${province}    "    ${EMPTY}
-    ${city}    Replace String    ${city}    \    ${EMPTY}
+    ${city}    Replace String    ${city}    \\    ${EMPTY}
     ${city}    Replace String    ${city}    "    ${EMPTY}
     #对int类型参数处理
     ${dateline}=    convert to string    ${dateline}

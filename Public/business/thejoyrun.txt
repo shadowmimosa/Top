@@ -8,90 +8,96 @@ Library           ../Lib/tools_library.py
 Resource          ../Public/cookie_operation.txt
 Resource          ../Public/http_request.txt
 
-
 *** Variables ***
-${password}       67889911     #可以放置一些公共参数；
+${password}       67889911    #可以放置一些公共参数；
 
 *** Keywords ***
 Removesting
-    [Arguments]   ${srcstring}   ${movestr}  ${spitsting}
-	[Documentation]  从源字符串中删除某些字符串，如：123,abc,1234,444,eee  中删除abc,eee 两个字符串的分割符需要一致，${srcstring} 源字符串，${movestr}为需要删除的字符串， ${spitsting} 为两个字符串的分割符；
-	log    原字符串${srcstring}
-	log    需要移除${movestr}
-	log    分割符${spitsting}
-    @{moveList}   Split String    ${movestr}    ${spitsting}
-	${movestrlen}  evaluate  len(${moveList})
-	:FOR   ${movesting}  IN   @{moveList}
-	\		${srcstring}  replace string   ${srcstring}  ${spitsting}${spitsting}  ${spitsting}	
-	\		${srcstring}=    Remove String   ${srcstring}  ${movesting}${spitsting}
-	\		${srcstring}=    Remove String   ${srcstring}  ${spitsting}${movesting}	
-	\		${srcstring}=    Remove String   ${srcstring}  ${movesting}		
-	\		${srcstring}  replace string   ${srcstring}  ${spitsting}${spitsting}  ${spitsting}	
-	${restr}   Run Keyword If  '${srcstring}'=='${spitsting}'  set variable  ${EMPTY}  ELSE   set variable  ${srcstring}
-	[Return]    ${restr}
+    [Arguments]    ${srcstring}    ${movestr}    ${spitsting}
+    [Documentation]    从源字符串中删除某些字符串，如：123,abc,1234,444,eee 中删除abc,eee 两个字符串的分割符需要一致，${srcstring} 源字符串，${movestr}为需要删除的字符串， ${spitsting} 为两个字符串的分割符；
+    log    原字符串${srcstring}
+    log    需要移除${movestr}
+    log    分割符${spitsting}
+    @{moveList}    Split String    ${movestr}    ${spitsting}
+    ${movestrlen}    evaluate    len(${moveList})
+    : FOR    ${movesting}    IN    @{moveList}
+    \    ${srcstring}    replace string    ${srcstring}    ${spitsting}${spitsting}    ${spitsting}
+    \    ${srcstring}=    Remove String    ${srcstring}    ${movesting}${spitsting}
+    \    ${srcstring}=    Remove String    ${srcstring}    ${spitsting}${movesting}
+    \    ${srcstring}=    Remove String    ${srcstring}    ${movesting}
+    \    ${srcstring}    replace string    ${srcstring}    ${spitsting}${spitsting}    ${spitsting}
+    ${restr}    Run Keyword If    '${srcstring}'=='${spitsting}'    set variable    ${EMPTY}
+    ...    ELSE    set variable    ${srcstring}
+    [Return]    ${restr}
 
 FilterList
-    [Arguments]   ${SrcListstr}    ${filters}   ${Returnfield} 
-	[Documentation]  支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；；SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔)；Returnfield为返回值串的字符；例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
-	log    原字符串${SrcListstr}
-	log    筛选条件${filters}
-	log    返回值串的字段:--${Returnfield}--
-	${ReturnValue}  set variable   joyrunzzqtestspit
-	@{filterList}    Split String    ${filters}    /
-    ${filterLen}	evaluate  len(${filterList})
-	${filterstr1}   Get From List    ${filterList}    0  
-	${filterstr2}     Run Keyword If  ${filterLen}>1   Get From List    ${filterList}    1   ELSE   Get From List    ${filterList}    0
-	${filterstr3}     Run Keyword If  ${filterLen}>2   Get From List    ${filterList}    2   ELSE   Get From List    ${filterList}    0	
-	@{filterstrList1}   Split String    ${filterstr1}    ,
-	@{filterstrList2}   Split String    ${filterstr2}    ,
-	@{filterstrList3}   Split String    ${filterstr3}    ,	
-	${filterfield1}   Get From List   ${filterstrList1}   0
-	${filterfield2}   Get From List   ${filterstrList2}   0
-	${filterfield3}   Get From List   ${filterstrList3}   0	
-	${filterfield1min}   Get From List   ${filterstrList1}   1
-	${filterfield2min}   Get From List   ${filterstrList2}   1
-	${filterfield3min}   Get From List   ${filterstrList3}   1		
-	${filterfield1max}   Get From List   ${filterstrList1}   2
-	${filterfield2max}   Get From List   ${filterstrList2}   2
-	${filterfield3max}   Get From List   ${filterstrList3}   2		
+    [Arguments]    ${SrcListstr}    ${filters}    ${Returnfield}
+    [Documentation]    支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；；SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔)；Returnfield为返回值串的字符；例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
+    log    原字符串${SrcListstr}
+    log    筛选条件${filters}
+    log    返回值串的字段${Returnfield}
+    ${ReturnValue}    set variable    joyrunzzqtestspit
+    @{filterList}    Split String    ${filters}    /
+    ${filterLen}    evaluate    len(${filterList})
+    ${filterstr1}    Get From List    ${filterList}    0
+    ${filterstr2}    Run Keyword If    ${filterLen}>1    Get From List    ${filterList}    1
+    ...    ELSE    Get From List    ${filterList}    0
+    ${filterstr3}    Run Keyword If    ${filterLen}>2    Get From List    ${filterList}    2
+    ...    ELSE    Get From List    ${filterList}    0
+    @{filterstrList1}    Split String    ${filterstr1}    ,
+    @{filterstrList2}    Split String    ${filterstr2}    ,
+    @{filterstrList3}    Split String    ${filterstr3}    ,
+    ${filterfield1}    Get From List    ${filterstrList1}    0
+    ${filterfield2}    Get From List    ${filterstrList2}    0
+    ${filterfield3}    Get From List    ${filterstrList3}    0
+    ${filterfield1min}    Get From List    ${filterstrList1}    1
+    ${filterfield2min}    Get From List    ${filterstrList2}    1
+    ${filterfield3min}    Get From List    ${filterstrList3}    1
+    ${filterfield1max}    Get From List    ${filterstrList1}    2
+    ${filterfield2max}    Get From List    ${filterstrList2}    2
+    ${filterfield3max}    Get From List    ${filterstrList3}    2
     ${SrcListstr}    replace string    ${SrcListstr}    [{    {
     ${SrcListstr}    replace string    ${SrcListstr}    }]    }
-    ${SrcListstr}    replace string    ${SrcListstr}    ${SPACE}    ${EMPTY}	
-	${SrcListstr}    replace string    ${SrcListstr}    },{    }joyrunzzqtestspit{
-	@{SrcList}       Split String      ${SrcListstr}   joyrunzzqtestspit 	
-	:FOR  ${scrsingle}  IN   @{SrcList}  
-	\       ${filterfield1str}     Get Regexp Matches    ${scrsingle}    "${filterfield1}":([0-9]+)    1
-	\       ${filterfield1strlen}   evaluate  len(${filterfield1str})
-	\       ${field1Value}   Run Keyword If  ${filterfield1strlen}>0   Get From List    ${filterfield1str}    0    ELSE  set variable  0
-	\       ${filterfield2str}     Get Regexp Matches    ${scrsingle}    "${filterfield2}":([0-9]+)    1
-	\       ${filterfield2strlen}   evaluate  len(${filterfield2str})
-	\       ${field2Value}   Run Keyword If  ${filterfield2strlen}>0   Get From List    ${filterfield2str}    0   ELSE  set variable  0
-	\       ${filterfield3str}     Get Regexp Matches    ${scrsingle}    "${filterfield3}":([0-9]+)    1
-	\       ${filterfield3strlen}   evaluate  len(${filterfield3str})
-	\       ${field3Value}   Run Keyword If  ${filterfield3strlen}>0   Get From List    ${filterfield3str}    0   ELSE  set variable  0
-	\       ${Returnfieldstr}     Get Regexp Matches    ${scrsingle}    "${Returnfield}":([0-9]+)    1
-	\       ${Returnfieldstrlen}   evaluate  len(${Returnfieldstr})
-	\		${ReturnfieldValue}   Run Keyword If   ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max} and ${Returnfieldstrlen}>0   Get From List    ${Returnfieldstr}    0    ELSE   set variable   joyrunzzqtestspit
-	\		${ReturnValue}    Run Keyword If  "${ReturnValue}"<>"${EMPTY}"   set variable  ${ReturnValue},${ReturnfieldValue}   ELSE  set variable   ${ReturnfieldValue}
-	\		${ReturnValue}   replace string  ${ReturnValue}    ,joyrunzzqtestspit    ${EMPTY} 
-	\		${ReturnValue}   replace string  ${ReturnValue}    joyrunzzqtestspit,    ${EMPTY} 
-	\		${ReturnValue}   replace string  ${ReturnValue}    joyrunzzqtestspit     ${EMPTY}
- 	${ReturnValuesting}	  Run Keyword If  "${ReturnValue}"<>"${EMPTY}"   set variable    ${ReturnValue}     ELSE  set variable  0
-	[Return]    ${ReturnValuesting}	
+    ${SrcListstr}    replace string    ${SrcListstr}    ${SPACE}    ${EMPTY}
+    ${SrcListstr}    replace string    ${SrcListstr}    },{    }joyrunzzqtestspit{
+    @{SrcList}    Split String    ${SrcListstr}    joyrunzzqtestspit
+    : FOR    ${scrsingle}    IN    @{SrcList}
+    \    ${filterfield1str}    Get Regexp Matches    ${scrsingle}    "${filterfield1}":([0-9]+)    1
+    \    ${filterfield1strlen}    evaluate    len(${filterfield1str})
+    \    ${field1Value}    Run Keyword If    ${filterfield1strlen}>0    Get From List    ${filterfield1str}    0
+    \    ...    ELSE    set variable    0
+    \    ${filterfield2str}    Get Regexp Matches    ${scrsingle}    "${filterfield2}":([0-9]+)    1
+    \    ${filterfield2strlen}    evaluate    len(${filterfield2str})
+    \    ${field2Value}    Run Keyword If    ${filterfield2strlen}>0    Get From List    ${filterfield2str}    0
+    \    ...    ELSE    set variable    0
+    \    ${filterfield3str}    Get Regexp Matches    ${scrsingle}    "${filterfield3}":([0-9]+)    1
+    \    ${filterfield3strlen}    evaluate    len(${filterfield3str})
+    \    ${field3Value}    Run Keyword If    ${filterfield3strlen}>0    Get From List    ${filterfield3str}    0
+    \    ...    ELSE    set variable    0
+    \    ${ReturnfieldValue}    Run Keyword If    ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}    get json value    ${scrsingle}    /${Returnfield}
+    \    ...    ELSE    set variable    joyrunzzqtestspit
+    \    ${ReturnValue}    Run Keyword If    "${ReturnValue}"<>"${EMPTY}"    set variable    ${ReturnValue},${ReturnfieldValue}
+    \    ...    ELSE    set variable    ${ReturnfieldValue}
+    \    ${ReturnValue}    replace string    ${ReturnValue}    ,joyrunzzqtestspit    ${EMPTY}
+    \    ${ReturnValue}    replace string    ${ReturnValue}    joyrunzzqtestspit,    ${EMPTY}
+    \    ${ReturnValue}    replace string    ${ReturnValue}    joyrunzzqtestspit    ${EMPTY}
+    ${ReturnValuesting}    Run Keyword If    "${ReturnValue}"<>"${EMPTY}"    set variable    ${ReturnValue}
+    ...    ELSE    set variable    0
+    [Return]    ${ReturnValuesting}
 
 Getsting
-    [Arguments]   ${string}   ${str} 
-	[Documentation]  将字典类型的字符串取出相应key的值,比如字符串{"source": "", "second": 311, "meter": 1017}中取出meter的值
-	${intstart}     evaluate   ${string}[${str}]  
-	[Return]    ${intstart}
+    [Arguments]    ${string}    ${str}
+    [Documentation]    将字典类型的字符串取出相应key的值,比如字符串{"source": "", "second": 311, "meter": 1017}中取出meter的值
+    ${intstart}    evaluate    ${string}[${str}]
+    [Return]    ${intstart}
 
 randomchoice
     [Arguments]    ${str}    ${spitstr}
-	[Documentation]  将字符串分割后随机返回   abcdef;12;aaaa;123ewq;ddd   以;分割随机返回${str}为源字符串，${spitstr}为源字符串中的分割符；
+    [Documentation]    将字符串分割后随机返回 abcdef;12;aaaa;123ewq;ddd 以;分割随机返回${str}为源字符串，${spitstr}为源字符串中的分割符；
     @{list}=    Split String    ${str}    ${spitstr}
-	${stinglen}   evaluate    len(${list})
-	${strReturn}     evaluate    random.choice(${list})   random
-	log   ======共${stinglen}数据，随机选中：${strReturn}========
+    ${stinglen}    evaluate    len(${list})
+    ${strReturn}    evaluate    random.choice(${list})    random
+    log    ======共${stinglen}数据，随机选中：${strReturn}========
     [Return]    ${strReturn}
 
 stringtolist
@@ -102,42 +108,42 @@ stringtolist
     ${list}=    replace string    ${list}    "    ${EMPTY}
     @{list}=    Split String    ${list}    ,
     [Return]    @{list}
-	
+
 format listtostring
     [Arguments]    @{list}
-	[Documentation]  将List变量(List的单个值是字典)按顺序串联成字符串，例如变量值[(u'a', u'123'),(u'b', u'456')]换成a123b456,
-	${listtostring}=  set variable    ${EMPTY}
-	${len}=            evaluate     len(${sign_dict_tolist})
-	:FOR    ${index}   IN RANGE     ${len}
-    \       ${string}     evaluate      "".join(${list[${index}]}) 
-	\		${listtostring} =   set variable  ${listtostring}${string}
-    [Return]    ${listtostring}	
-	
+    [Documentation]    将List变量(List的单个值是字典)按顺序串联成字符串，例如变量值[(u'a', u'123'),(u'b', u'456')]换成a123b456,
+    ${listtostring}=    set variable    ${EMPTY}
+    ${len}=    evaluate    len(${sign_dict_tolist})
+    : FOR    ${index}    IN RANGE    ${len}
+    \    ${string}    evaluate    "".join(${list[${index}]})
+    \    ${listtostring} =    set variable    ${listtostring}${string}
+    [Return]    ${listtostring}
+
 arraytostring
     [Arguments]    ${array}
-	[Documentation]  将字符类型改为数组类型，例如变量值"[a,b c]" 换成[a,b,c]
-	${list}=    evaluate  "".join(${array})
-    [Return]    ${list}		
-	
-listtolist	
-	[Arguments]    ${a}  ${b} 
-	[Documentation]  将字符类型改为数组类型[aa,bb]  与[cc,dd]  合并成[aa,bb,cc,dd] ,${a}  ${b}为list类型变量@{a}@{b}
-	log   =====合并数组listtolist=========
-	${lena}=      evaluate     len(${a})
-	${lenb}=      evaluate     len(${b})
-	${listasting}=  set variable    abcdefg19527egthejoyrun9898
-	${listbsting}=  set variable    abcdefg19527egthejoyrun9898
-    :FOR    ${indexa}   IN RANGE  0   ${lena}  
-    \       ${lista1}     set variable   ${a[${indexa}]}	
-	\       ${listasting}=  set variable  ${listasting},${lista1}
-    :FOR    ${indexb}   IN RANGE  0   ${lenb}  
-    \       ${listb1}    set variable   ${b[${indexb}]}	 	
-	\       ${listbsting}=  set variable  ${listbsting},${listb1}	
-    ${abstring}  set variable   ${listasting},${listbsting}
+    [Documentation]    将字符类型改为数组类型，例如变量值"[a,b c]" 换成[a,b,c]
+    ${list}=    evaluate    "".join(${array})
+    [Return]    ${list}
+
+listtolist
+    [Arguments]    ${a}    ${b}
+    [Documentation]    将字符类型改为数组类型[aa,bb] 与[cc,dd] 合并成[aa,bb,cc,dd] ,${a} ${b}为list类型变量@{a}@{b}
+    log    =====合并数组listtolist=========
+    ${lena}=    evaluate    len(${a})
+    ${lenb}=    evaluate    len(${b})
+    ${listasting}=    set variable    abcdefg19527egthejoyrun9898
+    ${listbsting}=    set variable    abcdefg19527egthejoyrun9898
+    : FOR    ${indexa}    IN RANGE    0    ${lena}
+    \    ${lista1}    set variable    ${a[${indexa}]}
+    \    ${listasting}=    set variable    ${listasting},${lista1}
+    : FOR    ${indexb}    IN RANGE    0    ${lenb}
+    \    ${listb1}    set variable    ${b[${indexb}]}
+    \    ${listbsting}=    set variable    ${listbsting},${listb1}
+    ${abstring}    set variable    ${listasting},${listbsting}
     ${abstring}=    replace string    ${abstring}    abcdefg19527egthejoyrun9898,    ${EMPTY}
-	${abstring}  set variable   [${abstring}]
-	[Return]  ${abstring}
-	
+    ${abstring}    set variable    [${abstring}]
+    [Return]    ${abstring}
+
 countbyitem
     [Arguments]    ${content}    ${item}    ${attribute}
     [Documentation]    检查每个分类返回的数据个数
@@ -148,82 +154,82 @@ countbyitem
     [Return]    ${count}
 
 thejoyrun_postd
-    [Arguments]    ${path}    ${maps}   ${userName}   ${Base_URL}  
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
     [Documentation]    *post请求data方式关键字*
     ...
-    ...    参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）； 
+    ...    参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
     #从字典里取出相应key的值
-    ${uid}=  Get From Dictionary   ${heards}   uid
-    ${sid}=  Get From Dictionary   ${heards}    sid
-    ${timestamp}=  Get From Dictionary   ${heards}    timestamp
-    ${ypcookie}=  Get From Dictionary   ${heards}    ypcookie
-    ${heards_dict}=    create dictionary   ypcookie=${ypcookie} 
-	##将ypcookie转为url编码
-    ${ypcookie1}=     urlencode	    ${ypcookie}	
-    ${cookies}=    create dictionary     
+    ${uid}=    Get From Dictionary    ${heards}    uid
+    ${sid}=    Get From Dictionary    ${heards}    sid
+    ${timestamp}=    Get From Dictionary    ${heards}    timestamp
+    ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
+    ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
+    ##将ypcookie转为url编码
+    ${ypcookie1}=    urlencode    ${ypcookie}
+    ${cookies}=    create dictionary
     set to dictionary    ${cookies}    ypcookie=${ypcookie1}
-    set to dictionary    ${cookies}    app_version=${appversion}    
-    #log  uid ===${uid}
-    #log  sid ===${sid}  
-    #log  heards_dict ===${heards_dict}      
-    ${URL}=    set variable    ${Base_URL}  
-    ${sign_dict}=    create dictionary    timestamp=${timestamp}      
-    ${post_dict}=    create dictionary    timestamp=${timestamp} 
+    set to dictionary    ${cookies}    app_version=${appversion}
+    #log    uid ===${uid}
+    #log    sid ===${sid}
+    #log    heards_dict ===${heards_dict}
+    ${URL}=    set variable    ${Base_URL}
+    ${sign_dict}=    create dictionary    timestamp=${timestamp}
+    ${post_dict}=    create dictionary    timestamp=${timestamp}
     @{mapstolist_sign}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist_sign}
-    \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}       
+    \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}
     @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     #排序及格式处理
-	#log    参数编码前：${sign_dict}
-	#${signparam}    Evaluate    urllib.urlencode(${sign_dict})    urllib
+    #log    参数编码前：${sign_dict}
+    #${signparam}    Evaluate    urllib.urlencode(${sign_dict})    urllib
     #log    参数编码后：${signparam}
     ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.iteritems())
-	${len}=            evaluate     len(${sign_dict_tolist})
-	${signparam} =  set variable  ${EMPTY}
-    :FOR    ${index}   IN RANGE   0   ${len}  
-    \     ${signparamsting} =     evaluate     "".join(${sign_dict_tolist[${index}]})
-	\	  ${signparam} =  set variable  ${signparam}${signparamsting}
+    ${len}=    evaluate    len(${sign_dict_tolist})
+    ${signparam} =    set variable    ${EMPTY}
+    : FOR    ${index}    IN RANGE    0    ${len}
+    \    ${signparamsting} =    evaluate    "".join(${sign_dict_tolist[${index}]})
+    \    ${signparam} =    set variable    ${signparam}${signparamsting}
     #${signparam}=    convert to string    ${sign_dict_tolist}
     #${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
     #${signparam}=    Replace String    ${signparam}    u'    '
-    #${signparam}=    Replace String    ${signparam}    ', '  ${EMPTY}
+    #${signparam}=    Replace String    ${signparam}    ', '    ${EMPTY}
     #${signparam}=    Replace String    ${signparam}    ('    ${EMPTY}
     #${signparam}=    Replace String    ${signparam}    ')    ${EMPTY}
-    #${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}    
+    #${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}
     #${signparam}=    Replace String    ${signparam}    ]    ${EMPTY}
     #${signparam}=    Evaluate    '${signparam}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     log    signparam=======${signparam}
     #排序及格式处理
-	#@{keylist1}   Create List   ${signparam} ${appkey1} ${uid} ${sid}
-	#@{keylist2}   Create List   ${signparam} ${appkey2} ${uid} ${sid}
-    ${signkey1}     set variable    ${signparam}${appkey1}${uid}${sid} 
-    ${signkey2}     set variable    ${signparam}${appkey2}${uid}${sid} 
-    #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}  
-    #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY} 
-    #${signkey3}=    evaluate     "".join(list(${keylist1})) 
-    #${signkey4}=    evaluate     "".join(list(${keylist2}))
-    log         signkey1=====${signkey1}
-    log         signkey2=====${signkey2}
+    #@{keylist1}    Create List    ${signparam} ${appkey1} ${uid} ${sid}
+    #@{keylist2}    Create List    ${signparam} ${appkey2} ${uid} ${sid}
+    ${signkey1}    set variable    ${signparam}${appkey1}${uid}${sid}
+    ${signkey2}    set variable    ${signparam}${appkey2}${uid}${sid}
+    #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}
+    #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY}
+    #${signkey3}=    evaluate    "".join(list(${keylist1}))
+    #${signkey4}=    evaluate    "".join(list(${keylist2}))
+    log    signkey1=====${signkey1}
+    log    signkey2=====${signkey2}
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
-    ${sign2}=    encrypt    ${signkey2}    md5    32    
-    #通用签名   
+    ${sign2}=    encrypt    ${signkey2}    md5    32
+    #通用签名
     #${sign}=    set variable    a9ff6970eb814e6894389ca8b12f3030
-    ${_sign} =  Convert To Uppercase   ${sign1}
-    ${signature} =  Convert To Uppercase   ${sign2}
-    set to dictionary    ${heards_dict}    _sign=${_sign}   
-    set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}  
-    set to dictionary    ${heards_dict}    Content-Type=${ContentType}   
-    set to dictionary    ${heards_dict}    User-Agent=${UserAgent} 
+    ${_sign} =    Convert To Uppercase    ${sign1}
+    ${signature} =    Convert To Uppercase    ${sign2}
+    set to dictionary    ${heards_dict}    _sign=${_sign}
+    set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
+    set to dictionary    ${heards_dict}    Content-Type=${ContentType}
+    set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
     set to dictionary    ${heards_dict}    APP_DEV_INFO=${APPDEVINFO}
-    set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION} 
-    set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}               
-    #log    _sign====${_sign} 
-    #log    signature====${signature} 
+    set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION}
+    set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}
+    #log    _sign====${_sign}
+    #log    signature====${signature}
     set to dictionary    ${post_dict}    signature=${signature}
     ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
     log    参数编码前：${post_dict}
@@ -238,39 +244,40 @@ thejoyrun_postd
     #${post_param}=    Replace String    ${post_param}    ,${SPACE}    &
     #${post_param}=    Replace String    ${post_param}    ]    ${EMPTY}
     #${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
-    Create Session    run   ${URL}     headers=${heards_dict}   cookies=${cookies}
-    ${resp}=   Post Request    run    uri=${path}     data=${post_param}           
+    Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
+    ${resp}=    Post Request    run    uri=${path}    data=${post_param}
     [Return]    ${resp}
 
 thejoyrun_postp
-    [Arguments]    ${path}    ${maps}   ${userName}   ${Base_URL}  
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
     [Documentation]    *joyrun中post请求URL方式关键字*
     ...
     ...    参数以data方法提交，在出现Url中，也在body中带公共参数（signature、timestamp）；
     #${version}=    Run Keyword If    ${app_version}!=None    set variable    ${app_version}
-    #...    ELSE    set variable    ${acshow_version} 
+    #...
+    ...    # ELSE    set variable    ${acshow_version}
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
     #从字典里取出相应key的值
-    ${uid}=  Get From Dictionary   ${heards}   uid
-    ${sid}=  Get From Dictionary   ${heards}    sid
-    ${timestamp}=  Get From Dictionary   ${heards}    timestamp
-    ${ypcookie}=  Get From Dictionary   ${heards}    ypcookie
-    ${heards_dict}=    create dictionary   ypcookie=${ypcookie}  
-	##将ypcookie转为url编码
-    ${ypcookie1}=     urlencode	    ${ypcookie}	
-    ${cookies}=    create dictionary     
+    ${uid}=    Get From Dictionary    ${heards}    uid
+    ${sid}=    Get From Dictionary    ${heards}    sid
+    ${timestamp}=    Get From Dictionary    ${heards}    timestamp
+    ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
+    ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
+    ##将ypcookie转为url编码
+    ${ypcookie1}=    urlencode    ${ypcookie}
+    ${cookies}=    create dictionary
     set to dictionary    ${cookies}    ypcookie=${ypcookie1}
-    set to dictionary    ${cookies}    app_version=${appversion}     
-    log  uid ===${uid}
-    log  sid ===${sid}  
-    log  heards_dict ===${heards_dict}      
-    ${URL}=    set variable    ${Base_URL}  
-    ${sign_dict}=    create dictionary    timestamp=${timestamp}      
-    ${post_dict}=    create dictionary    timestamp=${timestamp} 
+    set to dictionary    ${cookies}    app_version=${appversion}
+    log    uid ===${uid}
+    log    sid ===${sid}
+    log    heards_dict ===${heards_dict}
+    ${URL}=    set variable    ${Base_URL}
+    ${sign_dict}=    create dictionary    timestamp=${timestamp}
+    ${post_dict}=    create dictionary    timestamp=${timestamp}
     @{mapstolist_sign}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist_sign}
-    \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}       
+    \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}
     @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
@@ -279,38 +286,38 @@ thejoyrun_postp
     ${signparam}=    convert to string    ${sign_dict_tolist}
     ${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    u'    '
-    ${signparam}=    Replace String    ${signparam}    ', '  ${EMPTY}
+    ${signparam}=    Replace String    ${signparam}    ', '    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    ('    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    ')    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}    
+    ${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    ]    ${EMPTY}
-    #${signparam}=    Replace String    ${signparam}    &    ${EMPTY} 
+    #${signparam}=    Replace String    ${signparam}    &    ${EMPTY}
     ${signparam}=    Evaluate    '${signparam}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     #log    ${signparam}
     #排序及格式处理
     log    signparam===${signparam}
-    ${signkey1}=     set variable    ${signparam}${appkey1}${uid}${sid} 
-    ${signkey2}=     set variable    ${signparam}${appkey2}${uid}${sid} 
-    #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}  
-    #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY} 
-    log         signkey1=====${signkey1}
-    log         signkey2=====${signkey2}
+    ${signkey1}=    set variable    ${signparam}${appkey1}${uid}${sid}
+    ${signkey2}=    set variable    ${signparam}${appkey2}${uid}${sid}
+    #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}
+    #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY}
+    log    signkey1=====${signkey1}
+    log    signkey2=====${signkey2}
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
-    ${sign2}=    encrypt    ${signkey2}    md5    32    
-    #通用签名   
+    ${sign2}=    encrypt    ${signkey2}    md5    32
+    #通用签名
     #${sign}=    set variable    a9ff6970eb814e6894389ca8b12f3030
-    ${_sign} =  Convert To Uppercase   ${sign1}
-    ${signature} =  Convert To Uppercase   ${sign2}
-    set to dictionary    ${heards_dict}    _sign=${_sign}   
-    set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}  
-    set to dictionary    ${heards_dict}    Content-Type=${ContentType}   
-    set to dictionary    ${heards_dict}    User-Agent=${UserAgent} 
+    ${_sign} =    Convert To Uppercase    ${sign1}
+    ${signature} =    Convert To Uppercase    ${sign2}
+    set to dictionary    ${heards_dict}    _sign=${_sign}
+    set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
+    set to dictionary    ${heards_dict}    Content-Type=${ContentType}
+    set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
     set to dictionary    ${heards_dict}    APP_DEV_INFO=${APPDEVINFO}
-    set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION} 
-    set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}               
-    log    _sign====${_sign} 
-    log    signature====${signature} 
+    set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION}
+    set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}
+    log    _sign====${_sign}
+    log    signature====${signature}
     set to dictionary    ${post_dict}    signature=${signature}
     ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
     log    参数编码前：${post_dict}
@@ -325,54 +332,54 @@ thejoyrun_postp
     ${post_param}=    Replace String    ${post_param}    ,${SPACE}    &
     ${post_param}=    Replace String    ${post_param}    ]    ${EMPTY}
     ${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
-    Create Session    run   ${URL}     headers=${heards_dict}   cookies=${cookies}
-    ${resp}=   Post Request    run    uri=${path}     params=${post_param}           
+    Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
+    ${resp}=    Post Request    run    uri=${path}    params=${post_param}
     [Return]    ${resp}
-	
+
 thejoyrun_postjson_crew
-    [Arguments]    ${path}    ${maps}   ${userName}    ${Base_URL}  
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
     [Documentation]    *joyrun中post请求json方式关键字*
     ...
     ...    参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于跑团小程序）；
     #${version}=    Run Keyword If    ${app_version}!=None    set variable    ${app_version}
-    #...    ELSE    set variable    ${acshow_version} 
+    #...
+    ...    # ELSE    set variable    ${acshow_version}
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
-	${time}    evaluate    int(${time}*1000)
+    ${time}    evaluate    int(${time}*1000)
     ${timestamp}    evaluate    str(${time})
-    log    timestamp=${timestamp} 
-	#当需要传uid时，则uid从map中取，否则uid为0
-    ${uid}= 	Run Keyword If    ${Isuid}==1    Get From Dictionary   ${maps}   uid
-	...    ELSE   set variable   0
-    ${heards_dict}=    create dictionary     
-    log  sid ===${sid}  
-    log  heards_dict ===${heards_dict}      
-    ${URL}=    set variable    ${Base_URL}  
-    ${post_dict}=    create dictionary     &{maps}
-	#公共参数timestamp、appid、sid
-	set to dictionary    ${post_dict}      timestamp=${timestamp}
-	set to dictionary    ${post_dict}      appid=${appid}
-	set to dictionary    ${post_dict}      sid=${sid}  
+    log    timestamp=${timestamp}
+    #当需要传uid时，则uid从map中取，否则uid为0
+    ${uid}=    Run Keyword If    ${Isuid}==1    Get From Dictionary    ${maps}    uid
+    ...    ELSE    set variable    0
+    ${heards_dict}=    create dictionary
+    log    sid ===${sid}
+    log    heards_dict ===${heards_dict}
+    ${URL}=    set variable    ${Base_URL}
+    ${post_dict}=    create dictionary    &{maps}
+    #公共参数timestamp、appid、sid
+    set to dictionary    ${post_dict}    timestamp=${timestamp}
+    set to dictionary    ${post_dict}    appid=${appid}
+    set to dictionary    ${post_dict}    sid=${sid}
     #签名
-    ${signkey}=   Run Keyword If    ${Isuid}==0   set variable    ${appid}${timestamp}${sid}${crewappkey}
-	...    ELSE    set variable     ${appid}${timestamp}${sid}${uid}${crewappkey}
-    ${signkey}=    Replace String    ${signkey}    "    ${EMPTY} 
-    log         signkey=====${signkey}
+    ${signkey}=    Run Keyword If    ${Isuid}==0    set variable    ${appid}${timestamp}${sid}${crewappkey}
+    ...    ELSE    set variable    ${appid}${timestamp}${sid}${uid}${crewappkey}
+    ${signkey}=    Replace String    ${signkey}    "    ${EMPTY}
+    log    signkey=====${signkey}
     #排序及格式处理
-    ${sign}=    encrypt    ${signkey}    md5    32    
-    #请求头处理   
-    set to dictionary    ${heards_dict}    sign=${sign}   
-    set to dictionary    ${heards_dict}    Content-Type=${ContentType}   
-    set to dictionary    ${heards_dict}    User-Agent=${UserAgent}              
-    log    sign====${sign} 
-	log    post_dict======${post_dict}
-    Create Session    run   ${URL}     headers=${heards_dict}   
-    ${resp}=   Post Request    run    uri=${path}     data=${post_dict}           
-    [Return]    ${resp}	
-	
+    ${sign}=    encrypt    ${signkey}    md5    32
+    #请求头处理
+    set to dictionary    ${heards_dict}    sign=${sign}
+    set to dictionary    ${heards_dict}    Content-Type=${ContentType}
+    set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
+    log    sign====${sign}
+    log    post_dict======${post_dict}
+    Create Session    run    ${URL}    headers=${heards_dict}
+    ${resp}=    Post Request    run    uri=${path}    data=${post_dict}
+    [Return]    ${resp}
 
 thejoyrun_get_crew
-    [Arguments]    ${path}    ${maps}   ${userName}    ${Base_URL}  
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
     [Documentation]    *joyrun中get请求关键字主要用于跑团小程序*
     ...
     ...    参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
@@ -381,71 +388,68 @@ thejoyrun_get_crew
     log    time= ${time}
     ${time}=    convert to string    ${time}
     ${timestamp}=    set variable    ${time}000
-    ${timestamp}=    Replace String    ${timestamp}    "    ${EMPTY} 	
-	#当需要传uid时，则uid从map中取，否则uid为0
-    ${uid}= 	Run Keyword If    ${Isuid}==1    Get From Dictionary   ${maps}   uid
-	...    ELSE   set variable   0
-    ${heards_dict}=    create dictionary     
-    log  sid ===${sid}  
-    log  heards_dict ===${heards_dict}      
-    ${URL}=    set variable    ${Base_URL}  
-    ${post_dict}=    create dictionary     &{maps}
-	#公共参数timestamp、appid、sid
-	set to dictionary    ${post_dict}      timestamp=${timestamp}
-	set to dictionary    ${post_dict}      appid=${appid}
-	set to dictionary    ${post_dict}      sid=${sid}  
+    ${timestamp}=    Replace String    ${timestamp}    "    ${EMPTY}
+    #当需要传uid时，则uid从map中取，否则uid为0
+    ${uid}=    Run Keyword If    ${Isuid}==1    Get From Dictionary    ${maps}    uid
+    ...    ELSE    set variable    0
+    ${heards_dict}=    create dictionary
+    log    sid ===${sid}
+    log    heards_dict ===${heards_dict}
+    ${URL}=    set variable    ${Base_URL}
+    ${post_dict}=    create dictionary    &{maps}
+    #公共参数timestamp、appid、sid
+    set to dictionary    ${post_dict}    timestamp=${timestamp}
+    set to dictionary    ${post_dict}    appid=${appid}
+    set to dictionary    ${post_dict}    sid=${sid}
     #签名
-    ${signkey}=   Run Keyword If    ${Isuid}==0   set variable    ${appid}${timestamp}${sid}${crewappkey}
-	...    ELSE    set variable     ${appid}${timestamp}${sid}${uid}${crewappkey}
-    ${signkey}=    Replace String    ${signkey}    "    ${EMPTY} 
-    log         signkey=====${signkey}
+    ${signkey}=    Run Keyword If    ${Isuid}==0    set variable    ${appid}${timestamp}${sid}${crewappkey}
+    ...    ELSE    set variable    ${appid}${timestamp}${sid}${uid}${crewappkey}
+    ${signkey}=    Replace String    ${signkey}    "    ${EMPTY}
+    log    signkey=====${signkey}
     #排序及格式处理
-    ${sign}=    encrypt    ${signkey}    md5    32    
-    #请求头处理   
-    set to dictionary    ${heards_dict}    sign=${sign}   
-    set to dictionary    ${heards_dict}    Content-Type=${ContentType}   
-    set to dictionary    ${heards_dict}    User-Agent=${UserAgent}              
-    log    sign====${sign} 
-	log    post_dict======${post_dict}
-	log    参数编码前：${post_dict}
+    ${sign}=    encrypt    ${signkey}    md5    32
+    #请求头处理
+    set to dictionary    ${heards_dict}    sign=${sign}
+    set to dictionary    ${heards_dict}    Content-Type=${ContentType}
+    set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
+    log    sign====${sign}
+    log    post_dict======${post_dict}
+    log    参数编码前：${post_dict}
     ${post_dict}    Evaluate    urllib.urlencode(${post_dict})    urllib
     log    参数编码后：${post_dict}
-    Create Session    run   ${URL}     headers=${heards_dict}   
-    ${resp}=   Get Request    run    uri=${path}     params=${post_dict}           
-    [Return]    ${resp}	
-
-
-	
+    Create Session    run    ${URL}    headers=${heards_dict}
+    ${resp}=    Get Request    run    uri=${path}    params=${post_dict}
+    [Return]    ${resp}
 
 thejoyrun_getp
-    [Arguments]    ${path}    ${maps}  ${userName}   ${Base_URL}  
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
     [Documentation]    *joyrun中get请求url方式关键字*
     ...
-    ...    参数以params方法提交出现Url中，也在body带公共参数（signature、timestamp）； 
+    ...    参数以params方法提交出现Url中，也在body带公共参数（signature、timestamp）；
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
     #从字典里取出相应key的值
-    ${uid}=  Get From Dictionary   ${heards}   uid
-    ${sid}=  Get From Dictionary   ${heards}    sid
-    ${timestamp}=  Get From Dictionary   ${heards}    timestamp
-    ${ypcookie}=  Get From Dictionary   ${heards}    ypcookie
-    ${heards_dict}=    create dictionary   ypcookie=${ypcookie} 
+    ${uid}=    Get From Dictionary    ${heards}    uid
+    ${sid}=    Get From Dictionary    ${heards}    sid
+    ${timestamp}=    Get From Dictionary    ${heards}    timestamp
+    ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
+    ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
     #${ypcookie1}=    Replace String    ${ypcookie}    =    %3d
     #${ypcookie1}=    Replace String    ${ypcookie1}    &    %26
-	##将ypcookie转为url编码
-    ${ypcookie1}=     urlencode	    ${ypcookie}
-    ${cookies}=    create dictionary     
+    ##将ypcookie转为url编码
+    ${ypcookie1}=    urlencode    ${ypcookie}
+    ${cookies}=    create dictionary
     set to dictionary    ${cookies}    ypcookie=${ypcookie1}
-    set to dictionary    ${cookies}    app_version=${appversion}      
-    #log  uid ===${uid}
-    #log  sid ===${sid}  
-    log  heards_dict ===${heards_dict}      
-    ${URL}=    set variable    ${Base_URL}  
-    ${sign_dict}=    create dictionary    timestamp=${timestamp}      
-    ${post_dict}=    create dictionary    timestamp=${timestamp} 
+    set to dictionary    ${cookies}    app_version=${appversion}
+    #log    uid ===${uid}
+    #log    sid ===${sid}
+    log    heards_dict ===${heards_dict}
+    ${URL}=    set variable    ${Base_URL}
+    ${sign_dict}=    create dictionary    timestamp=${timestamp}
+    ${post_dict}=    create dictionary    timestamp=${timestamp}
     @{mapstolist_sign}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist_sign}
-    \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}       
+    \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}
     @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
@@ -454,83 +458,82 @@ thejoyrun_getp
     ${signparam}=    convert to string    ${sign_dict_tolist}
     ${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    u'    '
-    ${signparam}=    Replace String    ${signparam}    ', '  ${EMPTY}
+    ${signparam}=    Replace String    ${signparam}    ', '    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    ('    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    ')    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}    
+    ${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    ]    ${EMPTY}
-    #${signparam}=    Replace String    ${signparam}    &    ${EMPTY} 
+    #${signparam}=    Replace String    ${signparam}    &    ${EMPTY}
     ${signparam}=    Evaluate    '${signparam}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     #log    ${signparam}
     #排序及格式处理
     log    signparam===${signparam}
-    ${signkey1}=     set variable    ${signparam}${appkey1}${uid}${sid} 
-    ${signkey2}=     set variable    ${signparam}${appkey2}${uid}${sid} 
-    #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}  
-    #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY} 
-    #log         signkey1=====${signkey1}
-    #log         signkey2=====${signkey2}
+    ${signkey1}=    set variable    ${signparam}${appkey1}${uid}${sid}
+    ${signkey2}=    set variable    ${signparam}${appkey2}${uid}${sid}
+    #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}
+    #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY}
+    #log    signkey1=====${signkey1}
+    #log    signkey2=====${signkey2}
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
-    ${sign2}=    encrypt    ${signkey2}    md5    32    
-    #通用签名   
+    ${sign2}=    encrypt    ${signkey2}    md5    32
+    #通用签名
     #${sign}=    set variable    a9ff6970eb814e6894389ca8b12f3030
-    ${_sign} =  Convert To Uppercase   ${sign1}
-    ${signature} =  Convert To Uppercase   ${sign2}
-    set to dictionary    ${heards_dict}    _sign=${_sign}   
-    set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}  
-    set to dictionary    ${heards_dict}    Content-Type=${ContentType}   
-    set to dictionary    ${heards_dict}    User-Agent=${UserAgent} 
+    ${_sign} =    Convert To Uppercase    ${sign1}
+    ${signature} =    Convert To Uppercase    ${sign2}
+    set to dictionary    ${heards_dict}    _sign=${_sign}
+    set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
+    set to dictionary    ${heards_dict}    Content-Type=${ContentType}
+    set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
     set to dictionary    ${heards_dict}    APP_DEV_INFO=${APPDEVINFO}
-    set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION} 
-    set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}               
-    #log    _sign====${_sign} 
-    #log    signature====${signature} 
+    set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION}
+    set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}
+    #log    _sign====${_sign}
+    #log    signature====${signature}
     set to dictionary    ${post_dict}    signature=${signature}
     log    参数编码前：${post_dict}
     ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
-    Create Session    run   ${URL}     headers=${heards_dict}   cookies=${cookies}
-    ${resp}=   Get Request    run    uri=${path}     params=${post_param}           
+    Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
+    ${resp}=    Get Request    run    uri=${path}    params=${post_param}
     [Return]    ${resp}
 
-
 thejoyrun_get_nosign
-    [Arguments]    ${path}    ${maps}   ${userName}   ${Base_URL}  
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
     [Documentation]    *joyrun中get请求url方式参数不需要签名的关键字*
     ...
-    ...    参数以params方法提交，出现Url中，也在body中，但不需要签名没有公共参数； 
+    ...    参数以params方法提交，出现Url中，也在body中，但不需要签名没有公共参数；
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
     #从字典里取出相应key的值
-    ${uid}=  Get From Dictionary   ${heards}   uid
-    ${sid}=  Get From Dictionary   ${heards}    sid
-    ${timestamp}=  Get From Dictionary   ${heards}    timestamp
-    ${ypcookie}=  Get From Dictionary   ${heards}    ypcookie
-    ${heards_dict}=    create dictionary   ypcookie=${ypcookie}  
-	##将ypcookie转为url编码
-    ${ypcookie1}=     urlencode	    ${ypcookie}	
-    ${cookies}=    create dictionary     
+    ${uid}=    Get From Dictionary    ${heards}    uid
+    ${sid}=    Get From Dictionary    ${heards}    sid
+    ${timestamp}=    Get From Dictionary    ${heards}    timestamp
+    ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
+    ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
+    ##将ypcookie转为url编码
+    ${ypcookie1}=    urlencode    ${ypcookie}
+    ${cookies}=    create dictionary
     set to dictionary    ${cookies}    ypcookie=${ypcookie1}
-    set to dictionary    ${cookies}    app_version=${appversion}      
-    #log  uid ===${uid}
-    #log  sid ===${sid}  
-    #log  heards_dict ===${heards_dict}      
-    ${URL}=    set variable    ${Base_URL}     
-    ${post_dict}=    create dictionary            
+    set to dictionary    ${cookies}    app_version=${appversion}
+    #log    uid ===${uid}
+    #log    sid ===${sid}
+    #log    heards_dict ===${heards_dict}
+    ${URL}=    set variable    ${Base_URL}
+    ${post_dict}=    create dictionary
     @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
-    #排序及格式处理   
-    set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}  
-    set to dictionary    ${heards_dict}    Content-Type=${ContentType}   
-    set to dictionary    ${heards_dict}    User-Agent=${UserAgent} 
+    #排序及格式处理
+    set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
+    set to dictionary    ${heards_dict}    Content-Type=${ContentType}
+    set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
     set to dictionary    ${heards_dict}    APP_DEV_INFO=${APPDEVINFO}
-    set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION} 
-    set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}               
+    set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION}
+    set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}
     log    参数编码前：${post_dict}
     ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
-    Create Session    run   ${URL}     headers=${heards_dict}   cookies=${cookies}
-    ${resp}=   Get Request    run    uri=${path}     params=${post_param}           
+    Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
+    ${resp}=    Get Request    run    uri=${path}    params=${post_param}
     [Return]    ${resp}
