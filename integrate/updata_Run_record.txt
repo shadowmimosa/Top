@@ -84,6 +84,10 @@ RuningRecord
     ${ismatchcompleted}    set variable    0
     ${matchid}    set variable    0
     ${ismatchcompleted}    set variable    0
+    ${province}    Replace String    ${province}    \    ${EMPTY}
+    ${province}    Replace String    ${province}    "    ${EMPTY}
+    ${city}    Replace String    ${city}    \    ${EMPTY}
+    ${city}    Replace String    ${city}    "    ${EMPTY}
     #对int类型参数处理
     ${dateline}=    convert to string    ${dateline}
     ${lasttime}=    convert to string    ${lasttime}
