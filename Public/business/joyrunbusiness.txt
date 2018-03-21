@@ -1,4 +1,5 @@
 *** Settings ***
+Documentation     JOYRUN的业务关键字
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -17,12 +18,13 @@ env_username_randomchoice
     [Arguments]    ${env}
     [Documentation]    根据login_URL值判定环境，再根据不同环境随机从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online，仅当${env}==1时返回环境Online、Test，其他无作用；
     ${env1}    Run keyword If    "${login_URL}"=="http://api-test.thejoyrun.com"    set variable    Test
-    ...    ELSE    set variable    Online	
+    ...    ELSE    set variable    Online
     ${usernamerand}    Run Keyword If    '${env1}'=='Test'    randomchoice    ${Testuserlist}    ,
     ...    ELSE    randomchoice    ${Onlineuserlist}    ,
     log    ====环境为${env1}======
-	${runEU}   Run Keyword If   '${env}'=='1'  set variable  ${env1}   ELSE  set variable  ${usernamerand}
-	log    ====数据返回为为：${runEU}=====
+    ${runEU}    Run Keyword If    '${env}'=='1'    set variable    ${env1}
+    ...    ELSE    set variable    ${usernamerand}
+    log    ====数据返回为为：${runEU}=====
     [Return]    ${runEU}
 
 arraystoarray
@@ -64,16 +66,16 @@ Getrunrecodeinfo
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${Getrunrecodecontent}=    charconver    ${resp.content}
-	${respret}   get json value   ${Getrunrecodecontent}   /ret
-	#${respruninfo}   Run Keyword If  ${respret}<>"0"   Getrunrecodeinfo  181392202  ${wgs}  ${userName}   ELSE  set variable  ${Getrunrecodecontent}
-	${respruninfo}   set variable   ${Getrunrecodecontent}
+    ${respret}    get json value    ${Getrunrecodecontent}    /ret
+    #${respruninfo}    Run Keyword If    ${respret}<>"0"    Getrunrecodeinfo    181392202    ${wgs}    ${userName}
+    ...    # ELSE    set variable    ${Getrunrecodecontent}
+    ${respruninfo}    set variable    ${Getrunrecodecontent}
     log    ---输出返回内容----
     log json    ${respruninfo}
     [Return]    ${respruninfo}
 
-	
 feedListBasicBulk_fid
-    [Arguments]    ${fids}  ${userName}  ${findtext}    ${min}    ${max}
+    [Arguments]    ${fids}    ${userName}    ${findtext}    ${min}    ${max}
     [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回批量符合条件的跑步记录的fid串；findtext为条件字段，min,max 为条件值的最小最大值 左闭右开区间,findtext 支持两层过滤，如找run下的meter可写成run/meter
     ${path}=    set variable    /feed/feedListBasicBulk
     ${maps}=    create dictionary
@@ -82,37 +84,45 @@ feedListBasicBulk_fid
     ${feedListBasicBulkcontent}=    charconver    ${resp.content}
     log    ---输出返回内容----
     log json    ${feedListBasicBulkcontent}
-	@{findlist}   Split String    ${findtext}   / 
-	${findlistlen}  evaluate   len(${findlist})
-	${findlistone}   Run Keyword If   ${findlistlen}>1   Get From List  ${findlist}   0  ELSE  set variable   ${findtext}
-	${findlisttwo}   Run Keyword If   ${findlistlen}>1   Get From List  ${findlist}   1  ELSE  set variable   ${findtext}	
-	${feed}  set variable   zzqrunjoyrun9527
+    @{findlist}    Split String    ${findtext}    /
+    ${findlistlen}    evaluate    len(${findlist})
+    ${findlistone}    Run Keyword If    ${findlistlen}>1    Get From List    ${findlist}    0
+    ...    ELSE    set variable    ${findtext}
+    ${findlisttwo}    Run Keyword If    ${findlistlen}>1    Get From List    ${findlist}    1
+    ...    ELSE    set variable    ${findtext}
+    ${feed}    set variable    zzqrunjoyrun9527
     ${feeddatas}    get json value    ${feedListBasicBulkcontent}    /datas
-	${feeddatas}    charconver    ${feeddatas}
+    ${feeddatas}    charconver    ${feeddatas}
     ${feeddatas}    replace string    ${feeddatas}    [{    {
     ${feeddatas}    replace string    ${feeddatas}    }]    }
-    ${feeddatas}    replace string    ${feeddatas}    ${SPACE}    ${EMPTY}	
-	${feeddatas}    replace string    ${feeddatas}    },{    }joyrunzzqtestspit{
-	@{dataList}   Split String    ${feeddatas}   joyrunzzqtestspit 
-	:FOR  ${feeddata}   IN    @{dataList}  
-	\       log      ${feeddata} 
-	\       ${findoneValue}   Run Keyword If  ${findlistlen}>1  Get Regexp Matches    ${feeddata}    "${findlistone}":{(.*)}    1  ELSE   Get Regexp Matches    ${feeddata}    ("${findlistone}":.*),    1
-	\       ${findoneValuelen}   evaluate  len(${findoneValue})
-	\       ${findtxtvalue}   Run Keyword If  ${findoneValuelen}>0   Get From List    ${findoneValue}    0    ELSE  set variable  0
-	\       ${findtxtvalue}   evaluate  r'${findtxtvalue}'
-	\       ${findtwoValue}    Get Regexp Matches    ${findtxtvalue}    "${findlisttwo}":([0-9]+)    1
-	\       ${findtwoValuelen}   evaluate    len(${findtwoValue})
-	\		${findvalue}   Run Keyword If  ${findtwoValuelen}>0  Get From List    ${findtwoValue}    0   ELSE  set variable  0
-	\		${fidtext}     Get Regexp Matches    ${feeddata}    "fid":([0-9]+)    1    
-	\       ${fidtextlen}   evaluate   len(${fidtext})
-	\       ${feedfilter}   Run Keyword If  ${min}<=${findvalue}<=${max} and ${fidtextlen}>0    Get From List    ${fidtext}    0   ELSE    set variable  zzqrunjoyrun9527
-	\		${feed}  Run Keyword If  "${feed}"<>"${EMPTY}"   set variable  ${feed},${feedfilter}   ELSE  set variable   ${feedfilter}
-	\		${feed}     replace string    ${feed}    zzqrunjoyrun9527,    ${EMPTY}
-	\		${feed}     replace string    ${feed}    ,zzqrunjoyrun9527    ${EMPTY}
-	${Basicfid}     replace string    ${feed}    zzqrunjoyrun9527    ${EMPTY}
-	${BSfid}     Run Keyword If  '${Basicfid}'=='${EMPTY}'  set variable  0    ELSE   set variable   ${Basicfid}
-    [Return]    ${BSfid}	
-	
+    ${feeddatas}    replace string    ${feeddatas}    ${SPACE}    ${EMPTY}
+    ${feeddatas}    replace string    ${feeddatas}    },{    }joyrunzzqtestspit{
+    @{dataList}    Split String    ${feeddatas}    joyrunzzqtestspit
+    : FOR    ${feeddata}    IN    @{dataList}
+    \    log    ${feeddata}
+    \    ${findoneValue}    Run Keyword If    ${findlistlen}>1    Get Regexp Matches    ${feeddata}    "${findlistone}":{(.*)}
+    \    ...    1
+    \    ...    ELSE    Get Regexp Matches    ${feeddata}    ("${findlistone}":.*),    1
+    \    ${findoneValuelen}    evaluate    len(${findoneValue})
+    \    ${findtxtvalue}    Run Keyword If    ${findoneValuelen}>0    Get From List    ${findoneValue}    0
+    \    ...    ELSE    set variable    0
+    \    ${findtxtvalue}    evaluate    r'${findtxtvalue}'
+    \    ${findtwoValue}    Get Regexp Matches    ${findtxtvalue}    "${findlisttwo}":([0-9]+)    1
+    \    ${findtwoValuelen}    evaluate    len(${findtwoValue})
+    \    ${findvalue}    Run Keyword If    ${findtwoValuelen}>0    Get From List    ${findtwoValue}    0
+    \    ...    ELSE    set variable    0
+    \    ${fidtext}    Get Regexp Matches    ${feeddata}    "fid":([0-9]+)    1
+    \    ${fidtextlen}    evaluate    len(${fidtext})
+    \    ${feedfilter}    Run Keyword If    ${min}<=${findvalue}<=${max} and ${fidtextlen}>0    Get From List    ${fidtext}    0
+    \    ...    ELSE    set variable    zzqrunjoyrun9527
+    \    ${feed}    Run Keyword If    "${feed}"<>"${EMPTY}"    set variable    ${feed},${feedfilter}
+    \    ...    ELSE    set variable    ${feedfilter}
+    \    ${feed}    replace string    ${feed}    zzqrunjoyrun9527,    ${EMPTY}
+    \    ${feed}    replace string    ${feed}    ,zzqrunjoyrun9527    ${EMPTY}
+    ${Basicfid}    replace string    ${feed}    zzqrunjoyrun9527    ${EMPTY}
+    ${BSfid}    Run Keyword If    '${Basicfid}'=='${EMPTY}'    set variable    0
+    ...    ELSE    set variable    ${Basicfid}
+    [Return]    ${BSfid}
 
 getHotsFeedList_fids
     [Arguments]    ${page}    ${limit}    ${userName}
@@ -125,60 +135,62 @@ getHotsFeedList_fids
     ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${topic_URL}
     ${getHotsFeedListcontent}=    charconver    ${resp.content}
     log json    ${getHotsFeedListcontent}
-	${hotdata}     get json value    ${getHotsFeedListcontent}    /data
-	${hotdata}      replace string    ${hotdata}  [    ${EMPTY}
-	${hotdata}      replace string    ${hotdata}  ]    ${EMPTY}
-	${hotdata}      replace string    ${hotdata}  {    ${EMPTY}
-	${hotdata}      replace string    ${hotdata}  }    ${EMPTY}	
-	@{hostlist}=    Split String    ${hotdata}    ,
-	${keykeysting}=  set variable    zzqrunjoyrun9527
-	${lens}=      evaluate     len(${hostlist})
-	:FOR    ${index}   IN RANGE  2   ${lens}  3
-	\		${hotdic}     Get From List    ${hostlist}    ${index}
-	\		${hotdic}     replace string    ${hotdic}    "fid":   	 ${EMPTY}
-	\		${hotdic}     replace string    ${hotdic}    ${SPACE}   	 ${EMPTY}	
-	\		${keykeysting}   Run Keyword If  '${keykeysting}'<>'${EMPTY}'  set variable   ${keykeysting},${hotdic}   ELSE  set variable   ${hotdic}
-	\		${hotfids}   replace string    ${keykeysting}    zzqrunjoyrun9527,    ${EMPTY}
-	\		${hotfids}   replace string    ${keykeysting}    ,zzqrunjoyrun9527    ${EMPTY}
-	${hotfids}  convert to string   ${hotfids} 
-	${hotfids}   replace string    ${hotfids}    {SPACE}    ${EMPTY}
-    [Return]    ${hotfids}	
-	
-	
+    ${hotdata}    get json value    ${getHotsFeedListcontent}    /data
+    ${hotdata}    replace string    ${hotdata}    [    ${EMPTY}
+    ${hotdata}    replace string    ${hotdata}    ]    ${EMPTY}
+    ${hotdata}    replace string    ${hotdata}    {    ${EMPTY}
+    ${hotdata}    replace string    ${hotdata}    }    ${EMPTY}
+    @{hostlist}=    Split String    ${hotdata}    ,
+    ${keykeysting}=    set variable    zzqrunjoyrun9527
+    ${lens}=    evaluate    len(${hostlist})
+    : FOR    ${index}    IN RANGE    2    ${lens}    3
+    \    ${hotdic}    Get From List    ${hostlist}    ${index}
+    \    ${hotdic}    replace string    ${hotdic}    "fid":    ${EMPTY}
+    \    ${hotdic}    replace string    ${hotdic}    ${SPACE}    ${EMPTY}
+    \    ${keykeysting}    Run Keyword If    '${keykeysting}'<>'${EMPTY}'    set variable    ${keykeysting},${hotdic}
+    \    ...    ELSE    set variable    ${hotdic}
+    \    ${hotfids}    replace string    ${keykeysting}    zzqrunjoyrun9527,    ${EMPTY}
+    \    ${hotfids}    replace string    ${keykeysting}    ,zzqrunjoyrun9527    ${EMPTY}
+    ${hotfids}    convert to string    ${hotfids}
+    ${hotfids}    replace string    ${hotfids}    {SPACE}    ${EMPTY}
+    [Return]    ${hotfids}
+
 FourTopicList_TopicName
-    [Arguments]    ${userName} 
+    [Arguments]    ${userName}
     [Documentation]    getFourTopicList获取置顶新话题,随机选中某热门话题,返回4个热门话题中的一个和约定跑话题；
     ${path}=    set variable    /newTopic/getFourTopicList
     ${maps}=    create dictionary
     ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${topic_URL}
     ${getFourTopicListcontent}=    charconver    ${resp.content}
-    log json    ${getFourTopicListcontent}	
-	${FourTopicdata}     get json value    ${getFourTopicListcontent}    /data
-	${FourTopicdata}      replace string    ${FourTopicdata}  [    ${EMPTY}
-	${FourTopicdata}      replace string    ${FourTopicdata}  ]    ${EMPTY}
-	${FourTopicdata}      replace string    ${FourTopicdata}  ${SPACE}    ${EMPTY}
-	@{FourTopicdatalist}   Split String    ${FourTopicdata}    },{
-	log  ${FourTopicdatalist[0]}
-	${topicNameKeyspit}  set variable   约定跑
-	${topicLen}   evaluate     len(${FourTopicdatalist})
-	:FOR    ${topindex}   IN RANGE    ${topicLen}    
-	\		${TopfourList}    	Get Regexp Matches      ${FourTopicdatalist[${topindex}]}    "topicName":"(.*)"     1
-	\       log   ${TopfourList[0]}
-	\		${topicNamesting}   Get From List    ${TopfourList}    0
-	\		${topicNameKeyspit}  Run Keyword If  "${topicNameKeyspit}"<>"${EMPTY}"  set variable  ${topicNameKeyspit},${topicNamesting}  ELSE  set Variables    ${topicNamesting}
-	#${topicNameKeyspit}   replace string    ${topicNameKeyspit}    约定跑,    ${EMPTY}
-	${topicNameKeyspit}  convert to string   ${topicNameKeyspit} 	
-    ${topicName}   randomchoice   ${topicNameKeyspit}  ,
-    [Return]    ${topicName}	
-	
+    log json    ${getFourTopicListcontent}
+    ${FourTopicdata}    get json value    ${getFourTopicListcontent}    /data
+    ${FourTopicdata}    replace string    ${FourTopicdata}    [    ${EMPTY}
+    ${FourTopicdata}    replace string    ${FourTopicdata}    ]    ${EMPTY}
+    ${FourTopicdata}    replace string    ${FourTopicdata}    ${SPACE}    ${EMPTY}
+    @{FourTopicdatalist}    Split String    ${FourTopicdata}    },{
+    log    ${FourTopicdatalist[0]}
+    ${topicNameKeyspit}    set variable    约定跑
+    ${topicLen}    evaluate    len(${FourTopicdatalist})
+    : FOR    ${topindex}    IN RANGE    ${topicLen}
+    \    ${TopfourList}    Get Regexp Matches    ${FourTopicdatalist[${topindex}]}    "topicName":"(.*)"    1
+    \    log    ${TopfourList[0]}
+    \    ${topicNamesting}    Get From List    ${TopfourList}    0
+    \    ${topicNameKeyspit}    Run Keyword If    "${topicNameKeyspit}"<>"${EMPTY}"    set variable    ${topicNameKeyspit},${topicNamesting}
+    \    ...    ELSE    set Variables    ${topicNamesting}
+    #${topicNameKeyspit}    replace string    ${topicNameKeyspit}    约定跑,    ${EMPTY}
+    ${topicNameKeyspit}    convert to string    ${topicNameKeyspit}
+    ${topicName}    randomchoice    ${topicNameKeyspit}    ,
+    [Return]    ${topicName}
+
 TopicDetail_Fids
-    [Arguments]    ${topicName}     ${page}   ${type}    ${userName}   ${timelen} 
+    [Arguments]    ${topicName}    ${page}    ${type}    ${userName}    ${timelen}
     [Documentation]    /newTopic/topicDetail获取话题的跑步列表返回fids串，type:1代表该话题的热门列表，type:2代表该话题的最新列表,timelen 表示多少时间内的记录秒为单位；
     log    ================topicName:${topicName}=============
-	Run Keyword If   ${type}==1  log    ================话题的热门列表=============   ELSE  log    ================话题的最新列表=============
-	${firstFeedDateline}  set variable   0
-	${time}=    Get Time    epoch
-    ${timemin}    evaluate    int(${time})-${timelen} 
+    Run Keyword If    ${type}==1    log    ================话题的热门列表=============
+    ...    ELSE    log    ================话题的最新列表=============
+    ${firstFeedDateline}    set variable    0
+    ${time}=    Get Time    epoch
+    ${timemin}    evaluate    int(${time})-${timelen}
     ${timemax}    evaluate    int(${time})
     ${path}=    set variable    /newTopic/topicDetail
     ${maps}=    create dictionary
@@ -190,18 +202,20 @@ TopicDetail_Fids
     ${TopicDetailresp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${topic_URL}
     ${TopicDetailcontent}=    charconver    ${TopicDetailresp.content}
     log    ---输出返回内容----
-    log json    ${TopicDetailcontent}	
-	${feedscount} =   Get Count   ${TopicDetailcontent}   "feeds":[]   
-	${TopicDetaildata}   Run Keyword If  ${feedscount}==0  get json value    ${TopicDetailcontent}    /data/feeds   ELSE   set variable   "fid":0
-    ${Fids}   FilterList   ${TopicDetaildata}  dateline,${timemin},${timemax}     fid
-	${fidlen}   Run Keyword If   '${Fids}'<>'0'   Get Count   ${Fids}   ,  ELSE  set variable  -1
-	${fidnum}    evaluate    int(${fidlen})+1
-	Run Keyword If   '${Fids}'=='0'     log  ================该话题type:${type}列表没有跑步记录=============   ELSE  log    ===返回====${fidnum}个======fid======
-    [Return]    ${Fids}	
+    log json    ${TopicDetailcontent}
+    ${feedscount} =    Get Count    ${TopicDetailcontent}    "feeds":[]
+    ${TopicDetaildata}    Run Keyword If    ${feedscount}==0    get json value    ${TopicDetailcontent}    /data/feeds
+    ...    ELSE    set variable    "fid":0
+    ${Fids}    FilterList    ${TopicDetaildata}    dateline,${timemin},${timemax}    fid
+    ${fidlen}    Run Keyword If    '${Fids}'<>'0'    Get Count    ${Fids}    ,
+    ...    ELSE    set variable    -1
+    ${fidnum}    evaluate    int(${fidlen})+1
+    Run Keyword If    '${Fids}'=='0'    log    ================该话题type:${type}列表没有跑步记录=============
+    ...    ELSE    log    ===返回====${fidnum}个======fid======
+    [Return]    ${Fids}
 
-	
 FeedListv5_Fids
-    [Arguments]    ${userName} 
+    [Arguments]    ${userName}
     [Documentation]    我的动态列表
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -211,39 +225,41 @@ FeedListv5_Fids
     log    ${api_URL}${path}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}    charconver    ${resp.content}
-	log json   ${content}
+    log json    ${content}
     ${feeddatas}    get json value    ${content}    /datas
     ${feeddatas}    charconver    ${feeddatas}
     ${feeddatas}    replace string    ${feeddatas}    [{    {
     ${feeddatas}    replace string    ${feeddatas}    }]    }
-    ${feeddatas}    replace string    ${feeddatas}    ${SPACE}    ${EMPTY}	
-    ${feeddatas}     replace string    ${feeddatas}    },{      }zzqrunjoyrun9527{ 		
-	@{feeddatasList}   Split String    ${feeddatas}   zzqrunjoyrun9527
-	${feed}    set variable     zzqrunjoyrun9527
-	${CountLen}   evaluate    len(${feeddatasList})
-	:FOR  ${index}   IN RANGE  0  ${CountLen}
-    \       ${feedabc}     Get From List    ${feeddatasList}    ${index}	
-	\		${feedabcd}    Get Regexp Matches    ${feedabc}    "fid":([0-9]+)    1   
-    \       ${feedlen}	  evaluate    len(${feedabcd})
-	\       ${feeds}   Run Keyword If   ${feedlen}>=1    Get From List    ${feedabcd}    0    ELSE   set variable   zzqrunjoyrun9527
-	\		${feed}    Run Keyword If  "${feed}"<>"${EMPTY}"   set variable  ${feed},${feeds}   ELSE  set variable   ${feeds}
-	\		${feed}     replace string    ${feed}    zzqrunjoyrun9527,    ${EMPTY}
-	\		${feed}     replace string    ${feed}    ,zzqrunjoyrun9527    ${EMPTY}
-	\		${feed}     replace string    ${feed}    zzqrunjoyrun9527    ${EMPTY}	
-	${fidv5}     Run Keyword If  '${feed}'=='${EMPTY}'  set variable  0    ELSE   set variable   ${feed}	
+    ${feeddatas}    replace string    ${feeddatas}    ${SPACE}    ${EMPTY}
+    ${feeddatas}    replace string    ${feeddatas}    },{    }zzqrunjoyrun9527{
+    @{feeddatasList}    Split String    ${feeddatas}    zzqrunjoyrun9527
+    ${feed}    set variable    zzqrunjoyrun9527
+    ${CountLen}    evaluate    len(${feeddatasList})
+    : FOR    ${index}    IN RANGE    0    ${CountLen}
+    \    ${feedabc}    Get From List    ${feeddatasList}    ${index}
+    \    ${feedabcd}    Get Regexp Matches    ${feedabc}    "fid":([0-9]+)    1
+    \    ${feedlen}    evaluate    len(${feedabcd})
+    \    ${feeds}    Run Keyword If    ${feedlen}>=1    Get From List    ${feedabcd}    0
+    \    ...    ELSE    set variable    zzqrunjoyrun9527
+    \    ${feed}    Run Keyword If    "${feed}"<>"${EMPTY}"    set variable    ${feed},${feeds}
+    \    ...    ELSE    set variable    ${feeds}
+    \    ${feed}    replace string    ${feed}    zzqrunjoyrun9527,    ${EMPTY}
+    \    ${feed}    replace string    ${feed}    ,zzqrunjoyrun9527    ${EMPTY}
+    \    ${feed}    replace string    ${feed}    zzqrunjoyrun9527    ${EMPTY}
+    ${fidv5}    Run Keyword If    '${feed}'=='${EMPTY}'    set variable    0
+    ...    ELSE    set variable    ${feed}
     [Return]    ${fidv5}
-	
-	
+
 UserRunList_Fid
-    [Arguments]        ${year}    ${userName}     ${filters}   ${Returnfield} 
-    [Documentation]    userRunList用户本人的跑步记录基本验证,year 年份，daysecond 离当前多久的记录，metermin,metermax 多少米范围内的记录；  
+    [Arguments]    ${year}    ${userName}    ${filters}    ${Returnfield}
+    [Documentation]    userRunList用户本人的跑步记录基本验证,year 年份，filters 为过滤规则格式:lasttime,1521603644,1621603644,表示查找字段lasttime的值在1521603644-1621603644之间的记录，多个过滤条件用/隔开，最多支持三个条件；Returnfield为需要返回的字段值，例如：fid则返回符合条件的fid值；
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /userRunList.aspx
     ${time}=    Get Time    epoch
     log    time= ${time}
     ${dateline}=    convert to string    ${time}
-	${lasttime}=    set variable    0
+    ${lasttime}=    set variable    0
     log    lasttime=${lasttime}
     ${maps}=    create dictionary
     set to dictionary    ${maps}    dateline=${dateline}
@@ -253,17 +269,73 @@ UserRunList_Fid
     log    ${api_URL}${maps}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-	log json   ${content}
-    ${RunList}    get json value    ${content}    /datas	
-    ${runfid}     FilterList   ${RunList}   ${filters}   ${Returnfield} 
-	${fidRun}     Run Keyword If  '${runfid}'=='${EMPTY}'  set variable  0    ELSE   set variable   ${runfid}		
+    log json    ${content}
+    ${RunList}    get json value    ${content}    /datas
+    ${runfid}    FilterList    ${RunList}    ${filters}    ${Returnfield}
+    ${fidRun}    Run Keyword If    '${runfid}'=='${EMPTY}'    set variable    0
+    ...    ELSE    set variable    ${runfid}
     [Return]    ${fidRun}
-	
+
 Textcontrl
-    [Arguments]   ${type}
-    [Documentation]   根据类型做不同的随机返回文本字符串；
-	Evaluate    reload(sys)    sys
+    [Arguments]    ${type}
+    [Documentation]    根据类型做不同的随机返回文本字符串；
+    Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-	${yyyy}  ${mm}  ${dd}  ${hour}  ${min}  ${sec}    Get Time    year,month,day,hour,min,sec
-	${returntext}   Run Keyword If  '${type}'=='time' and '${mm}'=='01' and '${dd}'=='01'  randomchoice   新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /   ELSE IF    '${type}'=='time' and '${dd}'=='01'   randomchoice  大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！  /  ELSE IF    '${type}'=='time'   randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/再小的坚持X365都会很可观/跑步就是最好的放松/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/小跑怡情/跑跑更健康/joyrun Go!/  /    ELSE   randomchoice  珍惜每一天！！/跑步打卡/     /
-	[Return]    ${returntext}
+    ${yyyy}    ${mm}    ${dd}    ${hour}    ${min}    ${sec}    Get Time
+    ...    year,month,day,hour,min,sec
+    ${returntext}    Run Keyword If    '${type}'=='time' and '${mm}'=='01' and '${dd}'=='01'    randomchoice    新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /
+    ...    ELSE IF    '${type}'=='time' and '${dd}'=='01'    randomchoice    大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！    /
+    ...    ELSE IF    '${type}'=='time' and 4<=${hour}<=8    randomchoice    早安，悦跑！！/joyrun Go!/一天之季在于晨！！/早起鸟儿有虫吃/新的一天始于足下！！    /
+    ...    ELSE IF    '${type}'=='time' and 11<=${hour}<=15    randomchoice    午安，悦跑！！/愿小伙伴们如日中天！！/早起虫儿被鸟吃！/午间散步！！/    /
+    ...    ELSE IF    '${type}'=='time'    randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/再小的坚持X365都会很可观/跑步就是最好的放松/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/悦跑悦快乐！！/恢复打卡/约定跑/跑步打卡/小跑怡情/跑跑更健康//    /
+    ...    ELSE    randomchoice    珍惜每一天！！/跑步打卡/    /
+    [Return]    ${returntext}
+
+oneclickdetails_userinfo
+    [Arguments]    ${returnfield}    ${userName}
+    [Documentation]    通过userName 返回用户相关字段信息；all返回datas中所有字段的值；uid:返回uid；address:返回地址；nick返回昵称；name返回真实姓名；province返回省份；city返回地区；cellnumber返回电话号码；email返回邮箱；birthday返回生日YYYYMMDD；
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${option}=    set variable    get
+    ${path}=    set variable    /oneclickdetails.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    option=${option}
+    log    ---输出参数---
+    log    ${api_URL}${maps}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    ${fieldvalue}    Run Keyword If    '${returnfield}'=='all'    get json value    ${content}    /datas
+    ...    ELSE    get json value    ${content}    /datas/${returnfield}
+    [Return]    ${fieldvalue}
+
+check_runfeed
+    [Arguments]    ${fids}    ${userName}
+    [Documentation]    check/run查询跑步记录是不是发过动态
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    @{fidList}    Split String    ${fids}    ,
+    ${postRunId}    set variable    0
+    ${fidlen}    Evaluate    len(${fidList})
+    ${fid}    Run Keyword If    ${fidlen}>0    Get From List    ${fidList}    0
+    ...    ELSE    set variable    0
+    ${fids}    Removesting    ${fids}    ${fid}    ,
+    ${path}=    set variable    /feed/check/run
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${maps}    postRunId=${postRunId}
+    log    ---输出参数---
+    log    ${api_URL}${maps}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    ${ret}=    get json value    ${content}    /ret
+    ${istrue}    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data/existFeed
+    ...    ELSE IF    ${ret}=="10097"    set variable    2
+    ...    ELSE    set variable    0
+    ${istrue}    Convert To String    ${istrue}
+    Run Keyword If    '${istrue}'=='false'    log    得到fid===${fid}
+    ...    ELSE IF    '${istrue}'=='true' and '${fids}'<>'${EMPTY}'    check_runfeed    ${fids}    ${userName}
+    ...    ELSE    log    fid：${fid}不存在或${path}接口出现ret=${ret}错误
+    ${passfid}    Run Keyword If    '${istrue}'=='0'    set variable    0
+    ...    ELSE    set variable    ${fid}
+    [Return]    ${passfid}

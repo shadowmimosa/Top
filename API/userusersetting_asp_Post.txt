@@ -1,34 +1,30 @@
 *** Settings ***
 Documentation     查询、屏蔽、取消屏蔽用户动态userusersetting.aspx
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    option              touid                                 userName       expected_code
+*** Test Cases ***    option              touid                                 userName       ret
 Class_01              [Documentation]     查询、屏蔽、取消屏蔽用户动态userusersetting.aspx
                       [Tags]              Test
                       [Template]          userusersetting_Post_assertClass
-                      listblockmoment     \                                     13829744541    "0"              #查询某用户动态
-                      setblockmoment      32518359                              13829744542    "0"              #屏蔽某用户动态
-                      setunblockmoment    32518359                              13829744542    "0"              #取消
+                      listblockmoment     \                                     13829744541    "0"    #查询某用户动态
+                      setblockmoment      32518359                              13829744542    "0"    #屏蔽某用户动态
+                      setunblockmoment    32518359                              13829744542    "0"    #取消
 
 Class_02              [Documentation]     查询、屏蔽、取消屏蔽用户动态userusersetting.aspx
                       [Tags]              Online
                       [Template]          userusersetting_Post_assertClass
-                      listblockmoment     \                                     13829744541    "0"              #查询某用户动态
-                      setblockmoment      63755052                              13829744541    "0"              #屏蔽某用户动态
-                      setunblockmoment    63755052                              13829744541    "0"              #取消
+                      listblockmoment     \                                     13829744541    "0"    #查询某用户动态
+                      setblockmoment      63755052                              13829744541    "0"    #屏蔽某用户动态
+                      setunblockmoment    63755052                              13829744541    "0"    #取消
 
 *** Keywords ***
 userusersetting_Post_assertClass
-    [Arguments]    ${option}    ${touid}    ${userName}    ${expected_code}
+    [Arguments]    ${option}    ${touid}    ${userName}    ${ret}
     [Documentation]    查询、屏蔽、取消屏蔽用户动态userusersetting.aspx
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -49,15 +45,10 @@ userusersetting_Post_assertClass
     log    response数据为：
     log    ${resp}
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected_code}
-    log    ret 符合预期为:${expected_code}
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "服务器"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
-    ...    ELSE    should contain    ${content}    "msg":${msg}
+    Run Keyword If    ${ret}=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "msg":
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #should contain    ${data}    "temp":
-    #当验证的内容有中文时，需要先转码再验证；
-    #${weather}=    charconver    "多云"
-    #should contain    ${data}    ${weather}
     log    ----------------------It is OK!!!!------------------------

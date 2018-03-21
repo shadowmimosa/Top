@@ -9,9 +9,35 @@ Resource          ../Public/cookie_operation.txt
 Resource          ../Public/http_request.txt
 
 *** Variables ***
-${password}       67889911    #可以放置一些公共参数；
+${pwd}            67889911    #可以放置一些公共参数；
 
 *** Keywords ***
+Gettimes
+    [Arguments]    ${fields}
+    [Documentation]    根据入参和当前时间输出处理后的相应时间格式，times输出时间戳格式；yy以年运算，MM以月运算，dd以天运算，hh以时运算，mm以分运算，ss以秒运算；ctime输出Wed Mar 21 10:36:38 2018 格式的时间； 第1、2个参数为时间运算粒度，第3个参数为输出格式,参数与参数之间用英文逗号隔开；例如：dd,+5,times 为输出当前时间的5天后的时间戳，注意：以月运算和以年运算分别是以30天和365天进行运算；
+    log    入参为：${fields}
+    @{fieldslist}    Split String    ${fields}    ,
+    ${fieldfiler}    Get From List    ${fieldslist}    0
+    ${fieldnum}    Get From List    ${fieldslist}    1
+    ${returnfield}    Get From List    ${fieldslist}    2
+    ${localtime}=    Get Time    epoch
+    ${localtimes}    Evaluate    long(${localtime})
+    ${localctime}    Evaluate    time.ctime(${localtimes})    time,datetime
+    ${lyy}    ${lmm}    ${ldd}    ${lhour}    ${lmin}    ${lsec}    Get Time
+    ...    year,month,day,hour,min,sec
+    ${times}    Run Keyword If    '${fieldfiler}'=='yy'    Evaluate    ${localtimes}+${fieldnum}*3600*24*365
+    ...    ELSE IF    '${fieldfiler}'=='MM'    Evaluate    ${localtimes}+${fieldnum}*3600*24*30
+    ...    ELSE IF    '${fieldfiler}'=='dd'    Evaluate    ${localtimes}+${fieldnum}*3600*24
+    ...    ELSE IF    '${fieldfiler}'=='hh'    Evaluate    ${localtimes}+${fieldnum}*3600
+    ...    ELSE IF    '${fieldfiler}'=='mm'    Evaluate    ${localtimes}+${fieldnum}*60
+    ...    ELSE IF    '${fieldfiler}'=='ss'    Evaluate    ${localtimes}+${fieldnum}
+    ...    ELSE    set variable    ${localtimes}
+    ${ctime}    Evaluate    time.ctime(${times})    time,datetime
+    ${retime}    Run Keyword If    '${returnfield}'=='ctime'    set variable    ${ctime}
+    ...    ELSE    set variable    ${times}
+    log    本地时间：${localctime}===${localtimes}，处理后的时间：${ctime}=====${times}
+    [Return]    ${retime}
+
 Removesting
     [Arguments]    ${srcstring}    ${movestr}    ${spitsting}
     [Documentation]    从源字符串中删除某些字符串，如：123,abc,1234,444,eee 中删除abc,eee 两个字符串的分割符需要一致，${srcstring} 源字符串，${movestr}为需要删除的字符串， ${spitsting} 为两个字符串的分割符；
@@ -250,12 +276,9 @@ thejoyrun_postd
 
 thejoyrun_postp
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
-    [Documentation]    *joyrun中post请求URL方式关键字*
+    [Documentation]    *joyrun中post请求URL方式关键字*    #${version}=    Run Keyword If    ${app_version}!=None    set variable    ${app_version}    #...    # ELSE    set variable    ${acshow_version}
     ...
     ...    参数以data方法提交，在出现Url中，也在body中带公共参数（signature、timestamp）；
-    #${version}=    Run Keyword If    ${app_version}!=None    set variable    ${app_version}
-    #...
-    ...    # ELSE    set variable    ${acshow_version}
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
     #从字典里取出相应key的值
@@ -338,12 +361,9 @@ thejoyrun_postp
 
 thejoyrun_postjson_crew
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
-    [Documentation]    *joyrun中post请求json方式关键字*
+    [Documentation]    *joyrun中post请求json方式关键字*    #${version}=    Run Keyword If    ${app_version}!=None    set variable    ${app_version}    #...    # ELSE    set variable    ${acshow_version}
     ...
     ...    参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于跑团小程序）；
-    #${version}=    Run Keyword If    ${app_version}!=None    set variable    ${app_version}
-    #...
-    ...    # ELSE    set variable    ${acshow_version}
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
     ${time}    evaluate    int(${time}*1000)

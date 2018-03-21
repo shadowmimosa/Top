@@ -1,0 +1,37 @@
+*** Settings ***
+Documentation     challenge/challengeList挑战活动列表接口
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    uid                expected                           msg
+Class_01              [Documentation]    challenge/challengeList挑战活动列表接口
+                      [Tags]             Test                               Online
+                      [Template]         challengeList_Get
+                      0                  "0"                                成功
+
+*** Keywords ***
+challengeList_Get
+    [Arguments]    ${uid}    ${expected}    ${msg}
+    [Documentation]    challenge/challengeList挑战活动列表接口；
+    ${userName}    env_username_randomchoice    a
+    ${uid}    oneclickdetails_userinfo    uid    ${userName}
+    ${path}=    set variable    /challenge/challengeList
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    uid=${uid}
+    log    ---输出预期值---
+    log    ${expected}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${challenge_URL}
+    ${content}=    charconver    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ret 符合预期为:${expected}
+    log    验证msg是否符合预期
+    Run Keyword If    ${expected}=="0"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    log    随机选中用户：${userName}，uid==${uid};
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------

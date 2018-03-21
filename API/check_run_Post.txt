@@ -1,0 +1,47 @@
+*** Settings ***
+Documentation     check/run查询跑步记录是不是发过动态
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    fid                postRunId                 ret     msg
+class_01              [Documentation]    check/run查询跑步记录是不是发过动态
+                      [Tags]             Online                    Test
+                      [Template]         check_run
+                      99043872           0                         "0"     成功
+
+*** Keywords ***
+check_run
+    [Arguments]    ${fid}    ${postRunId}    ${ret}    ${msg}
+    [Documentation]    check/run查询跑步记录是不是发过动态
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${userName}    env_username_randomchoice    a
+    ${fids}    UserRunList_Fid    2018    ${userName}    fraud,0,0.5    fid
+    ${fid}    randomchoice    ${fids}    ,
+    ${path}=    set variable    /feed/check/run
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${maps}    postRunId=${postRunId}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    ${data}    get json value    ${content}    /data
+    ${data}=    charconver    ${data}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="0"    log    ${data}
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------
