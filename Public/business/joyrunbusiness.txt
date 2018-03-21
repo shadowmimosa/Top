@@ -312,6 +312,7 @@ oneclickdetails_userinfo
 check_runfeed
     [Arguments]    ${fids}    ${userName}
     [Documentation]    check/run查询跑步记录是不是发过动态
+    [Timeout]    10 seconds
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     @{fidList}    Split String    ${fids}    ,
@@ -333,9 +334,8 @@ check_runfeed
     ...    ELSE IF    ${ret}=="10097"    set variable    2
     ...    ELSE    set variable    0
     ${istrue}    Convert To String    ${istrue}
-    Run Keyword If    '${istrue}'=='false'    log    得到fid===${fid}
+    ${passfid}   Run Keyword If    '${istrue}'=='false'    set variable    ${fid}
     ...    ELSE IF    '${istrue}'=='true' and '${fids}'<>'${EMPTY}'    check_runfeed    ${fids}    ${userName}
-    ...    ELSE    log    fid：${fid}不存在或${path}接口出现ret=${ret}错误
-    ${passfid}    Run Keyword If    '${istrue}'=='0'    set variable    0
-    ...    ELSE    set variable    ${fid}
+    ...    ELSE IF    '${istrue}'=='true' and '${fids}'=='${EMPTY}'    set variable    0
+    ...    ELSE   set variable    0
     [Return]    ${passfid}
