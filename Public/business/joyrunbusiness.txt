@@ -315,3 +315,17 @@ check_runfeed
     ...    ELSE IF    '${istrue}'=='true' and '${fids}'=='${EMPTY}'    set variable    0
     ...    ELSE   set variable    0
     [Return]    ${passfid}
+
+challengeList_filters
+    [Arguments]   ${filters}    ${Returnfield}    ${userName}   
+    [Documentation]    challenge/challengeList挑战活动，返回uid和活动ID串，以list形式返回，第1个为活动ID串，第2个为uid
+    ${uid}    oneclickdetails_userinfo    uid    ${userName}
+    ${path}=    set variable    /challenge/challengeList
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    uid=${uid}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${challenge_URL}
+    ${content}=    charconver    ${resp.content}	
+	${challengelists}   get json value    ${content}   /data
+	${challenge}   FilterList    ${challengelists}    ${filters}    ${Returnfield}
+	[Return]    ${challenge}   ${uid}
+	

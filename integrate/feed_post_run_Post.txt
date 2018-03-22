@@ -74,5 +74,7 @@ feedpostrun_assertClass
     ${ret}    get json value    ${content}    /ret
     ${fidres}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data/fid
     ...    ELSE    set variable    0
-    log    用户：${userName} 动态ID为===${fidres},跑步记录id:${fid}
+    ${feedlistv5fid}    FeedListv5_Fids    ${userName}
+    Should Contain    ${feedlistv5fid}    ${fid}
+    log    用户：${userName} 动态ID为===${fidres},跑步记录id:${fid};我的动态列表${feedlistv5fid}
     log    ------------------------ It is OK!!!!-------------------------------------

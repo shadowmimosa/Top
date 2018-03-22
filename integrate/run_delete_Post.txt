@@ -25,6 +25,7 @@ deleteRun_selete
     ${timemax}    evaluate    int(${time})
     #判断环境随机选择用户
     ${userName}    Env_username    2a
+    #${userName}    set variable    5145311
     ${env}    Env_username    1
     #选择作弊的跑步记录
     ${Runfids}    UserRunList_Fid    ${userName}    fraud,0.5,2/lasttime,${timemin},${timemax}    fid
@@ -59,11 +60,14 @@ deleteRun
     log    ---输出返回内容----
     log json    ${content}
     log    ---开始断言验证---
-    log    response数据为：
-    log    ${resp}
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"0"
     log    ret 符合预期为"0"
     ${ret}    get json value    ${content}    /ret
+    ${vsfids}    UserRunList_Fid    ${userName}    fraud,0,2    fid
+    should not contain    ${vsfids}    ${fid}
+    ${Vsss}    Getrunrecodeinfo    ${fid}    1    ${userName}
+    should contain    ${Vsss}    "ret":"404"
+    should contain    ${Vsss}    "msg":"您访问的资源不存在。"
     log    用户：${userName} 删除的跑步记录id:${fid}
     log    ------------------------ It is OK!!!!-------------------------------------

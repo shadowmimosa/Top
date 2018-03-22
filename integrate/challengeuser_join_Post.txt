@@ -1,0 +1,81 @@
+*** Settings ***
+Documentation     /challengeuser/join 参加挑战活动
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+#${userName}      13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    uid                cid                           ret            msg
+class_01              [Documentation]    /challengeuser/join 参加挑战活动
+                      [Tags]             Online                        Test
+                      [Setup]            log                           初始化用例！！！！！
+                      [Template]         join_select
+                      [Timeout]          10 seconds
+                      0                  0                             "0"            成功
+                      [Teardown]         log                           用例已结束了！！！！！
+
+*** Keywords ***
+join_select
+    [Arguments]    ${uid}    ${cid}    ${ret}    ${msg}
+    [Documentation]    /challengeuser/join 参加挑战活动,判定是不是有活动可参加；
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${userName}    Env_username    a
+    ${userName}    set variable    13829744541
+    @{challengeList}    challengeList_filters    activityStatus,0,1.5    challengeId    ${userName}
+    ${cids}    Get From List    ${challengeList}    0
+    ${uid}    Get From List    ${challengeList}    1
+    Run Keyword If    '${cids}'=='0'    log    没有未完成的活动可参加；
+    ...    ELSE    select_challenge    ${uid}    ${cids}    ${ret}    ${msg}
+    ...    ${userName}
+
+select_challenge
+    [Arguments]    ${uid}    ${cids}    ${ret}    ${msg}    ${userName}
+    [Documentation]    /challenge/getActivity 选择未参与的活动；
+    @{cidlist}    Split String    ${cids}    ,
+    ${cid}    Get From List    ${cidlist}    0
+    ${cids}    Removesting    ${cids}    ${cid}    ,
+    ${path}=    set variable    /challenge/getActivity
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    uid=${uid}
+    set to dictionary    ${maps}    cid=${cid}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${challenge_URL}
+    ${content}=    charconver    ${resp.content}
+    ${ret11}    get json value    ${content}    /ret
+    ${userJoinStatus}    Run Keyword If    ${ret11}=="0"    get json value    ${content}    /data/userJoinStatus
+    ...    ELSE    set variable    error{ret11}
+    Run Keyword If    ${userJoinStatus}==0    joinchallengeuser_post    ${uid}    ${cid}    ${ret}    ${msg}
+    ...    ${userName}
+    ...    ELSE IF    ${userJoinStatus}==1 and "${cids}"<>"${EMPTY}"    select_challenge    ${uid}    ${cids}    ${ret}
+    ...    ${msg}    ${userName}
+    ...    ELSE    log    所有活动都已参加，无未参加的活动
+
+joinchallengeuser_post
+    [Arguments]    ${uid}    ${cid}    ${ret}    ${msg}    ${userName}
+    [Documentation]    /challengeuser/join 参与挑战活动；
+    ${path}=    set variable    /challengeuser/join
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    uid=${uid}
+    set to dictionary    ${maps}    cid=${cid}
+    log    ---输出测试地址---
+    log    ${api_URL}${maps}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${challenge_URL}
+    ${content}=    charconver    ${resp.content}
+    ${data}    get json value    ${content}    /data
+    ${data}=    charconver    ${data}
+    log json    ${resp.content}
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="0"    log    ${data}
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    ${resp2}=    thejoyrun_postd    /challenge/getActivity    ${maps}    ${userName}    ${challenge_URL}
+    ${content2}=    charconver    ${resp2.content}
+    ${userJoinStatus}    get json value    ${content2}    /data/userJoinStatus
+    ${title}    get json value    ${content2}    /data/title
+    should be true    ${userJoinStatus}==1
+    log    用户${userName}已成功参加=====${title}====活动
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------

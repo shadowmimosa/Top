@@ -1,0 +1,52 @@
+*** Settings ***
+Documentation     challenge/getActivity 挑战活动详情
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+#${userName}      13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    uid                cid                             ret            msg
+class_01              [Documentation]    challenge/getActivity 挑战活动详情
+                      [Tags]             Online                          Test
+                      [Setup]            log                             初始化用例！！！！！
+                      [Template]         getActivity
+                      [Timeout]          10 seconds
+                      0                  0                               "0"            成功
+                      [Teardown]         log                             用例已结束了！！！！！
+
+*** Keywords ***
+getActivity
+    [Arguments]    ${uid}    ${cid}    ${ret}    ${msg}
+    [Documentation]    challenge/getActivity 挑战活动详情
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${userName}    Env_username    a
+    @{challengeList}    challengeList_filters    activityStatus,0,1.5    challengeId    ${userName}
+    ${cids}    Get From List    ${challengeList}    0
+    ${uid}    Get From List    ${challengeList}    1
+    ${cid}    randomchoice    ${cids}    ,
+    ${path}=    set variable    /challenge/getActivity
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    uid=${uid}
+    set to dictionary    ${maps}    cid=${cid}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${challenge_URL}
+    ${content}=    charconver    ${resp.content}
+    ${data}    get json value    ${content}    /data
+    ${data}=    charconver    ${data}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="0"    log    ${data}
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------
