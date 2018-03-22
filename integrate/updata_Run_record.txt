@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     /po.aspx发布动态
+Documentation     /po.aspx上传跑步记录
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -20,8 +20,8 @@ RunRecord_opinion
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #环境判定和用户的选择
-    ${userName}    env_username_randomchoice    a
-    ${env}    env_username_randomchoice    1
+    ${userName}    Env_username    a
+    ${env}    Env_username    1
     #从4个热门话题中随机选择一个热门话题
     ${topicName}    FourTopicList_TopicName    ${userName}
     #从热门话题中，选择当前第1页最新的动态
@@ -33,7 +33,7 @@ RunRecord_opinion
     ${fids}    Run Keyword If    "${srcfids}"=="0"    set variable    0
     ...    ELSE IF    '${env}'=='Test'    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter
     ...    2000    25000
-    ...    ELSE    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter    5000
+    ...    ELSE    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter    3000
     ...    12000
     ${fid}    Run Keyword If    "${fids}"=="0"    set variable    0
     ...    ELSE    randomchoice    ${fids}    ,
@@ -143,17 +143,14 @@ RuningRecord
     log json    ${resp.content}
     log    ---输出返回内容----
     log json    ${content}
-    log    ---开始断言验证---
-    log    response数据为：
-    log    ${resp}
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"0"
     log    ret 符合预期为"0"
     ${ret}    get json value    ${content}    /ret
     ${fraud}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /fraud
-    ...    ELSE    set variable    1
+    ...    ELSE    set variable    error:${ret}
     ${postRunId}=    Run Keyword If    ${fraud}=="0"    get json value    ${content}    /postRunId
-    ...    ELSE    set variable    0
+    ...    ELSE    set variable    error:${ret}
     log    跑步记录postRunId为===${postRunId}
     log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud}，是否室外：${type};跑步地区=${province}，来自话题==${topicName},原fid ID== ${fid}，原uid ===${srcuid}
     log    ------------------------ It is OK!!!!-------------------------------------

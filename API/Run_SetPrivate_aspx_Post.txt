@@ -24,8 +24,8 @@ SetPrivate_select
     ${dateline}=    convert to string    ${time}
     ${timemin}    evaluate    int(${time})-86400
     ${timemax}    evaluate    int(${time})
-    ${userName}    env_username_randomchoice    a
-    ${fids}    UserRunList_Fid    2018    ${userName}    meter,1000,50000/lasttime,${timemin},${timemax}/private,0,0.9    fid
+    ${userName}    Env_username    a
+    ${fids}    UserRunList_Fid    ${userName}    meter,1000,50000/lasttime,${timemin},${timemax}/private,0,0.9    fid
     ${fid}    randomchoice    ${fids}    ,
     Run Keyword If    ${fid}==0    log    ==选择范围内的跑步记录都已置为私密记录======
     ...    ELSE    SetPrivate_Post_assertClass    ${fid}    ${userName}    ${ret}

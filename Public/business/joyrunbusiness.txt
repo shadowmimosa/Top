@@ -14,18 +14,6 @@ Resource          thejoyrun.txt
 ${password}       67889911    #可以放置一些公共参数；
 
 *** Keywords ***
-env_username_randomchoice
-    [Arguments]    ${env}
-    [Documentation]    根据login_URL值判定环境，再根据不同环境随机从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online，仅当${env}==1时返回环境Online、Test，其他无作用；
-    ${env1}    Run keyword If    "${login_URL}"=="http://api-test.thejoyrun.com"    set variable    Test
-    ...    ELSE    set variable    Online
-    ${usernamerand}    Run Keyword If    '${env1}'=='Test'    randomchoice    ${Testuserlist}    ,
-    ...    ELSE    randomchoice    ${Onlineuserlist}    ,
-    log    ====环境为${env1}======
-    ${runEU}    Run Keyword If    '${env}'=='1'    set variable    ${env1}
-    ...    ELSE    set variable    ${usernamerand}
-    log    ====数据返回为为：${runEU}=====
-    [Return]    ${runEU}
 
 arraystoarray
     [Arguments]    ${lis1}    ${lis2}
@@ -251,7 +239,7 @@ FeedListv5_Fids
     [Return]    ${fidv5}
 
 UserRunList_Fid
-    [Arguments]    ${year}    ${userName}    ${filters}    ${Returnfield}
+    [Arguments]       ${userName}    ${filters}    ${Returnfield}
     [Documentation]    userRunList用户本人的跑步记录基本验证,year 年份，filters 为过滤规则格式:lasttime,1521603644,1621603644,表示查找字段lasttime的值在1521603644-1621603644之间的记录，多个过滤条件用/隔开，最多支持三个条件；Returnfield为需要返回的字段值，例如：fid则返回符合条件的fid值；
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -261,6 +249,7 @@ UserRunList_Fid
     ${dateline}=    convert to string    ${time}
     ${lasttime}=    set variable    0
     log    lasttime=${lasttime}
+	${year}  Get Time   year
     ${maps}=    create dictionary
     set to dictionary    ${maps}    dateline=${dateline}
     set to dictionary    ${maps}    year=${year}
@@ -276,20 +265,7 @@ UserRunList_Fid
     ...    ELSE    set variable    ${runfid}
     [Return]    ${fidRun}
 
-Textcontrl
-    [Arguments]    ${type}
-    [Documentation]    根据类型做不同的随机返回文本字符串；
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${yyyy}    ${mm}    ${dd}    ${hour}    ${min}    ${sec}    Get Time
-    ...    year,month,day,hour,min,sec
-    ${returntext}    Run Keyword If    '${type}'=='time' and '${mm}'=='01' and '${dd}'=='01'    randomchoice    新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /
-    ...    ELSE IF    '${type}'=='time' and '${dd}'=='01'    randomchoice    大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！    /
-    ...    ELSE IF    '${type}'=='time' and 4<=${hour}<=8    randomchoice    早安，悦跑！！/joyrun Go!/一天之季在于晨！！/早起鸟儿有虫吃/新的一天始于足下！！    /
-    ...    ELSE IF    '${type}'=='time' and 11<=${hour}<=15    randomchoice    午安，悦跑！！/愿小伙伴们如日中天！！/早起虫儿被鸟吃！/午间散步！！/    /
-    ...    ELSE IF    '${type}'=='time'    randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/再小的坚持X365都会很可观/跑步就是最好的放松/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/悦跑悦快乐！！/恢复打卡/约定跑/跑步打卡/小跑怡情/跑跑更健康//    /
-    ...    ELSE    randomchoice    珍惜每一天！！/跑步打卡/    /
-    [Return]    ${returntext}
+
 
 oneclickdetails_userinfo
     [Arguments]    ${returnfield}    ${userName}

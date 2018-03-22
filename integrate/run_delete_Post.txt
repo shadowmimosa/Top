@@ -24,11 +24,11 @@ deleteRun_selete
     ${timemin}    evaluate    int(${time})-86400
     ${timemax}    evaluate    int(${time})
     #判断环境随机选择用户
-    ${userName}    env_username_randomchoice    2a
-    ${env}    env_username_randomchoice    1
+    ${userName}    Env_username    2a
+    ${env}    Env_username    1
     #选择作弊的跑步记录
-    ${Runfids}    UserRunList_Fid    2018    ${userName}    fraud,0.5,2/lasttime, ${timemin},${timemax}    fid
-    ${postRunIds}    UserRunList_Fid    2018    ${userName}    fraud,0.5,2/lasttime, ${timemin},${timemax}    postRunId
+    ${Runfids}    UserRunList_Fid    ${userName}    fraud,0.5,2/lasttime,${timemin},${timemax}    fid
+    ${postRunIds}    UserRunList_Fid    ${userName}    fraud,0.5,2/lasttime,${timemin},${timemax}    postRunId
     #选择第一条作弊跑步记录删除
     @{Runfidslist}    Split String    ${Runfids}    ,
     @{postRunIdslist}    Split String    ${postRunIds}    ,

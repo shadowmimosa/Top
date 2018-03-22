@@ -29,7 +29,7 @@ rank_Post_assertClass
     [Documentation]    rank跑友的日、周、月跑量排行榜
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${userName}    env_username_randomchoice    ${env}
+    ${userName}    Env_username    ${env}
     ${range}    randomchoice    0,1,2    ,
     ${path}=    set variable    /rank.aspx
     ${maps}=    create dictionary

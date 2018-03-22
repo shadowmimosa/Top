@@ -4,14 +4,17 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
-${userName}       13829744541    # 用户名
+#${userName}      13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    fid                postRunId                 ret     msg
+*** Test Cases ***    fid                postRunId                 ret            msg
 class_01              [Documentation]    check/run查询跑步记录是不是发过动态
                       [Tags]             Online                    Test
+                      [Setup]            log                       初始化用例！！！！！
                       [Template]         check_run
-                      99043872           0                         "0"     成功
+                      [Timeout]          10 seconds
+                      99043872           0                         "0"            成功
+                      [Teardown]         log                       用例已结束了！！！！！
 
 *** Keywords ***
 check_run
@@ -19,8 +22,8 @@ check_run
     [Documentation]    check/run查询跑步记录是不是发过动态
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${userName}    env_username_randomchoice    a
-    ${fids}    UserRunList_Fid    2018    ${userName}    fraud,0,0.5    fid
+    ${userName}    Env_username    a
+    ${fids}    UserRunList_Fid    ${userName}    fraud,0,0.5    fid
     ${fid}    randomchoice    ${fids}    ,
     ${path}=    set variable    /feed/check/run
     ${maps}=    create dictionary

@@ -17,7 +17,7 @@ Class_01              [Documentation]    challenge/challengeList挑战活动列�
 challengeList_Get
     [Arguments]    ${uid}    ${expected}    ${msg}
     [Documentation]    challenge/challengeList挑战活动列表接口；
-    ${userName}    env_username_randomchoice    a
+    ${userName}    Env_username    a
     ${uid}    oneclickdetails_userinfo    uid    ${userName}
     ${path}=    set variable    /challenge/challengeList
     ${maps}=    create dictionary
