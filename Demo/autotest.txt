@@ -1,0 +1,22 @@
+*** Settings ***
+Library           ../Public/autotest.py
+Resource          ../Public/public_lib.txt
+
+*** Variables ***
+${home}           E:\\Work\\Test\\Enjoytherun    #本地测试代码的根目录
+${demopath}       E:\\Work\\Test\\Enjoytherun\\Demo\\Demo.txt    #本地demo文件的路径地址
+
+*** Test Cases ***    url                                                                                                                                                              method                             Interfacefields
+Class_01              [Documentation]                                                                                                                                                  demo_Documentation TestCase测试用例
+                      [Tags]                                                                                                                                                           Demo
+                      [Template]                                                                                                                                                       autotestcase_V1
+                      https://mapp-test.api.thejoyrun.com/wallet/getWalletByUid?timestamp=1522225709000&sid=eda1412c27f249189d4a0901d9c18c4b8&uid=32518359&appid=wx1fef2e38049c8d5f    Getc                               ${EMPTY}
+
+*** Keywords ***
+autotestcase_V1
+    [Arguments]    ${url}    ${method}    ${Interfacefields}
+    [Documentation]    调用此方法自动生成常规测试用例
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    autotestcase    ${home}    ${url}    ${method}    ${Interfacefields}    ${demopath}
+    log    ====成功！！接口测试文件已在相应目录下=====
