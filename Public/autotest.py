@@ -20,8 +20,8 @@ sys.setdefaultencoding('utf-8')
 # #接口文件的根目录
 # home='E:\Work\Test\Enjoytherun'
 
-# #method:5个值分别为：Get,Post,Getns,Getc,Postc;
-# #其中Getc,Postc为跑团小程序Get\Post请求,Getns为无需签名的Get请求；
+# #method:5个值分别为：Get,Post,Getns,Getc,Postc,Postns;
+# #其中Getc,Postc为跑团小程序Get\Post请求,Getns,Postns为无需签名的Get和Post请求；
 # method='Getc'   
 
 # #访问接口的url地址，目前只能处理thejoyrun.com 域名的接口
@@ -114,7 +114,7 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 			fieldslen = len(fieldslist)
 			Interfacefieldstr = getfieldstr.replace(',','    ')
 		elif getfieldstr.count(',')==0 and getfieldstr!='':
-			fieldslist[0]=getfieldstr
+			fieldslist.append(getfieldstr)
 			fieldslen=1
 			Interfacefieldstr=getfieldstr
 		else:
@@ -167,7 +167,7 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 		for  i  in range(0,demolen):
 			demoline = demo[i]
 			if '*** Test Cases ***' in demoline:     #处理testcase中的入参变量
-				demoline = '*** Test Cases ***   '   + Interfacefieldstr + '  ret   msg'
+				demoline = '*** Test Cases ***   '   + Interfacefieldstr + '  ret   msg  \n'
 			elif '[Arguments]' in demoline and fieldslen>0:    #处理关健字的变量，要与入参一致
 				demoline = '    [Arguments]   ' 
 				for fields in fieldslist:
@@ -202,7 +202,10 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 				demoline = demoline.replace('api_URL',baseurl)	
 			elif 'thejoyrun_Keywords' in demoline and method=='Postc':    #处理跑团小程序Post请求关健字
 				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_postjson_crew')
-				demoline = demoline.replace('api_URL',baseurl)			
+				demoline = demoline.replace('api_URL',baseurl)	
+			elif 'thejoyrun_Keywords' in demoline and method=='Postns':    #处理非签名Post请求关健字
+				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_post_nosign')
+				demoline = demoline.replace('api_URL',baseurl)					
 			elif 'demo_URL' in demoline:    #处理用例关健字，
 				demoline = demoline.replace('demo_URL',interfacewords)	
 			elif '[Tags]' in demoline:    #标签，

@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     demo_Documentation 接口脚本
+Documentation     ec_api/get-rootSalesRuleId 接口脚本
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -8,22 +8,23 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 ${Isuid}          0    #是否需要传uid,0不需要，1需要；跑团小程序专用字段，当传参中uid时此项为1
 
-*** Test Cases ***    ret                msg
-Class_01              [Documentation]    demo_Documentation TestCase测试用例
-                      [Tags]             Demo
-                      [Template]         demo_URL_Keywords
-                      "0"                成功
+*** Test Cases ***    marathonId         ret                                          msg
+Class_01              [Documentation]    ec_api/get-rootSalesRuleId TestCase测试用例
+                      [Tags]             Test                                         auto_v1    Online
+                      [Template]         ec_api_get-rootSalesRuleId_Getns_Keywords
+                      109                "0"                                          成功
 
 *** Keywords ***
-demo_URL_Keywords
-    [Arguments]    ${ret}    ${msg}
-    [Documentation]    demo_Documentation 接口用例的Keywords关健字
+ec_api_get-rootSalesRuleId_Getns_Keywords
+    [Arguments]    ${marathonId}    ${ret}    ${msg}
+    [Documentation]    ec_api/get-rootSalesRuleId 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /urlpath
+    ${path}=    set variable    /ec_api/get-rootSalesRuleId
     ${maps}=    create dictionary
-    log    ========输出接口入参：${api_URL}${maps}==========
-    ${resp}=    thejoyrun_Keywords    ${path}    ${maps}    ${userName}    ${api_URL}
+    set to dictionary    ${maps}    marathonId=${marathonId}
+    log    ========输出接口入参：${ec_URL}${maps}==========
+    ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

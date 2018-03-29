@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     demo_Documentation 接口脚本
+Documentation     marathon/online-mls-list 接口脚本
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -8,22 +8,22 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 ${Isuid}          0    #是否需要传uid,0不需要，1需要；跑团小程序专用字段，当传参中uid时此项为1
 
-*** Test Cases ***    ret                msg
-Class_01              [Documentation]    demo_Documentation TestCase测试用例
-                      [Tags]             Demo
-                      [Template]         demo_URL_Keywords
+*** Test Cases ***     ret   msg  
+Class_01              [Documentation]    marathon/online-mls-list TestCase测试用例
+                      [Tags]             Test   auto_v1   Online
+                      [Template]         marathon_online-mls-list_Post_Keywords
                       "0"                成功
 
 *** Keywords ***
-demo_URL_Keywords
-    [Arguments]    ${ret}    ${msg}
-    [Documentation]    demo_Documentation 接口用例的Keywords关健字
+marathon_online-mls-list_Post_Keywords
+    [Arguments]     ${ret}   ${msg}
+    [Documentation]    marathon/online-mls-list 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /urlpath
+    ${path}=    set variable    /marathon/online-mls-list
     ${maps}=    create dictionary
-    log    ========输出接口入参：${api_URL}${maps}==========
-    ${resp}=    thejoyrun_Keywords    ${path}    ${maps}    ${userName}    ${api_URL}
+    log    ========输出接口入参：${marathon_URL}${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${marathon_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

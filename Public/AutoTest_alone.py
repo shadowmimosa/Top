@@ -17,24 +17,33 @@ import signal
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+
+url= raw_input("please Enter interface url:".decode('utf-8'))
+print "Your Interface URL is : ", url
+Interfacefields= raw_input("Enter interface fields (multiple fields separated by commas)")
+print "interface fields is : ", Interfacefields
+method= raw_input("Select request methods: Get,Post,Getns,Getc,Postc,Postns:".decode('utf-8'))
+print "Your Interface method is : ", method
+demopath= raw_input("Enter demo file path(eg:   E:\Work\Test\Enjoytherun\Demo\Demo.txt  ) ")
+print "demo file path is : ", demopath
 #接口文件的根目录
 home='E:\Work\Test\Enjoytherun'
+print "home path is : ", home
+# #method:5个值分别为：Get,Post,Getns,Getc,Postc,Postns;
+# #其中Getc,Postc为跑团小程序Get\Post请求,Getns,Postns为无需签名的Get和Post请求；
+# method='Getc'   
 
-#method:5个值分别为：Get,Post,Getns,Getc,Postc;
-#其中Getc,Postc为跑团小程序Get\Post请求,Getns为无需签名的Get请求；
-method='Getc'   
+# #访问接口的url地址，目前只能处理thejoyrun.com 域名的接口
+# #url= 'http://bet1-test.api.thejoyrun.com/user/my/mission'
 
-#访问接口的url地址，目前只能处理thejoyrun.com 域名的接口
-#url= 'http://bet1-test.api.thejoyrun.com/user/my/mission'
+# url= 'https://mapp2-test.api.thejoyrun.com/wallet/getWalletByUid?timestamp=1522225709000&sid=eda1412c27f249189d4a0901d9c18c4b8&uid=32518359&appid=wx1fef2e38049c8d5f'
 
-url= 'https://mapp2-test.api.thejoyrun.com/wallet/getWalletByUid?timestamp=1522225709000&sid=eda1412c27f249189d4a0901d9c18c4b8&uid=32518359&appid=wx1fef2e38049c8d5f'
+# #Get类型的接口此项传空（即使有值也是无效的）即可，
+# #Post接口中所带的入参（除公共参数外），多个入参入用逗号隔开（例如a,b,c）
+# Interfacefields='a,b,c,d,e,f,g,h'
 
-#Get类型的接口此项传空（即使有值也是无效的）即可，
-#Post接口中所带的入参（除公共参数外），多个入参入用逗号隔开（例如a,b,c）
-Interfacefields='a,b,c,d,e,f,g,h'
-
-#测试接口模板文件地址
-demopath='E:\Work\Test\Enjoytherun\Demo\Demo.txt'
+# #测试接口模板文件地址
+# demopath='E:\Work\Test\Enjoytherun\Demo\Demo.txt'
 
 #def autotestcase(home,url,method,Interfacefields,demopath):
 fieldslist=list() 
@@ -114,7 +123,7 @@ if '?' in url:
 		fieldslen = len(fieldslist)
 		Interfacefieldstr = getfieldstr.replace(',','    ')
 	elif getfieldstr.count(',')==0 and getfieldstr!='':
-		fieldslist[0]=getfieldstr
+		fieldslist.append(getfieldstr)
 		fieldslen=1
 		Interfacefieldstr=getfieldstr
 	else:
@@ -167,7 +176,7 @@ else:
 	for  i  in range(0,demolen):
 		demoline = demo[i]
 		if '*** Test Cases ***' in demoline:     #处理testcase中的入参变量
-			demoline = '*** Test Cases ***   '   + Interfacefieldstr + '  ret   msg'
+			demoline = '*** Test Cases ***   '   + Interfacefieldstr + '  ret   msg  \n'
 		elif '[Arguments]' in demoline and fieldslen>0:    #处理关健字的变量，要与入参一致
 			demoline = '    [Arguments]   ' 
 			for fields in fieldslist:
@@ -202,6 +211,9 @@ else:
 			demoline = demoline.replace('api_URL',baseurl)	
 		elif 'thejoyrun_Keywords' in demoline and method=='Postc':    #处理跑团小程序Post请求关健字
 			demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_postjson_crew')
+			demoline = demoline.replace('api_URL',baseurl)	
+		elif 'thejoyrun_Keywords' in demoline and method=='Postns':    #处理非签名Post请求关健字
+			demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_post_nosign')
 			demoline = demoline.replace('api_URL',baseurl)			
 		elif 'demo_URL' in demoline:    #处理用例关健字，
 			demoline = demoline.replace('demo_URL',interfacewords)	

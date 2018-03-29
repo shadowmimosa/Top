@@ -96,6 +96,9 @@ event_URL='http://event-test.api.thejoyrun.com'
 #跑团小程序
 mapp_URL='https://mapp-test.api.thejoyrun.com'
 
+#企业跑团
+cr_URL='http://cr-test.thejoyrun.com'
+
 
 #各版本测试（3.1）密钥
 appkey1='fb1931e425f84313bfae4b93ab3ccdc4'
@@ -194,6 +197,9 @@ Testuserlist='13829744541,13829744542,13829744543,13829744544,13829744545,514531
 
 # #跑团小程序
 # mapp_URL='https://mapp.api.thejoyrun.com'
+
+#企业跑团
+# cr_URL='https://cr-test.thejoyrun.com'
 
 # #各版本测试（3.1）密钥
 # appkey1='fb1931e425f84313bfae4b93ab3ccdc4'

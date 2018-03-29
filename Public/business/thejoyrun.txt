@@ -274,11 +274,9 @@ thejoyrun_postd
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
     [Return]    ${resp}
 
-thejoyrun_postp
+thejoyrun_post_nosign
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
-    [Documentation]    *joyrun中post请求URL方式关键字*    #${version}=    Run Keyword If    ${app_version}!=None    set variable    ${app_version}    #...    # ELSE    set variable    ${acshow_version}
-    ...
-    ...    参数以data方法提交，在出现Url中，也在body中带公共参数（signature、timestamp）；
+    [Documentation]    *joyrun中post请求URL方式关键字* 没有加密的用于非APP的页面请求，参数以data方法提交；
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
     #从字典里取出相应key的值
@@ -287,76 +285,31 @@ thejoyrun_postp
     ${timestamp}=    Get From Dictionary    ${heards}    timestamp
     ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
     ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
+	${URL}=    set variable    ${Base_URL}
     ##将ypcookie转为url编码
     ${ypcookie1}=    urlencode    ${ypcookie}
     ${cookies}=    create dictionary
     set to dictionary    ${cookies}    ypcookie=${ypcookie1}
-    set to dictionary    ${cookies}    app_version=${appversion}
+    set to dictionary    ${cookies}    app_version=${APPVERSION}
     log    uid ===${uid}
     log    sid ===${sid}
     log    heards_dict ===${heards_dict}
-    ${URL}=    set variable    ${Base_URL}
-    ${sign_dict}=    create dictionary    timestamp=${timestamp}
-    ${post_dict}=    create dictionary    timestamp=${timestamp}
-    @{mapstolist_sign}=    evaluate    sorted(${maps}.iteritems())
-    : FOR    ${map}    IN    @{mapstolist_sign}
-    \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}
+    ${post_dict}=    create dictionary    
     @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
-    #排序及格式处理
-    ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.iteritems())
-    ${signparam}=    convert to string    ${sign_dict_tolist}
-    ${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    u'    '
-    ${signparam}=    Replace String    ${signparam}    ', '    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ('    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ')    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ]    ${EMPTY}
-    #${signparam}=    Replace String    ${signparam}    &    ${EMPTY}
-    ${signparam}=    Evaluate    '${signparam}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
-    #log    ${signparam}
-    #排序及格式处理
-    log    signparam===${signparam}
-    ${signkey1}=    set variable    ${signparam}${appkey1}${uid}${sid}
-    ${signkey2}=    set variable    ${signparam}${appkey2}${uid}${sid}
-    #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}
-    #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY}
-    log    signkey1=====${signkey1}
-    log    signkey2=====${signkey2}
-    #排序及格式处理
-    ${sign1}=    encrypt    ${signkey1}    md5    32
-    ${sign2}=    encrypt    ${signkey2}    md5    32
-    #通用签名
-    #${sign}=    set variable    a9ff6970eb814e6894389ca8b12f3030
-    ${_sign} =    Convert To Uppercase    ${sign1}
-    ${signature} =    Convert To Uppercase    ${sign2}
-    set to dictionary    ${heards_dict}    _sign=${_sign}
     set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
     set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
     set to dictionary    ${heards_dict}    APP_DEV_INFO=${APPDEVINFO}
     set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION}
     set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}
-    log    _sign====${_sign}
-    log    signature====${signature}
-    set to dictionary    ${post_dict}    signature=${signature}
-    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
     log    参数编码前：${post_dict}
-    ${post_dict}    Evaluate    urllib.urlencode(${post_dict})    urllib
-    log    参数编码后：${post_dict}
-    ${post_param}=    convert to string    ${post_dict_tolist1}
-    ${post_param}=    Replace String    ${post_param}    [    ${EMPTY}
-    ${post_param}=    Replace String    ${post_param}    u'    '
-    ${post_param}=    Replace String    ${post_param}    ', '    =
-    ${post_param}=    Replace String    ${post_param}    ('    ${EMPTY}
-    ${post_param}=    Replace String    ${post_param}    ')    ${EMPTY}
-    ${post_param}=    Replace String    ${post_param}    ,${SPACE}    &
-    ${post_param}=    Replace String    ${post_param}    ]    ${EMPTY}
-    ${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
+    ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    log    参数编码后：${post_param}
+    ####	
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
-    ${resp}=    Post Request    run    uri=${path}    params=${post_param}
+    ${resp}=    Post Request    run    uri=${path}    data=${post_param}
     [Return]    ${resp}
 
 thejoyrun_postjson_crew
