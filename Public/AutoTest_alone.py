@@ -22,7 +22,7 @@ url= raw_input("please Enter interface url:".decode('utf-8'))
 print "Your Interface URL is : ", url
 Interfacefields= raw_input("Enter interface fields (multiple fields separated by commas)")
 print "interface fields is : ", Interfacefields
-method= raw_input("Select request methods: Get,Post,Getns,Getx,Postx,Postns:".decode('utf-8'))
+method= raw_input("Select request methods: Get,Post,Getns,Getw,Postw,Postns:".decode('utf-8'))
 print "Your Interface method is : ", method
 demopath= raw_input("Enter demo file path(eg:   E:\Work\Test\Enjoytherun\Demo\Demo.txt  ) ")
 print "demo file path is : ", demopath
@@ -170,7 +170,7 @@ if 'Get' in method:
 else:
 	filename= Interfacename + '_Post.txt'
 if os.path.exists(filename): 
-	print   '此接口已存在，不需要再次创建！！'.decode('utf-8')
+	print   folderdirectory,'\\',filename,'此接口文件已存在，不需要再次创建！！'.decode('utf-8')
 else:
 	#处理读取的模板信息
 	for  i  in range(0,demolen):
@@ -227,7 +227,7 @@ else:
 	creatfile=open(filename, 'w')	
 	creatfile.write('%s' % ''.join(result)) 
 	creatfile.close()
-
+	print  folderdirectory,'\\',filename,'接口创建成功'.decode('utf-8')
 # '''
 # if __name__ == '__main__':
     # # autotestcase(data)

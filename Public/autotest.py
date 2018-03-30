@@ -218,7 +218,7 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 		creatfile=open(filename, 'w')	
 		creatfile.write('%s' % ''.join(result)) 
 		creatfile.close()
-		print  folderdirectory,'\\',filename,'接口创建成功'.decode('utf-8'),filename
+		print  folderdirectory,'\\',filename,'接口创建成功'.decode('utf-8')
 
 
 if __name__ == '__main__':
