@@ -161,7 +161,7 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 	else:
 		filename= Interfacename + '_Post.txt'
 	if os.path.exists(filename): 
-		print   '此接口已存在，不需要再次创建！！'.decode('utf-8')
+		print   folderdirectory,'\\',filename,'此接口文件已存在，不需要再次创建！！'.decode('utf-8')
 	else:
 		#处理读取的模板信息
 		for  i  in range(0,demolen):
@@ -218,6 +218,7 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 		creatfile=open(filename, 'w')	
 		creatfile.write('%s' % ''.join(result)) 
 		creatfile.close()
+		print  folderdirectory,'\\',filename,'接口创建成功'.decode('utf-8'),filename
 
 
 if __name__ == '__main__':
