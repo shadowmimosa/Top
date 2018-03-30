@@ -24,7 +24,7 @@ wallet_getWalletByUid_Getc_Keywords
     ${maps}=    create dictionary
     set to dictionary    ${maps}    uid=${uid}
     log    ========输出接口入参：${mapp_URL}${maps}==========
-    ${resp}=    thejoyrun_get_crew    ${path}    ${maps}    ${userName}    ${mapp_URL}
+    ${resp}=    thejoyrun_get_wxminp    ${path}    ${maps}    ${userName}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

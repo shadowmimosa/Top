@@ -285,7 +285,7 @@ thejoyrun_post_nosign
     ${timestamp}=    Get From Dictionary    ${heards}    timestamp
     ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
     ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
-	${URL}=    set variable    ${Base_URL}
+    ${URL}=    set variable    ${Base_URL}
     ##将ypcookie转为url编码
     ${ypcookie1}=    urlencode    ${ypcookie}
     ${cookies}=    create dictionary
@@ -294,7 +294,7 @@ thejoyrun_post_nosign
     log    uid ===${uid}
     log    sid ===${sid}
     log    heards_dict ===${heards_dict}
-    ${post_dict}=    create dictionary    
+    ${post_dict}=    create dictionary
     @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
@@ -307,16 +307,14 @@ thejoyrun_post_nosign
     log    参数编码前：${post_dict}
     ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
-    ####	
+    ####
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
     [Return]    ${resp}
 
-thejoyrun_postjson_crew
+thejoyrun_postjson_wxminp
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
-    [Documentation]    *joyrun中post请求json方式关键字*    #${version}=    Run Keyword If    ${app_version}!=None    set variable    ${app_version}    #...    # ELSE    set variable    ${acshow_version}
-    ...
-    ...    参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于跑团小程序）；
+    [Documentation]    *joyrun中post请求json方式关键字用于微信小程序*    参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于跑团小程序）；
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
     ${time}    evaluate    int(${time}*1000)
@@ -351,11 +349,9 @@ thejoyrun_postjson_crew
     ${resp}=    Post Request    run    uri=${path}    data=${post_dict}
     [Return]    ${resp}
 
-thejoyrun_get_crew
+thejoyrun_get_wxminp
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
-    [Documentation]    *joyrun中get请求关键字主要用于跑团小程序*
-    ...
-    ...    参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
+    [Documentation]    *joyrun中get请求关键字主要用于微信小程序* 参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
     log    time= ${time}

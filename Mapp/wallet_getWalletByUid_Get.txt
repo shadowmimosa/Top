@@ -36,7 +36,7 @@ getListByPage_Post_assertClass
     log    ${maps}
     log    ---输出测试地址---
     log    ${mapp_URL} ${maps}
-    ${resp}=    thejoyrun_get_crew    ${path}    ${maps}    ${userName}    ${mapp_URL}
+    ${resp}=    thejoyrun_get_wxminp    ${path}    ${maps}    ${userName}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
     log    ---输出返回内容----

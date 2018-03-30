@@ -23,7 +23,7 @@ appversion='ios3.1.1'
 #ContentType='application/x-www-form-urlencoded'
 
 # # 环境变量（Test,Online）
-# env='Test'
+
 
 # #===============测试环境下连接地址(Test)=======================
 
@@ -93,7 +93,7 @@ challenge_URL='http://challenge-test.api.thejoyrun.com'
 #event 事件相关
 event_URL='http://event-test.api.thejoyrun.com'
 
-#跑团小程序
+#小程序统一域名
 mapp_URL='https://mapp-test.api.thejoyrun.com'
 
 #企业跑团
@@ -110,13 +110,13 @@ appkey2='1fd6e28fd158406995f77727b35bf20a'
 APPVERSION='100.3.1.0'
 
 #跑团小程序密钥
-crewappkey='hello-joyrun-micro-app'
+corpcrewappkey='hello-joyrun-micro-app'
 
 #跑团小程序APPID
-appid='wx1fef2e38049c8d5f'
+corpcrewappid='wx1fef2e38049c8d5f'
 
 #跑团小程序用户身份sid  2018-02-06 12:30 
-sid='eda1412c27f249189d4a0901d9c18c4b8'
+corpcrewsid='eda1412c27f249189d4a0901d9c18c4b8'
 
 #线上运行用户列表   注意以下用名的密码要一致；
 Onlineuserlist='13926281760,13926281760,5145311,86121631,13926281760,86121631,5145311,86121631,13926281760'
@@ -125,7 +125,7 @@ Onlineuserlist='13926281760,13926281760,5145311,86121631,13926281760,86121631,51
 Testuserlist='13829744541,13829744542,13829744543,13829744544,13829744545,5145311'
 
 
-# # else:
+
 #=======================线上发布连接地址(Online)========================
 
 
@@ -195,11 +195,11 @@ Testuserlist='13829744541,13829744542,13829744543,13829744544,13829744545,514531
 # #event 事件相关
 # event_URL='http://event.api.thejoyrun.com'
 
-# #跑团小程序
+# #小程序统一域名
 # mapp_URL='https://mapp.api.thejoyrun.com'
 
-#企业跑团
-# cr_URL='https://cr-test.thejoyrun.com'
+# #企业跑团
+# cr_URL='https://cr.thejoyrun.com'
 
 # #各版本测试（3.1）密钥
 # appkey1='fb1931e425f84313bfae4b93ab3ccdc4'
@@ -211,13 +211,13 @@ Testuserlist='13829744541,13829744542,13829744543,13829744544,13829744545,514531
 # APPVERSION='100.3.1.0'
 
 # #跑团小程序密钥
-# crewappkey='0a7d4aa5-c13c-40c2-9b1e-3476071a6f82'
+# corpcrewappkey='0a7d4aa5-c13c-40c2-9b1e-3476071a6f82'
 
 # #跑团小程序APPID
-# appid='wx24fffb22401a1157'
+# corpcrewappid='wx24fffb22401a1157'
 
 # #跑团小程序用户身份sid===2018-02-06  10:28
-# sid='d6a7abb5ff534d95b398dece8789e1533'
+# corpcrewsid='6861e3f7620840c2b03d8eff181a61d70'
 
 # #线上运行用户列表   注意以下用名的密码要一致；
 # Onlineuserlist='13829744541,13926281760,5145311'

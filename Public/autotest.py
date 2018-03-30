@@ -21,8 +21,8 @@ sys.setdefaultencoding('utf-8')
 # home='E:\Work\Test\Enjoytherun'
 
 # #method:5个值分别为：Get,Post,Getns,Getc,Postc,Postns;
-# #其中Getc,Postc为跑团小程序Get\Post请求,Getns,Postns为无需签名的Get和Post请求；
-# method='Getc'   
+# #其中Getw,Postw为微信小程序Get\Post请求,Getns,Postns为无需签名的Get和Post请求；
+# method='Getw'   
 
 # #访问接口的url地址，目前只能处理thejoyrun.com 域名的接口
 # #url= 'http://bet1-test.api.thejoyrun.com/user/my/mission'
@@ -197,11 +197,11 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 			elif 'thejoyrun_Keywords' in demoline and method=='Getns':    #处理不需要签名的Get关健字，
 				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_get_nosign')
 				demoline = demoline.replace('api_URL',baseurl)	
-			elif 'thejoyrun_Keywords' in demoline and method=='Getc':    #处理跑团小程序Get请求关健字
-				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_get_crew')
+			elif 'thejoyrun_Keywords' in demoline and method=='Getw':    #处理微信小程序Get请求关健字
+				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_get_wxminp')
 				demoline = demoline.replace('api_URL',baseurl)	
-			elif 'thejoyrun_Keywords' in demoline and method=='Postc':    #处理跑团小程序Post请求关健字
-				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_postjson_crew')
+			elif 'thejoyrun_Keywords' in demoline and method=='Postw':    #处理微信小程序Post请求关健字
+				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_postjson_wxminp')
 				demoline = demoline.replace('api_URL',baseurl)	
 			elif 'thejoyrun_Keywords' in demoline and method=='Postns':    #处理非签名Post请求关健字
 				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_post_nosign')
