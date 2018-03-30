@@ -1,0 +1,39 @@
+*** Settings ***
+Documentation     user/getlist.aspx 接口脚本
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+${Isuid}          0    #是否需要传uid,0不需要，1需要；跑团小程序专用字段，当传参中uid时此项为1
+
+*** Test Cases ***    fields                    uids                                                                                                                                                                              ret        msg
+Class_01              [Documentation]           user/getlist.aspx TestCase测试用例
+                      [Tags]                    Test                                                                                                                                                                              auto_v1    Online
+                      [Template]                user_getlist_aspx_Post_Keywords
+                      province,city,isfriend    26563760,29661662,86638100,27408394,34049243,86014169,24176366,3592001,2996399,85270338,86669385,7956377,86700725,8201224,61900047,84288189,85504728,85722214,29391126,1289046    "0"        成功
+
+*** Keywords ***
+user_getlist_aspx_Post_Keywords
+    [Arguments]    ${fields}    ${uids}    ${ret}    ${msg}
+    [Documentation]    user/getlist.aspx 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /user/getlist.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    fields=${fields}
+    set to dictionary    ${maps}    uids=${uids}
+    log    ========输出接口入参：${api_URL}${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------

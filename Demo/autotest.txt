@@ -1,4 +1,9 @@
 *** Settings ***
+Documentation     参数说明
+...               Home为测试代码 根目录
+...               demopath为demo文件的路径；
+...               url为接口地址；
+...               method为请求的公共关健字，Get、Post为app关健字，Getw,Postw 为小程序关键字，getns,Postns为web的无签名的关键字；Interfacefields为POST请求类的非公共参数，多个入参用逗号隔开
 Library           ../Public/autotest.py
 Resource          ../Public/public_lib.txt
 
@@ -10,7 +15,8 @@ ${demopath}       E:\\Work\\Test\\Enjoytherun\\Demo\\Demo.txt    #本地demo文�
 Class_01              [Documentation]                                                                                                                                                  自动生接口测试脚本，参数：method类型为：Get,Post,Getc,Getns,Postc;Getc用于跑团小程序的get请求，Getns为无需签名的get请求，Postc为跑团小程的post请求
                       [Tags]                                                                                                                                                           Demo
                       [Template]                                                                                                                                                       autotestcase_V1
-                      https://mapp-test.api.thejoyrun.com/wallet/getWalletByUid?timestamp=1522225709000&sid=eda1412c27f249189d4a0901d9c18c4b8&uid=32518359&appid=wx1fef2e38049c8d5f    Getc                                                                                                     ${EMPTY}
+                      https://mapp-test.api.thejoyrun.com/wallet/getWalletByUid?timestamp=1522225709000&sid=eda1412c27f249189d4a0901d9c18c4b8&uid=32518359&appid=wx1fef2e38049c8d5f    Getw                                                                                                     ${EMPTY}
+                      http://api.thejoyrun.com/user/getlist.aspx                                                                                                                       Post                                                                                                     fields,uids
 
 *** Keywords ***
 autotestcase_V1
@@ -19,4 +25,4 @@ autotestcase_V1
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     autotestcase    ${home}    ${url}    ${method}    ${Interfacefields}    ${demopath}
-    log    ====成功！！接口测试文件已在相应目录下=====
+    log    ====接口测试文件已在相应目录下=====
