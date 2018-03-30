@@ -316,6 +316,12 @@ thejoyrun_postjson_wxminp
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
     [Documentation]    *joyrun中post请求json方式关键字用于微信小程序*    参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于跑团小程序）；
     ##通过本地获取timestamp
+	${wxminpnames}   Split String    ${path}    /
+	${wxminpname1}    Get From List   ${wxminpnames}  1
+	${wxminpname}   Run Keyword If  '${wxminpname1}'<>'wallet'  set variable    ${wxminpname1}   ELSE   Set variable  corpcrew
+	${appid}   set variable   ${${wxminpname}appid}
+	${sid}   set variable   ${${wxminpname}sid}
+	${appkey}   set variable   ${${wxminpname}appkey}
     ${time}=    Get Time    epoch
     ${time}    evaluate    int(${time}*1000)
     ${timestamp}    evaluate    str(${time})
@@ -333,8 +339,8 @@ thejoyrun_postjson_wxminp
     set to dictionary    ${post_dict}    appid=${appid}
     set to dictionary    ${post_dict}    sid=${sid}
     #签名
-    ${signkey}=    Run Keyword If    ${Isuid}==0    set variable    ${appid}${timestamp}${sid}${crewappkey}
-    ...    ELSE    set variable    ${appid}${timestamp}${sid}${uid}${crewappkey}
+    ${signkey}=    Run Keyword If    ${Isuid}==0    set variable    ${appid}${timestamp}${sid}${appkey}
+    ...    ELSE    set variable    ${appid}${timestamp}${sid}${uid}${appkey}
     ${signkey}=    Replace String    ${signkey}    "    ${EMPTY}
     log    signkey=====${signkey}
     #排序及格式处理
@@ -352,6 +358,12 @@ thejoyrun_postjson_wxminp
 thejoyrun_get_wxminp
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
     [Documentation]    *joyrun中get请求关键字主要用于微信小程序* 参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
+	${wxminpnames}   Split String    ${path}    /
+	${wxminpname1}    Get From List   ${wxminpnames}  1
+	${wxminpname}   Run Keyword If  '${wxminpname1}'<>'wallet'  set variable    ${wxminpname1}   ELSE   Set variable  corpcrew
+	${appid}   set variable   ${${wxminpname}appid}
+	${sid}   set variable   ${${wxminpname}sid}
+	${appkey}   set variable   ${${wxminpname}appkey}	
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
     log    time= ${time}
@@ -371,8 +383,8 @@ thejoyrun_get_wxminp
     set to dictionary    ${post_dict}    appid=${appid}
     set to dictionary    ${post_dict}    sid=${sid}
     #签名
-    ${signkey}=    Run Keyword If    ${Isuid}==0    set variable    ${appid}${timestamp}${sid}${crewappkey}
-    ...    ELSE    set variable    ${appid}${timestamp}${sid}${uid}${crewappkey}
+    ${signkey}=    Run Keyword If    ${Isuid}==0    set variable    ${appid}${timestamp}${sid}${appkey}
+    ...    ELSE    set variable    ${appid}${timestamp}${sid}${uid}${appkey}
     ${signkey}=    Replace String    ${signkey}    "    ${EMPTY}
     log    signkey=====${signkey}
     #排序及格式处理
