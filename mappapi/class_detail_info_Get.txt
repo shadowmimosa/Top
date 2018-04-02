@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     demo_Documentation 接口脚本
+Documentation     bet/class/detail/info 接口脚本
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -7,23 +7,24 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    ret                msg
-Class_01              [Documentation]    demo_Documentation TestCase测试用例
-                      [Tags]             Demo
-                      [Template]         demo_URL_Keywords
-                      "0"                成功
+*** Test Cases ***    classId            ret                                   msg
+Class_01              [Documentation]    bet/class/detail/info TestCase测试用例
+                      [Tags]             Test                                  auto_v1
+                      [Template]         class_detail_info_Getw_Keywords
+                      619                "0"                                   成功
 
 *** Keywords ***
-demo_URL_Keywords
-    [Arguments]    ${ret}    ${msg}
-    [Documentation]    demo_Documentation 接口用例的Keywords关健字
+class_detail_info_Getw_Keywords
+    [Arguments]    ${classId}    ${ret}    ${msg}
+    [Documentation]    bet/class/detail/info 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /urlpath
+    ${path}=    set variable    /bet/class/detail/info
     ${maps}=    create dictionary
-    log    ========输出接口URL：${api_URL}${path}
-	log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_Keywords    ${path}    ${maps}    ${userName}    ${api_URL}
+    set to dictionary    ${maps}    classId=${classId}
+    log    ========输出接口URL：${mapp_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_get_wxminp    ${path}    ${maps}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

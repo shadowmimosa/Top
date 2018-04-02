@@ -200,9 +200,11 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 			elif 'thejoyrun_Keywords' in demoline and method=='Getw':    #处理微信小程序Get请求关健字
 				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_get_wxminp')
 				demoline = demoline.replace('api_URL',baseurl)	
+				demoline = demoline.replace('${userName}','')
 			elif 'thejoyrun_Keywords' in demoline and method=='Postw':    #处理微信小程序Post请求关健字
 				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_postjson_wxminp')
-				demoline = demoline.replace('api_URL',baseurl)	
+				demoline = demoline.replace('api_URL',baseurl)
+				demoline = demoline.replace('${userName}','')				
 			elif 'thejoyrun_Keywords' in demoline and method=='Postns':    #处理非签名Post请求关健字
 				demoline = demoline.replace('thejoyrun_Keywords','thejoyrun_post_nosign')
 				demoline = demoline.replace('api_URL',baseurl)					
@@ -211,7 +213,9 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 			elif '[Tags]' in demoline:    #标签，
 				demoline = demoline.replace('Demo','Test   auto_v1')	
 			elif 'api_URL' in demoline:    #接口用例的baseurl
-				demoline = demoline.replace('api_URL',baseurl)			
+				demoline = demoline.replace('api_URL',baseurl)	
+			elif 'application/x-www-form-urlencoded' in demoline and method=='Postw': #接口数据提交格式json
+				demoline = demoline.replace('application/x-www-form-urlencoded','application/json')				
 			else:
 				print  "interface is OK "
 			result.append(demoline)

@@ -16,7 +16,7 @@ Class_01              [Documentation]                                           
                       [Tags]                                                                                                                                                           Demo
                       [Template]                                                                                                                                                       autotestcase_V1
                       https://mapp-test.api.thejoyrun.com/wallet/getWalletByUid?timestamp=1522225709000&sid=eda1412c27f249189d4a0901d9c18c4b8&uid=32518359&appid=wx1fef2e38049c8d5f    Getw                                                                                                     ${EMPTY}
-                      http://api.thejoyrun.com/user/getlist.aspx                                                                                                                       Post                                                                                                     fields,uids
+                      https://mapp-test.api.thejoyrun.com/bet/class/detail/info                                                                                                        Getw                                                                                                     classId
 
 *** Keywords ***
 autotestcase_V1

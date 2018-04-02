@@ -313,22 +313,24 @@ thejoyrun_post_nosign
     [Return]    ${resp}
 
 thejoyrun_postjson_wxminp
-    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
-    [Documentation]    *joyrun中post请求json方式关键字用于微信小程序*    参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于跑团小程序）；
+    [Arguments]    ${path}    ${maps}    ${Base_URL}    ${uid}=None
+    [Documentation]    *joyrun中post请求json方式关键字用于微信小程序* 参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于跑团小程序）；
     ##通过本地获取timestamp
-	${wxminpnames}   Split String    ${path}    /
-	${wxminpname1}    Get From List   ${wxminpnames}  1
-	${wxminpname}   Run Keyword If  '${wxminpname1}'<>'wallet'  set variable    ${wxminpname1}   ELSE   Set variable  corpcrew
-	${appid}   set variable   ${${wxminpname}appid}
-	${sid}   set variable   ${${wxminpname}sid}
-	${appkey}   set variable   ${${wxminpname}appkey}
+    ${wxminpnames}    Split String    ${path}    /
+    ${wxminpname1}    Get From List    ${wxminpnames}    1
+    ${wxminpname}    Run Keyword If    '${wxminpname1}'<>'wallet'    set variable    ${wxminpname1}
+    ...    ELSE    Set variable    corpcrew
+    ${appid}    set variable    ${${wxminpname}appid}
+    ${sid}    set variable    ${${wxminpname}sid}
+    ${appkey}    set variable    ${${wxminpname}appkey}
     ${time}=    Get Time    epoch
     ${time}    evaluate    int(${time}*1000)
     ${timestamp}    evaluate    str(${time})
     log    timestamp=${timestamp}
     #当需要传uid时，则uid从map中取，否则uid为0
-    ${uid}=    Run Keyword If    ${Isuid}==1    Get From Dictionary    ${maps}    uid
-    ...    ELSE    set variable    0
+	${mapskey}  Get Dictionary Keys   ${maps}
+	${k}  Get Count  ${mapskey}   uid
+	${uid}  Run Keyword If  ${k}==1   Get From Dictionary    ${maps}    uid   ELSE   set variable  0	
     ${heards_dict}=    create dictionary
     log    sid ===${sid}
     log    heards_dict ===${heards_dict}
@@ -338,8 +340,11 @@ thejoyrun_postjson_wxminp
     set to dictionary    ${post_dict}    timestamp=${timestamp}
     set to dictionary    ${post_dict}    appid=${appid}
     set to dictionary    ${post_dict}    sid=${sid}
+    log    post_dict：${post_dict}
+    #${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    #log    参数编码后：${post_param}	
     #签名
-    ${signkey}=    Run Keyword If    ${Isuid}==0    set variable    ${appid}${timestamp}${sid}${appkey}
+    ${signkey}=    Run Keyword If    ${uid}==0    set variable    ${appid}${timestamp}${sid}${appkey}
     ...    ELSE    set variable    ${appid}${timestamp}${sid}${uid}${appkey}
     ${signkey}=    Replace String    ${signkey}    "    ${EMPTY}
     log    signkey=====${signkey}
@@ -348,22 +353,21 @@ thejoyrun_postjson_wxminp
     #请求头处理
     set to dictionary    ${heards_dict}    sign=${sign}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
-    set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
-    log    sign====${sign}
-    log    post_dict======${post_dict}
-    Create Session    run    ${URL}    headers=${heards_dict}
-    ${resp}=    Post Request    run    uri=${path}    data=${post_dict}
+    #set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
+    Create Session    runwx    ${URL}    headers=${heards_dict}
+    ${resp}=    Post Request    runwx    uri=${path}    data=${post_dict}
     [Return]    ${resp}
 
 thejoyrun_get_wxminp
-    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
+    [Arguments]    ${path}    ${maps}      ${Base_URL}    ${uid}=None
     [Documentation]    *joyrun中get请求关键字主要用于微信小程序* 参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
-	${wxminpnames}   Split String    ${path}    /
-	${wxminpname1}    Get From List   ${wxminpnames}  1
-	${wxminpname}   Run Keyword If  '${wxminpname1}'<>'wallet'  set variable    ${wxminpname1}   ELSE   Set variable  corpcrew
-	${appid}   set variable   ${${wxminpname}appid}
-	${sid}   set variable   ${${wxminpname}sid}
-	${appkey}   set variable   ${${wxminpname}appkey}	
+    ${wxminpnames}    Split String    ${path}    /
+    ${wxminpname1}    Get From List    ${wxminpnames}    1
+    ${wxminpname}    Run Keyword If    '${wxminpname1}'<>'wallet'    set variable    ${wxminpname1}
+    ...    ELSE    Set variable    corpcrew
+    ${appid}    set variable    ${${wxminpname}appid}
+    ${sid}    set variable    ${${wxminpname}sid}
+    ${appkey}    set variable    ${${wxminpname}appkey}
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
     log    time= ${time}
@@ -371,8 +375,9 @@ thejoyrun_get_wxminp
     ${timestamp}=    set variable    ${time}000
     ${timestamp}=    Replace String    ${timestamp}    "    ${EMPTY}
     #当需要传uid时，则uid从map中取，否则uid为0
-    ${uid}=    Run Keyword If    ${Isuid}==1    Get From Dictionary    ${maps}    uid
-    ...    ELSE    set variable    0
+	${mapskey}  Get Dictionary Keys   ${maps}
+	${k}  Get Count  ${mapskey}   uid
+	${uid}  Run Keyword If  ${k}==1   Get From Dictionary    ${maps}    uid   ELSE   set variable  0
     ${heards_dict}=    create dictionary
     log    sid ===${sid}
     log    heards_dict ===${heards_dict}
@@ -383,7 +388,7 @@ thejoyrun_get_wxminp
     set to dictionary    ${post_dict}    appid=${appid}
     set to dictionary    ${post_dict}    sid=${sid}
     #签名
-    ${signkey}=    Run Keyword If    ${Isuid}==0    set variable    ${appid}${timestamp}${sid}${appkey}
+    ${signkey}=    Run Keyword If    ${uid}==0    set variable    ${appid}${timestamp}${sid}${appkey}
     ...    ELSE    set variable    ${appid}${timestamp}${sid}${uid}${appkey}
     ${signkey}=    Replace String    ${signkey}    "    ${EMPTY}
     log    signkey=====${signkey}

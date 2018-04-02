@@ -32,11 +32,9 @@ getListByPage_Post_assertClass
     ${path}=    set variable    /wallet/getWalletByUid
     ${maps}=    create dictionary
     set to dictionary    ${maps}    uid=${uid}
-    log    ---输出参数---
-    log    ${maps}
-    log    ---输出测试地址---
-    log    ${mapp_URL} ${maps}
-    ${resp}=    thejoyrun_get_wxminp    ${path}    ${maps}    ${userName}    ${mapp_URL}
+    log    输出测试地址：${mapp_URL} ${path}
+    log    接口入参为：${maps}
+    ${resp}=    thejoyrun_get_wxminp    ${path}    ${maps}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
     log    ---输出返回内容----

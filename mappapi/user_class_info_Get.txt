@@ -1,30 +1,30 @@
 *** Settings ***
-Documentation     wallet/getWalletByUid 接口脚本
+Documentation     bet/user/class/info 接口脚本
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
-${ContentType}    application/x-www-form-urlencoded    # POST数据格式
-${Isuid}          1    #是否需要传uid,0不需要，1需要；跑团小程序专用字段
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    uid                ret                                    msg
-Class_01              [Documentation]    wallet/getWalletByUid TestCase测试用例
-                      [Tags]             Test                                   auto_v1
-                      [Template]         wallet_getWalletByUid_Getc_Keywords
-                      32518359           "0"                                    成功
+*** Test Cases ***    classId            uid                                 ret        msg
+Class_01              [Documentation]    bet/user/class/info TestCase测试用例
+                      [Tags]             Test                                auto_v1
+                      [Template]         user_class_info_Getw_Keywords
+                      619                100321                              "0"        成功
 
 *** Keywords ***
-wallet_getWalletByUid_Getc_Keywords
-    [Arguments]    ${uid}    ${ret}    ${msg}
-    [Documentation]    wallet/getWalletByUid 接口用例的Keywords关健字
+user_class_info_Getw_Keywords
+    [Arguments]    ${classId}    ${uid}    ${ret}    ${msg}
+    [Documentation]    bet/user/class/info 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${path}=    set variable    /wallet/getWalletByUid
+    ${path}=    set variable    /bet/user/class/info
     ${maps}=    create dictionary
+    set to dictionary    ${maps}    classId=${classId}
     set to dictionary    ${maps}    uid=${uid}
-    log    ========输出接口测试地址：${mapp_URL} ${path}
-    log    =========接口的入参为：${maps}==========
+    log    ========输出接口URL：${mapp_URL}${path}
+    log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_get_wxminp    ${path}    ${maps}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
