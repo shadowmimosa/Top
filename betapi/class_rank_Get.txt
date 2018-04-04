@@ -7,25 +7,28 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***   classId    dataType    pageNum  ret   msg  
+*** Test Cases ***    classId            dataType                   pageNum    ret       msg
 Class_01              [Documentation]    class/rank TestCase测试用例
-                      [Tags]             Test   auto_v1   Online
+                      [Tags]             Test                       auto_v1    Online
                       [Template]         class_rank_Get_Keywords
-                      12025     2     1     "0"                成功
+                      12025              2                          1          "0"       成功
 
 *** Keywords ***
 class_rank_Get_Keywords
-    [Arguments]   ${classId}   ${dataType}   ${pageNum}     ${ret}   ${msg}
+    [Arguments]    ${classId}    ${dataType}    ${pageNum}    ${ret}    ${msg}
     [Documentation]    class/rank 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /class/rank
+    ${userName}    Env_username    a
+    ${classIds}    classList_classids    ${dataType}    runMeter,1000,10000    classId    ${userName}
+    ${classId}    randomchoice    ${classIds}    ,
     ${maps}=    create dictionary
-    set to dictionary  ${maps}  classId=${classId}
-    set to dictionary  ${maps}  dataType=${dataType}
-    set to dictionary  ${maps}  pageNum=${pageNum}
+    set to dictionary    ${maps}    classId=${classId}
+    set to dictionary    ${maps}    dataType=${dataType}
+    set to dictionary    ${maps}    pageNum=${pageNum}
     log    ========输出接口URL：${bet_URL}${path}
-	log    ========接口的入参为：${maps}==========
+    log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${bet_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}

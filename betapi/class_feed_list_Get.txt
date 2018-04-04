@@ -7,24 +7,27 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***   classId    fid  ret   msg  
+*** Test Cases ***    classId            fid                             ret        msg
 Class_01              [Documentation]    class/feed/list TestCase测试用例
-                      [Tags]             Test   auto_v1    Online
+                      [Tags]             Test                            auto_v1    Online
                       [Template]         class_feed_list_Get_Keywords
-                      12025    0     "0"                成功
+                      12025              0                               "0"        成功
 
 *** Keywords ***
 class_feed_list_Get_Keywords
-    [Arguments]   ${classId}   ${fid}     ${ret}   ${msg}
+    [Arguments]    ${classId}    ${fid}    ${ret}    ${msg}
     [Documentation]    class/feed/list 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${userName}    Env_username
+    ${classIds}    classList_classids    1    runMeter,1000,10000    classId    ${userName}
+    ${classId}    randomchoice    ${classIds}    ,
     ${path}=    set variable    /class/feed/list
     ${maps}=    create dictionary
-    set to dictionary  ${maps}  classId=${classId}
-    set to dictionary  ${maps}  fid=${fid}
+    set to dictionary    ${maps}    classId=${classId}
+    set to dictionary    ${maps}    fid=${fid}
     log    ========输出接口URL：${bet_URL}${path}
-	log    ========接口的入参为：${maps}==========
+    log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${bet_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}

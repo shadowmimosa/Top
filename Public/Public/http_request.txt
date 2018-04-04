@@ -319,10 +319,11 @@ joyrun_POST_heardsession
     #${contentime}=    charconver    ${resptime.content}
     #log json    ${resptime.content}
     #${timestamp}    get json value    ${contentime}    /lasttime
-    #log    --------Server time ={timestamp}--------
+    log    --------Server time ={timestamp}--------
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
     log    time= ${time}
+	${time}  evaluate  int(${time})-30   #容错保证本地时间不大于服务器时间；满足：本地时间+300>服务器时间>本地时间，否则会报签名错误；
     ${timestamp}=    convert to string    ${time}
     log    --------Client time ={timestamp}--------
     ${Url}=    set variable    ${login_URL}

@@ -16,7 +16,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 *** Keywords ***
 
 Env_username
-    [Arguments]    ${env}
+    [Arguments]    ${env}=None
     [Documentation]    根据login_URL值判定环境，再根据不同环境随机从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online，仅当${env}==1时返回环境Online、Test，其他无作用；
     ${env1}    Run keyword If    "${login_URL}"=="http://api-test.thejoyrun.com"    set variable    Test
     ...    ELSE    set variable    Online
@@ -36,11 +36,18 @@ Textcontrl
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${yyyy}    ${mm}    ${dd}    ${hour}    ${min}    ${sec}    Get Time
     ...    year,month,day,hour,min,sec
-    ${returntext}    Run Keyword If    '${type}'=='time' and '${mm}'=='01' and '${dd}'=='01'    randomchoice    新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /
-    ...    ELSE IF    '${type}'=='time' and '${dd}'=='01'    randomchoice    大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！    /
-    ...    ELSE IF    '${type}'=='time' and 4<=${hour}<=8    randomchoice    早安，悦跑！！/joyrun Go!/一天之季在于晨！！/早起鸟儿有虫吃/新的一天始于足下！！    /
+	${yyyy}   Evaluate   int(${yyyy})
+	${mm}   Evaluate   int(${mm})
+	${dd}   Evaluate   int(${dd})
+	${hour}   Evaluate   int(${hour})
+	${min}   Evaluate   int(${min})
+	${sec}   Evaluate   int(${sec})
+	${yyyy}   Evaluate   int(${yyyy})
+    ${returntext}    Run Keyword If    '${type}'=='time' and ${mm}==1 and ${dd}==1    randomchoice    新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /
+    ...    ELSE IF    '${type}'=='time' and ${dd}==1    randomchoice    大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！    /
+    ...    ELSE IF    '${type}'=='time' and 4<=${hour}<=8    randomchoice    早安，悦跑！！/joyrun Go!/一天之季在于晨！！/早起鸟儿有虫吃/新的一天始于足下！！/签到/    /
     ...    ELSE IF    '${type}'=='time' and 11<=${hour}<=15    randomchoice    午安，悦跑！！/愿小伙伴们如日中天！！/早起虫儿被鸟吃！/午间散步！！/    /
     ...    ELSE IF    '${type}'=='time'    randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/再小的坚持X365都会很可观/跑步就是最好的放松/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/悦跑悦快乐！！/恢复打卡/约定跑/跑步打卡/小跑怡情/跑跑更健康//    /
-    ...    ELSE    randomchoice    珍惜每一天！！/跑步打卡/    /
+    ...    ELSE    randomchoice    珍惜每一天！！/签到/    /
     [Return]    ${returntext}
 	

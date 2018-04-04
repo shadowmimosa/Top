@@ -24,7 +24,7 @@ Interfacefields= raw_input("Enter interface fields (multiple fields separated by
 print "interface fields is : ", Interfacefields
 method= raw_input("Select request methods: Get,Post,Getns,Getw,Postw,Postns:".decode('utf-8'))
 print "Your Interface method is : ", method
-demopath= raw_input("Enter demo file path(eg:   E:\Work\Test\Enjoytherun\Demo\Demo.txt  ) ")
+demopath= raw_input("Enter demo file path(eg:<<E:\Work\Test\Enjoytherun\Demo\Demo.txt>>) ")
 print "demo file path is : ", demopath
 #接口文件的根目录
 home='E:\Work\Test\Enjoytherun'

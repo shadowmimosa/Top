@@ -329,3 +329,18 @@ challengeList_filters
 	${challenge}   FilterList    ${challengelists}    ${filters}    ${Returnfield}
 	[Return]    ${challenge}   ${uid}
 	
+classList_classids
+    [Arguments]    ${dataType}   ${filters}   ${Returnfield}   ${userName}    
+    [Documentation]    /class/list跑班列表,dataType:1为普通跑班列表，2：为官方推荐列表；filters过滤条件；Returnfield需要返回的字段
+	${pageNum}  set variable    0
+    ${path}=    set variable     /class/list
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    dataType=${dataType}
+    set to dictionary    ${maps}    pageNum=${pageNum}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${bet_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+	${classlists}   get json value    ${content}   /data
+	${classids}   FilterList    ${classlists}    ${filters}    ${Returnfield}
+	[Return]    ${classids}	
+	
