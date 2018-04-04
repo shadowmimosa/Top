@@ -9,7 +9,7 @@ ${ContentType}    application/json;charset=UTF-8    # POST数据格式
 
 *** Test Cases ***    dataType           ret                              msg
 Class_01              [Documentation]    bet/class/list TestCase测试用例
-                      [Tags]             Test                             auto_v1
+                      [Tags]             auto_v1
                       [Template]         bet_class_list_Postw_Keywords
                       1                  "0"                              成功
 

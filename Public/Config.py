@@ -131,7 +131,7 @@ betappkey='hello-joyrun-micro-app'
 betappid='wxd19597f62e33ba65'
 
 #约定跑小程序用户身份sid  2018-02-06 12:30 
-betsid='bd08e2cd88a446f788d96a239a1c075aa'
+betsid='eda1412c27f249189d4a0901d9c18c4b8'
 
 
 #=======================线上发布连接地址(Online)========================

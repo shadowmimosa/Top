@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    classId            ret                                   msg
 Class_01              [Documentation]    bet/class/detail/info TestCase测试用例
-                      [Tags]             Test                                  auto_v1
+                      [Tags]             auto_v1
                       [Template]         class_detail_info_Getw_Keywords
                       619                "0"                                   成功
 
