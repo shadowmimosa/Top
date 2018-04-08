@@ -30,24 +30,24 @@ Env_username
 
 	
 Textcontrl
-    [Arguments]    ${type}
+    [Arguments]    ${type}=None
     [Documentation]    根据类型做不同的随机返回文本字符串；
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${yyyy}    ${mm}    ${dd}    ${hour}    ${min}    ${sec}    Get Time
+    ${yyyy1}    ${mm1}    ${dd1}    ${hour1}    ${min1}    ${sec1}    Get Time
     ...    year,month,day,hour,min,sec
-	${yyyy}   Evaluate   int(${yyyy})
-	${mm}   Evaluate   int(${mm})
-	${dd}   Evaluate   int(${dd})
-	${hour}   Evaluate   int(${hour})
-	${min}   Evaluate   int(${min})
-	${sec}   Evaluate   int(${sec})
-	${yyyy}   Evaluate   int(${yyyy})
+	${yyyy}   Evaluate   int(${yyyy1})
+	${mm}   Evaluate    int(${mm1})
+	#${dd}   set variable    ${dd1}	
+	${dd}   Evaluate    int('${dd1}')
+	${hour}   Evaluate   int(${hour1})
+	${min}   Evaluate   int(${min1})
+	${sec}   Evaluate   int(${sec1})
     ${returntext}    Run Keyword If    '${type}'=='time' and ${mm}==1 and ${dd}==1    randomchoice    新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /
     ...    ELSE IF    '${type}'=='time' and ${dd}==1    randomchoice    大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！    /
-    ...    ELSE IF    '${type}'=='time' and 4<=${hour}<=8    randomchoice    早安，悦跑！！/joyrun Go!/一天之季在于晨！！/早起鸟儿有虫吃/新的一天始于足下！！/签到/    /
-    ...    ELSE IF    '${type}'=='time' and 11<=${hour}<=15    randomchoice    午安，悦跑！！/愿小伙伴们如日中天！！/早起虫儿被鸟吃！/午间散步！！/    /
-    ...    ELSE IF    '${type}'=='time'    randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/再小的坚持X365都会很可观/跑步就是最好的放松/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/悦跑悦快乐！！/恢复打卡/约定跑/跑步打卡/小跑怡情/跑跑更健康//    /
-    ...    ELSE    randomchoice    珍惜每一天！！/签到/    /
+    ...    ELSE IF    '${type}'=='time' and 4<=${hour}<=8    randomchoice    早安，悦跑圈！！/joyrun Go!/一天之季在于晨！！/早起鸟儿有虫吃/新的一天始于足下！！/悦跑日签/生命是一段精彩的旅行！！/跑出精彩！！/常规训练中/按约打卡/阳光正好，追逐梦想！/我在悦跑刚刚好！！/展开今日的双眼，翻开今日的美妙/早上的晨光是我问候的主题/一朵花里，一个世界;一次跑步，一天健康！/每一天醒来告诉自我：理由少一点，肚量大一点，嘴巴甜一点，脾气小一点，行动快一点，效率高一点，微笑露一点，脑筋活一点，再跑一点/    /
+    ...    ELSE IF    '${type}'=='time' and 11<=${hour}<=15    randomchoice    午安，悦跑小伙伴们！！/愿小伙伴们如日中天！！/早起虫儿被鸟吃！/午间散步！！/跑完午间做个好梦！/打起精神，还有半天就可以下班了！/打起精神，尽快完成工作，早点回家吃饭！/饮食清淡少油腻，水果蔬菜补维c。多喝水少添衣，每日午睡有规律!/睁开眼，缓一缓；快起床，伸懒腰；跑一跑，完美的下午又开始了/    /
+    ...    ELSE IF    '${type}'=='time'    randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/夜晚散漫步，聊聊家常，品尝普通的愉悦/再小的坚持X365都会很可观/跑步就是最好的放松/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/悦跑悦快乐！！/恢复打卡/约定跑/跑步打卡/小跑怡情/跑跑更健康/只有努力才会有回报！/现在不给力,老了没有力/趁年轻，做你想做的！！/向生活贷点款，用奋斗去偿还；向成功写张欠条，用拼搏去偿还；向幸福借点钱，用快乐去偿还；向悦跑借点健康，用每天锻炼半小时作为偿还    /
+    ...    ELSE    randomchoice    珍惜每一天！！/签到///    /
     [Return]    ${returntext}
 	
