@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    class/rank TestCase测试用例
                       [Tags]             Test                       auto_v1    Online
                       [Template]         class_rank_Get_Keywords
-                      12025              2                          1          "0"       成功
+                      12025              2                          1          "0"       跑班不存在或者已被删除
 
 *** Keywords ***
 class_rank_Get_Keywords
@@ -34,10 +34,11 @@ class_rank_Get_Keywords
     log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${ret}
-    log    ret 符合预期为:${ret}
+    Run Keyword If    ${classId}<>0    should contain    ${content}    "ret":${ret}
+    ...    ELSE    should contain    ${content}    "ret":"51011"
+    log    ret 符合预期
     log    验证msg是否符合预期
-    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
-    ...    ELSE    should contain    ${content}    "msg":${msg}
+    Run Keyword If    ${classId}<>0    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":"${msg}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
     log    ------------------------ It is OK!!!!-------------------------------------
