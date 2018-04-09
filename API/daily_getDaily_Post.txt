@@ -7,15 +7,15 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***     ret   msg  
+*** Test Cases ***    ret                msg
 Class_01              [Documentation]    daily/getDaily TestCase测试用例
-                      [Tags]             Test   auto_v1   Online
+                      [Tags]             Test                            auto_v1    Online
                       [Template]         daily_getDaily_Post_Keywords
                       "0"                成功
 
 *** Keywords ***
 daily_getDaily_Post_Keywords
-    [Arguments]     ${ret}   ${msg}
+    [Arguments]    ${ret}    ${msg}
     [Documentation]    daily/getDaily 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -33,7 +33,7 @@ daily_getDaily_Post_Keywords
     should contain    ${content}    "ret":${ret}
     log    ret 符合预期为:${ret}
     log    验证msg是否符合预期
-    Run Keyword If    ${ret}=="0"    get json value    ${content}    /chickenContent
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data/chickenContent
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
     log    ------------------------ It is OK!!!!-------------------------------------
