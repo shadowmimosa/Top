@@ -18,6 +18,9 @@ Class_01              [Documentation]                                           
                       https://mapp-test.api.thejoyrun.com/wallet/getWalletByUid?timestamp=1522225709000&sid=eda1412c27f249189d4a0901d9c18c4b8&uid=32518359&appid=wx1fef2e38049c8d5f    Getw                                                                                                     ${EMPTY}
                       https://mapp-test.api.thejoyrun.com/bet/class/detail/info                                                                                                        Getw                                                                                                     classId
                       http://crew.api.thejoyrun.com/crew-user-crew                                                                                                                     Post                                                                                                     uid
+                      http://wear.api.thejoyrun.com/shoe-comment-list                                                                                                                  Post                                                                                                     page,pagesize,shoe_id
+                      http://wear.api.thejoyrun.com/brand-shoe-detail                                                                                                                  Post                                                                                                     shoe_id
+                      http://wear.api.thejoyrun.com/shoe-comment-list-hot                                                                                                              Post                                                                                                     shoe_id
 
 *** Keywords ***
 autotestcase_V1
