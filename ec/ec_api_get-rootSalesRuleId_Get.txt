@@ -6,7 +6,6 @@ Resource          ../Public/public_lib.txt
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
-${Isuid}          0    #是否需要传uid,0不需要，1需要；跑团小程序专用字段，当传参中uid时此项为1
 
 *** Test Cases ***    marathonId         ret                                          msg
 Class_01              [Documentation]    ec_api/get-rootSalesRuleId TestCase测试用例

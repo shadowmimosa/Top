@@ -344,3 +344,22 @@ classList_classids
 	${classids}   FilterList    ${classlists}    ${filters}    ${Returnfield}
 	[Return]    ${classids}	
 	
+	
+marathonlist_marathonIds
+    [Arguments]   ${filters}    ${Returnfield}     ${userName}    
+    [Documentation]    marathon/online-mls-list 线上马的列表
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /marathon/online-mls-list
+    ${maps}=    create dictionary
+    log    ========输出接口入参：${marathon_URL}${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${marathon_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}	
+	${marathonlists}   get json value    ${content}   /data
+	${marathonIds}   FilterList    ${marathonlists}    ${filters}    ${Returnfield}
+	[Return]    ${marathonIds}	
+	
+	
+	
+	

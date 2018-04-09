@@ -6,17 +6,16 @@ Resource          ../Public/public_lib.txt
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
-${Isuid}          0    #是否需要传uid,0不需要，1需要；跑团小程序专用字段，当传参中uid时此项为1
 
-*** Test Cases ***     ret   msg  
+*** Test Cases ***    ret                msg
 Class_01              [Documentation]    marathon/online-mls-list TestCase测试用例
-                      [Tags]             Test   auto_v1   Online
+                      [Tags]             Test                                      auto_v1    Online
                       [Template]         marathon_online-mls-list_Post_Keywords
                       "0"                成功
 
 *** Keywords ***
 marathon_online-mls-list_Post_Keywords
-    [Arguments]     ${ret}   ${msg}
+    [Arguments]    ${ret}    ${msg}
     [Documentation]    marathon/online-mls-list 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
