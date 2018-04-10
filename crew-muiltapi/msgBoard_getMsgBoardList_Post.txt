@@ -1,26 +1,17 @@
 *** Settings ***
 Documentation     获取跑团通知getMsgBoardList
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    boardTime          crewId                                     nodeId    userName       expected_code
+*** Test Cases ***    boardTime          crewId                              nodeId    userName       expected_code
 Class_01              [Documentation]    获取跑团通知getMsgBoardList-线上跑团号10960
-                      [Tags]             Online
+                      [Tags]             Online                              Test
                       [Template]         getMsgBoardList_Post_assertClass
-                      0                  10960                                      0         13829744541    "0"
-
-Class_02              [Documentation]    获取跑团通知getMsgBoardList-测试跑团10960-非跑团成员获取
-                      [Tags]             Test
-                      [Template]         getMsgBoardList_Post_assertClass
-                      0                  10960                                      0         13829744542    "12013"
+                      0                  10960                               0         13829744541    "0"
 
 *** Keywords ***
 getMsgBoardList_Post_assertClass
@@ -28,6 +19,7 @@ getMsgBoardList_Post_assertClass
     [Documentation]    获取跑团通知getMsgBoardList基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${crewId}    getMyCrewInfo    crewid    ${userName}
     ${path}=    set variable    /msgBoard/getMsgBoardList
     ${maps}=    create dictionary
     set to dictionary    ${maps}    boardTime=${boardTime}
@@ -50,13 +42,7 @@ getMsgBoardList_Post_assertClass
     log    ret 符合预期为:${expected_code}
     log    验证msg是否符合预期
     ${msg}=    charconver    "用户操作权限不足"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
+    Run Keyword If    ${expected_code}=="0"    get json value    ${content}    /data
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    #${data}=    charconver    ${data}
-    #should contain    ${data}    "temp":
-    #当验证的内容有中文时，需要先转码再验证；
-    #${weather}=    charconver    "多云"
-    #should contain    ${data}    ${weather}
     log    ------------------------ It is OK!!!!-------------------------------------

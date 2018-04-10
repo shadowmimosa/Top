@@ -285,6 +285,21 @@ oneclickdetails_userinfo
     ...    ELSE    get json value    ${content}    /datas/${returnfield}
     [Return]    ${fieldvalue}
 
+getMyCrewInfo
+    [Arguments]   ${returnfield}  ${userName}    
+    [Documentation]    getMyCrewInfo返回本人跑团相关信息,crewid返回跑团id,uid返回uid,nodeType返回nodeType,adminLevel返回adminLevel,jointime返回加入跑团时间,totalmember返回跑成员数，endNodeid返回endNodeid，role返回roleid,all返回datas中所有字段的值
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /structure/getMyCrewInfo
+    ${maps}=    create dictionary
+    log    ============${crew_muilt_URL}${path},map:${maps}==============
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}	
+	${data}     get json value    ${content}    /data
+    ${fieldvalue}    Run Keyword If    '${returnfield}'=='all' and '${data}'<>'${EMPTY}'   set variable    ${data}    ELSE IF  '${data}'=='${EMPTY}'  set variable   0      ELSE    get json value    ${content}    /data/${returnfield}
+    [Return]    ${fieldvalue}	
+	
 check_runfeed
     [Arguments]    ${fids}    ${userName}
     [Documentation]    check/run查询跑步记录是不是发过动态

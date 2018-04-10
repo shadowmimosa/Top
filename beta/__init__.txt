@@ -1,0 +1,2 @@
+*** Settings ***
+Documentation     配置接口

@@ -1,0 +1,2 @@
+*** Settings ***
+Documentation     多媒体，文章、专栏相关

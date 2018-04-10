@@ -51,10 +51,13 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 	if 'api' in folder and baseurllen>3:
 		baseurl=folder.replace('api','')
 		baseurl= baseurl + '_URL'
+		baseurl = baseurl.replace('-','_')
 	elif 'api' in folder and baseurllen<=3:
 		baseurl=folder + '_URL'
+		baseurl = baseurl.replace('-','_')
 	else:
 		baseurl=folder + '_URL'
+		baseurl = baseurl.replace('-','_')
 	if baseurl=='u_URL':
 		baseurl='user_URL'
 		
