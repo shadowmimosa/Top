@@ -12,18 +12,17 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    isAcquire          targetUid                              expected    msg    env
+*** Test Cases ***    isAcquire          targetUid                              expected    msg
 Class_01              [Documentation]    getBadgeTypeTabSort获取本人已获得及将获得的勋章接口
                       [Tags]             Test                                   Online
                       [Template]         getALLBadgeList
-                      0                   86072310                              "0"         成功     1
+                      0                  86072310                               "0"         成功
 
 *** Keywords ***
 getALLBadgeList
-    [Arguments]    ${isAcquire}    ${targetUid}    ${expected}    ${msg}    ${env}
+    [Arguments]    ${isAcquire}    ${targetUid}    ${expected}    ${msg}
     [Documentation]    getBadgeTypeTabSort获取本人已获得及将获得的勋章接口
-    ${targetUid}=    Run Keyword If    ${env}==1    set variable    ${targetUid}
-    ...    ELSE    set variable    32518359
+    ${targetUid}=    oneclickdetails_userinfo    uid    ${userName}
     ${path}=    set variable    /badge/getALLBadgeList
     ${maps}=    create dictionary
     set to dictionary    ${maps}    isAcquire=${isAcquire}
@@ -42,6 +41,6 @@ getALLBadgeList
     should contain    ${content}    "ret":${expected}
     log    ret 符合预期为:${expected}
     log    验证msg是否符合预期
-    Run Keyword If    ${expected}=="0"    verfication_data    ${content}
+    Run Keyword If    ${expected}=="0"    get json value    ${content}    /data
     ...    ELSE    should contain    ${content}    "msg":${msg}
     log    ------------------------ It is OK!!!!-------------------------------------

@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     brand-shoe-detail 接口脚本
+Documentation     user_api/user.aspx 接口脚本
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -7,27 +7,30 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***   shoe_id  ret   msg  
-Class_01              [Documentation]    brand-shoe-detail TestCase测试用例
-                      [Tags]             Test   auto_v1    Online
-                      [Template]         brand-shoe-detail_Post_Keywords
-                      2909     "0"                成功
+*** Test Cases ***    option             touid                                ret        msg
+Class_01              [Documentation]    user_api/user.aspx TestCase测试用例
+                      [Tags]             Test               Online                  auto_v1
+                      [Template]         user_api_user_aspx_Getns_Keywords
+                      info               86072310                             "0"        成功
+
+
 
 *** Keywords ***
-brand-shoe-detail_Post_Keywords
-    [Arguments]   ${shoe_id}     ${ret}   ${msg}
-    [Documentation]    brand-shoe-detail 接口用例的Keywords关健字
+user_api_user_aspx_Getns_Keywords
+    [Arguments]    ${option}    ${touid}    ${ret}    ${msg}
+    [Documentation]    user_api/user.aspx 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
-    #${userName}    Env_username   ${userName}
-	${shoe_id}    Get_shoe_id   
-    ${path}=    set variable    /brand-shoe-detail
+    #${userName}    Env_username
+	${touid}    oneclickdetails_userinfo    uid   ${userName} 
+    ${path}=    set variable    /user_api/user.aspx
     ${maps}=    create dictionary
-    set to dictionary  ${maps}  shoe_id=${shoe_id}
-    log    ========输出接口URL：${wear_URL}${path}
+    set to dictionary    ${maps}    option=${option}
+    set to dictionary    ${maps}    touid=${touid}
+    log    ========输出接口URL：${ec_URL}${path}
     log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wear_URL}
+    ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

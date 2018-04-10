@@ -360,6 +360,43 @@ marathonlist_marathonIds
 	${marathonIds}   FilterList    ${marathonlists}    ${filters}    ${Returnfield}
 	[Return]    ${marathonIds}	
 	
+Get_shoe_id
+    [Arguments]       ${userName} 
+    [Documentation]    通过调brand-list和brand-shoe-list 接口随机选中一个shoe_id的公共Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+	${page}     set variable    1
+	${pagesize}     set variable    200
+    ${path}=    set variable    /brand-list
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    page=${page}
+    set to dictionary    ${maps}    pagesize=${pagesize}
+    log    ========输出接口URL：${wear_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wear_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+	${brandIdlists}   get json value    ${content}   /data
+	${brandIds}   FilterList    ${brandIdlists}    disp_order,10,2000    brand_id
+	${brand_id}    Run Keyword If  ${brandIds}<>0    randomchoice   ${brandIds}  ,   ELSE    set variable   12
+	${path1}=    set variable    /brand-shoe-list
+	${page}    set variable    1
+	${pagesize}    set variable    10
+	${sortType}    set variable    1	
+    ${maps1}=    create dictionary
+    set to dictionary  ${maps1}  brand_id=${brand_id}
+    set to dictionary  ${maps1}  page=${page}
+    set to dictionary  ${maps1}  pagesize=${pagesize}
+    set to dictionary  ${maps1}  sortType=${sortType}
+    log    ========输出接口URL：${wear_URL}${path1}
+    log    ========接口的入参为：${maps1}==========
+    ${resp1}=    thejoyrun_postd    ${path1}    ${maps1}    ${userName}    ${wear_URL}
+    ${content1}=    charconver    ${resp1.content}
+    log json    ${content1}
+	${shoe_idlist}   get json value    ${content1}   /data
+	${shoe_ids}   FilterList    ${shoe_idlist}    avg_score,3,4.9    shoe_id
+	${shoe_id}    Run Keyword If  ${shoe_ids}<>0    randomchoice   ${shoe_ids}  ,   ELSE    set variable   2909
+	[Return]    ${shoe_id}	
 	
 	
 	

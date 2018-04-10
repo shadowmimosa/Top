@@ -21,6 +21,7 @@ shoe-comment-list-hot_Post_Keywords
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
+	${shoe_id}   Get_shoe_id    ${userName} 
     ${path}=    set variable    /shoe-comment-list-hot
     ${maps}=    create dictionary
     set to dictionary  ${maps}  shoe_id=${shoe_id}

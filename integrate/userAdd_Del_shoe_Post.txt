@@ -1,0 +1,69 @@
+*** Settings ***
+Documentation     userAdd_DEL_shoe_Post_Keywords 增加shoe及删除shoe业务验证
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    remark             self_defined                      shoeColorId    shoeGender    shoeSize    shoeSizeType    shoe_id    shoe_name           userShoeId
+Class_01              [Documentation]    user-shoe-add TestCase测试用例
+                      [Tags]             Test                              auto_v1
+                      [Template]         userAdd_DEL_shoe_Post_Keywords
+                      thjoyrun           0                                 0              1             44          2               2909       UA HOVR® PHANTOM    0
+
+*** Keywords ***
+userAdd_DEL_shoe_Post_Keywords
+    [Arguments]    ${remark}    ${self_defined}    ${shoeColorId}    ${shoeGender}    ${shoeSize}    ${shoeSizeType}
+    ...    ${shoe_id}    ${shoe_name}    ${userShoeId}
+    [Documentation]    userAdd_DEL_shoe_Post_Keywords 增加shoe及删除shoe业务验证
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    ${userName}    Env_username
+    ${shoe_id}    Get_shoe_id    ${userName}
+    ${path}=    set variable    /user-shoe-add
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    remark=${remark}
+    set to dictionary    ${maps}    self_defined=${self_defined}
+    set to dictionary    ${maps}    shoeColorId=${shoeColorId}
+    set to dictionary    ${maps}    shoeGender=${shoeGender}
+    set to dictionary    ${maps}    shoeSize=${shoeSize}
+    set to dictionary    ${maps}    shoeSizeType=${shoeSizeType}
+    set to dictionary    ${maps}    shoe_id=${shoe_id}
+    set to dictionary    ${maps}    shoe_name=${shoe_name}
+    set to dictionary    ${maps}    userShoeId=${userShoeId}
+    log    ========输出接口URL：${wear_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wear_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    ${ret}    get json value    ${content}    /ret
+    ${msg}    get json value    ${content}    /msg
+    Run Keyword If    ${ret}=="0"    userAdd_DEL_shoe_Test    ${content}    ${shoe_id}    ${userName}
+    ...    ELSE    log    =====${userName}增加shoe失败,原因ret:${ret},msg:${msg}
+
+userAdd_DEL_shoe_Test
+    [Arguments]    ${content}    ${shoe_id}    ${userName}
+    ${user_shoe_id}    get json value    ${content}    /data/user_shoe_id
+    log    ===========${userName}增加shoe_id：${shoe_id}成功，user_shoe_id===${user_shoe_id}===========
+    ${path1}    set variable    /user-shoe-list
+    ${maps1}    create dictionary
+    log    user-shoe-list:${wear_URL}${path1},${maps1}
+    ${resp1}=    thejoyrun_postd    ${path1}    ${maps1}    ${userName}    ${wear_URL}
+    ${content1}=    charconver    ${resp1.content}
+    log json    ${content1}
+    Should Contain    ${content1}    "user_shoe_id":"${user_shoe_id}"
+    ${path2}    set variable    /user-shoe-delete
+    ${maps2}    create dictionary
+    set to dictionary    ${maps2}    user_shoe_id=${user_shoe_id}
+    log    user-shoe-delete:${wear_URL}${path2},${maps2}
+    ${resp2}=    thejoyrun_postd    ${path2}    ${maps2}    ${userName}    ${wear_URL}
+    ${content2}=    charconver    ${resp2.content}
+    log json    ${content2}
+    ${resp3}=    thejoyrun_postd    ${path1}    ${maps1}    ${userName}    ${wear_URL}
+    ${content3}=    charconver    ${resp3.content}
+    log json    ${content3}
+    Should Not Contain    ${content3}    "user_shoe_id":"${user_shoe_id}"
+    log    ===========${userName}删除shoe_id：${shoe_id}成功，user_shoe_id===${user_shoe_id}===========

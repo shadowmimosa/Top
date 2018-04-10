@@ -1,0 +1,65 @@
+*** Settings ***
+Documentation     用户加入跑班
+Default Tags
+Resource          ../Public/business/thejoyrun.txt
+Variables         ../Public/Config.py
+Library           ../Public/Verification.py
+Library           ../Public/tool_Libary.py
+Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    classId            userName          pwd       payAmount    paymentType    verifyCode    mobile
+Class_01              [Documentation]    用户加入跑班
+                      [Tags]                           
+                      [Template]         classPartinPay
+                      630                26103021          000000    2100         3              1122          13422030634
+                      630                32518071          000000    2100         3              1122          13422030635
+                      630                32517935          000000    2100         3              1122          13422030636
+
+*** Keywords ***
+classPartinPay
+    [Arguments]    ${classId}    ${userName}    ${pwd}    ${payAmount}    ${paymentType}    ${verifyCode}
+    ...    ${mobile}
+    [Documentation]    用户20380217
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /class/partin/pay
+    log    -----------------${mobile}
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    classId=${classId}
+    set to dictionary    ${maps}    payAmount=${payAmount}
+    set to dictionary    ${maps}    paymentType=${paymentType}
+    set to dictionary    ${maps}    verifyCode=${verifyCode}
+    log    ---输出参数---
+    log    ${maps}
+    log    --输出测试地址--
+    log    ${bet_URL}
+    sendVerifyCode    ${mobile}    ${userName}    ${pwd}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${bet_URL}
+    log    -----------------------${mobile}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+
+sendVerifyCode
+    [Arguments]    ${mobile}    ${userName}    ${pwd}
+    [Documentation]    /sendVerifyCode发送验证码
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /sendVerifyCode
+    #${mobile}=    set variable    13422030633
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    mobile=${mobile}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${wallet_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
