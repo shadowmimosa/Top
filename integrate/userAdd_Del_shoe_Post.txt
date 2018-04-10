@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    remark             self_defined                      shoeColorId    shoeGender    shoeSize    shoeSizeType    shoe_id    shoe_name           userShoeId
 Class_01              [Documentation]    user-shoe-add TestCase测试用例
-                      [Tags]             Test                              auto_v1
+                      [Tags]             Test                              auto_v1        Online
                       [Template]         userAdd_DEL_shoe_Post_Keywords
                       thjoyrun           0                                 0              1             44          2               2909       UA HOVR® PHANTOM    0
 

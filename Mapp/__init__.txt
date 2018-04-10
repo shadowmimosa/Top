@@ -1,2 +1,0 @@
-*** Settings ***
-Documentation     跑团小程序，线上环境只支持https协议，另外sid是公共代码固定写在config文件中
