@@ -7,13 +7,11 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    option             touid                                ret        msg
+*** Test Cases ***    option             touid                                ret       msg
 Class_01              [Documentation]    user_api/user.aspx TestCase测试用例
-                      [Tags]             Test               Online                  auto_v1
+                      [Tags]             Test                                 Online    auto_v1
                       [Template]         user_api_user_aspx_Getns_Keywords
-                      info               86072310                             "0"        成功
-
-
+                      info               86072310                             "0"       成功
 
 *** Keywords ***
 user_api_user_aspx_Getns_Keywords
@@ -23,7 +21,7 @@ user_api_user_aspx_Getns_Keywords
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-	${touid}    oneclickdetails_userinfo    uid   ${userName} 
+    ${touid}    oneclickdetails_userinfo    uid    ${userName}
     ${path}=    set variable    /user_api/user.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    option=${option}
@@ -38,7 +36,7 @@ user_api_user_aspx_Getns_Keywords
     should contain    ${content}    "ret":${ret}
     log    ret 符合预期为:${ret}
     log    验证msg是否符合预期
-    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /user
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
     log    ------------------------ It is OK!!!!-------------------------------------
