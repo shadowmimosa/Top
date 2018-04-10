@@ -413,5 +413,35 @@ Get_shoe_id
 	${shoe_id}    Run Keyword If  ${shoe_ids}<>0    randomchoice   ${shoe_ids}  ,   ELSE    set variable   2909
 	[Return]    ${shoe_id}	
 	
+Getmyclassid
+    [Arguments]    ${userName}   ${isall}=None
+    [Documentation]    /user/my/mission获取参加中的跑班id,如没有则返回0；如有正在进行中的跑班且isall不为空时返回data,否则返回classId；
+    ${path}=    set variable    /user/my/mission
+    ${maps}=    create dictionary
+    log    ======${bet_URL}${path}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${bet_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}	
+	${data}    get json value    ${content}    /data   
+	${classid}   Run Keyword If    '${data}'=='${EMPTY}'  set variable   null    ELSE IF  '${isall}'<>'${EMPTY}'  set variable   ${data}   ELSE   get json value  ${data}  /classId
+	[Return]    ${classid} 
+	
+Getmywallet
+    [Arguments]     ${userName}    ${field}   ${isall}=None
+    [Documentation]    wallet/getUserBalanceAmount 个人钱包信息,field为需要返回的字段：balanceAmount(钱包余额)，mobile(手机号码)，status（1：正常,0:冻结），uid，withdrawAmount（可提现金额）
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${path}=    set variable    /wallet/getUserBalanceAmount
+    ${maps}=    create dictionary
+    log    ========输出接口URL：${wallet_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${wallet_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}	
+	${data}    get json value    ${content}    /data   
+	${fieldvalue}   Run Keyword If   '${data}'=='${EMPTY}'  set variable   null    ELSE IF   '${isall}'<>'${EMPTY}'   set variable   ${data}   ELSE   get json value  ${data}  /${field}
+	[Return]    ${fieldvalue} 	
 	
 	

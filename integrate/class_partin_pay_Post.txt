@@ -13,18 +13,29 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    classId            userName          pwd       payAmount    paymentType    verifyCode    mobile
+*** Test Cases ***    classId            userName                payAmount    paymentType    verifyCode    mobile
 Class_01              [Documentation]    用户加入跑班
-                      [Tags]                           
-                      [Template]         classPartinPay
-                      630                26103021          000000    2100         3              1122          13422030634
-                      630                32518071          000000    2100         3              1122          13422030635
-                      630                32517935          000000    2100         3              1122          13422030636
+                      [Tags]             Test
+                      [Template]         opinion_join_classid
+                      630                13829744541             2100         3              1122          13829744541
 
 *** Keywords ***
+opinion_join_classid
+    [Arguments]    ${classId}    ${userName}    ${payAmount}    ${paymentType}    ${verifyCode}    ${mobile}
+    [Documentation]    判断用户是否符合符加入跑班
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${myclassid}    Getmyclassid    ${userName}
+    ${mybalanceAmount}    Getmywallet    ${userName}    balanceAmount
+    ${classids}    classList_classids    1    classStatus,20,29/singleAmount,0.1,30/runNum,1,4    classId    ${userName}
+    ${classid}    randomchoice    ${classids}    ,
+    Run Keyword If    '${myclassid}'<>'null' or '${mybalanceAmount}'=='null' or ${classids}==0    log    ====用户${userName}不满足条件=====
+    ...    ELSE IF    ${mybalanceAmount}<=10000    log    ====用户${userName}余额不足，请充值！！！=====
+    ...    ELSE    classPartinPay    ${classId}    ${userName}    ${payAmount}    ${paymentType}
+    ...    ${verifyCode}
+
 classPartinPay
-    [Arguments]    ${classId}    ${userName}    ${pwd}    ${payAmount}    ${paymentType}    ${verifyCode}
-    ...    ${mobile}
+    [Arguments]    ${classId}    ${userName}    ${payAmount}    ${paymentType}    ${verifyCode}    ${mobile}
     [Documentation]    用户20380217
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -39,7 +50,7 @@ classPartinPay
     log    ${maps}
     log    --输出测试地址--
     log    ${bet_URL}
-    sendVerifyCode    ${mobile}    ${userName}    ${pwd}
+    sendVerifyCode    ${mobile}    ${userName}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${bet_URL}
     log    -----------------------${mobile}
     ${content}=    charconver    ${resp.content}
@@ -48,7 +59,7 @@ classPartinPay
     log json    ${content}
 
 sendVerifyCode
-    [Arguments]    ${mobile}    ${userName}    ${pwd}
+    [Arguments]    ${mobile}    ${userName}
     [Documentation]    /sendVerifyCode发送验证码
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys

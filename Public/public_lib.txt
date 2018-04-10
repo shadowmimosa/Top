@@ -37,12 +37,13 @@ Textcontrl
     ${yyyy1}    ${mm1}    ${dd1}    ${hour1}    ${min1}    ${sec1}    Get Time
     ...    year,month,day,hour,min,sec
 	${yyyy}   Evaluate   int(${yyyy1})
-	${mm}   Evaluate    int(${mm1})
-	#${dd}   set variable    ${dd1}	
-	${dd}   Evaluate    int('${dd1}')
-	${hour}   Evaluate   int(${hour1})
-	${min}   Evaluate   int(${min1})
-	${sec}   Evaluate   int(${sec1})
+	#${hour1}  set variable  09
+	#将字符类型转化为数字类型，08，09需要特殊处理有以0开始是8进制数；
+	${mm}   Run keyword If   '${mm1}'=='08'  set variable  8  ELSE IF  '${mm1}'=='09'   set variable  9    ELSE   Evaluate    int(${mm1})
+	${dd}   Run keyword If   '${dd1}'=='08'  set variable  8  ELSE IF  '${dd1}'=='09'   set variable  9    ELSE   Evaluate    int(${dd1})
+	${hour}   Run keyword If   '${hour1}'=='08'  set variable  8  ELSE IF  '${hour1}'=='09'  set variable  9    ELSE   Evaluate    int(${hour1})
+	${min}   Run keyword If   '${min1}'=='08'  set variable  8  ELSE IF  '${min1}'=='09'  set variable  9    ELSE   Evaluate    int(${min1})
+	${sec}   Run keyword If   '${sec1}'=='08'  set variable  8  ELSE IF  '${sec1}'=='09'  set variable  9    ELSE   Evaluate    int(${sec1})
     ${returntext}    Run Keyword If    '${type}'=='time' and ${mm}==1 and ${dd}==1    randomchoice    新年第一跑！！/新年快乐！！/元旦快乐！/又是一年！！/年年都有今日/悦跑年签    /
     ...    ELSE IF    '${type}'=='time' and ${dd}==1    randomchoice    大家新月快乐/一月之季在于初/新月第一跑！！/月初拉伸活动！！/悦跑月签/不能恋战，有的是时间收拾你！！    /
     ...    ELSE IF    '${type}'=='time' and 4<=${hour}<=8    randomchoice    早安，悦跑圈！！/joyrun Go!/一天之季在于晨！！/早起鸟儿有虫吃/新的一天始于足下！！/悦跑日签/生命是一段精彩的旅行！！/跑出精彩！！/常规训练中/按约打卡/阳光正好，追逐梦想！/我在悦跑刚刚好！！/展开今日的双眼，翻开今日的美妙/早上的晨光是我问候的主题/一朵花里，一个世界;一次跑步，一天健康！/每一天醒来告诉自我：理由少一点，肚量大一点，嘴巴甜一点，脾气小一点，行动快一点，效率高一点，微笑露一点，脑筋活一点，再跑一点/    /
