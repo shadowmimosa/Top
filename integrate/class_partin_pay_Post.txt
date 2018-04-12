@@ -13,34 +13,45 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    classId            userName                payAmount    paymentType    verifyCode    mobile
+*** Test Cases ***    userName           pwd                     paymentType    verifyCode
 Class_01              [Documentation]    用户加入跑班
-                      [Tags]             Test
+                      [Tags]
                       [Template]         opinion_join_classid
-                      630                13829744541             2100         3              1122          13829744541
+                      13829744541        67889911                3              1122
 
 *** Keywords ***
 opinion_join_classid
-    [Arguments]    ${classId}    ${userName}    ${payAmount}    ${paymentType}    ${verifyCode}    ${mobile}
+    [Arguments]    ${userName}    ${pwd}    ${paymentType}    ${verifyCode}
     [Documentation]    判断用户是否符合符加入跑班
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${myclassid}    Getmyclassid    ${userName}
-    ${mybalanceAmount}    Getmywallet    ${userName}    balanceAmount
-    ${classids}    classList_classids    1    classStatus,20,29/singleAmount,0.1,30/runNum,1,4    classId    ${userName}
-    ${classid}    randomchoice    ${classids}    ,
-    Run Keyword If    '${myclassid}'<>'null' or '${mybalanceAmount}'=='null' or ${classids}==0    log    ====用户${userName}不满足条件=====
-    ...    ELSE IF    ${mybalanceAmount}<=10000    log    ====用户${userName}余额不足，请充值！！！=====
-    ...    ELSE    classPartinPay    ${classId}    ${userName}    ${payAmount}    ${paymentType}
-    ...    ${verifyCode}
+    @{str}    callkeywords    Getmyclassid:${userName};Getmywallet:${userName}:balanceAmount;classList_classids:1:classStatus,20,30/singleAmount,1,3000/runNum,1,40:All:${userName}
+    ${aa}    Evaluate    len(${str} )
+    ${myclassid}    Get From List    ${str}    0
+    ${mywallet}    Get From List    ${str}    1
+    ${classids}    Get From List    ${str}    2
+    log json    ${classids[0]}
+    Run Keyword If    '${myclassid}'<>'0' or '${mywallet}'=='0' or ${classids}==0    log    ====用户${userName}不满足条件（有未完成的跑班、未开通钱包、没有报名中的跑班）=====
+    ...    ELSE    classPartinPay    ${classIds}    ${userName}    ${pwd}    ${paymentType}
+    ...    ${verifyCode}    ${mywallet}    ${classids}
 
 classPartinPay
-    [Arguments]    ${classId}    ${userName}    ${payAmount}    ${paymentType}    ${verifyCode}    ${mobile}
+    [Arguments]    ${classIds}    ${userName}    ${pwd}    ${paymentType}    ${verifyCode}    ${mywallet}
+    ...    ${classids}
     [Documentation]    用户20380217
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    log json    mywallet===${mywallet}
+    ${mobile}    get json value    ${mywallet}    /mobile
+    ${balanceAmount}    get json value    ${mywallet}    /balanceAmount
+    ${status}    get json value    ${mywallet}    /status
+    ${classidsrc}    Get From List    ${classIds}    0
+    ${classId}    get json value    ${classidsrc}    /classId
+    ${runNum}    get json value    ${classidsrc}    /runNum
+    ${singleAmount}    get json value    ${classidsrc}    /singleAmount
+    ${payAmount}= ${singleAmount}*${runNum}
+    logssssss======
     ${path}=    set variable    /class/partin/pay
-    log    -----------------${mobile}
     ${maps}=    create dictionary
     set to dictionary    ${maps}    classId=${classId}
     set to dictionary    ${maps}    payAmount=${payAmount}

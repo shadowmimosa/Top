@@ -345,7 +345,7 @@ challengeList_filters
 	[Return]    ${challenge}   ${uid}
 	
 classList_classids
-    [Arguments]    ${dataType}   ${filters}   ${Returnfield}   ${userName}    
+    [Arguments]    ${dataType}   ${filters}   ${Returnfield}   ${userName}   
     [Documentation]    /class/list跑班列表,dataType:1为普通跑班列表，2：为官方推荐列表；filters过滤条件；Returnfield需要返回的字段
 	${pageNum}  set variable    0
     ${path}=    set variable     /class/list
@@ -356,8 +356,8 @@ classList_classids
     ${content}=    charconver    ${resp.content}
     log json    ${content}
 	${classlists}   get json value    ${content}   /data
-	${classids}   FilterList    ${classlists}    ${filters}    ${Returnfield}
-	[Return]    ${classids}	
+	${Returnfieldvalues}   FilterList    ${classlists}    ${filters}    ${Returnfield}  
+	[Return]    ${Returnfieldvalues}	
 	
 	
 marathonlist_marathonIds
@@ -423,8 +423,9 @@ Getmyclassid
     ${content}=    charconver    ${resp.content}
     log json    ${content}	
 	${data}    get json value    ${content}    /data   
-	${classid}   Run Keyword If    '${data}'=='${EMPTY}'  set variable   null    ELSE IF  '${isall}'<>'${EMPTY}'  set variable   ${data}   ELSE   get json value  ${data}  /classId
-	[Return]    ${classid} 
+	log  isall===${isall}====
+	${myclassid}   Run Keyword If    '${data}'=='${EMPTY}'  set variable   0    ELSE IF  ${isall} is None   get json value  ${data}  /classId   ELSE  set variable   ${data}
+	[Return]    ${myclassid} 
 	
 Getmywallet
     [Arguments]     ${userName}    ${field}   ${isall}=None
@@ -441,7 +442,7 @@ Getmywallet
     ${content}=    charconver    ${resp.content}
     log json    ${content}	
 	${data}    get json value    ${content}    /data   
-	${fieldvalue}   Run Keyword If   '${data}'=='${EMPTY}'  set variable   null    ELSE IF   '${isall}'<>'${EMPTY}'   set variable   ${data}   ELSE   get json value  ${data}  /${field}
+	${fieldvalue}   Run Keyword If   '${data}'=='${EMPTY}'  set variable   0    ELSE IF   '${isall}'<>'${EMPTY}'   set variable   ${data}   ELSE   get json value  ${data}  /${field}
 	[Return]    ${fieldvalue} 	
 	
 	

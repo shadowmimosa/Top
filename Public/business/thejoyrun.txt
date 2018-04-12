@@ -57,11 +57,11 @@ Removesting
     [Return]    ${restr}
 
 FilterList
-    [Arguments]    ${SrcListstr}    ${filters}    ${Returnfield}
+    [Arguments]    ${SrcListstr}    ${filters}    ${Returnfield}   
     [Documentation]    支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；；SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔)；Returnfield为返回值串的字符；例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
-    log    原字符串${SrcListstr}
-    log    筛选条件${filters}
-    log    返回值串的字段${Returnfield}
+    log    原字符串:${SrcListstr}
+    log    筛选条件:${filters}
+    log    返回值串的字段:${Returnfield}
     ${ReturnValue}    set variable    joyrunzzqtestspit
     @{filterList}    Split String    ${filters}    /
     ${filterLen}    evaluate    len(${filterList})
@@ -82,8 +82,8 @@ FilterList
     ${filterfield1max}    Get From List    ${filterstrList1}    2
     ${filterfield2max}    Get From List    ${filterstrList2}    2
     ${filterfield3max}    Get From List    ${filterstrList3}    2
-    ${SrcListstr}    replace string    ${SrcListstr}    [{    {
-    ${SrcListstr}    replace string    ${SrcListstr}    }]    }
+    ${SrcListstr}    replace string    ${SrcListstr}    ${EMPTY}[{    {
+    ${SrcListstr}    replace string    ${SrcListstr}    }]${EMPTY}    }
     ${SrcListstr}    replace string    ${SrcListstr}    ${SPACE}    ${EMPTY}
     ${SrcListstr}    replace string    ${SrcListstr}    },{    }joyrunzzqtestspit{
     @{SrcList}    Split String    ${SrcListstr}    joyrunzzqtestspit
@@ -100,17 +100,42 @@ FilterList
     \    ${filterfield3strlen}    evaluate    len(${filterfield3str})
     \    ${field3Value}    Run Keyword If    ${filterfield3strlen}>0    Get From List    ${filterfield3str}    0
     \    ...    ELSE    set variable    0
-    \    ${ReturnfieldValue}    Run Keyword If    ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}    get json value    ${scrsingle}    /${Returnfield}
-    \    ...    ELSE    set variable    joyrunzzqtestspit
-    \    ${ReturnValue}    Run Keyword If    "${ReturnValue}"<>"${EMPTY}"    set variable    ${ReturnValue},${ReturnfieldValue}
-    \    ...    ELSE    set variable    ${ReturnfieldValue}
+    \    ${ReturnfieldValue}    Run Keyword If    "${Returnfield}"<>"All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}    get json value    ${scrsingle}    /${Returnfield}    
+    \    ...    ELSE IF   "${Returnfield}"=="All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}  set variable    ${scrsingle}  
+    \    ...    ELSE  set variable    joyrunzzqtestspit
+	\	 ${Valuelen}  Evaluate  len(R'${ReturnValue}')
+    \    ${ReturnValue}    Run Keyword If    "${Returnfield}"<>"All" and ${Valuelen}>=1  set variable    ${ReturnValue},${ReturnfieldValue}
+	\	 ...    ELSE IF    "${Returnfield}"<>"All" and ${Valuelen}<1    set variable  ${ReturnfieldValue}
+    \    ...    ELSE   set variable    ${ReturnValue}zzqtestlistspit${ReturnfieldValue}
     \    ${ReturnValue}    replace string    ${ReturnValue}    ,joyrunzzqtestspit    ${EMPTY}
     \    ${ReturnValue}    replace string    ${ReturnValue}    joyrunzzqtestspit,    ${EMPTY}
     \    ${ReturnValue}    replace string    ${ReturnValue}    joyrunzzqtestspit    ${EMPTY}
-    ${ReturnValuesting}    Run Keyword If    "${ReturnValue}"<>"${EMPTY}"    set variable    ${ReturnValue}
-    ...    ELSE    set variable    0
-    [Return]    ${ReturnValuesting}
+	${ReturnValuelen}  Evaluate  len(R'${ReturnValue}')
+    ${ReturnValuesting}    Run Keyword If    ${ReturnValuelen}<1    set variable    0
+    ...    ELSE    set variable    ${ReturnValue}
+	@{returnlist}  Run Keyword If  "${Returnfield}"=="All"   Split String    ${ReturnValuesting}    zzqtestlistspit   ELSE    Create List 
+	Remove Values From List   ${returnlist}      ${EMPTY} 
+	${returnlistlen}  Evaluate   len(${returnlist})
+	@{returnlist}   Run Keyword If   ${returnlistlen}<1   Create List   0   ELSE     Create List   @{returnlist}
+	Run Keyword If  "${Returnfield}"=="All"  Return From Keyword   @{returnlist}    ELSE    Return From Keyword    ${ReturnValuesting}
 
+
+callkeywords	
+    [Arguments]    ${str}    ${type}=None
+    [Documentation]    按顺序执行多个关键字,并返回每个关键的执行结果，str输入方法为关键字之前用分号（;）隔开，关键字与传参之间用冒号（：）隔开，比如：Getmyclassid:${userName};Getmywallet:${userName}:balanceAmount 这个是执行两个关键字(Getmyclassid,Getmywallet)，每个关键字的冒号后为传参；
+	@{result}   Create List  
+    @{keywordslist}=    Split String    ${str}    ;
+	:FOR  ${keywordvalue}  IN  @{keywordslist}
+	\	@{keywordlists}     Split String    ${keywordvalue}    :
+	\	${keyword}    Get From List    ${keywordlists}    0
+	\	${keywordinput}  replace string   ${keywordvalue}   ${keyword}:    ${EMPTY}    
+	\	@{input}  Split String    ${keywordinput}    :      	
+	\	${keywordresult}   Run Keyword    ${keyword}  @{input}   
+	\   Append To List   ${result}   ${keywordresult}
+    [Return]    ${result}	
+	
+	
+	
 Getsting
     [Arguments]    ${string}    ${str}
     [Documentation]    将字典类型的字符串取出相应key的值,比如字符串{"source": "", "second": 311, "meter": 1017}中取出meter的值
@@ -180,10 +205,11 @@ countbyitem
     [Return]    ${count}
 
 thejoyrun_postd
-    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}   ${pwds}=None
     [Documentation]    *post请求data方式关键字*
     ...
     ...    参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
+	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
     #从字典里取出相应key的值
@@ -275,8 +301,9 @@ thejoyrun_postd
     [Return]    ${resp}
 
 thejoyrun_post_nosign
-    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
     [Documentation]    *joyrun中post请求URL方式关键字* 没有加密的用于非APP的页面请求，参数以data方法提交；
+	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
     #从字典里取出相应key的值
@@ -408,10 +435,11 @@ thejoyrun_get_wxminp
     [Return]    ${resp}
 
 thejoyrun_getp
-    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}     ${pwds}=None
     [Documentation]    *joyrun中get请求url方式关键字*
     ...
     ...    参数以params方法提交出现Url中，也在body带公共参数（signature、timestamp）；
+	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
     #从字典里取出相应key的值
@@ -485,10 +513,11 @@ thejoyrun_getp
     [Return]    ${resp}
 
 thejoyrun_get_nosign
-    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
     [Documentation]    *joyrun中get请求url方式参数不需要签名的关键字*
     ...
     ...    参数以params方法提交，出现Url中，也在body中，但不需要签名没有公共参数；
+	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
     #从字典里取出相应key的值

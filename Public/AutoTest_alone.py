@@ -17,18 +17,39 @@ import signal
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-
-url= raw_input("please Enter interface url:".decode('utf-8'))
+print '在运行之前请将demo.txt文件放置测试代码的根目录（可随意设置例如：d:\\testcode）下的demo目录下（d:\\testcode\\demo）'.decode('utf-8')
+url= raw_input("please Enter interface url:")
 print "Your Interface URL is : ", url
+if 'thejoyrun.com' not in url:
+	ServiceName= raw_input("please Enter Service Name:")
+	print "Your Service Name is : ", ServiceName
+	ServiceName = ServiceName.replace('http://','')
+	ServiceName = ServiceName.replace('https://','')
+	ServiceName = ServiceName.replace('thejoyrun.com/','')
+	ServiceName = ServiceName.replace('/','')
+	url= 'http://' + ServiceName + 'thejoyrun.com/' + url
+	url= url.replace('//','/')
+method= raw_input("Select request methods: Get,Post,Getns,Getw,Postw,Postns:")
+print "Your Interface method is : ", method
 Interfacefields= raw_input("Enter interface fields (multiple fields separated by commas)")
 print "interface fields is : ", Interfacefields
-method= raw_input("Select request methods: Get,Post,Getns,Getw,Postw,Postns:".decode('utf-8'))
-print "Your Interface method is : ", method
-demopath= raw_input("Enter demo file path(eg:<<E:\Work\Test\Enjoytherun\Demo\Demo.txt>>) ")
-print "demo file path is : ", demopath
+home= raw_input("Enter TestCode Home path(eg:<<E:\Work\Test\Enjoytherun>>) ")
+print "TestCode Home path is : ", home
 #接口文件的根目录
-home='E:\Work\Test\Enjoytherun'
-print "home path is : ", home
+if len(home)<2:
+	demopath = 'E:\Work\Test\Enjoytherun\Demo\Demo.txt'
+	home = 'E:\Work\Test\Enjoytherun'
+else:
+	demopath =  home +'\Demo\Demo.txt'
+print "demopath path is : ", demopath
+print "Home path is : ", home
+##输入容错处理
+url=url.replace(' ','')
+Interfacefields=Interfacefields.replace(' ','')
+method=method.replace(' ','')
+method=method.replace('p','P')
+method=method.replace('g','G')
+home=home.replace(' ','')
 # #method:5个值分别为：Get,Post,Getns,Getc,Postc,Postns;
 # #其中Getw,Postw为微信小程序Get\Post请求,Getns,Postns为无需签名的Get和Post请求；
 # method='Getw'   
@@ -55,6 +76,7 @@ folder=hosta.group().replace('thejoyrun.com/','')
 folder=folder.replace('http://','')
 folder=folder.replace('https://','')
 folder=folder.replace('-test','')
+folder=folder.replace('.test','')
 folder=folder.replace('.','')
 baseurllen= len(folder)
 if 'api' in folder and baseurllen>3:

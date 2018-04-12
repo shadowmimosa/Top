@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     demo_Documentation 接口脚本
+Documentation     /aaaab/c/d 接口脚本
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -7,25 +7,25 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    ret                msg
-Class_01              [Documentation]    demo_Documentation TestCase测试用例
-                      [Tags]             Demo
-                      [Template]         demo_URL_Keywords
+*** Test Cases ***     ret   msg  
+Class_01              [Documentation]    /aaaab/c/d TestCase测试用例
+                      [Tags]             Test   auto_v1
+                      [Template]         aaaab_c_d_Post_Keywords
                       0                  成功
 
 *** Keywords ***
-demo_URL_Keywords
-    [Arguments]    ${ret}    ${msg}
-    [Documentation]    demo_Documentation 接口用例的Keywords关健字
+aaaab_c_d_Post_Keywords
+    [Arguments]     ${ret}   ${msg}
+    [Documentation]    /aaaab/c/d 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /urlpath
+    ${path}=    set variable    //aaaab/c/d
     ${maps}=    create dictionary
-    log    ========输出接口URL：${api_URL}${path}
+    log    ========输出接口URL：${bet_URL}${path}
     log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_Keywords    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${bet_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====
