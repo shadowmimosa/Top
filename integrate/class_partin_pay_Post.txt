@@ -63,7 +63,6 @@ classPartinPay
     log    ${bet_URL}
     sendVerifyCode    ${mobile}    ${userName}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${bet_URL}
-    log    -----------------------${mobile}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
     log    ---输出返回内容----

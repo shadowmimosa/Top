@@ -424,7 +424,7 @@ Getmyclassid
     log json    ${content}	
 	${data}    get json value    ${content}    /data   
 	log  isall===${isall}====
-	${myclassid}   Run Keyword If    '${data}'=='${EMPTY}'  set variable   0    ELSE IF  ${isall} is None   get json value  ${data}  /classId   ELSE  set variable   ${data}
+	${myclassid}   Run Keyword If    ${data} is None  set variable   0    ELSE IF  ${isall} is None   get json value  ${data}  /classId   ELSE  set variable   ${data}
 	[Return]    ${myclassid} 
 	
 Getmywallet
@@ -441,8 +441,8 @@ Getmywallet
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${wallet_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}	
-	${data}    get json value    ${content}    /data   
-	${fieldvalue}   Run Keyword If   '${data}'=='${EMPTY}'  set variable   0    ELSE IF   '${isall}'<>'${EMPTY}'   set variable   ${data}   ELSE   get json value  ${data}  /${field}
+	${data}    get json value    ${content}    /data
+	${fieldvalue}   Run Keyword If   ${data} is None  set variable   0    ELSE IF   '${isall}'<>'${EMPTY}'   set variable   ${data}   ELSE   get json value  ${data}  /${field}
 	[Return]    ${fieldvalue} 	
 	
 	
