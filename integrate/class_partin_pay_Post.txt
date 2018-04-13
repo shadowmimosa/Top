@@ -14,10 +14,10 @@ ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    userName           pwd                     paymentType    verifyCode
-Class_01              [Documentation]    用户加入跑班
-                      [Tags]
+Class_01              [Documentation]    用户加入跑班===钱包支付
+                      [Tags]             Test
                       [Template]         opinion_join_classid
-                      13829744541        67889911                3              1122
+                      32519102           000000                  3              1122
 
 *** Keywords ***
 opinion_join_classid
@@ -25,61 +25,78 @@ opinion_join_classid
     [Documentation]    判断用户是否符合符加入跑班
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    @{str}    callkeywords    Getmyclassid:${userName};Getmywallet:${userName}:balanceAmount;classList_classids:1:classStatus,20,30/singleAmount,1,3000/runNum,1,40:All:${userName}
+    @{str}    callkeywords    Getmyclassid:${userName}:${pwd};Getmywallet:${userName}:${pwd}:balanceAmount:1;classList_classids:1:classStatus,20,42/singleAmount,100,3000/runNum,1,30:All:${userName}:${pwd}
     ${aa}    Evaluate    len(${str} )
     ${myclassid}    Get From List    ${str}    0
     ${mywallet}    Get From List    ${str}    1
     ${classids}    Get From List    ${str}    2
     log json    ${classids[0]}
-    Run Keyword If    '${myclassid}'<>'0' or '${mywallet}'=='0' or ${classids}==0    log    ====用户${userName}不满足条件（有未完成的跑班、未开通钱包、没有报名中的跑班）=====
-    ...    ELSE    classPartinPay    ${classIds}    ${userName}    ${pwd}    ${paymentType}
+    Run Keyword If    '${myclassid}'<>'0' or '${mywallet}'=='0' or ${classids[0]}==0    log    ====用户${userName}不满足条件（有未完成的跑班、未开通钱包、没有报名中的跑班）=====
+    ...    ELSE    classPartinPay_selete    ${classIds}    ${userName}    ${pwd}    ${paymentType}
     ...    ${verifyCode}    ${mywallet}    ${classids}
 
-classPartinPay
+classPartinPay_selete
     [Arguments]    ${classIds}    ${userName}    ${pwd}    ${paymentType}    ${verifyCode}    ${mywallet}
     ...    ${classids}
-    [Documentation]    用户20380217
+    [Documentation]    再次判断
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    log json    mywallet===${mywallet}
+    log    mywallet===${mywallet}
     ${mobile}    get json value    ${mywallet}    /mobile
+    ${mobile}    Replace String    ${mobile}    "    ${EMPTY}
     ${balanceAmount}    get json value    ${mywallet}    /balanceAmount
     ${status}    get json value    ${mywallet}    /status
     ${classidsrc}    Get From List    ${classIds}    0
     ${classId}    get json value    ${classidsrc}    /classId
     ${runNum}    get json value    ${classidsrc}    /runNum
     ${singleAmount}    get json value    ${classidsrc}    /singleAmount
-    ${payAmount}= ${singleAmount}*${runNum}
+    ${payAmount1}    Evaluate    int(${singleAmount}*${runNum})
+    ${payAmount}    set variable    ${payAmount1}
+    Run Keyword If    ${balanceAmount}<${payAmount1} or ${status}==0 or ${mobile}<=1    log    =====用户${userName}钱包被封或余额不足，请冲值！！===========
+    ...    ELSE    classPartinPay    ${classId}    ${userName}    ${pwd}    ${paymentType}
+    ...    ${verifyCode}    ${payAmount}    ${balanceAmount}    ${mobile}
+
+classPartinPay
+    [Arguments]    ${classId}    ${userName}    ${pwd}    ${paymentType}    ${verifyCode}    ${payAmount}
+    ...    ${balanceAmount}    ${mobile}
+    [Documentation]    加入跑班
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${K1}    Evaluate    type(${payAmount})
+    ${K2}    Evaluate    type(${classId})
+    ${payAmount}=    Evaluate    '${payAmount}'.decode('unicode_escape')
     ${path}=    set variable    /class/partin/pay
     ${maps}=    create dictionary
     set to dictionary    ${maps}    classId=${classId}
+    log    ${classId}${maps}
     set to dictionary    ${maps}    payAmount=${payAmount}
+    log    ${payAmount}${maps}
     set to dictionary    ${maps}    paymentType=${paymentType}
+    log    ${paymentType}${maps}
     set to dictionary    ${maps}    verifyCode=${verifyCode}
-    log    ---输出参数---
-    log    ${maps}
-    log    --输出测试地址--
-    log    ${bet_URL}
-    sendVerifyCode    ${mobile}    ${userName}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${bet_URL}
+    log    --输出测试地址:${bet_URL} ${path}
+    sendVerifyCode    ${mobile}    ${userName}    ${pwd}
+    log    =====${bet_URL} ${path}${maps}=======
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${bet_URL}    ${pwd}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
-    log    ---输出返回内容----
     log json    ${content}
+    log    ======开始断言验证=====
+    ${balanceAmountNew}    Getmywallet    ${userName}    ${pwd}    balanceAmount
+    ${myclassidsrc}    Getmyclassid    ${userName}    ${pwd}    1
+    ${classIdNew}    get json value    ${myclassidsrc}    /classId
+    ${balanceAmountNew2}    Evaluate    ${balanceAmount}-${payAmount}
+    Run Keyword If    ${balanceAmountNew}== ${balanceAmountNew2} and ${classIdNew}==${classId}    log    ===加入跑班成功钱包有扣费且通过验证！！======
+    ...    ELSE    should contain    ${balanceAmountNew}    ${userName}
 
 sendVerifyCode
-    [Arguments]    ${mobile}    ${userName}
+    [Arguments]    ${mobile}    ${userName}    ${pwd}
     [Documentation]    /sendVerifyCode发送验证码
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /sendVerifyCode
-    #${mobile}=    set variable    13422030633
     ${maps}=    create dictionary
     set to dictionary    ${maps}    mobile=${mobile}
-    log    ---输出参数---
-    log    ${maps}
-    log    ---输出测试地址---
-    log    ${wallet_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
+    log    输出测试地址：${wallet_URL}${path}${maps}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}    ${pwd}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}

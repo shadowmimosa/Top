@@ -17,7 +17,7 @@ Class_01              [Documentation]    user/advance/graduate 跑班提前毕�
 selectfiltergraduate
     [Arguments]    ${classId}    ${ret}    ${msg}
     [Documentation]    user/advance/graduate 跑班提前毕业接口用例的Keywords关健字
-    ${classIdsrc}    Getmyclassid    ${userName}    1
+    ${classIdsrc}    Getmyclassid    ${userName}    ${pwd}    1
     ${fullComplete}    Run Keyword If    '${classIdsrc}'=='0'    set variable    1
     ...    ELSE    get json value    ${classIdsrc}    /fullComplete
     ${todayComplete}    Run Keyword If    '${classIdsrc}'=='0'    set variable    1
