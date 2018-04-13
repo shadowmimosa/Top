@@ -50,7 +50,6 @@ classPartinPay
     ${runNum}    get json value    ${classidsrc}    /runNum
     ${singleAmount}    get json value    ${classidsrc}    /singleAmount
     ${payAmount}= ${singleAmount}*${runNum}
-    logssssss======
     ${path}=    set variable    /class/partin/pay
     ${maps}=    create dictionary
     set to dictionary    ${maps}    classId=${classId}

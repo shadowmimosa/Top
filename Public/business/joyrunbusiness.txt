@@ -424,7 +424,7 @@ Getmyclassid
     log json    ${content}	
 	${data}    get json value    ${content}    /data   
 	log  isall===${isall}====
-	${myclassid}   Run Keyword If    ${data} is None  set variable   0    ELSE IF  ${isall} is None   get json value  ${data}  /classId   ELSE  set variable   ${data}
+	${myclassid}   Run Keyword If    '${data}'=='null'  set variable   0    ELSE IF  ${isall} is None   get json value  ${data}  /classId   ELSE  set variable   ${data}
 	[Return]    ${myclassid} 
 	
 Getmywallet
