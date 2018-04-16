@@ -4,18 +4,18 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
-${userName}       13829744541    # 默认的用户名
+${userName}       5145311    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***     ret   msg  
+*** Test Cases ***    ret                msg
 Class_01              [Documentation]    wallet/getUserBalanceAmount TestCase个人钱包信息测试用例
-                      [Tags]             Test   auto_v1   Online
+                      [Tags]             Test                                              auto_v1    Online
                       [Template]         wallet_getUserBalanceAmount_Get_Keywords
                       "0"                成功
 
 *** Keywords ***
 wallet_getUserBalanceAmount_Get_Keywords
-    [Arguments]     ${ret}   ${msg}
+    [Arguments]    ${ret}    ${msg}
     [Documentation]    wallet/getUserBalanceAmount 个人钱包信息接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys

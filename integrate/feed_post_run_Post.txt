@@ -28,11 +28,11 @@ feedpostrun_opinion
     ${time}=    Get Time    epoch
     log    time= ${time}
     ${dateline}=    convert to string    ${time}
-    ${timemin}    evaluate    int(${time})-86400
+    ${timemin}    evaluate    int(${time})-864000
     ${timemax}    evaluate    int(${time})
     #选择某些范围的跑步记录
     ${Runfids}    Run Keyword If    '${env}'=='Test'    UserRunList_Fid    ${userName}    meter,1000,50000/lasttime,${timemin},${timemax}/fraud,0,0.5    fid
-    ...    ELSE    UserRunList_Fid    ${userName}    meter,5000,10000/lasttime,${timemin},${timemax}/fraud,0,0.5    fid
+    ...    ELSE    UserRunList_Fid    ${userName}    meter,3000,10000/lasttime,${timemin},${timemax}/fraud,0,0.5    fid
     #去掉已发表过的动态跑步记录
     ${fid}    Run Keyword If    '${Runfids}'=='${EMPTY}' or '${Runfids}'=='0'    set variable    0
     ...    ELSE    check_runfeed    ${Runfids}    ${userName}
@@ -60,21 +60,20 @@ feedpostrun_assertClass
     log    ${maps}
     log    ---输出测试地址---
     log    ${api_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}    ${pwd}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
     log    ---输出返回内容----
     log json    ${content}
     log    ---开始断言验证---
-    log    response数据为：
-    log    ${resp}
-    log    验证ret是否符合预期
-    should contain    ${content}    "ret":"0"
-    log    ret 符合预期为"0"
+    log    ret 符合预期
     ${ret}    get json value    ${content}    /ret
     ${fidres}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data/fid
     ...    ELSE    set variable    0
-    ${feedlistv5fid}    FeedListv5_Fids    ${userName}
-    Should Contain    ${feedlistv5fid}    ${fid}
-    log    用户：${userName} 动态ID为===${fidres},跑步记录id:${fid};我的动态列表${feedlistv5fid}
+    ${feedlistv5fid}    Run Keyword If    ${ret}=="0"    FeedListv5_Fids    ${userName}    ${pwd}
+    Run Keyword If    ${ret}=="0"    Should Contain    ${feedlistv5fid}    ${fid}
+    ${wallet}    Run Keyword If    ${ret}=="430004"    Getmywallet    ${userName}    ${pwd}    balanceAmount
+    Run Keyword If    ${ret}=="430004"    Should Be Equal    ${wallet}    0
+    Run Keyword If    ${ret}=="0"    log    用户：${userName} 动态ID为===${fidres},跑步记录id:${fid};我的动态列表${feedlistv5fid}
+    ...    ELSE    log    用户：${userName} 选中跑步记录id:${fid},但因为钱包未开通或未实名无法进行发布动态；
     log    ------------------------ It is OK!!!!-------------------------------------

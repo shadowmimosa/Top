@@ -34,7 +34,7 @@ ec_api_orders_Getns_Keywords
     should contain    ${content}    "ret":${ret}
     log    ret 符合预期为:${ret}
     log    验证msg是否符合预期
-    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
-    ...    ELSE    should contain    ${content}    "msg":${msg}
+    should contain    ${content}    "msg":"${msg}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    log    ------------------------ It is OK!!!!-------------------------------------
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${ec_URL}${path}；传参：${maps}！！

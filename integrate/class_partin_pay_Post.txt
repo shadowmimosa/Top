@@ -18,6 +18,11 @@ Class_01              [Documentation]    用户加入跑班===钱包支付
                       [Tags]             Test
                       [Template]         opinion_join_classid
                       32519102           000000                  3              1122
+                      13829744541        67889911                3              1122
+                      13829744542        67889911                3              1122
+                      13829744543        67889911                3              1122
+                      13829744544        67889911                3              1122
+                      13829744545        67889911                3              1122
 
 *** Keywords ***
 opinion_join_classid
@@ -31,7 +36,7 @@ opinion_join_classid
     ${mywallet}    Get From List    ${str}    1
     ${classids}    Get From List    ${str}    2
     log json    ${classids[0]}
-    Run Keyword If    '${myclassid}'<>'0' or '${mywallet}'=='0' or ${classids[0]}==0    log    ====用户${userName}不满足条件（有未完成的跑班、未开通钱包、没有报名中的跑班）=====
+    Run Keyword If    '${myclassid}'<>'0' or '${mywallet}'=='0' or ${classids[0]}==0    log    ====用户${userName}不满足条件（有未完成的跑班、未开通钱包、跑班列表没有报名中的跑班）=====
     ...    ELSE    classPartinPay_selete    ${classIds}    ${userName}    ${pwd}    ${paymentType}
     ...    ${verifyCode}    ${mywallet}    ${classids}
 
@@ -48,6 +53,8 @@ classPartinPay_selete
     ${status}    get json value    ${mywallet}    /status
     ${classidsrc}    Get From List    ${classIds}    0
     ${classId}    get json value    ${classidsrc}    /classId
+    ###指定classid
+    ##${classId}    set variable    643
     ${runNum}    get json value    ${classidsrc}    /runNum
     ${singleAmount}    get json value    ${classidsrc}    /singleAmount
     ${payAmount1}    Evaluate    int(${singleAmount}*${runNum})
@@ -85,8 +92,8 @@ classPartinPay
     ${myclassidsrc}    Getmyclassid    ${userName}    ${pwd}    1
     ${classIdNew}    get json value    ${myclassidsrc}    /classId
     ${balanceAmountNew2}    Evaluate    ${balanceAmount}-${payAmount}
-    Run Keyword If    ${balanceAmountNew}== ${balanceAmountNew2} and ${classIdNew}==${classId}    log    ===加入跑班成功钱包有扣费且通过验证！！======
-    ...    ELSE    should contain    ${balanceAmountNew}    ${userName}
+    Run Keyword If    ${balanceAmountNew}== ${balanceAmountNew2} and ${classIdNew}==${classId}    log    ===${userName}加入跑班${classId}成功钱包有扣费且通过验证！！======
+    ...    ELSE    Should Be Equal    ${balanceAmountNew}    ${balanceAmountNew2}
 
 sendVerifyCode
     [Arguments]    ${mobile}    ${userName}    ${pwd}
