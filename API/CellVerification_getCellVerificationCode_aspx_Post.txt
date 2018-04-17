@@ -1,0 +1,39 @@
+*** Settings ***
+Documentation     CellVerification/getCellVerificationCode.aspx 注册发送验证码接口脚本
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    cellNumber         code                                                                 ret        msg
+Class_01              [Documentation]    CellVerification/getCellVerificationCode.aspx 注册发送验证码TestCase测试用例
+                      [Tags]             Test                                                                 auto_v1
+                      [Template]         CellVerification_getCellVerificationCode_aspx_Post_Keywords
+                      13829744541        0                                                                    0          Success
+
+*** Keywords ***
+CellVerification_getCellVerificationCode_aspx_Post_Keywords
+    [Arguments]    ${cellNumber}    ${code}    ${ret}    ${msg}
+    [Documentation]    CellVerification/getCellVerificationCode.aspx 注册发送验证码接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /CellVerification/getCellVerificationCode.aspx
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    cellNumber=${cellNumber}
+    set to dictionary    ${maps}    code=${code}
+    log    ========输出接口URL：${api_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postnl    ${path}    ${maps}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！URL：${api_URL}${path}；传参：${maps}！！

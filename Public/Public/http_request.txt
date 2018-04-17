@@ -319,7 +319,7 @@ joyrun_POST_heardsession
     #${contentime}=    charconver    ${resptime.content}
     #log json    ${resptime.content}
     #${timestamp}    get json value    ${contentime}    /lasttime
-    log    --------Server time ={timestamp}--------
+    #log    --------Server time ={timestamp}--------
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
     log    time= ${time}

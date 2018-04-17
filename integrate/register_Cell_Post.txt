@@ -1,0 +1,108 @@
+*** Settings ***
+Documentation     register/fast 账号注册接口脚本
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    cellNumber         nick                                pwd
+Class_01              [Documentation]    register/fast TestCase测试用例账号注册接口
+                      [Tags]             Test                                auto_v1
+                      [Template]         select_register_cell
+                      13829744546        Joyrun_                             67889911
+
+*** Keywords ***
+select_register_cell
+    [Arguments]    ${cellNumber}    ${nick}    ${pwd}
+    [Documentation]    register/fast 账号注册接口判断
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${nick2}    set variable    0
+    ${city}    set variable    上海
+    ${path}=    set variable    /validate/registered
+    ###检查手机号码是否已注册####
+    ${maps}=    create dictionary
+    Run Keyword If    ${cellNumber}>0    set to dictionary    ${maps}    cellNumber=${cellNumber}
+    Run Keyword If    '${nick2}'!='0'    set to dictionary    ${maps}    nick=${nick}
+    Run Keyword If    '${nick2}'<>'0'    set to dictionary    ${maps}    city=${city}
+    log    ========输出接口URL：${api_URL}${path}
+    log dictionary    ${maps}
+    ${resp}=    thejoyrun_postnl    ${path}    ${maps}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    ${isRegistered1}    get json value    ${content}    /isRegistered
+    ###检查昵称是否已被使用#######
+    ${maps2}=    create dictionary
+    ${Randstr}    Generate Random String    6    [UPPER]
+    ${nick}    set variable    ${nick}${Randstr}
+    Run Keyword If    '${nick}'!='0'    set to dictionary    ${maps2}    nick=${nick}
+    Run Keyword If    '${nick}'<>'0'    set to dictionary    ${maps2}    city=${city}
+    log    ========输出接口URL：${api_URL}${path}
+    log dictionary    ${maps2}
+    ${resp2}=    thejoyrun_postnl    ${path}    ${maps2}    ${api_URL}
+    ${content2}=    charconver    ${resp2.content}
+    log json    ${content2}
+    ${isRegistered2}    get json value    ${content2}    /isRegistered
+    ##发送注册验证码#####
+    ${path3}=    set variable    /CellVerification/getCellVerificationCode.aspx
+    ${code}=    set variable    0
+    ${maps3}=    create dictionary
+    set to dictionary    ${maps3}    cellNumber=${cellNumber}
+    set to dictionary    ${maps3}    code=${code}
+    log    ========输出接口URL：${api_URL}${path}
+    log    ========接口的入参为：${maps3}==========
+    ${resp3}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    thejoyrun_postnl    ${path3}    ${maps3}    ${api_URL}
+    ...    ELSE    set variable    {"ret":"-1","sid":"","lasttime":0000,"isValid":true,"msg":"线上环境不请求发送验证码接口"}
+    ${content3}    charconver    ${resp3.content}
+    log json    ${content3}
+    Run Keyword If    '${isRegistered1}'!='flase'    log    ==== ${cellNumber}手机号码已注册过！！！=====
+    ...    ELSE IF    '${isRegistered2}'!='flase'    log    =====呢称${nick}已注册过！！！===========
+    ...    ELSE    register_fast_Post_Keywords    ${cellNumber}    ${nick}    ${pwd}
+
+register_fast_Post_Keywords
+    [Arguments]    ${cellNumber}    ${nick}    ${pwd}
+    [Documentation]    register/fast 账号注册接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path4}=    set variable    /register/fast
+    ${maps4}=    create dictionary
+    ${deviceToken}    set variable    5e04aedeb860ed09cc0c3347047958499cf898459ef6cf742debf22729dd3900
+    ${dateline}    set variable    0
+    ${faceurl}    set variable    http://linked-runner.b0.upaiyun.com/linked-runner/cover_default
+    ${headerurl}    set variable    0
+    ${cellVerificationCode}    set variable    1122
+    set to dictionary    ${maps4}    cellNumber=${cellNumber}
+    set to dictionary    ${maps4}    cellVerificationCode=${cellVerificationCode}
+    set to dictionary    ${maps4}    dateline=${dateline}
+    set to dictionary    ${maps4}    deviceToken=${deviceToken}
+    set to dictionary    ${maps4}    faceurl=${faceurl}
+    set to dictionary    ${maps4}    headerurl=${headerurl}
+    set to dictionary    ${maps4}    nick=${nick}
+    set to dictionary    ${maps4}    pwd=${pwd}
+    log    ========输出接口URL：${api_URL}${path}
+    log    ========接口的入参为：${maps4}==========
+    ${resp4}=    thejoyrun_postnl    ${path}    ${maps4}    ${api_URL}
+    ${content4}=    charconver    ${resp4.content}
+    log json    ${content4}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    ${ret}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    get json value    ${content4}    /ret
+    ...    ELSE    set variable    -5
+    ${msg}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    get json value    ${content4}    /msg
+    ...    ELSE    set variable    手机验证码错误
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    ${uid}    Run Keyword If    '${ret}'=='0'    get json value    ${content4}    /user/uid
+    ${nicka}    Run Keyword If    '${ret}'=='0'    get json value    ${content4}    /user/nick
+    ${sid}    Run Keyword If    '${ret}'=='0'    get json value    ${content4}    /sid
+    ####校验新注册的账号是否可用录入账号和nick是否相符######
+    ${newuserinfo}    oneclickdetails_userinfo    all    ${uid}    ${pwd}
+    log    ====新用户${cellNumber},uid:${uid} 登录成功=========
+    ${mobile}    get json value    ${newuserinfo}    /datas/cellnumber
+    ${nickb}    get json value    ${newuserinfo}    /datas/nick
+    Run Keyword If    '${mobile}'=='${cellNumber}' and '${nickb}'=='${nick}' and '${nicka}'=='${nick}'    log    手机号码：${cellNumber}；呢称：${nick}；sid:${sid};注册并验证OK！！
+    ...    ELSE    log    =====注册出现错误${ret}：${msg}

@@ -300,6 +300,90 @@ thejoyrun_postd
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
     [Return]    ${resp}
 
+thejoyrun_postnl
+    [Arguments]    ${path}    ${maps}    ${Base_URL}   
+    [Documentation]    *post请求data方式关键字*
+    ...
+    ...    参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
+    ${heards}=    create dictionary
+    #从字典里取出相应key的值
+	##通过服务器获取timestamp
+	${heards_dict}=    create dictionary 
+    #Create Session    timestamp    ${login_URL}
+    #${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
+    #${contentime}=    charconver    ${resptime.content}
+    #log json    ${resptime.content}
+    #${timestamp}    get json value    ${contentime}    /lasttime
+    #log    --------Server time ={timestamp}--------
+    ##通过本地获取timestamp
+    ${time}=    Get Time    epoch
+    log    time= ${time}
+	${time}  evaluate  int(${time})-30   #容错保证本地时间不大于服务器时间；满足：本地时间+300>服务器时间>本地时间，否则会报签名错误；
+    ${timestamp}=    convert to string    ${time}
+    ${cookies}=    create dictionary
+	####code 加密处理
+	${mapskey}   Get Dictionary Keys     ${maps}
+	${codeone}   Count Values In List    ${mapskey}   code
+	${cellone}   Count Values In List    ${mapskey}   cellNumber
+	${cellNumber}   Run Keyword If   ${codeone}>0 and ${cellone}>0       Get From Dictionary   ${maps}  cellNumber
+	${codekey}   Run Keyword If   ${codeone}>0 and ${cellone}>0       set variable   joy${timestamp}the${cellNumber}run
+	${code}      Run Keyword If   ${codeone}>0 and ${cellone}>0       encrypt   ${codekey}   md5   32
+	Run Keyword If   ${codeone}>0 and ${cellone}>0     set to dictionary    ${maps}    code=${code}
+	log Dictionary  ${maps}
+    set to dictionary    ${cookies}    app_version=${appversion}
+    ${URL}=    set variable    ${Base_URL}
+    ${sign_dict}=    create dictionary    timestamp=${timestamp}
+    ${post_dict}=    create dictionary    timestamp=${timestamp}
+    @{mapstolist_sign}=    evaluate    sorted(${maps}.iteritems())
+    : FOR    ${map}    IN    @{mapstolist_sign}
+    \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}
+    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    : FOR    ${map}    IN    @{mapstolist}
+    \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
+    #排序及格式处理
+    #log    参数编码前：${sign_dict}
+    #${signparam}    Evaluate    urllib.urlencode(${sign_dict})    urllib
+    #log    参数编码后：${signparam}
+    ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.iteritems())
+    ${len}=    evaluate    len(${sign_dict_tolist})
+    ${signparam} =    set variable    ${EMPTY}
+    : FOR    ${index}    IN RANGE    0    ${len}
+    \    ${signparamsting} =    evaluate    "".join(${sign_dict_tolist[${index}]})
+    \    ${signparam} =    set variable    ${signparam}${signparamsting}
+    log    signparam=======${signparam}
+    #排序及格式处理
+    ${signkey1}    set variable    ${signparam}${appkey1}
+    ${signkey2}    set variable    ${signparam}${appkey2}
+    log    signkey1=====${signkey1}
+    log    signkey2=====${signkey2}
+    #排序及格式处理
+    ${sign1}=    encrypt    ${signkey1}    md5    32
+    ${sign2}=    encrypt    ${signkey2}    md5    32
+    #通用签名
+    #${sign}=    set variable    a9ff6970eb814e6894389ca8b12f3030
+    ${_sign} =    Convert To Uppercase    ${sign1}
+    ${signature} =    Convert To Uppercase    ${sign2}
+    set to dictionary    ${heards_dict}    _sign=${_sign}
+    set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
+    set to dictionary    ${heards_dict}    Content-Type=${ContentType}
+    set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
+    set to dictionary    ${heards_dict}    APP_DEV_INFO=${APPDEVINFO}
+    set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION}
+    set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}
+    #log    _sign====${_sign}
+    #log    signature====${signature}
+    set to dictionary    ${post_dict}    signature=${signature}
+    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
+    log    参数编码前：${post_dict}
+    ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    log    参数编码后：${post_param}
+    #${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
+    Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
+    ${resp}=    Post Request    run    uri=${path}    data=${post_param}
+    [Return]    ${resp}	
+	
+	
+	
 thejoyrun_post_nosign
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
     [Documentation]    *joyrun中post请求URL方式关键字* 没有加密的用于非APP的页面请求，参数以data方法提交；
