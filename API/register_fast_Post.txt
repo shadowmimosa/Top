@@ -1,0 +1,51 @@
+*** Settings ***
+Documentation     register/fast 账号注册接口脚本
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    cellNumber         cellVerificationCode                dateline    deviceToken                                                         faceurl                                                          headerurl                                                          nick             pwd         sign    ret    msg
+Class_01              [Documentation]    register/fast TestCase测试用例账号注册接口
+                      [Tags]             Test                                auto_v1     Online
+                      [Template]         register_fast_Post_Keywords
+                      13829744545        1122                                0           5e04aedeb860ed09cc0c3347047958499cf898459ef6cf742debf22729dd3900    http://linked-runner.b0.upaiyun.com/avatar/avatar_default.png    http://linked-runner.b0.upaiyun.com/linked-runner/cover_default    Joyrun_744546    67889911    0       -5     手机号已被注册
+
+*** Keywords ***
+register_fast_Post_Keywords
+    [Arguments]    ${cellNumber}    ${cellVerificationCode}    ${dateline}    ${deviceToken}    ${faceurl}    ${headerurl}
+    ...    ${nick}    ${pwd}    ${sign}    ${ret}    ${msg}
+    [Documentation]    register/fast 账号注册接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /register/fast
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    cellNumber=${cellNumber}
+    set to dictionary    ${maps}    cellVerificationCode=${cellVerificationCode}
+    set to dictionary    ${maps}    dateline=${dateline}
+    set to dictionary    ${maps}    deviceToken=${deviceToken}
+    set to dictionary    ${maps}    faceurl=${faceurl}
+    set to dictionary    ${maps}    headerurl=${headerurl}
+    set to dictionary    ${maps}    nick=${nick}
+    set to dictionary    ${maps}    pwd=${pwd}
+    set to dictionary    ${maps}    sign=${sign}
+    log    ========输出接口URL：${api_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postnl    ${path}    ${maps}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    ${ret}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    set variable    ${ret}
+    ...    ELSE    set variable    -5
+    ${msg}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    set variable    ${msg}
+    ...    ELSE    set variable    手机验证码错误
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！URL：${api_URL}${path}；传参：${maps}！！
