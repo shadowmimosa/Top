@@ -9,9 +9,9 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    cellNumber         nick                                pwd
 Class_01              [Documentation]    register/fast TestCase测试用例账号注册接口
-                      [Tags]             Test                                auto_v1
+                      [Tags]             Test                                auto_v1     Online
                       [Template]         select_register_cell
-                      13829744546        Joyrun_                             67889911
+                      13829744541        Joyrun_                             67889911
 
 *** Keywords ***
 select_register_cell
@@ -22,7 +22,7 @@ select_register_cell
     ${nick2}    set variable    0
     ${city}    set variable    上海
     ${path}=    set variable    /validate/registered
-    ###检查手机号码是否已注册####
+    log    ======检查手机号码是否已注册=======
     ${maps}=    create dictionary
     Run Keyword If    ${cellNumber}>0    set to dictionary    ${maps}    cellNumber=${cellNumber}
     Run Keyword If    '${nick2}'!='0'    set to dictionary    ${maps}    nick=${nick}
@@ -33,7 +33,7 @@ select_register_cell
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     ${isRegistered1}    get json value    ${content}    /isRegistered
-    ###检查昵称是否已被使用#######
+    log    ======检查昵称是否已被使用========
     ${maps2}=    create dictionary
     ${Randstr}    Generate Random String    6    [UPPER]
     ${nick}    set variable    ${nick}${Randstr}
@@ -45,7 +45,7 @@ select_register_cell
     ${content2}=    charconver    ${resp2.content}
     log json    ${content2}
     ${isRegistered2}    get json value    ${content2}    /isRegistered
-    ##发送注册验证码#####
+    log    =======发送注册验证码=============
     ${path3}=    set variable    /CellVerification/getCellVerificationCode.aspx
     ${code}=    set variable    0
     ${maps3}=    create dictionary
@@ -54,11 +54,12 @@ select_register_cell
     log    ========输出接口URL：${api_URL}${path}
     log    ========接口的入参为：${maps3}==========
     ${resp3}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    thejoyrun_postnl    ${path3}    ${maps3}    ${api_URL}
-    ...    ELSE    set variable    {"ret":"-1","sid":"","lasttime":0000,"isValid":true,"msg":"线上环境不请求发送验证码接口"}
-    ${content3}    charconver    ${resp3.content}
+    ...    ELSE    set variable    {\"ret\":\"-1\",\"msg\":\"Online\"}
+    ${content3}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    charconver    ${resp3.content}
+    ...    ELSE    set variable    ${resp3}
     log json    ${content3}
-    Run Keyword If    '${isRegistered1}'!='flase'    log    ==== ${cellNumber}手机号码已注册过！！！=====
-    ...    ELSE IF    '${isRegistered2}'!='flase'    log    =====呢称${nick}已注册过！！！===========
+    Run Keyword If    '${isRegistered1}'!='false'    log    ==== ${cellNumber}手机号码已注册过！！！=====
+    ...    ELSE IF    '${isRegistered2}'!='false'    log    =====呢称${nick}已注册过！！！===========
     ...    ELSE    register_fast_Post_Keywords    ${cellNumber}    ${nick}    ${pwd}
 
 register_fast_Post_Keywords
@@ -73,6 +74,7 @@ register_fast_Post_Keywords
     ${faceurl}    set variable    http://linked-runner.b0.upaiyun.com/linked-runner/cover_default
     ${headerurl}    set variable    0
     ${cellVerificationCode}    set variable    1122
+    ${pwdmd5}    encrypt    ${pwd}    md5    32
     set to dictionary    ${maps4}    cellNumber=${cellNumber}
     set to dictionary    ${maps4}    cellVerificationCode=${cellVerificationCode}
     set to dictionary    ${maps4}    dateline=${dateline}
@@ -80,29 +82,40 @@ register_fast_Post_Keywords
     set to dictionary    ${maps4}    faceurl=${faceurl}
     set to dictionary    ${maps4}    headerurl=${headerurl}
     set to dictionary    ${maps4}    nick=${nick}
-    set to dictionary    ${maps4}    pwd=${pwd}
-    log    ========输出接口URL：${api_URL}${path}
+    set to dictionary    ${maps4}    pwd=${pwdmd5}
+    log    ========输出接口URL：${api_URL}${path4}
     log    ========接口的入参为：${maps4}==========
-    ${resp4}=    thejoyrun_postnl    ${path}    ${maps4}    ${api_URL}
+    ${resp4}=    thejoyrun_postnl    ${path4}    ${maps4}    ${api_URL}
     ${content4}=    charconver    ${resp4.content}
     log json    ${content4}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     ${ret}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    get json value    ${content4}    /ret
-    ...    ELSE    set variable    -5
+    ...    ELSE    set variable    "-5"
     ${msg}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    get json value    ${content4}    /msg
-    ...    ELSE    set variable    手机验证码错误
-    should contain    ${content}    "ret":"${ret}"
+    ...    ELSE    set variable    "手机验证码错误"
+    should contain    ${content4}    "ret":${ret}
     log    ret 符合预期为:${ret}
     log    验证msg是否符合预期:${msg}
-    should contain    ${content}    "msg":"${msg}"
-    ${uid}    Run Keyword If    '${ret}'=='0'    get json value    ${content4}    /user/uid
-    ${nicka}    Run Keyword If    '${ret}'=='0'    get json value    ${content4}    /user/nick
-    ${sid}    Run Keyword If    '${ret}'=='0'    get json value    ${content4}    /sid
-    ####校验新注册的账号是否可用录入账号和nick是否相符######
+    should contain    ${content4}    "msg":${msg}
+    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    V_cellnumber_register    ${cellNumber}    ${nick}    ${pwd}    ${ret}
+    ...    ${msg}    ${content4}
+    ...    ELSE    log    ====生产环境不做注册验证=======
+
+V_cellnumber_register
+    [Arguments]    ${cellNumber}    ${nick}    ${pwd}    ${ret}    ${msg}    ${content4}
+    [Documentation]    通过oneclickdetails 接口校验注册信息是否入库正确
+    ${uid}    Run Keyword If    ${ret}=="0"    get json value    ${content4}    /user/uid
+    ${nicka}    Run Keyword If    ${ret}=="0"    get json value    ${content4}    /user/nick
+    ${sid}    Run Keyword If    ${ret}=="0"    get json value    ${content4}    /sid
+    ${uid}    Replace String    ${uid}    "    ${EMPTY}
+    log    ======校验新注册的账号是否可用录入账号和nick是否相符===========
     ${newuserinfo}    oneclickdetails_userinfo    all    ${uid}    ${pwd}
     log    ====新用户${cellNumber},uid:${uid} 登录成功=========
-    ${mobile}    get json value    ${newuserinfo}    /datas/cellnumber
-    ${nickb}    get json value    ${newuserinfo}    /datas/nick
+    ${mobile}    get json value    ${newuserinfo}    /cellnumber
+    ${nickb}    get json value    ${newuserinfo}    /nick
+    ${mobile}    Replace String    ${mobile}    "    ${EMPTY}
+    ${nickb}    Replace String    ${nickb}    "    ${EMPTY}
+    ${nicka}    Replace String    ${nicka}    "    ${EMPTY}
     Run Keyword If    '${mobile}'=='${cellNumber}' and '${nickb}'=='${nick}' and '${nicka}'=='${nick}'    log    手机号码：${cellNumber}；呢称：${nick}；sid:${sid};注册并验证OK！！
     ...    ELSE    log    =====注册出现错误${ret}：${msg}
