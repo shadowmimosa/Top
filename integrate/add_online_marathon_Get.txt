@@ -1,0 +1,96 @@
+*** Settings ***
+Documentation     marathon_api/marathon/online-mls-apply-add 接口脚本
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13926281760    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    marathonId
+Class_01              [Documentation]    marathon_api/marathon/online-mls-apply-add TestCase测试用例
+                      [Tags]             Test                                                       auto_v1    Online
+                      [Template]         marathon_Choice
+                      0
+
+*** Keywords ***
+marathon_Choice
+    [Arguments]    ${marathonId}
+    [Documentation]    marathon_api/marathon/online-mls-apply-add 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${tim}    Gettimes    mm,0,times
+    ${timin}    Gettimes    dd,-10,times
+    ${timax2}    Gettimes    dd,30,times
+    log    ====筛选出开始时间和结算时间的赛事========
+    ${marathonIds}    marathonlist_marathonIds    applyStartTime,${timin},${timax2}/applyEndTime,${tim},${timax2}/applyMeter,-2,1    marathonId    ${userName}    ${pwd}
+    ${marathonId}    randomchoice    ${marathonIds}    ,
+    Run Keyword If    ${marathonId}<10    log    =======${userName}没有可参加的线上马赛事======
+    ...    ELSE    marathon_subject    ${marathonId}    ${userName}    ${pwd}
+
+marathon_subject
+    [Arguments]    ${marathonId}    ${userName}    ${pwd}
+    [Documentation]    marathon_api/marathon/online-mls-apply-add 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    log    =====选中塞事：${marathonId}
+    log    ======查询该塞事的里程项目
+    ${path}=    set variable    /marathon_api/marathon/online-mls-subject
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    marathonId=${marathonId}
+    log    ========输出接口URL：${ec_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    ${contentsubject}    get json value    ${content}    /data
+    ${subjectCodes}    FilterList    ${contentsubject}    distance,3,11    subjectCode
+    ${marathonSubject}    randomchoice    ${subjectCodes}    ,
+    Run Keyword If    ${marathonSubject}<3    log    =======${userName}没有可参加的赛事里程======
+    ...    ELSE    marathon_Add    ${marathonId}    ${marathonSubject}    ${userName}    ${pwd}
+
+marathon_Add
+    [Arguments]    ${marathonId}    ${marathonSubject}    ${userName}    ${pwd}
+    [Documentation]    marathon_api/marathon/online-mls-apply-add 接口用例的Keywords关健字
+    ${marathonSubject}    replace string    ${marathonSubject}    "    ${EMPTY}
+    ${sex}    randomchoice    1,2    ,
+    ${userinfo}    oneclickdetails_userinfo    all    ${userName}    ${pwd}
+    ${cellnumber}    get json value    ${userinfo}    /cellnumber
+    ${cellnumber}    replace string    ${cellnumber}    "    ${EMPTY}
+    ${phone}    Run Keyword If    '${cellnumber}'=='${EMPTY}'    set variable    13800138001
+    ...    ELSE    set variable    ${cellnumber}
+    ${name}    get json value    ${userinfo}    /name
+    ${name}    replace string    ${name}    "    ${EMPTY}
+    ${uname}    Run Keyword If    '${name}'=='${EMPTY}'    get json value    ${userinfo}    /nick
+    ...    ELSE    set variable    ${name}
+    ${uname}    replace string    ${uname}    "    ${EMPTY}
+    ${phone}    replace string    ${phone}    "    ${EMPTY}
+    ${path}=    set variable    /marathon_api/marathon/online-mls-apply-add
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    marathonId=${marathonId}
+    set to dictionary    ${maps}    marathonSubject=${marathonSubject}
+    set to dictionary    ${maps}    phone=${phone}
+    set to dictionary    ${maps}    sex=${sex}
+    set to dictionary    ${maps}    uname=${uname}
+    log    ========输出接口URL：${ec_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}    ${pwd}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    should contain    ${content}    "ret":"0"
+    ${pathv}    set variable    /marathon_api/marathon/online-mls-detail
+    ${mapsv}=    create dictionary
+    set to dictionary    ${mapsv}    marathonId=${marathonId}
+    ${marathonrsp}    thejoyrun_get_nosign    ${pathv}    ${mapsv}    ${userName}    ${ec_URL}    ${pwd}
+    ${marathonVer}=    charconver    ${marathonrsp.content}
+    log json    ${marathonVer}
+    should contain    ${marathonVer}    "marathonId":${marathonId}
+    log    ====赛事ID：${marathonId}验证通过！！=======
+    should contain    ${marathonVer}    "applyStatus":0
+    log    ====报名成功applyStatus从null改变为0验证通过！！=======
+    should contain    ${marathonVer}    "subjectCode":"${marathonSubject}"
+    log    ====项目报名成功subjectCode：${marathonSubject}公里===验证通过！！=======
+    log    验证OK！！用户${userName}参加线上马：${marathonId}，项目：${marathonSubject}成功！！！

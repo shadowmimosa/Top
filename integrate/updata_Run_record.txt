@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     /po.aspx上传跑步记录
+Documentation     /po.aspx复制跑步记录并上传跑步记录
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

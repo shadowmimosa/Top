@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     /feed/post/run发布跑步动态
+Documentation     /run/delete跑步记录
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
