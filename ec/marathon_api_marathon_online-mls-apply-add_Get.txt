@@ -1,0 +1,44 @@
+*** Settings ***
+Documentation     marathon_api/marathon/online-mls-apply-add 接口脚本
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***   marathonId    marathonSubject    phone    sex    uname  ret   msg  
+Class_01              [Documentation]    marathon_api/marathon/online-mls-apply-add TestCase测试用例
+                      [Tags]             Test   auto_v1
+                      [Template]         marathon_api_marathon_online-mls-apply-add_Getns_Keywords
+                      0                  成功
+
+*** Keywords ***
+marathon_api_marathon_online-mls-apply-add_Getns_Keywords
+    [Arguments]   ${marathonId}   ${marathonSubject}   ${phone}   ${sex}   ${uname}     ${ret}   ${msg}
+    [Documentation]    marathon_api/marathon/online-mls-apply-add 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${path}=    set variable    /marathon_api/marathon/online-mls-apply-add
+    ${maps}=    create dictionary
+    set to dictionary  ${maps}  marathonId=${marathonId}
+    set to dictionary  ${maps}  marathonSubject=${marathonSubject}
+    set to dictionary  ${maps}  phone=${phone}
+    set to dictionary  ${maps}  sex=${sex}
+    set to dictionary  ${maps}  uname=${uname}
+    log    ========输出接口URL：${ec_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${ec_URL}${path}；传参：${maps}！！
