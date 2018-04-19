@@ -21,11 +21,11 @@ marathon_Choice
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${tim}    Gettimes    mm,0,times
-    ${timin}    Gettimes    dd,-10,times
-    ${timax2}    Gettimes    dd,30,times
+    ${timeonline}    Gettimes    mm,0,times
+    ${timin}    Gettimes    dd,-15,times
+    ${timax}    Gettimes    dd,30,times
     log    ====筛选出开始时间和结算时间的赛事========
-    ${marathonIds}    marathonlist_marathonIds    applyStartTime,${timin},${timax2}/applyEndTime,${tim},${timax2}/applyMeter,-2,1    marathonId    ${userName}    ${pwd}
+    ${marathonIds}    marathonlist_marathonIds    applyStartTime,${timin},${timeonline}/applyEndTime,${timeonline},${timax}/applyMeter,-2,1    marathonId    ${userName}    ${pwd}
     ${marathonId}    randomchoice    ${marathonIds}    ,
     Run Keyword If    ${marathonId}<10    log    =======${userName}没有可参加的线上马赛事======
     ...    ELSE    marathon_subject    ${marathonId}    ${userName}    ${pwd}
