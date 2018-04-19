@@ -325,24 +325,31 @@ thejoyrun_postnl
     #${timestamp}=    convert to string    ${time}
     ${cookies}=    create dictionary
 	log    code加密处理
+	log dictionary    ${maps}
+	log  maps=====${maps}
 	${mapskey}   Get Dictionary Keys     ${maps}
 	${codeone}   Count Values In List    ${mapskey}   code
 	${cellone}   Count Values In List    ${mapskey}   cellNumber
 	${cellNumber}   Run Keyword If   ${codeone}>0 and ${cellone}>0       Get From Dictionary   ${maps}  cellNumber
 	${codekey}   Run Keyword If   ${codeone}>0 and ${cellone}>0       set variable   joy${timestamp}the${cellNumber}run
 	${code}      Run Keyword If   ${codeone}>0 and ${cellone}>0       encrypt   ${codekey}   md5   32
+	${code}	 Convert To String   ${code}
 	Run Keyword If   ${codeone}>0 and ${cellone}>0     set to dictionary    ${maps}    code=${code}
 	log Dictionary  ${maps}
+	log  maps=====${maps}
     set to dictionary    ${cookies}    app_version=${appversion}
     ${URL}=    set variable    ${Base_URL}
     ${sign_dict}=    create dictionary    timestamp=${timestamp}
+	log dictionary   ${sign_dict}
     ${post_dict}=    create dictionary    timestamp=${timestamp}
     @{mapstolist_sign}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist_sign}
     \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}
+	\    log dictionary   ${sign_dict}
     @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
+	\    log dictionary   ${post_dict}
     #log  排序及格式处理
     #log    参数编码前：${sign_dict}
     #${signparam}    Evaluate    urllib.urlencode(${sign_dict})    urllib
