@@ -58,7 +58,7 @@ Removesting
 
 FilterList
     [Arguments]    ${SrcListstr}    ${filters}    ${Returnfield}   
-    [Documentation]    支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；；SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔)；Returnfield为返回值串的字符；例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
+    [Documentation]    支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；；SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔)；Returnfield为返回值串的字符,为All返回所有字段；例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
     log    原字符串:${SrcListstr}
     log    筛选条件:${filters}
     log    返回值串的字段:${Returnfield}
@@ -100,6 +100,9 @@ FilterList
     \    ${filterfield3strlen}    evaluate    len(${filterfield3str})
     \    ${field3Value}    Run Keyword If    ${filterfield3strlen}>0    Get From List    ${filterfield3str}    0
     \    ...    ELSE    set variable    0
+	\    ${field1Value}    Run Keyword If   '${field1Value}'=='null'   set variable    -1   ELSE   set variable   ${field1Value}
+	\    ${field2Value}    Run Keyword If   '${field2Value}'=='null'   set variable    -1   ELSE   set variable   ${field2Value}	
+	\    ${field3Value}    Run Keyword If   '${field3Value}'=='null'   set variable    -1   ELSE   set variable   ${field3Value}	
     \    ${ReturnfieldValue}    Run Keyword If    "${Returnfield}"<>"All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}    get json value    ${scrsingle}    /${Returnfield}    
     \    ...    ELSE IF   "${Returnfield}"=="All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}  set variable    ${scrsingle}  
     \    ...    ELSE  set variable    joyrunzzqtestspit
@@ -309,19 +312,19 @@ thejoyrun_postnl
     #从字典里取出相应key的值
 	##通过服务器获取timestamp
 	${heards_dict}=    create dictionary 
-    #Create Session    timestamp    ${login_URL}
-    #${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
-    #${contentime}=    charconver    ${resptime.content}
-    #log json    ${resptime.content}
-    #${timestamp}    get json value    ${contentime}    /lasttime
-    #log    --------Server time ={timestamp}--------
+    Create Session    timestamp    ${login_URL}
+    ${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
+    ${contentime}=    charconver    ${resptime.content}
+    log json    ${resptime.content}
+    ${timestamp}    get json value    ${contentime}    /lasttime
+    log    --------Server time ={timestamp}--------
     ##通过本地获取timestamp
-    ${time}=    Get Time    epoch
-    log    time= ${time}
-	${time}  evaluate  int(${time})-30   #容错保证本地时间不大于服务器时间；满足：本地时间+300>服务器时间>本地时间，否则会报签名错误；
-    ${timestamp}=    convert to string    ${time}
+    #${time}=    Get Time    epoch
+    #log    time= ${time}
+	#${time}  evaluate  int(${time})-30   #容错保证本地时间不大于服务器时间；满足：本地时间+300>服务器时间>本地时间，否则会报签名错误；
+    #${timestamp}=    convert to string    ${time}
     ${cookies}=    create dictionary
-	####code 加密处理
+	log    code加密处理
 	${mapskey}   Get Dictionary Keys     ${maps}
 	${codeone}   Count Values In List    ${mapskey}   code
 	${cellone}   Count Values In List    ${mapskey}   cellNumber
@@ -340,7 +343,7 @@ thejoyrun_postnl
     @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
-    #排序及格式处理
+    #log  排序及格式处理
     #log    参数编码前：${sign_dict}
     #${signparam}    Evaluate    urllib.urlencode(${sign_dict})    urllib
     #log    参数编码后：${signparam}
