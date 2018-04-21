@@ -23,7 +23,7 @@ marathon_api_marathon_online-mls-subject_Getns_Keywords
     #${userName}    Env_username
     ${timin}    Gettimes    dd,-2,times
     ${timax}    Gettimes    dd,2,times
-    ${marathonIds}    marathonlist_marathonIds    applyStartTime,${timin},${timax}/applyMeter,-2,0    marathonId    ${userName}    ${pwd}
+    ${marathonIds}    marathonlist_marathonIds    applyMeter,-2,2    marathonId    ${userName}    ${pwd}
     ${marathonId}    randomchoice    ${marathonIds}    ,
     ${path}=    set variable    /marathon_api/marathon/online-mls-subject
     ${maps}=    create dictionary

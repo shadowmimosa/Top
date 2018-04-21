@@ -20,7 +20,7 @@ marathon_Choice
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
-    #${userName}    Env_username
+    ${userName}    Env_username
     ${timeonline}    Gettimes    mm,0,times
     ${timin}    Gettimes    dd,-15,times
     ${timax}    Gettimes    dd,30,times
