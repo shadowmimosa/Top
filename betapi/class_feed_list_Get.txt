@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    class/feed/list TestCase测试用例
                       [Tags]             Test                            auto_v1    Online
                       [Template]         class_feed_list_Get_Keywords
-                      12025              0                               "0"        成功
+                      9765               0                               "0"        成功
 
 *** Keywords ***
 class_feed_list_Get_Keywords

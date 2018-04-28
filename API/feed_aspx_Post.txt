@@ -1,10 +1,6 @@
 *** Settings ***
 Documentation     /feed.aspx点赞与取消点赞接口
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
@@ -21,8 +17,8 @@ Class_01              [Documentation]    /feed.aspx点赞与取消点赞接口-�
 Class_02              [Documentation]    /feed.aspx点赞与取消点赞接口-传参-fid:184150627
                       [Tags]             Online
                       [Template]         feed_aspxPost_assertClass
-                      184150627          like                                     0      0        棒棒的     "0"              #点赞
-                      184150627          liked                                    0      0        棒棒的     "0"              #取消点赞
+                      201189517          like                                     0      0        棒棒的     "0"              #点赞
+                      201189517          liked                                    0      0        棒棒的     "0"              #取消点赞
 
 Class_03              [Documentation]    /feed.aspx评论与删除接口-测试传参-fid:99042939
                       [Tags]             Test
@@ -32,7 +28,7 @@ Class_03              [Documentation]    /feed.aspx评论与删除接口-测试�
 Class_04              [Documentation]    /feed.aspx评论与删除接口-测试传参-fid:184150627
                       [Tags]             Online
                       [Template]         feed_aspxPost_Memo2_assertClass
-                      184150627          red                                      0      0        棒棒的     "0"              #删除评论
+                      201189517          red                                      0      0        棒棒的     "0"              #删除评论
 
 *** Keywords ***
 feed_aspxPost_assertClass

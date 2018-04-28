@@ -7,15 +7,15 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***   pageNum  ret   msg  
+*** Test Cases ***    pageNum            ret                              msg
 Class_01              [Documentation]    user/partin/list TestCase测试用例
-                      [Tags]             Test   auto_v1   Online
+                      [Tags]             Test                             auto_v1    Online
                       [Template]         user_partin_list_Get_Keywords
-                      1    "0"                成功
+                      1                  "0"                              成功
 
 *** Keywords ***
 user_partin_list_Get_Keywords
-    [Arguments]   ${pageNum}     ${ret}   ${msg}
+    [Arguments]    ${pageNum}    ${ret}    ${msg}
     [Documentation]    user/partin/list 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -23,7 +23,7 @@ user_partin_list_Get_Keywords
     #${userName}    Env_username
     ${path}=    set variable    /user/partin/list
     ${maps}=    create dictionary
-    set to dictionary  ${maps}  pageNum=${pageNum}
+    set to dictionary    ${maps}    pageNum=${pageNum}
     log    ========输出接口URL：${bet_URL}${path}
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${bet_URL}

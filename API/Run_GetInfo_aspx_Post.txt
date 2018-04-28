@@ -1,10 +1,6 @@
 *** Settings ***
 Documentation     Run/GetInfo.aspx某跑步记录数据详情接口
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
@@ -20,8 +16,7 @@ Class_01              [Documentation]    Run/GetInfo.aspx某跑步记录数据�
 Class_02              [Documentation]    Run/GetInfo.aspx某跑步记录数据详情接口-传参-181053818、182243751
                       [Tags]             Online
                       [Template]         GetInfo_Post_assertClass
-                      181053818          1                                                     "0"         成功
-                      182243751          1                                                     "0"         成功
+                      201189517          1                                                     "0"         成功
 
 *** Keywords ***
 GetInfo_Post_assertClass

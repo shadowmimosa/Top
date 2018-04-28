@@ -1,11 +1,6 @@
 *** Settings ***
 Documentation     /feed/video/getUploadSetting接口
 Default Tags      V3.2
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

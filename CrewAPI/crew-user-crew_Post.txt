@@ -16,7 +16,7 @@ Class_01              [Documentation]    crew-user-crew TestCase测试用例
 Class_02              [Documentation]    crew-user-crew TestCase测试用例
                       [Tags]             auto_v1                         Online
                       [Template]         crew-user-crew_Post_Keywords
-                      83926209           "0"                             成功
+                      86072310           "0"                             成功
 
 *** Keywords ***
 crew-user-crew_Post_Keywords
