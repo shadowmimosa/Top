@@ -4,14 +4,15 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
-${userName}       13829744541    # 默认的用户名
-${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+${userName}       32519717    # 默认的用户名
+${ContentType}    application/json;charset=UTF-8    # POST数据格式
+#${app_version}    ios3.1.0
 
-*** Test Cases ***    couponNumbers      customerInfo                                                                                                                                       distributionCode    skus                                                                     ret    msg
+*** Test Cases ***    couponNumbers      customerInfo                                                                                                                                       distributionCode    skus                                                                      ret    msg
 Class_01              [Documentation]    ec_api/order TestCase测试用例
                       [Tags]             auto_v1
                       [Template]         ec_api_order__Keywords
-                      \[null\]           {"name":"王小玮","phone":"15600562956","address":{"country":"","province":"北京市","city":"北京市","district":"昌平区","address":"某个地方的某个地方","zipcode":""}}    ${EMPTY}            \[\{"skuId":9004660,"salesRuleId":111453,"quantity":1,"price":140\}\]    0      成功
+                      \[null\]           {"name":"王小玮","phone":"15600562956","address":{"country":"","province":"北京市","city":"北京市","district":"昌平区","address":"某个地方的某个地方","zipcode":""}}    ${EMPTY}            \[\{"skuId":9004686,"salesRuleId":111455,"quantity":1,"price":0.01\}\]    0      成功
 
 *** Keywords ***
 ec_api_order__Keywords
@@ -22,7 +23,11 @@ ec_api_order__Keywords
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${customerInfo}=    Evaluate    '${customerInfo}'.encode('utf-8')
-    ${skus}=    Evaluate    '${skus}'.encode('utf-8')
+    To Json    ${customerInfo}
+    To Json    ${skus}
+    log json    ${customerInfo}
+    log json    ${skus}
+    #${skus}=    Evaluate    '${skus}'.encode('utf-8')
     ${path}=    set variable    /ec_api/order
     ${maps}=    create dictionary
     set to dictionary    ${maps}    couponNumbers=${couponNumbers}
