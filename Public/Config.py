@@ -3,19 +3,23 @@
 import sys
 import time,traceback
 import os
+import sys
 import platform
 import subprocess
 import random
 import re
-
-
+###导入其他python文件的方法，Config_Env为文件名，引入此文件要与执行文件目录一致，否则要加文件路径
+#sys.path.append(r'E:\Work\Test\Enjoytherun\Public\Sub')
+##pathbase = os.path.dirname(os.path.realpath(__file__))    ##读取当前文件的路径
+#pathfile =  pathbase +  '/Sub'
+#sys.path.append(pathfile)
+from Config_Env import * 
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-
 # # 环境变量配置JoyrunEvn（测试环境值：Test或0；生产环境值：其他值为生产环境）
-JoyrunEvn='Test'
+JoyrunEvn='Online'
 
 ##==================================开发测试生产环境通用参数=======================
 #请求头参数-前端系统版本号

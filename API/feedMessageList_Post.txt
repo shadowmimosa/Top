@@ -1,10 +1,6 @@
 *** Settings ***
 Documentation     feedmessagelist获取未读的动态点赞及评论及回复
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
+Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码

@@ -1,10 +1,5 @@
 *** Settings ***
 Documentation     user.aspx查询用户信息（好友、用户基础、查找用户、设备、PB成绩、好友推荐等）
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -12,16 +7,30 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    touid              to                                           option     dateline    ret    msg    env
+*** Test Cases ***    touid              to                                           option                          dateline    ret    msg    env
 Class_01              [Documentation]    user.aspx查询用户信息及本人的好友列表信息接口-测试传参-32518359
                       [Tags]             Test
                       [Template]         user_Post_assertClass
-                      32518359           32518359                                     info       0           "0"    成功     Test
+                      32518359           32518359                                     record                          0           "0"    成功     Online
+                      32518359           32518359                                     info                            0           "0"    成功     Online
+                      32518359           32518359                                     friends                         0           "0"    成功     Online
+                      32518359           32518359                                     find                            0           "0"    成功     Online
+                      32518359           32518359                                     findmultiple                    0           "0"    成功     Online
+                      32518359           32518359                                     deviceinfo                      0           "0"    成功     Online
+                      32518359           32518359                                     friendrecommendinfeed           0           "0"    成功     Online
+                      32518359           32518359                                     friendrecommendinrunnerlevel    0           "0"    成功     Online
 
 Class_02              [Documentation]    user.aspx查询用户信息及本人的好友列表信息接口-传参-86072310
                       [Tags]             Online
                       [Template]         user_Post_assertClass
-                      86072310           86072310                                     friends    0           "0"    成功     Online
+                      86072310           86072310                                     record                          0           "0"    成功     Online
+                      86072310           86072310                                     info                            0           "0"    成功     Online
+                      86072310           86072310                                     friends                         0           "0"    成功     Online
+                      86072310           86072310                                     find                            0           "0"    成功     Online
+                      86072310           86072310                                     findmultiple                    0           "0"    成功     Online
+                      86072310           86072310                                     deviceinfo                      0           "0"    成功     Online
+                      86072310           86072310                                     friendrecommendinfeed           0           "0"    成功     Online
+                      86072310           86072310                                     friendrecommendinrunnerlevel    0           "0"    成功     Online
 
 *** Keywords ***
 user_Post_assertClass
@@ -31,7 +40,7 @@ user_Post_assertClass
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${userName}    Env_username    ${env}
-    ${option}    randomchoice    record/info/friends/find/findmultiple/deviceinfo/friendrecommendinfeed/friendrecommendinrunnerlevel    /
+    #${option}    randomchoice    record/info/friends/find/findmultiple/deviceinfo/friendrecommendinfeed/friendrecommendinrunnerlevel    /
     #${option}    set variable    friendrecommendinrunnerlevel
     ${path}=    set variable    /user.aspx
     ${maps}=    create dictionary

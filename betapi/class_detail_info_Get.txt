@@ -1,11 +1,6 @@
 *** Settings ***
 Documentation     跑班详情
 Default Tags
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -17,7 +12,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 Class_01              [Documentation]    /class/detail/info跑班6879详情
                       [Tags]             Online
                       [Template]         classdetailinfo_Get_assertClass
-                      6879               13829744541                        "0"
+                      9765               13829744541                        "0"
 
 Class_02              [Documentation]    /class/detail/info跑班444详情
                       [Tags]             Test
