@@ -19,11 +19,9 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 # # 环境变量配置JoyrunEvn（测试环境值：Test或0；生产环境值：其他值为生产环境）
-<<<<<<< HEAD
-JoyrunEvn='0'
-=======
+
 JoyrunEvn='Online'
->>>>>>> develop-zouzhiquan
+
 
 ##==================================开发测试生产环境通用参数=======================
 #请求头参数-前端系统版本号
