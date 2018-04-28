@@ -21,7 +21,7 @@ RunRecord_opinion
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #环境判定和用户的选择
     ${userName}    Env_username    a
-    ${userName}    set variable    13829744541
+    #${userName}    set variable    13829744541
     ${env}    Env_username    1
     #从4个热门话题中随机选择一个热门话题
     ${topicName}    FourTopicList_TopicName    ${userName}
