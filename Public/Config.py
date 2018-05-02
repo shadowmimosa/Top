@@ -13,7 +13,7 @@ import re
 ##pathbase = os.path.dirname(os.path.realpath(__file__))    ##读取当前文件的路径
 #pathfile =  pathbase +  '/Sub'
 #sys.path.append(pathfile)
-from Config_Env import * 
+#from Config_Env import * 
 
 reload(sys)
 sys.setdefaultencoding('utf-8')

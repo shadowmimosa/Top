@@ -1,10 +1,5 @@
 *** Settings ***
 Documentation     g/newTopic/topicDetail获取热门话题动态列表-通用参数
-Resource          ../Public/business/thejoyrun.txt
-Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/tool_Libary.py
-Library           ../Public/Verification_Field.py
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

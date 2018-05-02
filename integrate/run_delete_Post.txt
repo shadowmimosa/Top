@@ -12,6 +12,7 @@ Class_01              [Documentation]    /run/delete删除跑步记录
                       [Tags]             Test                 Online
                       [Template]         deleteRun_selete
                       99043675           0
+                      99043675           0
 
 *** Keywords ***
 deleteRun_selete
