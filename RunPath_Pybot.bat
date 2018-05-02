@@ -18,7 +18,7 @@ pybot --include Test   --variable  JoyrunEvn:Test     %Path1%
 goto End 
  
 :Online 
-pybot --include Online  -V  %Path3%  %Path1% 
+pybot --include   Online   --variable  JoyrunEvn:Online   -V  %Path3%  %Path1% 
 goto End 
  
 :End 
