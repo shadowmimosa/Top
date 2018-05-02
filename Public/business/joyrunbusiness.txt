@@ -165,6 +165,7 @@ FourTopicList_TopicName
     \    ${topicNamesting}    Get From List    ${TopfourList}    0
     \    ${topicNameKeyspit}    Run Keyword If    "${topicNameKeyspit}"<>"${EMPTY}"    set variable    ${topicNameKeyspit},${topicNamesting}
     \    ...    ELSE    set Variables    ${topicNamesting}
+    \    ${topicNameKeyspit}    replace string    ${topicNameKeyspit}    ,,    ,
     #${topicNameKeyspit}    replace string    ${topicNameKeyspit}    约定跑,    ${EMPTY}
     ${topicNameKeyspit}    convert to string    ${topicNameKeyspit}
     ${topicName}    randomchoice    ${topicNameKeyspit}    ,
