@@ -1,5 +1,12 @@
 *** Settings ***
 Documentation     demo_Documentation 接口脚本
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           HttpLibrary.HTTP
+Library           ../Public/Lib/tools_library.py
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

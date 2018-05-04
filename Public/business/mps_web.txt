@@ -1,9 +1,20 @@
 *** Settings ***
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           HttpLibrary.HTTP
 Resource          ../Public/cookie_mps_web.txt
 Resource          ../public_lib.txt
 
 *** Variables ***
 ${password}       67889911
+${acshow_version}   8080
+${acshow_platform}    5
+${acshow_device}     EADFDADFASDFEWQRRQWERGGHR
+${acshow_channel}   200
+
 
 *** Keywords ***
 mps_web_get

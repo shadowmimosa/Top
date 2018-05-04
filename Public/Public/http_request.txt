@@ -4,8 +4,11 @@ Library           RequestsLibrary
 Library           pymysql
 Library           DatabaseLibrary
 Library           String
+Library           HttpLibrary.HTTP
 Library           ../Lib/tools_library.py
-
+Library            ../Usertool_01.py
+*** Variable ***
+${fxUrl}      http://fanxing.kugoucom
 *** Keywords ***
 visitor_get
     [Arguments]    ${vsUrl}    ${args}=None
@@ -18,8 +21,8 @@ visitor_get
     ...    请求 http://fx62.kugou.com/VServices/UserService.UserExtService.getUserGiftRank/24713004-1-6-get/
     ...
     ...    | ${resp}= | visitor_get | http://fx62.kugou.com/VServices/UserService.UserExtService.getUserGiftRank | 24713004-1-6-get |
-    create_session    fxauto    ${vsUrl}
-    ${resp}=    _get_request    fxauto    ${args}
+    Create Session    fxauto    ${vsUrl}
+    ${resp}=    Get Request    fxauto    ${args}
     [Return]    ${resp}
 
 fx_get_request_hascookie
@@ -46,7 +49,7 @@ fx_get_request_nocookie
     [Return]    ${resp}
 
 fx_get_request
-    [Arguments]    ${referer}    ${act}    ${mtd}    ${args}    ${cookie}=None
+    [Arguments]    ${referer}    ${act}    ${mtd}    ${args}   ${fxUrl}   ${cookie}=None
     [Documentation]    用于get请求
     ...    如果有cookie，cookie为最后一个参数，否则不填
     ...    本关键字只支持cookie的Kugoo字段
@@ -68,7 +71,7 @@ fx_get_request
     [Return]    ${resp}
 
 fx_execFunc
-    [Arguments]    ${referer}    ${args}    ${cookie_name}=None    ${cookie_value}=None
+    [Arguments]    ${referer}    ${args}   ${fxUrl}  ${cookie_name}=None    ${cookie_value}=None
     [Documentation]    回调函数相关操作是通过调用PHP接口TestToolService.TestService来实现的
     ...
     ...    入参：referer、args（需要执行的函数<\需要转义>，函数传参<多个参数用'-'号隔开>）
@@ -93,7 +96,7 @@ fx_execFunc
     [Return]    ${resp}
 
 fx_post_request
-    [Arguments]    ${headers}    ${act}    ${mtd}    ${args}    ${cookie}=None
+    [Arguments]    ${headers}    ${act}    ${mtd}    ${args}  ${fxUrl}   ${cookie}=None
     [Documentation]    用于post请求
     ...    如果有cookie，cookie为最后一个参数，否则不填
     ...
@@ -115,11 +118,11 @@ fx_post_request
     ${cookies}    run keyword unless    '${cookie}' == '${None}'    create dictionary    KuGoo=${cookie}
     run keyword if    '${cookie}' == '${None}'    Create Session    fx    ${fxUrl}
     run keyword unless    '${cookie}' == '${None}'    Create Session    fx    ${fxUrl}    ${EMPTY}    ${cookies}
-    ${resp}=    _post_request    fx    ${uri}    ${data}    ${headerlist}
+    ${resp}=    Post Request    fx    ${uri}    ${data}    ${headerlist}
     [Return]    ${resp}
 
 fx_get_request_twocookie
-    [Arguments]    ${referer}    ${act}    ${mtd}    ${args}    ${cookie}    ${cookie1}
+    [Arguments]    ${referer}    ${act}    ${mtd}    ${args}    ${cookie}    ${cookie1}   ${fxUrl}
     [Documentation]    该关键字与fx_get_request_hascookie类似，不同的是会多带一个_m_u_的cookie，用于离线内容评论接口的验证码生成
     ...
     ...    详细逻辑查看以下PHP代码：
@@ -133,7 +136,7 @@ fx_get_request_twocookie
     [Return]    ${resp}
 
 fx_get_request_muticookie
-    [Arguments]    ${referer}    ${act}    ${mtd}    ${args}    ${cookielist}=None    ${uri}=Services.php
+    [Arguments]    ${referer}    ${act}    ${mtd}    ${args}  ${fxUrl}   ${cookielist}=None    ${uri}=Services.php
     [Documentation]    支持get请求，无cookie，有cookie，单cookie，多cookie
     ...
     ...    默认uri为Services.php
@@ -282,7 +285,7 @@ post_request_general
     ##处理cookie
     : FOR    ${cookie}    IN    @{cookies.split(';')}    #用；分割cookie
     \    run keyword if    '${cookie}' == '${None}'    exit for loop    #如果cookie为none，则跳出loop
-    \    ${cookie_split}=    splitbyequal1    ${cookie}    #正则用第一个等号分割key-value
+    \    ${cookie_split}=    splitbyequal    ${cookie}    #正则用第一个等号分割key-value
     \    Set To Dictionary    ${cookielist}    ${cookie_split[0]}=${cookie_split[1]}    #set到一起
     ##处理cookie
     #    ${datas_split}=    run keyword unless    '${datas}' == '${None}'    splitbyequal    ${datas}
@@ -291,7 +294,7 @@ post_request_general
     run keyword unless    '${cookie}' == '${None}'    Create Session    fx    ${url}    ${EMPTY}    ${cookielist}
     log    输出完整路径:
     log    ${url}${urilist}${datalist}
-    ${resp}=    _post_request    fx    ${urilist}    ${datalist}    ${headerlist}
+    ${resp}=    Post Request    fx    ${urilist}    ${datalist}    ${headerlist}
     #    ${resp}=    _post_request    fx    /    ${datalist}    ${headerlist}
     [Return]    ${resp}
 
@@ -306,12 +309,13 @@ curl_post_request1
     ...    | ${resp}= | kvnsoa_post_request | [1,"cset",1,1,{"1":{"rec":{"1":{"i32":10098},"2":{"str":"t1"},"3":{"str":"123456"}}}}] | http://192.168.0.141:16013/kvservice |
     ${header}=    create dictionary    protocol=json
     ${data}=    set variable    ${body}
-    create_session    fx    ${url}
-    ${resp}=    _post_request    fx    ${EMPTY}    ${data}    ${header}
+    Create Session    fx    ${url}
+    ${resp}=    Post Request    fx    ${EMPTY}    ${data}    ${header}
     [Return]    ${resp}
 
 joyrun_POST_heardsession
     [Arguments]    ${username}    ${pwd}
+    [Documentation]    Joyrun login 
     log    -----------------cookies mothod is log start;--------------------------
     ##通过服务器获取timestamp
     #Create Session    timestamp    ${login_URL}
@@ -369,11 +373,11 @@ joyrun_POST_heardsession
     ${resplogin}=    post Request    joyrun    /user/login/normal    data=deviceToken=${deviceToken}&pwd=${pwdmd5}&signature=${signature}&timestamp=${timestamp}&username=${username}
     #log    登录后的resp==${resplogin.content}
     ${login_content}=    charconver    ${resplogin.content}
-    ${sid}    get json value    ${login_content}    /data/sid
-    ${uid}    get json value    ${login_content}    /data/user/uid
-    ${nick}    get json value    ${login_content}    /data/user/nick
-    ${userrunlevel}    get json value    ${login_content}    /data/user/userrunlevel
-    ${type}    get json value    ${login_content}    /data/user/type
+    ${sid}    Get Json Value    ${login_content}    /data/sid
+    ${uid}    Get Json Value    ${login_content}    /data/user/uid
+    ${nick}    Get Json Value    ${login_content}    /data/user/nick
+    ${userrunlevel}    Get Json Value    ${login_content}    /data/user/userrunlevel
+    ${type}    Get Json Value    ${login_content}    /data/user/type
     ${ypcookie}    set variable    uid=${uid}&sid=${sid}
     ${ypcookie}=    Replace String    ${ypcookie}    "    ${EMPTY}
 	${sid}=    Replace String    ${sid}    "    ${EMPTY}

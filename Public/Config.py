@@ -43,7 +43,7 @@ MODELTYPE='iPhone 7 Plus'
 appversion='ios3.1.1'
 
 #请求头参数Content-Type
-#ContentType='application/x-www-form-urlencoded'
+ContentType='application/x-www-form-urlencoded'
 
 #线上运行用户列表   注意以下用名的密码要一致；
 Onlineuserlist='13926281760,13926281760,5145311,13064764870,13064764870,13064764870,5145311,86121631,13829744541'

@@ -1,11 +1,19 @@
 ﻿*** Settings ***
 Documentation     公共资源、公共变量、第三方库
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           HttpLibrary.HTTP
+Library           ../Public/Lib/tools_library.py
+Library           ../Public/Usertool_01.py
+Library           ../Public/Verification_Field.py
+Library           ../Public/Verification.py
 Resource          ../Public/business/thejoyrun.txt
 Resource          ../Public/business/joyrunbusiness.txt
 Variables         ../Public/Config.py
-Library           ../Public/Verification.py
-Library           ../Public/Usertool_01.py
-Library           ../Public/Verification_Field.py
+
 
 *** Variable ***
 ${pwd}            67889911    # 密码
@@ -14,6 +22,12 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 
 *** Keywords ***
+
+thejoyrun_Keywords
+    [Arguments]     ${path}    ${maps}    ${userName}    ${api_URL}
+    [Documentation]  待定==
+    Run keyword If   ${path}==1   log  生产环境         ELSE  log   测试环境
+    
 
 Env_username
     [Arguments]    ${env}=None

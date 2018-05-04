@@ -26,17 +26,17 @@ class tools_library(object):
 		res = pattern.split(arglist,1) 
 		return res
 		
-	def charConver(self,content):
+	def char conver(self,content):
 		"""Converts the utf-8 content to unicode 
 		
 		ex:
-		| charConver | ${resp.content} |
+		| char conver | ${resp.content} |
 		"""
 		CODEC = 'utf-8'
 		str = content.decode(CODEC)
 		return str	
 
-	def charConver_unicode(self,content):
+	def char conver_unicode(self,content):
 		string = content.decode('unicode_escape')
 		return string
 		

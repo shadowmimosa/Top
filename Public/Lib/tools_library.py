@@ -12,6 +12,7 @@ import base64
 import shutil
 import struct
 import json
+import Crypto
 from multiprocessing import Process
 from threading import Thread
 from urllib import quote
@@ -38,17 +39,17 @@ class tools_library(object):
 		res = pattern.split(arglist,1) 
 		return res
 		
-	def charConver(self,content):
+	def charconver(self,content):
 		"""Converts the utf-8 content to unicode 
 		
 		ex:
-		| charConver | ${resp.content} |
+		| charconver | ${resp.content} |
 		"""
 		CODEC = 'utf-8'
 		str = content.decode(CODEC)
 		return str	
 
-	def charConver_unicode(self,content):
+	def charconver_unicode(self,content):
 		"""converts chinese(unicode_escape) to unicode"""
 		string = content.decode('unicode_escape')
 		return string

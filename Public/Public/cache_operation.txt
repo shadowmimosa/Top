@@ -7,7 +7,7 @@ Library           ../Lib/tools_library.py
 
 *** Keywords ***
 fx_del_cache
-    [Arguments]    ${referer}    ${key}
+    [Arguments]    ${referer}    ${key}  ${fxUrl}
     [Documentation]    该关键字用于删除指定缓存。
     ...
     ...    入参：referer、args（缓存key）
@@ -23,7 +23,7 @@ fx_del_cache
     [Return]    ${resp}
 
 fx_get_cache
-    [Arguments]    ${referer}    ${key}
+    [Arguments]    ${referer}    ${key}  ${fxUrl}
     [Documentation]    该接口用于获取缓存value
     ...
     ...    入参：referer、args（缓存key）
@@ -41,7 +41,7 @@ fx_get_cache
     [Return]    ${resp.json()['data']}
 
 fx_set_cache
-    [Arguments]    ${referer}    ${key}
+    [Arguments]    ${referer}    ${key}   ${fxUrl}
     [Documentation]    该接口用于set缓存
     ...
     ...    入参：referer、args（缓存key、缓存value、时间）

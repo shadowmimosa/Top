@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     用户加入跑班
-Default Tags
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -37,7 +36,6 @@ opinion_join_classid
 
 classPartinPay_selete
     [Arguments]    ${classIds}    ${userName}    ${pwd}    ${paymentType}    ${verifyCode}    ${mywallet}
-    ...    ${classids}
     [Documentation]    再次判断
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys

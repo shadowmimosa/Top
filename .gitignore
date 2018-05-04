@@ -1,2 +1,7 @@
 /.git/
 /.idea/
+/libspecs/
+/.metadata/
+/report.html
+/log.html
+/output.xml

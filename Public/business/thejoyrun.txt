@@ -4,6 +4,7 @@ Library           RequestsLibrary
 Library           pymysql
 Library           DatabaseLibrary
 Library           String
+Library           HttpLibrary.HTTP
 Library           ../Lib/tools_library.py
 Resource          ../Public/cookie_operation.txt
 Resource          ../Public/http_request.txt
@@ -167,7 +168,7 @@ format listtostring
     [Arguments]    @{list}
     [Documentation]    将List变量(List的单个值是字典)按顺序串联成字符串，例如变量值[(u'a', u'123'),(u'b', u'456')]换成a123b456,
     ${listtostring}=    set variable    ${EMPTY}
-    ${len}=    evaluate    len(${sign_dict_tolist})
+    ${len}=    evaluate    len(${list})
     : FOR    ${index}    IN RANGE    ${len}
     \    ${string}    evaluate    "".join(${list[${index}]})
     \    ${listtostring} =    set variable    ${listtostring}${string}
@@ -316,7 +317,7 @@ thejoyrun_postnl
     ${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
     ${contentime}=    charconver    ${resptime.content}
     log json    ${resptime.content}
-    ${timestamp}    get json value    ${contentime}    /lasttime
+    ${timestamp}    Get Json Value    ${contentime}    /lasttime
     log    --------Server time ={timestamp}--------
     ##通过本地获取timestamp
     #${time}=    Get Time    epoch
@@ -437,6 +438,7 @@ thejoyrun_postjson_wxminp
     [Arguments]    ${path}    ${maps}    ${Base_URL}    ${uid}=None
     [Documentation]    *joyrun中post请求json方式关键字用于微信小程序* 参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于跑团小程序）；
     ##通过本地获取timestamp
+    ${ContentType}   Set Variable    application/json;charset=UTF-8
     ${wxminpnames}    Split String    ${path}    /
     ${wxminpname1}    Get From List    ${wxminpnames}    1
     ${wxminpname}    Run Keyword If    '${wxminpname1}'<>'wallet'    set variable    ${wxminpname1}

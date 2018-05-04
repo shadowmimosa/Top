@@ -1,5 +1,11 @@
 *** Settings ***
 Documentation     /po.aspx复制跑步记录并上传跑步记录
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           HttpLibrary.HTTP
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -70,9 +76,9 @@ RuningRecord
     ${srcuid}=    get json value    ${src}    /runrecord/uid
     ${city1}=    get json value    ${src}    /runrecord/city
     ${province}    Run Keyword If    ${province1}>0    set variable    ${province1}
-    ...    ELSE    set variable    ${province}
+    ...    ELSE    set variable    香港
     ${city}    Run Keyword If    ${city1}>0    set variable    ${city1}
-    ...    ELSE    set variable    ${city}
+    ...    ELSE    set variable    香港
     ${dateline}=    get json value    ${src}    /lasttime
     ${lasttime}=    Evaluate    ${dateline}-120
     ${starttime}=    Evaluate    ${dateline}-${second}-120

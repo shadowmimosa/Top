@@ -4,9 +4,11 @@ Library           RequestsLibrary
 Library           pymysql
 Library           DatabaseLibrary
 
+*** Variable ***
+${DB_IP}
 *** Keywords ***
 db_update
-    [Arguments]    ${sql}    ${user}=fanxing    ${pass}=kugou2014    ${db}=d_fanxing
+    [Arguments]    ${sql}    ${user}=fanxing    ${pass}=kugou2014    ${db}=d_fanxing   
     [Documentation]    执行DML语句。使用pyodbc进行连接，可以支持正常显示中文。（使用该关键字需要安装pyodbc及mysql-connector）
     ...
     ...    说明：
