@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     跑班详情20180508
+Documentation     跑班详情201805
 Default Tags
 Resource          ../Public/public_lib.txt
 
