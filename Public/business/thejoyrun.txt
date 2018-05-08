@@ -127,6 +127,7 @@ FilterList
 callkeywords	
     [Arguments]    ${str}    ${type}=None
     [Documentation]    按顺序执行多个关键字,并返回每个关键的执行结果，str输入方法为关键字之前用分号（;）隔开，关键字与传参之间用冒号（：）隔开，比如：Getmyclassid:${userName};Getmywallet:${userName}:balanceAmount 这个是执行两个关键字(Getmyclassid,Getmywallet)，每个关键字的冒号后为传参；
+	[Timeout]    30 seconds
 	@{result}   Create List  
     @{keywordslist}=    Split String    ${str}    ;
 	:FOR  ${keywordvalue}  IN  @{keywordslist}
@@ -213,6 +214,7 @@ thejoyrun_postd
     [Documentation]    *post请求data方式关键字*
     ...
     ...    参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
+	[Timeout]    30 seconds
 	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
@@ -309,6 +311,7 @@ thejoyrun_postnl
     [Documentation]    *post请求data方式关键字*
     ...
     ...    参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
+	[Timeout]    30 seconds
     ${heards}=    create dictionary
     #从字典里取出相应key的值
 	##通过服务器获取timestamp
@@ -398,6 +401,7 @@ thejoyrun_postnl
 thejoyrun_post_nosign
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
     [Documentation]    *joyrun中post请求URL方式关键字* 没有加密的用于非APP的页面请求，参数以data方法提交；
+	[Timeout]    30 seconds
 	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
@@ -437,6 +441,7 @@ thejoyrun_post_nosign
 thejoyrun_postjson_wxminp
     [Arguments]    ${path}    ${maps}    ${Base_URL}    ${uid}=None
     [Documentation]    *joyrun中post请求json方式关键字用于微信小程序* 参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于跑团小程序）；
+	[Timeout]    30 seconds
     ##通过本地获取timestamp
     ${ContentType}   Set Variable    application/json;charset=UTF-8
     ${wxminpnames}    Split String    ${path}    /
@@ -484,6 +489,7 @@ thejoyrun_postjson_wxminp
 thejoyrun_get_wxminp
     [Arguments]    ${path}    ${maps}      ${Base_URL}    ${uid}=None
     [Documentation]    *joyrun中get请求关键字主要用于微信小程序* 参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
+	[Timeout]    30 seconds
     ${wxminpnames}    Split String    ${path}    /
     ${wxminpname1}    Get From List    ${wxminpnames}    1
     ${wxminpname}    Run Keyword If    '${wxminpname1}'<>'wallet'    set variable    ${wxminpname1}
@@ -535,6 +541,7 @@ thejoyrun_getp
     [Documentation]    *joyrun中get请求url方式关键字*
     ...
     ...    参数以params方法提交出现Url中，也在body带公共参数（signature、timestamp）；
+	[Timeout]    30 seconds
 	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
@@ -613,6 +620,7 @@ thejoyrun_get_nosign
     [Documentation]    *joyrun中get请求url方式参数不需要签名的关键字*
     ...
     ...    参数以params方法提交，出现Url中，也在body中，但不需要签名没有公共参数；
+	[Timeout]    30 seconds
 	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
     ${heards}=    create dictionary
     ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}

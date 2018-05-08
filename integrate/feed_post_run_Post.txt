@@ -17,9 +17,10 @@ Class_01              [Documentation]    /feed/post/run发布跑步动态9904340
 feedpostrun_opinion
     [Arguments]    ${imgs}    ${fid}    ${postRunId}    ${city}    ${province}    ${memo}
     [Documentation]    /feed/post/run发布跑步动态
+    [Timeout]    30 seconds
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${memo1}    Textcontrl    time
+    ${memo1}    Get_Words    4
     #判断环境随机选择用户
     ${userName}    Env_username    2a
     ${env}    Env_username    1
@@ -46,6 +47,7 @@ feedpostrun_assertClass
     [Arguments]    ${imgs}    ${fid}    ${postRunId}    ${city}    ${province}    ${memo}
     ...    ${userName}
     [Documentation]    /feed/post/run发布跑步动态
+    [Timeout]    30 seconds
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /feed/post/run

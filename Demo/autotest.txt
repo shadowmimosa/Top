@@ -1,5 +1,4 @@
 *** Settings ***
-Library    autotest
 Documentation     参数说明
 ...               Home为测试代码 根目录
 ...               demopath为demo文件的路径；

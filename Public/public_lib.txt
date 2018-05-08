@@ -27,8 +27,30 @@ thejoyrun_Keywords
     [Arguments]     ${path}    ${maps}    ${userName}    ${api_URL}
     [Documentation]  待定==
     Run keyword If   ${path}==1   log  生产环境         ELSE  log   测试环境
-    
+	
+	
 
+Get_Words
+    [Arguments]     ${type}=None
+    [Documentation]  获取词霸每日一句，type:1为英文,2为中文翻译，3为引申翻译，4为1、2、3中随机，5调用Textcontrl，其他为1、2、3串联起来；
+	[Timeout]    30 seconds
+    Create Session    iciba    http://open.iciba.com   ${EMPTY}    
+	${resp}=    Get Request    iciba    dsapi    
+	${contentall}=    charconver    ${resp.content}
+	log json  ${contentall}
+	${content}  Get Json Value   ${contentall}  /content
+	${note}  Get Json Value   ${contentall}  /note  
+	${translation}  Get Json Value   ${contentall}  /translation  
+    ${translation}  Get Substring    ${translation}  6
+	${runEU}   Run Keyword If   ${type}==1    set variable  ${content}
+	...    ELSE IF  ${type}==2   set variable  ${translation}
+	...    ELSE IF  ${type}==3   set variable  ${note}	
+	...    ELSE IF  ${type}==4   randomchoice  ${content}////${note}////${translation}     ////
+	...    ELSE IF  ${type}==5   Textcontrl    time
+	...    ELSE    set variable  ${content}${SPACE}${note}${SPACE}【${translation}】
+	${runEU}   Replace String    ${runEU}    "    ${EMPTY}
+    [Return]    ${runEU}	
+	
 Env_username
     [Arguments]    ${env}=None
     [Documentation]    根据login_URL值判定环境，再根据不同环境随机从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online，仅当${env}==1时返回环境Online、Test，其他无作用；

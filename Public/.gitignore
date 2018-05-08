@@ -1,1 +1,4 @@
 *.pyc
+/itchat.log
+/QR.png
+*.pkl
