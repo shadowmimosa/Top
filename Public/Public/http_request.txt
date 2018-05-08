@@ -316,6 +316,7 @@ curl_post_request1
 joyrun_POST_heardsession
     [Arguments]    ${username}    ${pwd}
     [Documentation]    Joyrun login 
+	[Timeout]    30 seconds
     log    -----------------cookies mothod is log start;--------------------------
     ##通过服务器获取timestamp
     #Create Session    timestamp    ${login_URL}
