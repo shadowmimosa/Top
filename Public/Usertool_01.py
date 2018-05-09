@@ -11,7 +11,7 @@ import base64
 import StringIO, gzip
 import string
 import uuid
-import itchat
+
 
 #作用：公共函数库
 

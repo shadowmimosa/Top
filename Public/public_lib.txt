@@ -51,6 +51,17 @@ Get_Words
 	${runEU}   Replace String    ${runEU}    "    ${EMPTY}
     [Return]    ${runEU}	
 	
+Send_itchatmsg
+    [Arguments]    ${name}    ${msg}    ${sencod}
+    [Documentation]    调用微信发信息	
+	Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+	Evaluate    itchat.auto_login(hotReload=True)    itchat
+    ${myfriend}    Evaluate    itchat.search_friends(name=u'${name}')    itchat
+    log    ${myfriend}
+    ${myfriendUserName}    Evaluate    r'${myfriend[0]['UserName']}'    string
+    Evaluate    itchat.send('${msg}', toUserName='${myfriendUserName}')    itchat
+	
 Env_username
     [Arguments]    ${env}=None
     [Documentation]    根据login_URL值判定环境，再根据不同环境随机从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online，仅当${env}==1时返回环境Online、Test，其他无作用；
