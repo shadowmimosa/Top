@@ -7,9 +7,9 @@ Library           DatabaseLibrary
 Library           String
 Library           HttpLibrary.HTTP
 Library           ../Public/Lib/tools_library.py
-Library           ../Public/Usertool_01.py
-Library           ../Public/Verification_Field.py
-Library           ../Public/Verification.py
+Library           ../Public/Lib/Usertool_01.py
+Library           ../Public/Lib/Verification_Field.py
+Library           ../Public/Lib/Verification.py
 Resource          ../Public/business/thejoyrun.txt
 Resource          ../Public/business/joyrunbusiness.txt
 Variables         ../Public/Config.py
