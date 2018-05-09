@@ -6,7 +6,7 @@ Library           DatabaseLibrary
 Library           String
 Library           HttpLibrary.HTTP
 Library           ../Lib/tools_library.py
-Resource          ../Public/cookie_operation.txt
+Resource          ../OtherMethod/cookie_operation.txt
 Resource          ../Public/http_request.txt
 
 *** Variables ***
