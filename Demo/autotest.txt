@@ -4,7 +4,7 @@ Documentation     参数说明
 ...               demopath为demo文件的路径；
 ...               url为接口地址；
 ...               method为请求的公共关健字，Get、Post为app关健字，Getw,Postw 为小程序关键字，getns,Postns为web的无签名的关键字；Interfacefields为POST请求类的非公共参数，多个入参用逗号隔开
-Library           ../Public/autotest.py
+Library           ../Public/Lib/autotest.py
 Resource          ../Public/public_lib.txt
 
 *** Variables ***
