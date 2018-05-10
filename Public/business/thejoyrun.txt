@@ -277,7 +277,7 @@ thejoyrun_postd
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
-    #通用签名
+    log   通用签名${APP_SGIN}
     ${sign1}=    set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
     ${signature} =    Convert To Uppercase    ${sign2}
@@ -610,7 +610,7 @@ thejoyrun_getp
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
-    #通用签名
+    log   通用签名${APP_SGIN}
     ${sign1}=    set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
     ${signature} =    Convert To Uppercase    ${sign2}
