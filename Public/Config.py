@@ -1,4 +1,4 @@
-#coding=utf-8
+﻿#coding=utf-8
 
 import sys
 import time,traceback
@@ -51,7 +51,7 @@ Onlineuserlist='13926281760,13926281760,5145311,13064764870,13064764870,13064764
 #测试运行用户列表   注意以下用名的密码要一致；
 Testuserlist='13829744541,13829744542,13829744543,13829744544,13829744545,5145311'
 
-#各版本测试（3.1）密钥  （app_secrets["3.1"] = "fb1931e425f84313bfae4b93ab3ccdc4"
+#各版本测试（3.1）Nginx密钥  （app_secrets["3.1"] = "fb1931e425f84313bfae4b93ab3ccdc4"
 #app_secrets["3.2"] = "0ce938187774429689749a80d54d4a1b"
 #app_secrets["3.3"] = "5dbfb17323a24666a6b6aa0b9620cab6"）
 appkey1='fb1931e425f84313bfae4b93ab3ccdc4'
@@ -68,6 +68,8 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 
 
 	# #===============测试环境下连接地址(Test)=======================
+		# 登录地址
+	APP_SGIN='a9ff6970eb814e6894389ca8b12f3030' 
 
 	# 登录地址
 	login_URL='http://api-test.thejoyrun.com' 
@@ -142,9 +144,12 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 
 	#小程序统一域名
 	mapp_URL='https://mapp-test.api.thejoyrun.com'
+	
+	###小程序万能签名
+	mapp_sgin='MAPP-MASTER-SECRET-TEST'
 
-	#跑团小程序密钥
-	corpcrewappkey='hello-joyrun-micro-app'
+	#小程序公共密钥
+	mappkey='hello-joyrun-micro-app'
 
 	#跑团小程序APPID
 	corpcrewappid='wx1fef2e38049c8d5f'
@@ -152,17 +157,16 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 	#跑团小程序用户身份sid  2018-02-06 12:30 
 	corpcrewsid='eda1412c27f249189d4a0901d9c18c4b8'
 
-	#约定跑小程序密钥
-	betappkey='hello-joyrun-micro-app'
-
 	#约定跑小程序APPID    wxd19597f62e33ba65
-	betappid='wxd19597f62e33ba65'
+	betappid='wx77b7bc5511256564'
 
-	#约定跑小程序用户身份sid  2018-02-06 12:30 
-	betsid='eda1412c27f249189d4a0901d9c18c4b8'
+	#约定跑小程序用户身份sid  2018-05-10 12:30 
+	betsid='5015ecce82ea4bd1836f189ac335aadc4'
 
 else:
 #=======================线上发布连接地址(Online)========================
+	# 登录地址
+	APP_SGIN='A4729E62-3701-48C3-A15D-7391838FA186' 
 
 	# 登录地址
 	login_URL='http://api.thejoyrun.com' 
@@ -238,9 +242,11 @@ else:
 	#小程序统一域名
 	mapp_URL='https://mapp.api.thejoyrun.com'
 	
-
-	#跑团小程序密钥
-	corpcrewappkey='0a7d4aa5-c13c-40c2-9b1e-3476071a6f82'
+	###小程序万能签名
+	mapp_sgin='27509554-6861-4394-9B84-9D5698A4DD1A'
+	
+	#小程序公共密钥
+	mappkey='hello-joyrun-micro-app'
 
 	#跑团小程序APPID
 	corpcrewappid='wx24fffb22401a1157'
@@ -248,14 +254,11 @@ else:
 	#跑团小程序用户身份sid===2018-02-06  10:28
 	corpcrewsid='6861e3f7620840c2b03d8eff181a61d70'
 
-	##约定跑小程序密钥
-	betappkey='3e3aee29-6abb-495a-bb74-512acda2979e'
-
 	##约定跑小程序APPID
 	betappid='wxd19597f62e33ba65'
 
 	##约定跑小程序用户身份sid  2018-02-06 12:30 
-	betsid='6861e3f7620840c2b03d8eff181a61d70'
+	betsid='a58d9ea48fc94d4b94d486d5510cfff24'
 
 
 

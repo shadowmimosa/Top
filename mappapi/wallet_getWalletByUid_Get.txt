@@ -14,6 +14,11 @@ Class_01              [Documentation]    wallet/getWalletByUid TestCase测试用
                       [Template]         wallet_getWalletByUid_Getc_Keywords
                       32518359           "0"                                    成功
 
+Class_02              [Documentation]    wallet/getWalletByUid TestCase测试用例
+                      [Tags]             Online                                 auto_v1
+                      [Template]         wallet_getWalletByUid_Getc_Keywords
+                      86072310           "0"                                    成功
+
 *** Keywords ***
 wallet_getWalletByUid_Getc_Keywords
     [Arguments]    ${uid}    ${ret}    ${msg}

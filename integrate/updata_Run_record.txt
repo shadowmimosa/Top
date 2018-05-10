@@ -143,13 +143,9 @@ RuningRecord
     set to dictionary    ${maps}    province=${province}
     set to dictionary    ${maps}    daka=${daka}
     log    ---输出参数---
-    log    ${maps}
-    log    ---输出测试地址---
-    log    ${api_URL}
+    log    ${api_URL}${path}${maps}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
-    log    ---输出返回内容----
     log json    ${content}
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"0"

@@ -12,12 +12,12 @@ ${Isuid}          0    #是否需要传uid,0不需要，1需要；
 Class_01              [Documentation]    /corpcrew/crewDailyChampion/getListByPage跑团冠军榜接口-测试传参10012
                       [Tags]             Test
                       [Template]         getListByPage_Post_assertClass
-                      0                  100                                                           10012     "0"
+                      0                  100                                                           10012     0
 
 Class_02              [Documentation]    /corpcrew/crewDailyChampion/getListByPage跑团冠军榜-10001参数
                       [Tags]             Online
                       [Template]         getListByPage_Post_assertClass
-                      0                  100                                                           10001     "0"
+                      0                  100                                                           10001     0
 
 *** Keywords ***
 getListByPage_Post_assertClass
@@ -34,24 +34,13 @@ getListByPage_Post_assertClass
     log    接口入参为：${maps}
     ${resp}=    thejoyrun_postjson_wxminp    ${path}    ${maps}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
     log    ---输出返回内容----
     log json    ${content}
     log    ---开始断言验证---
-    log    response数据为：
-    log    ${resp}
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected_code}
+    should contain    ${content}    "ret":"${expected_code}"
     log    ret 符合预期为:${expected_code}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
-    Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
-    ...    ELSE    should contain    ${content}    "msg":${msg}
-    #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    #${data}=    charconver    ${data}
-    #should contain    ${data}    "temp":
-    #当验证的内容有中文时，需要先转码再验证；
-    #${weather}=    charconver    "多云"
-    #should contain    ${data}    ${weather}
+    Run Keyword If    "${expected_code}"=="0"    Get Json Value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":
     log    ------------------------ It is OK!!!!-------------------------------------

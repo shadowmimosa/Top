@@ -217,10 +217,11 @@ FeedListv5_Fids
     log json    ${content}
     ${feeddatas}    get json value    ${content}    /datas
     ${feeddatas}    charconver    ${feeddatas}
-    ${feeddatas}    replace string    ${feeddatas}    [{    {
-    ${feeddatas}    replace string    ${feeddatas}    }]    }
+    ${feeddatas}    replace string    ${feeddatas}    ${EMPTY}[{    {
+    ${feeddatas}    replace string    ${feeddatas}    }]${EMPTY}    }
     ${feeddatas}    replace string    ${feeddatas}    ${SPACE}    ${EMPTY}
-    ${feeddatas}    replace string    ${feeddatas}    },{    }zzqrunjoyrun9527{
+    #${feeddatas}    replace string    ${feeddatas}    },{    }zzqrunjoyrun9527{
+	${feeddatas}    replace string    ${feeddatas}    "province"    "province"zzqrunjoyrun9527"province"
     @{feeddatasList}    Split String    ${feeddatas}    zzqrunjoyrun9527
     ${feed}    set variable    zzqrunjoyrun9527
     ${CountLen}    evaluate    len(${feeddatasList})
@@ -304,7 +305,7 @@ getMyCrewInfo
 check_runfeed
     [Arguments]    ${fids}    ${userName}   ${pwd}=None
     [Documentation]    check/run查询跑步记录是不是发过动态
-    [Timeout]    10 seconds
+    [Timeout]    30 seconds
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     @{fidList}    Split String    ${fids}    ,

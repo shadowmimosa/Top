@@ -7,11 +7,16 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    classId            uid                                 ret    msg
+*** Test Cases ***    classId            uid                                 ret       msg
 Class_01              [Documentation]    bet/user/class/info TestCase测试用例
-                      [Tags]             auto_v1
+                      [Tags]             auto_v1                             Test
                       [Template]         user_class_info_Getw_Keywords
-                      619                32518359                            "0"    成功
+                      619                32518359                            "0"       成功
+
+Class_02              [Documentation]    bet/user/class/info TestCase测试用例
+                      [Tags]             auto_v1                             Online
+                      [Template]         user_class_info_Getw_Keywords
+                      9765               86072310                            "0"       成功
 
 *** Keywords ***
 user_class_info_Getw_Keywords
