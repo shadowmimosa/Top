@@ -9,9 +9,14 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    uid                ret                                 msg
 Class_01              [Documentation]    bet/user/my/mission TestCase测试用例
-                      [Tags]             auto_v1
+                      [Tags]             auto_v1                             Test
                       [Template]         user_my_mission_Getw_Keywords
                       32518359           "0"                                 成功
+
+Class_02              [Documentation]    bet/user/my/mission TestCase测试用例
+                      [Tags]             auto_v1                             Online
+                      [Template]         user_my_mission_Getw_Keywords
+                      86072310           "0"                                 成功
 
 *** Keywords ***
 user_my_mission_Getw_Keywords

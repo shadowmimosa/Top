@@ -32,7 +32,7 @@ thejoyrun_Keywords
 
 Get_Words
     [Arguments]     ${type}=None
-    [Documentation]  获取词霸每日一句，type:1为英文,2为中文翻译，3为引申翻译，4为1、2、3中随机，5调用Textcontrl，其他为1、2、3串联起来；
+    [Documentation]  获取词霸每日一句，type:1为英文,2为中文翻译，3为引申翻译，4为1、2、3、5、其他中随机，5调用Textcontrl，其他为1、2、3串联起来；
 	[Timeout]    30 seconds
     Create Session    iciba    http://open.iciba.com   ${EMPTY}    
 	${resp}=    Get Request    iciba    dsapi    
@@ -42,13 +42,16 @@ Get_Words
 	${note}  Get Json Value   ${contentall}  /note  
 	${translation}  Get Json Value   ${contentall}  /translation  
     ${translation}  Get Substring    ${translation}  6
+	${Textjoyrun}   Textcontrl    time
+	${IcibaText}    set variable  ${content}${SPACE}${note}${SPACE}【${translation}】
 	${runEU}   Run Keyword If   ${type}==1    set variable  ${content}
 	...    ELSE IF  ${type}==2   set variable  ${translation}
 	...    ELSE IF  ${type}==3   set variable  ${note}	
-	...    ELSE IF  ${type}==4   randomchoice  ${content}////${note}////${translation}     ////
-	...    ELSE IF  ${type}==5   Textcontrl    time
-	...    ELSE    set variable  ${content}${SPACE}${note}${SPACE}【${translation}】
+	...    ELSE IF  ${type}==4   randomchoice  ${content}joyrun1314${note}joyrun1314${translation}joyrun1314${Textjoyrun}joyrun1314${IcibaText}     joyrun1314
+	...    ELSE IF  ${type}==5   set variable  ${Textjoyrun}
+	...    ELSE    set variable  ${IcibaText}
 	${runEU}   Replace String    ${runEU}    "    ${EMPTY}
+    ${runEU}   Replace String    ${runEU}    \\r\\n    ${EMPTY}
     [Return]    ${runEU}	
 	
 Send_itchatmsg

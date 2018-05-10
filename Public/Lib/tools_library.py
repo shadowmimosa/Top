@@ -1,4 +1,4 @@
-#_*_ coding:utf-8 _*_
+﻿#coding=utf-8
 import re
 import os
 import sys
@@ -44,8 +44,9 @@ class tools_library(object):
 		ex:
 		| charconver | ${resp.content} |
 		"""
-		CODEC = 'utf-8'
-		str = content.decode(CODEC)
+		#CODEC = 'utf-8'
+		#str = content.decode(CODEC)
+		str =  content.decode(encoding='UTF-8',errors='strict')
 		return str	
 
 	def charconver_unicode(self,content):

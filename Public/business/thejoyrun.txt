@@ -58,8 +58,9 @@ Removesting
     [Return]    ${restr}
 
 FilterList
-    [Arguments]    ${SrcListstr}    ${filters}    ${Returnfield}   
+    [Arguments]    ${SrcListstr}    ${filters}    ${Returnfield}   ${Onlyone}=None
     [Documentation]    支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；；SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔)；Returnfield为返回值串的字符,为All返回所有字段；例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
+	[Timeout]    1 minute
     log    原字符串:${SrcListstr}
     log    筛选条件:${filters}
     log    返回值串的字段:${Returnfield}
@@ -86,7 +87,8 @@ FilterList
     ${SrcListstr}    replace string    ${SrcListstr}    ${EMPTY}[{    {
     ${SrcListstr}    replace string    ${SrcListstr}    }]${EMPTY}    }
     ${SrcListstr}    replace string    ${SrcListstr}    ${SPACE}    ${EMPTY}
-    ${SrcListstr}    replace string    ${SrcListstr}    },{    }joyrunzzqtestspit{
+    ${SrcListstr}    Run Keyword If   ${Onlyone}==None    replace string    ${SrcListstr}    },{    }joyrunzzqtestspit{
+    ...    ELSE    replace string    ${SrcListstr}    ${Onlyone}    ${Onlyone}joyrunzzqtestspit${Onlyone}	
     @{SrcList}    Split String    ${SrcListstr}    joyrunzzqtestspit
     : FOR    ${scrsingle}    IN    @{SrcList}
     \    ${filterfield1str}    Get Regexp Matches    ${scrsingle}    "${filterfield1}":([0-9]+)    1
@@ -276,7 +278,7 @@ thejoyrun_postd
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
     #通用签名
-    #${sign}=    set variable    a9ff6970eb814e6894389ca8b12f3030
+    ${sign1}=    set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
     ${signature} =    Convert To Uppercase    ${sign2}
     set to dictionary    ${heards_dict}    _sign=${_sign}
@@ -374,7 +376,7 @@ thejoyrun_postnl
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
     #通用签名
-    #${sign}=    set variable    a9ff6970eb814e6894389ca8b12f3030
+    ${sign1}=    set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
     ${signature} =    Convert To Uppercase    ${sign2}
     set to dictionary    ${heards_dict}    _sign=${_sign}
@@ -450,10 +452,19 @@ thejoyrun_postjson_wxminp
     ...    ELSE    Set variable    corpcrew
     ${appid}    set variable    ${${wxminpname}appid}
     ${sid}    set variable    ${${wxminpname}sid}
-    ${appkey}    set variable    ${${wxminpname}appkey}
-    ${time}=    Get Time    epoch
+    #${appkey}    set variable    ${${wxminpname}appkey}
+	${appkey}    set variable    ${mappkey}
+	log  =======获取服务器时间========
+	Create Session    timestamp    ${login_URL}
+    ${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
+    ${contentime}=    charconver    ${resptime.content}
+    log json    ${resptime.content}
+    ${time}    get json value    ${contentime}    /lasttime
+	##log  ====获取本地时间=======
+    #${time}=    Get Time    epoch
     ${time}    evaluate    int(${time}*1000)
-    ${timestamp}    evaluate    str(${time})
+	${timestamp}   set variable   ${time}
+    #${timestamp}    evaluate    str(${time})
     log    timestamp=${timestamp}
     #当需要传uid时，则uid从map中取，否则uid为0
 	${mapskey}  Get Dictionary Keys   ${maps}
@@ -478,10 +489,12 @@ thejoyrun_postjson_wxminp
     log    signkey=====${signkey}
     #排序及格式处理
     ${sign}=    encrypt    ${signkey}    md5    32
-    #请求头处理
+	log  使用万能签名${mapp_sgin}
+	${sign}=    Set Variable   ${mapp_sgin}
+    #请求头处理${UserAgent}
     set to dictionary    ${heards_dict}    sign=${sign}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
-    #set to dictionary    ${heards_dict}    User-Agent=${UserAgent}
+    set to dictionary    ${heards_dict}    User-Agent=Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X)
     Create Session    runwx    ${URL}    headers=${heards_dict}
     ${resp}=    Post Request    runwx    uri=${path}    data=${post_dict}
     [Return]    ${resp}
@@ -496,7 +509,8 @@ thejoyrun_get_wxminp
     ...    ELSE    Set variable    corpcrew
     ${appid}    set variable    ${${wxminpname}appid}
     ${sid}    set variable    ${${wxminpname}sid}
-    ${appkey}    set variable    ${${wxminpname}appkey}
+    #${appkey}    set variable    ${${wxminpname}appkey}
+	${appkey}    set variable    ${mappkey}
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
     log    time= ${time}
@@ -523,6 +537,8 @@ thejoyrun_get_wxminp
     log    signkey=====${signkey}
     #排序及格式处理
     ${sign}=    encrypt    ${signkey}    md5    32
+	log   使用万能签名${mapp_sgin}
+	${sign}=    Set Variable   ${mapp_sgin}
     #请求头处理
     set to dictionary    ${heards_dict}    sign=${sign}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
@@ -595,7 +611,7 @@ thejoyrun_getp
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
     #通用签名
-    #${sign}=    set variable    a9ff6970eb814e6894389ca8b12f3030
+    ${sign1}=    set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
     ${signature} =    Convert To Uppercase    ${sign2}
     set to dictionary    ${heards_dict}    _sign=${_sign}

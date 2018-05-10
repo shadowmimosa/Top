@@ -17,7 +17,7 @@ Class_01              [Documentation]    /feed/post/run发布跑步动态9904340
 feedpostrun_opinion
     [Arguments]    ${imgs}    ${fid}    ${postRunId}    ${city}    ${province}    ${memo}
     [Documentation]    /feed/post/run发布跑步动态
-    [Timeout]    30 seconds
+    [Timeout]    1 minute
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${memo1}    Get_Words    4
@@ -47,7 +47,7 @@ feedpostrun_assertClass
     [Arguments]    ${imgs}    ${fid}    ${postRunId}    ${city}    ${province}    ${memo}
     ...    ${userName}
     [Documentation]    /feed/post/run发布跑步动态
-    [Timeout]    30 seconds
+    [Timeout]    1 minute
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /feed/post/run

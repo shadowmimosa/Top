@@ -1,4 +1,4 @@
-#coding=utf-8
+﻿#coding=utf-8
 #脚本作用：公共json数据校验方法，遍历data数据，校验字符串及整型数值
 
 

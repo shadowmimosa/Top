@@ -29,12 +29,8 @@ feedListv5_Post_assertClass
     ${content}=    charconver    ${resp.content}
     ${data}    get json value    ${content}    /datas
     ${data}=    charconver    ${data}
-    log json    ${resp.content}
-    log    ---输出返回内容----
     log json    ${content}
     log    ---开始断言验证---
-    log    response数据为：
-    log    ${resp}
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${expected_code}
     log    ret 符合预期为:${expected_code}

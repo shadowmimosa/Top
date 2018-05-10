@@ -1,4 +1,4 @@
-#coding=utf-8
+﻿#coding=utf-8
 import time,traceback
 import os
 import sys
@@ -12,6 +12,8 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 #=======================线上发布连接地址(Online)========================
+# 登录地址
+APP_SGIN='A4729E62-3701-48C3-A15D-7391838FA186' 
 
 # 登录地址
 login_URL='http://api.thejoyrun.com' 
@@ -87,9 +89,11 @@ cr_URL='https://cr.thejoyrun.com'
 #小程序统一域名
 mapp_URL='https://mapp.api.thejoyrun.com'
 
+###小程序万能签名
+mapp_sgin='27509554-6861-4394-9B84-9D5698A4DD1A'
 
-#跑团小程序密钥
-corpcrewappkey='0a7d4aa5-c13c-40c2-9b1e-3476071a6f82'
+#小程序公共密钥
+mappkey='hello-joyrun-micro-app'
 
 #跑团小程序APPID
 corpcrewappid='wx24fffb22401a1157'
@@ -97,12 +101,8 @@ corpcrewappid='wx24fffb22401a1157'
 #跑团小程序用户身份sid===2018-02-06  10:28
 corpcrewsid='6861e3f7620840c2b03d8eff181a61d70'
 
-##约定跑小程序密钥
-betappkey='3e3aee29-6abb-495a-bb74-512acda2979e'
-
 ##约定跑小程序APPID
 betappid='wxd19597f62e33ba65'
 
 ##约定跑小程序用户身份sid  2018-02-06 12:30 
-betsid='6861e3f7620840c2b03d8eff181a61d70'
-
+betsid='a58d9ea48fc94d4b94d486d5510cfff24'
