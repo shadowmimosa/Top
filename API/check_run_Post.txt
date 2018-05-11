@@ -12,7 +12,7 @@ class_01              [Documentation]    check/run查询跑步记录是不是发
                       [Tags]             Online                    Test
                       [Setup]            log                       初始化用例！！！！！
                       [Template]         check_run
-                      [Timeout]          10 seconds
+                      [Timeout]          30 seconds
                       99043872           0                         "0"            成功
                       [Teardown]         log                       用例已结束了！！！！！
 
@@ -33,11 +33,14 @@ check_run
     log    ${maps}
     log    ---输出测试地址---
     log    ${api_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
-    ${content}=    charconver    ${resp.content}
+    #${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    #${content}    thejoyrun_Keywords    ${api_URL}    ${path}    ${userName}    ${pwd}    Post
+    ...    # fid,postRunId    ${fid},${postRunId}
+    ${content}    thejoyrun_Keywords    ${api_URL}    ${path}    ${userName}    ${pwd}    Post
+    ...    ${maps}    Joyrun_null
+    #${content}=    charconver    ${resp.content}
     ${data}    get json value    ${content}    /data
     ${data}=    charconver    ${data}
-    log json    ${resp.content}
     log    ---输出返回内容----
     log json    ${content}
     log    验证ret是否符合预期

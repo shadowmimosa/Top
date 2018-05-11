@@ -358,7 +358,7 @@ joyrun_POST_heardsession
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
     #通用签名
-    #${sign1}=    set variable    a9ff6970eb814e6894389ca8b12f3030
+    ${sign1}=    set variable    ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
     ${signature} =    Convert To Uppercase    ${sign2}
     #log    _sign====${_sign}
@@ -372,6 +372,8 @@ joyrun_POST_heardsession
     log    登录传参url=${Url}${loginUri}-------headers=${header} -------
     Create Session    joyrun    ${Url}    headers=${header}
     ${resplogin}=    post Request    joyrun    /user/login/normal    data=deviceToken=${deviceToken}&pwd=${pwdmd5}&signature=${signature}&timestamp=${timestamp}&username=${username}
+    #${resplogin}=    post Request    joyrun    /user/login/normal    data=pwd=${pwdmd5}&timestamp=${timestamp}&username=${username}
+	log    data=pwd=${pwdmd5}&timestamp=${timestamp}&username=${username}
     #log    登录后的resp==${resplogin.content}
     ${login_content}=    charconver    ${resplogin.content}
     ${sid}    Get Json Value    ${login_content}    /data/sid

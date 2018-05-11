@@ -26,14 +26,12 @@ datamessages_Post_assertClass
     log    ${maps}
     log    ---输出测试地址---
     log    ${api_URL}
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
-    ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
-    log    ---输出返回内容----
+    #${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}    thejoyrun_Keywords    ${api_URL}    ${path}    ${userName}    ${pwd}    None
+    ...    lasttime    ${lasttime}
+    #${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ---开始断言验证---
-    log    response数据为：
-    log    ${resp}
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${expected_code}
     log    ret 符合预期为:${expected_code}

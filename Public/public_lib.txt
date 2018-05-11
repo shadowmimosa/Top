@@ -24,10 +24,53 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 *** Keywords ***
 
 thejoyrun_Keywords
-    [Arguments]     ${path}    ${maps}    ${userName}    ${api_URL}
-    [Documentation]  待定==
-    Run keyword If   ${path}==1   log  生产环境         ELSE  log   测试环境
+    [Arguments]    ${BaseURL}    ${path}    ${userName}=None    ${pwd}=None   ${method}=None   ${fields}=None      
+    ...		${values}=None      
+    [Documentation]  *thejoyrun通用关健字*
+    ...
+    ...		BaseURL为http/https开头域名地址，path为url路径，method为方法（Get,Post,Getns,Postns,Getw,Postw,Postnl）fields为接口字段集（字段与字段之间用,英文逗号隔开，）；values为字段值（按字段顺序给出并也用英文逗号隔开）userName 为用户账号，pwd为用户密码
+    ...		eg: ${content}   thejoyrun_Keywords    ${advert_URL}    ${path}    ${userName}    ${pwd}
+    ...		可为None的参数在最后时无需填写，如method 、fields、values无值可不填写
+    ...		eg: ${content}   thejoyrun_Keywords    ${advert_URL}    ${path}    None    None   Postnl  ${fields}   ${values}
+    ...		可为None的参数在中间时，如userName pwd 不需要传时要用None代替
+	[Timeout]    30 seconds
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${maps1}     create dictionary
+	@{fieldsList}  Run Keyword If  '${values}'=='Joyrun_null'  Create List  0   ELSE    Split String    ${fields}    ,
+	@{ValueList}   Run Keyword If  '${values}'=='Joyrun_null'  Create List  0   ELSE    Split String    ${values}    ,
+	${Len}   Run Keyword If  ${fieldsList} is None  Set Variable  0  ELSE    Evaluate   len(${fieldsList})
+    ${maps}   Run Keyword If    ${Len}<=1 and '${values}'!='Joyrun_null'  Set Variable  ${maps1}   
+	...    ELSE IF  '${values}'=='Joyrun_null'    create dictionary   &{fields}
+	...    ELSE     thejoyrun_Maps  ${fieldsList}   ${ValueList} 
+    log    ===输出测试地址:${BaseURL}${path}====
+	log    ===请求方法及用户:method=${method},userName:${userName},pwd:${pwd}====
+	log    ===请求的字段及值为：fields:${fields},values:${values}========
+    ${resp}  Run Keyword If  '${method}'=='Postw'    thejoyrun_postjson_wxminp    ${path}    ${maps}        ${BaseURL}   
+	...    ELSE IF	 '${method}'=='Get'       thejoyrun_Getp           ${path}    ${maps}    ${userName}    ${BaseURL}   ${pwd}
+	...    ELSE IF	 '${method}'=='Getw'      thejoyrun_get_wxminp     ${path}    ${maps}    ${BaseURL}  
+	...    ELSE IF	 '${method}'=='Postns'    thejoyrun_post_nosign    ${path}    ${maps}    ${userName}    ${BaseURL}   ${pwd}
+	...    ELSE IF	 '${method}'=='Getns'     thejoyrun_get_nosign     ${path}    ${maps}    ${userName}    ${BaseURL}   ${pwd}
+	...    ELSE IF	 '${method}'=='Postnl'     thejoyrun_postnl        ${path}    ${maps}    ${Base_URL} 	
+	...    ELSE      thejoyrun_postd    ${path}    ${maps}    ${userName}    ${BaseURL}   ${pwd}
+	log   	=====将返回内容转换成UTF-8编码=======
+    ${content}    charconver    ${resp.content}
+    log    ======将返回内容以Json格式打印出来=========
+    log json    ${content}
+	[Return]    ${content}
 	
+	
+thejoyrun_Maps
+	[Arguments]    ${list1}   ${list2} 
+    [Documentation]    将两个列表放入到字典中，list1为字典Key，list2为Value;  要求两个列表中个数一致，按顺序一一对应；
+	&{maps}=    create dictionary
+	${Len}   Evaluate   len(${list1})
+	:FOR   ${index}    IN RANGE    0    ${len}
+	\		${field}    Get From List    ${list1}    ${index}
+	\		${value}    Get From List    ${list2}    ${index}
+    \       set to dictionary    ${maps}    ${field}=${value}
+	\       log     =====maps:${maps}=======   
+	[Return]    &{maps}
 	
 
 Get_Words

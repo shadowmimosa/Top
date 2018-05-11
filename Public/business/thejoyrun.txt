@@ -213,7 +213,7 @@ countbyitem
 
 thejoyrun_postd
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}   ${pwds}=None
-    [Documentation]    *post请求data方式关键字*
+    [Documentation]    *用于APP内部需要登录和签名Post场景：post请求data方式关键字*
     ...
     ...    参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
 	[Timeout]    30 seconds
@@ -277,7 +277,7 @@ thejoyrun_postd
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
-    #通用签名
+    log   通用签名${APP_SGIN}
     ${sign1}=    set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
     ${signature} =    Convert To Uppercase    ${sign2}
@@ -310,9 +310,9 @@ thejoyrun_postd
 
 thejoyrun_postnl
     [Arguments]    ${path}    ${maps}    ${Base_URL}   
-    [Documentation]    *post请求data方式关键字*
+    [Documentation]    *用于APP内部不需登录的Post场景：post请求data方式关键字——无需登录*
     ...
-    ...    参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
+    ...    用于app的用户注册方面，无需用户信息；参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
 	[Timeout]    30 seconds
     ${heards}=    create dictionary
     #从字典里取出相应key的值
@@ -324,11 +324,6 @@ thejoyrun_postnl
     log json    ${resptime.content}
     ${timestamp}    Get Json Value    ${contentime}    /lasttime
     log    --------Server time ={timestamp}--------
-    ##通过本地获取timestamp
-    #${time}=    Get Time    epoch
-    #log    time= ${time}
-	#${time}  evaluate  int(${time})-30   #容错保证本地时间不大于服务器时间；满足：本地时间+300>服务器时间>本地时间，否则会报签名错误；
-    #${timestamp}=    convert to string    ${time}
     ${cookies}=    create dictionary
 	log    code加密处理
 	log dictionary    ${maps}
@@ -402,7 +397,9 @@ thejoyrun_postnl
 	
 thejoyrun_post_nosign
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
-    [Documentation]    *joyrun中post请求URL方式关键字* 没有加密的用于非APP的页面请求，参数以data方法提交；
+    [Documentation]    *用于非APP的页面请求不需签名的场景：joyrun中post请求URL方式关键字*
+    ...
+    ...    没有加密的用于非APP的页面请求，参数以data方法提交；
 	[Timeout]    30 seconds
 	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
     ${heards}=    create dictionary
@@ -442,7 +439,9 @@ thejoyrun_post_nosign
 
 thejoyrun_postjson_wxminp
     [Arguments]    ${path}    ${maps}    ${Base_URL}    ${uid}=None
-    [Documentation]    *joyrun中post请求json方式关键字用于微信小程序* 参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于跑团小程序）；
+    [Documentation]    *用于微信小程序Post场景：joyrun中post请求json方式关键字* 
+    ...
+    ...    参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于小程序）；
 	[Timeout]    30 seconds
     ##通过本地获取timestamp
     ${ContentType}   Set Variable    application/json;charset=UTF-8
@@ -501,7 +500,9 @@ thejoyrun_postjson_wxminp
 
 thejoyrun_get_wxminp
     [Arguments]    ${path}    ${maps}      ${Base_URL}    ${uid}=None
-    [Documentation]    *joyrun中get请求关键字主要用于微信小程序* 参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
+    [Documentation]    *用于微信小程序Get场景：joyrun中get请求关键字* 
+    ...     
+    ...     参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
 	[Timeout]    30 seconds
     ${wxminpnames}    Split String    ${path}    /
     ${wxminpname1}    Get From List    ${wxminpnames}    1
@@ -554,7 +555,7 @@ thejoyrun_get_wxminp
 
 thejoyrun_getp
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}     ${pwds}=None
-    [Documentation]    *joyrun中get请求url方式关键字*
+    [Documentation]    *用于APP内需要登录和签名的Get场景：joyrun中get请求url方式关键字*
     ...
     ...    参数以params方法提交出现Url中，也在body带公共参数（signature、timestamp）；
 	[Timeout]    30 seconds
@@ -610,7 +611,7 @@ thejoyrun_getp
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
-    #通用签名
+    log   通用签名${APP_SGIN}
     ${sign1}=    set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
     ${signature} =    Convert To Uppercase    ${sign2}
@@ -633,7 +634,7 @@ thejoyrun_getp
 
 thejoyrun_get_nosign
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
-    [Documentation]    *joyrun中get请求url方式参数不需要签名的关键字*
+    [Documentation]    *用于非APP请求不需要签名Get场景：joyrun中get请求url方式参数的关键字*
     ...
     ...    参数以params方法提交，出现Url中，也在body中，但不需要签名没有公共参数；
 	[Timeout]    30 seconds
