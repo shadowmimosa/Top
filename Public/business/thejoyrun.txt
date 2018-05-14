@@ -58,12 +58,21 @@ Removesting
     [Return]    ${restr}
 
 FilterList
-    [Arguments]    ${SrcListstr}    ${filters}    ${Returnfield}   ${Onlyone}=None
-    [Documentation]    支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；；SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔)；Returnfield为返回值串的字符,为All返回所有字段；例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
+    [Arguments]    ${SrcListstr}    ${filters}    ${Returnfield}   ${Onlyone}=None   ${Num}=None
+    [Documentation]    *筛选并分隔字符串*
+    ...     支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；
+    ...     SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；
+    ...     filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔);
+    ...     Returnfield为返回值串的字符,为All返回所有字段；
+    ...     Onlyone以哪个字段或字符串来分隔，默认为空；
+    ...     Num源数据列表的条数筛选，默认为空不筛选； 大于0的数时筛选前Num列【0:Num】,小于0的数时筛选倒数Num列【Num:Last】  
+    ...     例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
 	[Timeout]    1 minute
     log    原字符串:${SrcListstr}
     log    筛选条件:${filters}
     log    返回值串的字段:${Returnfield}
+    log    分隔串的字段:${Onlyone}
+    log    源数据列表的条数筛选${Num}
     ${ReturnValue}    set variable    joyrunzzqtestspit
     @{filterList}    Split String    ${filters}    /
     ${filterLen}    evaluate    len(${filterList})
@@ -90,16 +99,20 @@ FilterList
     ${SrcListstr}    Run Keyword If   ${Onlyone}==None    replace string    ${SrcListstr}    },{    }joyrunzzqtestspit{
     ...    ELSE    replace string    ${SrcListstr}    ${Onlyone}    ${Onlyone}joyrunzzqtestspit${Onlyone}	
     @{SrcList}    Split String    ${SrcListstr}    joyrunzzqtestspit
+    ${SrcList}     Run Keyword If  ${Num} is None  Get Slice From List   ${SrcList}   -10
+    ...    ELSE IF   ${Num}>0     Get Slice From List   ${SrcList}   0   ${Num}
+    ...   ELSE IF   ${Num}<0     Get Slice From List   ${SrcList}   ${Num}
+    ...   ELSE     Get Slice From List   ${SrcList}   0    
     : FOR    ${scrsingle}    IN    @{SrcList}
-    \    ${filterfield1str}    Get Regexp Matches    ${scrsingle}    "${filterfield1}":([0-9]+)    1
+    \    ${filterfield1str}    Get Regexp Matches    ${scrsingle}    "${filterfield1}":([A-Za-z0-9]+)    1
     \    ${filterfield1strlen}    evaluate    len(${filterfield1str})
     \    ${field1Value}    Run Keyword If    ${filterfield1strlen}>0    Get From List    ${filterfield1str}    0
     \    ...    ELSE    set variable    0
-    \    ${filterfield2str}    Get Regexp Matches    ${scrsingle}    "${filterfield2}":([0-9]+)    1
+    \    ${filterfield2str}    Get Regexp Matches    ${scrsingle}    "${filterfield2}":([A-Za-z0-9]+)    1
     \    ${filterfield2strlen}    evaluate    len(${filterfield2str})
     \    ${field2Value}    Run Keyword If    ${filterfield2strlen}>0    Get From List    ${filterfield2str}    0
     \    ...    ELSE    set variable    0
-    \    ${filterfield3str}    Get Regexp Matches    ${scrsingle}    "${filterfield3}":([0-9]+)    1
+    \    ${filterfield3str}    Get Regexp Matches    ${scrsingle}    "${filterfield3}":([A-Za-z0-9]+)    1
     \    ${filterfield3strlen}    evaluate    len(${filterfield3str})
     \    ${field3Value}    Run Keyword If    ${filterfield3strlen}>0    Get From List    ${filterfield3str}    0
     \    ...    ELSE    set variable    0
