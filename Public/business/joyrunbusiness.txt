@@ -64,7 +64,7 @@ Getrunrecodeinfo
 
 feedListBasicBulk_fid
     [Arguments]    ${fids}    ${userName}    ${findtext}    ${min}    ${max}   ${pwd}=None
-    [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回批量符合条件的跑步记录的fid串；findtext为条件字段，min,max 为条件值的最小最大值 左闭右开区间,findtext 支持两层过滤，如找run下的meter可写成run/meter
+    [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回前10条符合条件的跑步记录的fid串；findtext为条件字段，min,max 为条件值的最小最大值 左闭右开区间,findtext 支持两层过滤，如找run下的meter可写成run/meter
     ${path}=    set variable    /feed/feedListBasicBulk
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fids=${fids}
@@ -86,6 +86,7 @@ feedListBasicBulk_fid
     ${feeddatas}    replace string    ${feeddatas}    ${SPACE}    ${EMPTY}
     ${feeddatas}    replace string    ${feeddatas}    },{    }joyrunzzqtestspit{
     @{dataList}    Split String    ${feeddatas}    joyrunzzqtestspit
+    ${dataList}    Get Slice From List   ${dataList}   0  10
     : FOR    ${feeddata}    IN    @{dataList}
     \    log    ${feeddata}
     \    ${findoneValue}    Run Keyword If    ${findlistlen}>1    Get Regexp Matches    ${feeddata}    "${findlistone}":{(.*)}
@@ -114,7 +115,7 @@ feedListBasicBulk_fid
 
 getHotsFeedList_fids
     [Arguments]    ${page}    ${limit}    ${userName}   ${pwd}=None
-    [Documentation]    getHotsFeedListt首页获取执门动态列表返回热度排名前列的fids串
+    [Documentation]    *getHotsFeedListt首页获取执门动态列表返回热度排名前10条的fids串*
     ${path}=    set variable    /newTopic/getHotsFeedList
     ${maps}=    create dictionary
     set to dictionary    ${maps}    page=${page}
@@ -129,6 +130,7 @@ getHotsFeedList_fids
     ${hotdata}    replace string    ${hotdata}    {    ${EMPTY}
     ${hotdata}    replace string    ${hotdata}    }    ${EMPTY}
     @{hostlist}=    Split String    ${hotdata}    ,
+    ${hostlist}    Get Slice From List   ${hostlist}   0  10
     ${keykeysting}=    set variable    zzqrunjoyrun9527
     ${lens}=    evaluate    len(${hostlist})
     : FOR    ${index}    IN RANGE    2    ${lens}    3
@@ -205,7 +207,7 @@ TopicDetail_Fids
 
 FeedListv5_Fids
     [Arguments]    ${userName}   ${pwd}=None
-    [Documentation]    我的动态列表
+    [Documentation]    *我的动态列表前10条*
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /feedListv5.aspx
@@ -223,6 +225,7 @@ FeedListv5_Fids
     #${feeddatas}    replace string    ${feeddatas}    },{    }zzqrunjoyrun9527{
 	${feeddatas}    replace string    ${feeddatas}    "province"    "province"zzqrunjoyrun9527"province"
     @{feeddatasList}    Split String    ${feeddatas}    zzqrunjoyrun9527
+    ${feeddatasList}    Get Slice From List   ${feeddatasList}   0    10
     ${feed}    set variable    zzqrunjoyrun9527
     ${CountLen}    evaluate    len(${feeddatasList})
     : FOR    ${index}    IN RANGE    0    ${CountLen}
