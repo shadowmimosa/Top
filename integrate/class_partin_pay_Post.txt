@@ -32,7 +32,7 @@ opinion_join_classid
     log json    ${classids[0]}
     Run Keyword If    '${myclassid}'<>'0' or '${mywallet}'=='0' or ${classids[0]}==0    log    ====用户${userName}不满足条件（有未完成的跑班、未开通钱包、跑班列表没有报名中的跑班）=====
     ...    ELSE    classPartinPay_selete    ${classIds}    ${userName}    ${pwd}    ${paymentType}
-    ...    ${verifyCode}    ${mywallet}    ${classids}
+    ...    ${verifyCode}    ${mywallet}
 
 classPartinPay_selete
     [Arguments]    ${classIds}    ${userName}    ${pwd}    ${paymentType}    ${verifyCode}    ${mywallet}
