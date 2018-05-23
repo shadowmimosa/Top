@@ -81,8 +81,8 @@ feedListBasicBulk_fid
     ${feed}    set variable    zzqrunjoyrun9527
     ${feeddatas}    get json value    ${feedListBasicBulkcontent}    /datas
     ${feeddatas}    charconver    ${feeddatas}
-    ${feeddatas}    replace string    ${feeddatas}    [{    {
-    ${feeddatas}    replace string    ${feeddatas}    }]    }
+    ${feeddatas}    replace string    ${feeddatas}    ${EMPTY}[{    {
+    ${feeddatas}    replace string    ${feeddatas}    }]${EMPTY}    }
     ${feeddatas}    replace string    ${feeddatas}    ${SPACE}    ${EMPTY}
     ${feeddatas}    replace string    ${feeddatas}    },{    }joyrunzzqtestspit{
     @{dataList}    Split String    ${feeddatas}    joyrunzzqtestspit
@@ -95,7 +95,7 @@ feedListBasicBulk_fid
     \    ${findoneValuelen}    evaluate    len(${findoneValue})
     \    ${findtxtvalue}    Run Keyword If    ${findoneValuelen}>0    Get From List    ${findoneValue}    0
     \    ...    ELSE    set variable    0
-    \    ${findtxtvalue}    evaluate    r'${findtxtvalue}'
+    \    ${findtxtvalue}    evaluate    R'${findtxtvalue}'
     \    ${findtwoValue}    Get Regexp Matches    ${findtxtvalue}    "${findlisttwo}":([0-9]+)    1
     \    ${findtwoValuelen}    evaluate    len(${findtwoValue})
     \    ${findvalue}    Run Keyword If    ${findtwoValuelen}>0    Get From List    ${findtwoValue}    0
