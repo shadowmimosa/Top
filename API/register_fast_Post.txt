@@ -7,11 +7,11 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    cellNumber         cellVerificationCode                dateline    deviceToken                                                         faceurl                                                          headerurl                                                          nick             pwd         sign    ret    msg
+*** Test Cases ***    cellNumber         cellVerificationCode                dateline    deviceToken                                                         faceurl                                                          headerurl                                                          nick            pwd         sign    ret    msg
 Class_01              [Documentation]    register/fast TestCase测试用例账号注册接口
                       [Tags]             Test                                auto_v1     Online
                       [Template]         register_fast_Post_Keywords
-                      13829744545        1122                                0           5e04aedeb860ed09cc0c3347047958499cf898459ef6cf742debf22729dd3900    http://linked-runner.b0.upaiyun.com/avatar/avatar_default.png    http://linked-runner.b0.upaiyun.com/linked-runner/cover_default    Joyrun_744546    67889911    0       -5     手机号已被注册
+                      13829744545        1122                                0           5e04aedeb860ed09cc0c3347047958499cf898459ef6cf742debf22729dd3900    http://linked-runner.b0.upaiyun.com/avatar/avatar_default.png    http://linked-runner.b0.upaiyun.com/linked-runner/cover_default    Joyrun744546    67889911    0       -5     手机号已被注册
 
 *** Keywords ***
 register_fast_Post_Keywords

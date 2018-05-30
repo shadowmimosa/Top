@@ -21,7 +21,7 @@ marathon_api_marathon_online-mls-subject_Getns_Keywords
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${marathonIds}    marathonlist_marathonIds    applyMeter,-2,2    marathonId    ${userName}    ${pwd}
+    ${marathonIds}    marathonlist_marathonIds    applyMeter,-2,20000    marathonId    ${userName}    ${pwd}
     #${timin}    Gettimes    dd,-30,times
     #${timax}    Gettimes    dd,30,times
     #${marathonIds}    marathonlist_marathonIds    applyStartTime,${timin},${timax}/applyMeter,-2,0    marathonId    ${userName}    ${pwd}

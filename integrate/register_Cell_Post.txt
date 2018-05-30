@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    register/fast TestCase测试用例账号注册接口
                       [Tags]             Test                                auto_v1     Online
                       [Template]         select_register_cell
-                      13829744541        Joyrun_                             67889911
+                      13829744541        Joyrun                              67889911
 
 *** Keywords ***
 select_register_cell
