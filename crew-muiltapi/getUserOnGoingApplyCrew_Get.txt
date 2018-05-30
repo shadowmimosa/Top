@@ -1,0 +1,37 @@
+*** Settings ***
+Documentation     getUserOnGoingApplyCrew 20180529获取用户正在申请入团记录
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            000000    # 密码
+${userName}       u666@qq.com    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    userName           ret                                     msg
+Class_01              [Documentation]    getUserOnGoingApplyCrew TestCase测试用例
+                      [Tags]             Test                                    txy     Online
+                      [Template]         getUserOnGoingApplyCrew_Get_Keywords
+                      u777@qq.com        "0"                                     "成功"
+
+*** Keywords ***
+getUserOnGoingApplyCrew_Get_Keywords
+    [Arguments]    ${userName}    ${ret}    ${msg}
+    [Documentation]    getUserOnGoingApplyCrew 获取用户正在申请入团记录
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /crew/getUserOnGoingApplyCrew
+    ${maps}=    create dictionary
+    log    ========输出接口URL：${crew_muilt_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------

@@ -8,8 +8,8 @@ Library           ../Public/Lib/autotest.py
 Resource          ../Public/public_lib.txt
 
 *** Variables ***
-${home}           E:\\Work\\Test\\Enjoytherun    #本地测试代码的根目录
-${demopath}       E:\\Work\\Test\\Enjoytherun\\Demo\\Demo.txt    #本地demo文件的路径地址
+${home}           G:\\360Downloads\\thejoyrunTestcode20180523    #本地测试代码的根目录
+${demopath}       G:\\360Downloads\\thejoyrunTestcode20180523\\Demo\\Demo.txt    #本地demo文件的路径地址
 
 *** Test Cases ***    url                                                                                                                                                              method                                                                                                   Interfacefields
 Class_01              [Documentation]                                                                                                                                                  自动生接口测试脚本，参数：method类型为：Get,Post,Getc,Getns,Postc;Getc用于跑团小程序的get请求，Getns为无需签名的get请求，Postc为跑团小程的post请求
@@ -21,6 +21,17 @@ Class_01              [Documentation]                                           
                       http://wear.api.thejoyrun.com/shoe-comment-list                                                                                                                  Post                                                                                                     page,pagesize,shoe_id
                       http://wear.api.thejoyrun.com/brand-shoe-detail                                                                                                                  Post                                                                                                     shoe_id
                       http://wear.api.thejoyrun.com/shoe-comment-list-hot                                                                                                              Post                                                                                                     shoe_id
+                      http://crew-muilt-test.api.thejoyrun.com/getUserOnGoingApplyCrew                                                                                                 Get                                                                                                      ${EMPTY}
+                      http://crew-muilt-test.api.thejoyrun.com/crew/applyJoinCrew                                                                                                      Post                                                                                                     autoPassPwd,crewId,msg,nodeId
+                      http://crew-muilt-test.api.thejoyrun.com/crew/crewApplyList                                                                                                      Post                                                                                                     crewId,nodeId,startTime
+                      http://crew-muilt-test.api.thejoyrun.com/crew/applyReview                                                                                                        Post                                                                                                     applyId,nodeId,operation
+                      http://crew-test.api.thejoyrun.com/crew-join-cancel                                                                                                              Post                                                                                                     crewid
+                      http://crew-muilt-test.api.thejoyrun.com/structure/removeMember                                                                                                  Post                                                                                                     crewId,optUid,targetNodeId,targetUid
+                      http://crew-test.api.thejoyrun.com/crew-join-quit                                                                                                                Post                                                                                                     crewid
+                      http://ec-test.thejoyrun.com/coupon/getCouponByCouponKey                                                                                                         Getw                                                                                                     couponKey
+                      http://ec-test.thejoyrun.com/coupon/couponGain
+                      http://ec-test.thejoyrun.com/coupon/judgeCouponGain                                                                                                              Getw                                                                                                     couponKey
+                      http://ec-test.thejoyrun.com/
 
 *** Keywords ***
 autotestcase_V1
