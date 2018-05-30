@@ -55,6 +55,15 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/E/Down/Software_HP_LoadRunner_11.00/loadrunner11破解/licene.txt",
+			"settings":
+			{
+				"buffer_size": 513,
+				"encoding": "Western (Windows 1252)",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -95,6 +104,7 @@
 	],
 	"file_history":
 	[
+		"/E/Work/LR/result/res313/log/null_32.log",
 		"/E/Work/LR/result/res/collate.txt",
 		"/D/apache-jmeter-4.0/README.md",
 		"/E/Work/Test/Enjoytherun/Public/business/thejoyrun.txt",
@@ -189,8 +199,37 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/E/Down/Software_HP_LoadRunner_11.00/loadrunner11破解/licene.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 513,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
