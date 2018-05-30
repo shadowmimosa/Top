@@ -19,12 +19,12 @@ classSponsorPay_sel_classid
     [Documentation]    判断用户是否符合符赞助跑班
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    @{str}    callkeywords    Getmywallet:${userName}:${pwd}:balanceAmount:1;classList_classids:1:classStatus,21,31,41/singleAmount,100,3000/runNum,1,30:All:${userName}:${pwd}
+    @{str}    callkeywords    Getmywallet:${userName}:${pwd}:balanceAmount:1;classList_classids:1:classType,1,1.5/classStatus,21,31,41/singleAmount,100,3000:All:${userName}:${pwd}
     ${aa}    Evaluate    len(${str} )
     ${mywallet}    Get From List    ${str}    0
     ${classids}    Get From List    ${str}    1
     log json    ${classids[0]}
-    Run Keyword If    '${mywallet}'=='0' or ${classids[0]}==0    log    ====用户${userName}不满足条件（未开通钱包）=====
+    Run Keyword If    '${mywallet}'=='0' or '${classids[0]}'=='0'    log    ====用户${userName}不满足条件（未开通钱包）=====
     ...    ELSE    classSponsorPay_sel    ${classIds}    ${userName}    ${pwd}    ${paymentType}
     ...    ${verifyCode}    ${mywallet}
 
@@ -43,6 +43,7 @@ classSponsorPay_sel
     ${classidsrc}    Get From List    ${classIds}    0
     #${classidsrc}    randomchoice    ${classIds}    ,    返回的是字符串，以逗号分隔，随机取一个跑班
     ${classId}    get json value    ${classidsrc}    /classId
+    #${classId}=    set variable    823
     ${runNum}    get json value    ${classidsrc}    /runNum
     ${singleAmount}    get json value    ${classidsrc}    /singleAmount
     ${payAmount1}    Evaluate    int(${singleAmount}*${runNum})

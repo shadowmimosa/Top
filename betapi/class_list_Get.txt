@@ -4,24 +4,25 @@ Default Tags
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
-${pwd}            67889911    # 密码
-${userName}       13829744541    # 用户名
+${pwd}            000000    # 密码
+${userName}       u666@qq.com    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    dataType           pageNum                      userName       expected
+*** Test Cases ***    dataType           pageNum                      userName       subDataTypes    expected
 Class_01              [Documentation]    /class/list跑班列表-通用参数
                       [Tags]             Test                         Online
                       [Template]         classlist_Get_assertClass
-                      1                  0                            13829744541    "0"
+                      1                  0                            u666@qq.com    \[1\]           "0"
 
 *** Keywords ***
 classlist_Get_assertClass
-    [Arguments]    ${dataType}    ${pageNum}    ${userName}    ${expected}
+    [Arguments]    ${dataType}    ${pageNum}    ${userName}    ${subDataTypes}    ${expected}
     [Documentation]    /class/list跑班列表
     ${path}=    set variable    /class/list
     ${maps}=    create dictionary
     set to dictionary    ${maps}    dataType=${dataType}
     set to dictionary    ${maps}    pageNum=${pageNum}
+    set to dictionary    ${maps}    subDataTypes=${subDataTypes}
     log    ${bet_URL}${path}
     ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${bet_URL}
     ${content}=    charconver    ${resp.content}
