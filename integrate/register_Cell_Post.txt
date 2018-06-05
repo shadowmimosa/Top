@@ -73,7 +73,7 @@ register_fast_Post_Keywords
     ${dateline}    set variable    0
     ${faceurl}    set variable    http://linked-runner.b0.upaiyun.com/linked-runner/cover_default
     ${headerurl}    set variable    0
-    ${cellVerificationCode}    set variable    1122
+    ${cellVerificationCode}    set variable    112233
     ${pwdmd5}    encrypt    ${pwd}    md5    32
     set to dictionary    ${maps4}    cellNumber=${cellNumber}
     set to dictionary    ${maps4}    cellVerificationCode=${cellVerificationCode}

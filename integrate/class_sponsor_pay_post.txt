@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 Class_01              [Documentation]    用户赞助跑班
                       [Tags]             Test                           txy            Online
                       [Template]         classSponsorPay_sel_classid
-                      u666@qq.com        000000                         3              1122
+                      u666@qq.com        000000                         3              112233
 
 *** Keywords ***
 classSponsorPay_sel_classid

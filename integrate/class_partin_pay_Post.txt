@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 Class_01              [Documentation]    用户加入跑班===钱包支付
                       [Tags]             Test
                       [Template]         opinion_join_classid
-                      13829744541        67889911                3              1122
+                      13829744541        67889911                3              112233
 
 *** Keywords ***
 opinion_join_classid
