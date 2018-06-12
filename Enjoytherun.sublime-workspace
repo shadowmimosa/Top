@@ -88,11 +88,7 @@
 	},
 	"expanded_folders":
 	[
-		"/E/Work/Test/Enjoytherun",
-		"/E/Work/Test/Enjoytherun/advertapi",
-		"/E/Work/Test/Enjoytherun/API",
-		"/E/Work/Test/Enjoytherun/beta",
-		"/E/Work/Test/Enjoytherun/betapi"
+		"/E/Work/Test/Enjoytherun"
 	],
 	"file_history":
 	[
@@ -154,7 +150,7 @@
 	],
 	"find":
 	{
-		"height": 42.0
+		"height": 29.0
 	},
 	"find_in_files":
 	{

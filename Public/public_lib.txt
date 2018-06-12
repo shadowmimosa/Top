@@ -94,7 +94,10 @@ Get_Words
 	...    ELSE IF  ${type}==5   set variable  ${Textjoyrun}
 	...    ELSE    set variable  ${IcibaText}
 	${runEU}   Replace String    ${runEU}    "    ${EMPTY}
-    ${runEU}   Replace String    ${runEU}    \\r\\n    ${EMPTY}
+    ${runEU}   Replace String    ${runEU}    \\r\\n     ${EMPTY}
+    ${runEU}   Replace String    ${runEU}    投稿人:    ${EMPTY}  
+    ${runEU}   Replace String    ${runEU}    投稿人     ${EMPTY}  
+    ${runEU}   Replace String    ${runEU}    小编       ${EMPTY}      
     [Return]    ${runEU}	
 	
 Send_itchatmsg
