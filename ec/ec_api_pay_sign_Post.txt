@@ -1,0 +1,57 @@
+*** Settings ***
+Documentation     ec_api/pay/sign 20180606订单支付
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            000000    # 密码
+${userName}       4178287    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    orderId            versionNo                          verifyCode    type       ret       msg
+Class_01              [Documentation]    ec_api/pay/sign TestCase测试用例
+                      [Tags]             Test                               txy           auto_v1
+                      [Template]         ec_api_pay_sign_Postns_Keywords
+                      10007007           1                                  112233        wallet     700000    验证码错误
+
+*** Keywords ***
+ec_api_pay_sign_Postns_Keywords
+    [Arguments]    ${orderId}    ${versionNo}    ${verifyCode}    ${type}    ${ret}    ${msg}
+    [Documentation]    ec_api/pay/sign 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${path}=    set variable    /ec_api/pay/sign
+    sendVerifyCode    13400000447    ${userName}    ${pwd}
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    orderId=${orderId}
+    set to dictionary    ${maps}    versionNo=${versionNo}
+    set to dictionary    ${maps}    verifyCode=${verifyCode}
+    set to dictionary    ${maps}    type=${type}
+    log    ========输出接口URL：${ec_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_post_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${ec_URL}${path}；传参：${maps}！！
+
+sendVerifyCode
+    [Arguments]    ${mobile}    ${userName}    ${pwd}
+    [Documentation]    /sendVerifyCode发送验证码
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /sendVerifyCode
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    mobile=${mobile}
+    log    输出测试地址：${wallet_URL}${path}${maps}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}    ${pwd}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
