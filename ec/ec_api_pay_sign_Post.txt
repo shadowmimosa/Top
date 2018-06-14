@@ -7,11 +7,11 @@ ${pwd}            000000    # 密码
 ${userName}       4178287    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    orderId            versionNo                          verifyCode    type       ret       msg
+*** Test Cases ***    orderId            versionNo                          verifyCode    type      ret       msg
 Class_01              [Documentation]    ec_api/pay/sign TestCase测试用例
-                      [Tags]             Test                               txy           auto_v1
+                      [Tags]             Test                               txy
                       [Template]         ec_api_pay_sign_Postns_Keywords
-                      10007007           1                                  112233        wallet     700000    验证码错误
+                      10007007           1                                  112233        wallet    700000    验证码错误
 
 *** Keywords ***
 ec_api_pay_sign_Postns_Keywords

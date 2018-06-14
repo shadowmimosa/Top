@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    crew/applyJoinCrew TestCase测试用例
                       [Tags]             Test                                txy       Online
                       [Template]         crew_applyJoinCrew_Post_Keywords
-                      u777@qq.com        1234                                22046     "sssssss"    0         "0"    "成功"
+                      u666@qq.com        0000                                22046     "sssssss"    0         "3"    "你已加入跑团"
 
 *** Keywords ***
 crew_applyJoinCrew_Post_Keywords

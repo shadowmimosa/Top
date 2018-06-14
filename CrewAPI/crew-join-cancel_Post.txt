@@ -4,14 +4,14 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            000000    # 密码
-${userName}       u777@qq.com    # 默认的用户名
+${userName}       u7777@qq.com    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
 *** Test Cases ***    userName           crewid                            ret    msg
 Class_01              [Documentation]    crew-join-cancel TestCase测试用例
                       [Tags]             Test                              txy    Online
                       [Template]         crew-join-cancel_Post_Keywords
-                      u777@qq.com        22046                             "0"    "成功"
+                      u7777@qq.com       22046                             "1"    "你还未申请该跑团"
 
 *** Keywords ***
 crew-join-cancel_Post_Keywords

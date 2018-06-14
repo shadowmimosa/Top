@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    couponNumbers      customerInfo                                                                                                                                                                          distributionCode    skus                                                                              voucherNumbers          ret        msg
 Class_01              [Documentation]    ec_api/order TestCase测试用例
-                      [Tags]             Test                                                                                                                                                                                  txy                 txy                                                                               auto_v1                 auto_v1
+                      [Tags]             Test                                                                                                                                                                                  txy                 txy                                                                               txy                     auto_v1    auto_v1
                       [Template]         ec_api_order_Postns_Keywords
                       \[\]               \{\"name\":\"刚给\",\"phone\":\"13620568989\",\"address\":\{\"country\":\"\",\"province\":\"北京市\",\"city\":\"北京市\",\"district\":\"昌平区\",\"address\":\"搞不好反反复复\",\"zipcode\":\"\"\}\}    ${EMPTY}            \[\{\"skuId\":9004589,\"salesRuleId\":111558,\"quantity\":1,\"price\":99.9\}\]    \[\"A00000530818\"\]    1          未达到优惠券的金额要求
 
