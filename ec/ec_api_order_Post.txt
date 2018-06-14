@@ -1,0 +1,45 @@
+*** Settings ***
+Documentation     ec_api/order 20180606提交订单接口
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            000000    # 密码
+${userName}       3712714    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    couponNumbers      customerInfo                                                                                                                                                                          distributionCode    skus                                                                              voucherNumbers          ret        msg
+Class_01              [Documentation]    ec_api/order TestCase测试用例
+                      [Tags]             Test                                                                                                                                                                                  txy                 txy                                                                               txy                     auto_v1    auto_v1
+                      [Template]         ec_api_order_Postns_Keywords
+                      \[\]               \{\"name\":\"刚给\",\"phone\":\"13620568989\",\"address\":\{\"country\":\"\",\"province\":\"北京市\",\"city\":\"北京市\",\"district\":\"昌平区\",\"address\":\"搞不好反反复复\",\"zipcode\":\"\"\}\}    ${EMPTY}            \[\{\"skuId\":9004589,\"salesRuleId\":111558,\"quantity\":1,\"price\":99.9\}\]    \[\"A00000530818\"\]    1          未达到优惠券的金额要求
+
+*** Keywords ***
+ec_api_order_Postns_Keywords
+    [Arguments]    ${couponNumbers}    ${customerInfo}    ${distributionCode}    ${skus}    ${voucherNumbers}    ${ret}
+    ...    ${msg}
+    [Documentation]    ec_api/order 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${path}=    set variable    /ec_api/order
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    couponNumbers=${couponNumbers}
+    set to dictionary    ${maps}    customerInfo=${customerInfo}
+    set to dictionary    ${maps}    distributionCode=${distributionCode}
+    set to dictionary    ${maps}    skus=${skus}
+    set to dictionary    ${maps}    voucherNumbers=${voucherNumbers}
+    log    ========输出接口URL：${ec_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_post_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${ec_URL}${path}；传参：${maps}！！

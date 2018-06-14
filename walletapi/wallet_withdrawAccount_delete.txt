@@ -1,0 +1,23 @@
+*** Settings ***
+Documentation     /withdrawAccount/delete 删除钱包绑定帐号
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    userName           pwd
+class_01              [Documentation]    /challengeuser/join 删除钱包绑定帐号
+                      [Tags]             Online                          Test    txy
+                      [Template]         withdrawAccount_select
+
+*** Keywords ***
+withdrawAccount_select
+    [Arguments]    ${userName}    ${pwd}
+    [Documentation]    /withdrawAccount/delete 删除钱包绑定帐号
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    @{challengeList}    challengeList_filters    activityStatus,0,1.5    challengeId    ${userName}
+    ${cids}    Get From List    ${challengeList}    0
+    ${uid}    Get From List    ${challengeList}    1

@@ -1,0 +1,39 @@
+*** Settings ***
+Documentation     crew-join-cancel 20180529取消加入跑团申请
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            000000    # 密码
+${userName}       u7777@qq.com    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    userName           crewid                            ret    msg
+Class_01              [Documentation]    crew-join-cancel TestCase测试用例
+                      [Tags]             Test                              txy    Online
+                      [Template]         crew-join-cancel_Post_Keywords
+                      u7777@qq.com       22046                             "1"    "你还未申请该跑团"
+
+*** Keywords ***
+crew-join-cancel_Post_Keywords
+    [Arguments]    ${userName}    ${crewid}    ${ret}    ${msg}
+    [Documentation]    crew-join-cancel 20180529取消加入跑团申请
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #${userName}    Env_username
+    ${path}=    set variable    /crew-join-cancel
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    crewid=${crewid}
+    log    ========输出接口URL：${crew_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${crew_URL}${path}；传参：${maps}！！

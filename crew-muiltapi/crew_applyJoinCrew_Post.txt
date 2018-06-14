@@ -1,0 +1,42 @@
+*** Settings ***
+Documentation     crew/applyJoinCrew 20180529申请加入大跑团或子跑团
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            000000    # 密码
+${userName}       u666@qq.com    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    userName           autoPassPwd                         crewId    msg          nodeId    ret    msgs
+Class_01              [Documentation]    crew/applyJoinCrew TestCase测试用例
+                      [Tags]             Test                                txy       Online
+                      [Template]         crew_applyJoinCrew_Post_Keywords
+                      u666@qq.com        0000                                22046     "sssssss"    0         "3"    "你已加入跑团"
+
+*** Keywords ***
+crew_applyJoinCrew_Post_Keywords
+    [Arguments]    ${userName}    ${autoPassPwd}    ${crewId}    ${msg}    ${nodeId}    ${ret}
+    ...    ${msgs}
+    [Documentation]    crew/applyJoinCrew 申请加入大跑团或子跑团
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /crew/applyJoinCrew
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    autoPassPwd=${autoPassPwd}
+    set to dictionary    ${maps}    crewId=${crewId}
+    set to dictionary    ${maps}    msg=${msg}
+    set to dictionary    ${maps}    nodeId=${nodeId}
+    log    ========输出接口URL：${crew_muilt_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msgs}
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msgs}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------

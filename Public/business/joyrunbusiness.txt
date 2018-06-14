@@ -448,6 +448,32 @@ Getmywallet
     log json    ${content}	
 	${data}    get json value    ${content}    /data
 	${fieldvalue}   Run Keyword If   '${data}'=='null'  set variable   0    ELSE IF   ${isall} is None  get json value  ${data}  /${field}    ELSE   set variable   ${data}
-	[Return]    ${fieldvalue} 	
+	[Return]    ${fieldvalue}
+
+ 	
+GetmywithdrawAccount
+    [Arguments]    ${isDeleted}   ${filters}   ${Returnfield}   ${userName}   ${pwd}=None
+    [Documentation]     /withdrawAccount/list用户钱包绑定帐号列表,isDeleted:1为已删除，0为正常如没有则返回0；filters过滤条件；Returnfield需要返回的字段
+    ${path}=    set variable    /withdrawAccount/list
+    ${maps}=    create dictionary
+	set to dictionary    ${maps}    isDeleted=${isDeleted}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${wallet_URL}   ${pwd}  
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}	
+	${mywithdrawAccountlist}    get json value    ${content}    /data   
+	${returnfieldvalues}   FilterList    ${mywithdrawAccountlist}    ${filters}    ${returnfield}
+	[Return]    ${returnfieldvalues}
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
