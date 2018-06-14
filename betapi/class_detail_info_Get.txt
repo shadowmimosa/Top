@@ -17,7 +17,7 @@ Class_01              [Documentation]    /class/detail/info跑班6879详情
 Class_02              [Documentation]    /class/detail/info跑班444详情
                       [Tags]             Test
                       [Template]         classdetailinfo_Get_assertClass
-                      9765               13829744541                        "0"
+                      722                13829744541                        "0"
 
 *** Keywords ***
 classdetailinfo_Get_assertClass
