@@ -1,23 +1,40 @@
 *** Settings ***
-Documentation     /withdrawAccount/delete 删除钱包绑定帐号
+Documentation     /wallet/bind绑定钱包手机号
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
-${pwd}            67889911    # 密码
-${userName}       13829744541    # 用户名
+${pwd}            000000    # 密码
+${userName}       u666@qq.com    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    userName           pwd
-class_01              [Documentation]    /challengeuser/join 删除钱包绑定帐号
-                      [Tags]             Online                          Test    txy
-                      [Template]         withdrawAccount_select
+*** Test Cases ***    withdrawAccountId    ret                       msg
+Class_01              [Documentation]      用户加入跑班
+                      [Tags]               Test                      txy
+                      [Template]           withdrawAccount_delete
+                      81                   "700000"                  "同一姓名最少二个才能进行删除"
 
 *** Keywords ***
-withdrawAccount_select
-    [Arguments]    ${userName}    ${pwd}
-    [Documentation]    /withdrawAccount/delete 删除钱包绑定帐号
+withdrawAccount_delete
+    [Arguments]    ${withdrawAccountId}    ${ret}    ${msg}
+    [Documentation]    绑定钱包手机号
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    @{challengeList}    challengeList_filters    activityStatus,0,1.5    challengeId    ${userName}
-    ${cids}    Get From List    ${challengeList}    0
-    ${uid}    Get From List    ${challengeList}    1
+    ${path}=    set variable    /withdrawAccount/delete
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    withdrawAccountId=${withdrawAccountId}
+    log    ---输出参数---
+    log    ${maps}
+    log    --输出测试地址--
+    log    ${bet_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="700000"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------
