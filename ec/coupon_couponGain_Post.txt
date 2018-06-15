@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    userName           pwd                                couponKey
 Class_01              [Documentation]    coupon/couponGain TestCase测试用例
-                      [Tags]             Test                               txy
+                      [Tags]             Test                               txy               Online
                       [Template]         coupon_couponGain_Post_Keywords
                       13829744541        67889911                           51528789176839
 
@@ -27,5 +27,6 @@ coupon_couponGain_Post_Keywords
     ${resp}=    thejoyrun_post_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
+    should contain    ${content}    "ret":"100001"
     #当需要添加对data的内容进行单独验证时，可以以下方式
     log    ------------------------ It is OK!!!!-------------------------------------
