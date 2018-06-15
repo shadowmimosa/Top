@@ -7,33 +7,25 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    userName           pwd                                couponKey         uid            ret         msg
+*** Test Cases ***    userName           pwd                                couponKey
 Class_01              [Documentation]    coupon/couponGain TestCase测试用例
                       [Tags]             Test                               txy
                       [Template]         coupon_couponGain_Post_Keywords
-                      13829744541        67889911                           51528789176839    13829744541    "100001"    "领取已结束"
+                      13829744541        67889911                           51528789176839
 
 *** Keywords ***
 coupon_couponGain_Post_Keywords
-    [Arguments]    ${userName}    ${pwd}    ${couponKey}    ${uid}    ${ret}    ${msg}
+    [Arguments]    ${userName}    ${pwd}    ${couponKey}
     [Documentation]    coupon/couponGain 20180530优惠券领取
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /ec_api/coupon/couponGain
     ${maps}=    create dictionary
     set to dictionary    ${maps}    couponKey=${couponKey}
-    set to dictionary    ${maps}    uid=${uid}
     log    ========输出接口URL：${ec_URL}${path}
     log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${ec_URL}
+    ${resp}=    thejoyrun_post_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
-    log    ======开始断言验证=====
-    log    验证ret是否符合预期
-    should contain    ${content}    "ret":${ret}
-    log    ret 符合预期为:${ret}
-    log    验证msg是否符合预期:${msg}
-    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
-    ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
     log    ------------------------ It is OK!!!!-------------------------------------

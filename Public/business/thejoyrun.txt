@@ -445,9 +445,12 @@ thejoyrun_post_nosign
     log    参数编码前：${post_dict}
     ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
+	#因后端和运维的签名方法不一致，兼容处理
+	${path}  set variable   ${path}?${post_param}
     ####
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
-    ${resp}=    Post Request    run    uri=${path}    data=${post_param}
+    #${resp}=    Post Request    run    uri=${path}   data=${post_param}
+    ${resp}=    Post Request    run    uri=${path}  	
     [Return]    ${resp}
 
 thejoyrun_postjson_wxminp
