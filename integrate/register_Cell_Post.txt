@@ -91,9 +91,9 @@ register_fast_Post_Keywords
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     ${ret}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    get json value    ${content4}    /ret
-    ...    ELSE    set variable    "-5"
+    ...    ELSE    set variable    "41006"
     ${msg}    Run Keyword If    '${JoyrunEvn}'=='0' or '${JoyrunEvn}'=='Test'    get json value    ${content4}    /msg
-    ...    ELSE    set variable    "手机验证码错误"
+    ...    ELSE    set variable    "验证码错误"
     should contain    ${content4}    "ret":${ret}
     log    ret 符合预期为:${ret}
     log    验证msg是否符合预期:${msg}
