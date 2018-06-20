@@ -95,8 +95,7 @@ feedListBasicBulk_fid
     \    ${findoneValuelen}    evaluate    len(${findoneValue})
     \    ${findtxtvalue}    Run Keyword If    ${findoneValuelen}>0    Get From List    ${findoneValue}    0
     \    ...    ELSE    set variable    0
-    \    ${findtxtvalue}    evaluate    R'${findtxtvalue}'
-    \    ${findtwoValue}    Get Regexp Matches    ${findtxtvalue}    "${findlisttwo}":([0-9]+)    1
+     \    ${findtwoValue}    Get Regexp Matches    ${findtxtvalue}    "${findlisttwo}":([0-9]+)    1
     \    ${findtwoValuelen}    evaluate    len(${findtwoValue})
     \    ${findvalue}    Run Keyword If    ${findtwoValuelen}>0    Get From List    ${findtwoValue}    0
     \    ...    ELSE    set variable    0
