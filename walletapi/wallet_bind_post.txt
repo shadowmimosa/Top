@@ -4,14 +4,14 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            000000    # 密码
-${userName}       u666@qq.com    # 用户名
+${userName}       u888@qq.com    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    mobile             verifyCode    userName       pwd       ret         msg
 Class_01              [Documentation]    用户加入跑班
                       [Tags]             Test          txy            Online
                       [Template]         WalletBind
-                      13400000494        1122          u666@qq.com    000000    "700000"    "成功"
+                      13400000494        1122          u888@qq.com    000000    "700000"    "成功"
 
 *** Keywords ***
 WalletBind
