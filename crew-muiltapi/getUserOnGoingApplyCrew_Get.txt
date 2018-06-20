@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    userName           ret                                     msg
 Class_01              [Documentation]    getUserOnGoingApplyCrew TestCase测试用例
-                      [Tags]             Test                                    txy
+                      [Tags]             Test                                    txy     Online
                       [Template]         getUserOnGoingApplyCrew_Get_Keywords
                       u666@qq.com        "0"                                     "成功"
 
