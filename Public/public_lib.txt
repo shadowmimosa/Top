@@ -83,10 +83,11 @@ Get_Words
 	log json  ${contentall}
 	${content}  Get Json Value   ${contentall}  /content
 	${note}  Get Json Value   ${contentall}  /note  
-	${translation}  Get Json Value   ${contentall}  /translation  
-    ${translation}  Get Substring    ${translation}  6
+	#${translation}  Get Json Value   ${contentall}  /translation  
+    #${translation}  Get Substring    ${translation}  6
 	${Textjoyrun}   Textcontrl    time
-	${IcibaText}    set variable  ${content}${SPACE}${note}${SPACE}【${translation}】
+	#${IcibaText}    set variable  ${content}${SPACE}${note}${SPACE}【${translation}】
+    ${IcibaText}    set variable  ${content}${SPACE}【${note}】   
 	${runEU}   Run Keyword If   ${type}==1    set variable  ${content}
 	...    ELSE IF  ${type}==2   set variable  ${translation}
 	...    ELSE IF  ${type}==3   set variable  ${note}	
