@@ -62,14 +62,7 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 	if baseurl=='u_URL':
 		baseurl='user_URL'
 		
-	#确定接口所属的工程目录是否存在，不存在则创建，
-	folderdirectory = home + "\\" + folder
-	if os.path.exists(folderdirectory): 
-		os.chdir(folderdirectory)
-	else:
-		os.chdir(home)
-		os.makedirs(folderdirectory)
-		os.chdir(folderdirectory)
+
 
 
 	##从url中获取path及入参字段
@@ -147,7 +140,29 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 		#Interfacename=Interfacename.partition('/')[2]
 		Interfacename=Interfacename.replace('/','_').replace('.','_')
 		interfacewords= Interfacename +'_'+  method
+		
+		
 
+	#folderdirectory = home + "\\" + folder
+	#if os.path.exists(folderdirectory): 
+	#	os.chdir(folderdirectory)
+	#else:
+	#	os.chdir(home)
+	#	os.makedirs(folderdirectory)
+	#	os.chdir(folderdirectory)
+	
+	
+    #确定接口所属的工程目录是否存在，不存在则创建，
+	if folder == "mappapi":
+	    folder = folder + "\\" + postpath.partition('/')[0]	#如果是小程序url，则根据mappapi分赛事小程序，跑团和约定跑创建
+	
+	folderdirectory = home + "\\" + folder
+	if os.path.exists(folderdirectory): 
+		os.chdir(folderdirectory)
+	else:
+		os.chdir(home)
+		os.makedirs(folderdirectory)
+		os.chdir(folderdirectory)
 
 		
 

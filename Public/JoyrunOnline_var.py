@@ -106,3 +106,10 @@ betappid='wxd19597f62e33ba65'
 
 ##约定跑小程序用户身份sid  2018-02-06 12:30 
 betsid='a58d9ea48fc94d4b94d486d5510cfff24'
+
+
+#赛事小程序APPID  根据请求url的path取的第一级目录命名+appid=config中的命名，如赛事小程序trip/,tripappid
+tripappid='wx1f211a6a3607d8fe'
+	
+#赛事小程序用户身份sid 2018-6-21
+tripsid='99a6d4221688428b9f4a13e14d796e05d'

@@ -1,0 +1,44 @@
+*** Settings ***
+Documentation     wallet/getWalletByUid 接口脚本
+Resource          ../../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+${Isuid}          1    #是否需要传uid,0不需要，1需要；跑团小程序专用字段
+
+*** Test Cases ***    uid                ret                                    msg
+Class_01              [Documentation]    wallet/getWalletByUid TestCase测试用例
+                      [Tags]             Test                                   txy
+                      [Template]         wallet_getWalletByUid_Getc_Keywords
+                      32518359           "0"                                    成功
+
+Class_02              [Documentation]    wallet/getWalletByUid TestCase测试用例
+                      [Tags]             Online                                 txy
+                      [Template]         wallet_getWalletByUid_Getc_Keywords
+                      86072310           "0"                                    成功
+
+*** Keywords ***
+wallet_getWalletByUid_Getc_Keywords
+    [Arguments]    ${uid}    ${ret}    ${msg}
+    [Documentation]    wallet/getWalletByUid 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /wallet/getWalletByUid
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    uid=${uid}
+    log    ========输出接口测试地址：${mapp_URL} ${path}
+    log    =========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_get_wxminp    ${path}    ${maps}    ${mapp_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------
