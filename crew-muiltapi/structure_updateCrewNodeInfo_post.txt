@@ -1,0 +1,52 @@
+*** Settings ***
+Documentation     /structure/updateCrewNodeInfo 修改跑团资料
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            123321    # 密码
+${userName}       32518253    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    city               newName                                 faceurl    nodeId    uid         province    remark        ret        msg
+Class_01              [Documentation]    /structure/updateCrewNodeInfo 修改跑团资料
+                      [Tags]             Online                                  Test       gxy
+                      [Template]         structure_updateCrewNodeInfo_Post
+                      广州                 高向阳测试跑团-嘿嘿                              \          0         32518253    广东          0622修改跑团名称    "11106"    抱歉，您的跑团最近30天已经更改过跑团所在地
+
+*** Keywords ***
+structure_updateCrewNodeInfo_Post
+    [Arguments]    ${city}    ${newName}    ${faceurl}    ${nodeId}    ${uid}    ${province}
+    ...    ${remark}    ${ret}    ${msg}
+    [Documentation]    structure/updateCrewNodeInfo_Post 修改跑团资料
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${time1}    Gettimes    dd,+1,times
+    ${city}    set variable    ${city}${time1}
+    ${crewId}    getMyCrewInfo    crewid    ${userName}
+    ${path}=    set variable    /structure/updateCrewNodeInfo
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    city=${city}
+    set to dictionary    ${maps}    crewId=${crewId}
+    set to dictionary    ${maps}    newName=${newName}
+    set to dictionary    ${maps}    faceurl=${faceurl}
+    set to dictionary    ${maps}    nodeId=${nodeId}
+    set to dictionary    ${maps}    uid=${uid}
+    set to dictionary    ${maps}    province=${province}
+    set to dictionary    ${maps}    remark=${remark}
+    log    ========输出接口URL：${crew_muilt_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    ${ret}    get json value    ${content}    /ret
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    Run Keyword If    ${ret}!='11106'    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------
