@@ -1,0 +1,40 @@
+*** Settings ***
+Documentation     /phone/getVerificationCode 发送短信验证码（6位）
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    phoneNumber        ret                                         msg
+Class_01              [Documentation]    /phone/getVerificationCode 发送短信验证码（6位）
+                      [Tags]             Test                                        gxy        Online
+                      [Template]         /phone/getVerificationCode_Post_Keywords
+                      18820130825        0                                           Success
+
+*** Keywords ***
+/phone/getVerificationCode_Post_Keywords
+    [Arguments]    ${phoneNumber}    ${ret}    ${msg}
+    [Documentation]    /phone/getVerificationCode 发送短信验证码（6位）
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${path}=    set variable    /phone/getVerificationCode
+    ${maps}=    create dictionary
+    Run Keyword If    ${phoneNumber}>0    set to dictionary    ${maps}    phoneNumber=${phoneNumber}
+    log    ========输出接口URL：${api_URL}${path}
+    log dictionary    ${maps}
+    ${resp}=    thejoyrun_postnl    ${path}    ${maps}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${isRegistered}    get json value    ${content}    /isRegistered
+    log    验证OK！！URL：${api_URL}${path}；传参：${maps}！！

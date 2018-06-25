@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    city               newName                                 faceurl    nodeId    uid         province    remark        ret        msg
 Class_01              [Documentation]    /structure/updateCrewNodeInfo 修改跑团资料
-                      [Tags]             Online                                  Test       gxy
+                      [Tags]             Test                                    gxy
                       [Template]         structure_updateCrewNodeInfo_Post
                       广州                 高向阳测试跑团-嘿嘿                              \          0         32518253    广东          0622修改跑团名称    "11106"    抱歉，您的跑团最近30天已经更改过跑团所在地
 

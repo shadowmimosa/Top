@@ -1,0 +1,41 @@
+*** Settings ***
+Documentation     /user/login/phonecode 手机验证码登录
+Default Tags      V3.2
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    userName           expected
+Class_01              [Documentation]    /user/login/phonecode 手机验证码登录
+                      [Tags]
+                      [Template]         /user/login/phonecode_Get_assertClass
+                      13829744541        "0"
+
+*** Keywords ***
+/user/login/phonecode_Get_assertClass
+    [Arguments]    ${userName}    ${expected}
+    [Documentation]    /user/login/phonecode 手机验证码登录
+    ${path}=    set variable    /user/login/phonecode
+    ${maps}=    create dictionary
+    #set to dictionary    ${maps}    lasttime=${lasttime}
+    log    ---输出预期值---
+    log    ${expected}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${expected}
+    log    ret 符合预期为:${expected}
+    log    验证msg是否符合预期
+    Run Keyword If    ${expected}=="0"    Get Json Value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    ------------------------ It is OK!!!!-------------------------------------
