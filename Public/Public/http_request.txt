@@ -8,7 +8,12 @@ Library           HttpLibrary.HTTP
 Library           ../Lib/tools_library.py
 Library           ../Lib/Usertool_01.py
 *** Variable ***
-${fxUrl}      http://fanxing.kugoucom
+${signOnline}          A4729E62-3701-48C3-A15D-7391838FA186    #可以放置一些公共参数；
+${signTest}            a9ff6970eb814e6894389ca8b12f3030    #可以放置一些公共参数；
+${pwd}                 67889911    #可以放置一些公共参数；
+${loginTest}           http://api-test.thejoyrun.com
+${loginOnline}         http://api.thejoyrun.com
+${fxUrl}               http://fanxing.kugoucom
 *** Keywords ***
 visitor_get
     [Arguments]    ${vsUrl}    ${args}=None
@@ -314,10 +319,13 @@ curl_post_request1
     [Return]    ${resp}
 
 joyrun_POST_heardsession
-    [Arguments]    ${username}    ${pwd}
+    [Arguments]    ${username}    ${pwd}   ${Base_URL}=None
     [Documentation]    Joyrun login 
 	[Timeout]    30 seconds
     log    -----------------cookies mothod is log start;--------------------------
+    ${Testenv}    Get Lines Matching Pattern   ${Base_URL}   *-test*
+    ${login_URL}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${loginTest}   ELSE   set variable   ${loginOnline}  
+    log  运行环境是${login_URL}
     ##通过服务器获取timestamp
     #Create Session    timestamp    ${login_URL}
     #${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
@@ -358,10 +366,11 @@ joyrun_POST_heardsession
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
     #通用签名
-    ${sign1}=    set variable    ${APP_SGIN}
+    ${sign1}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${signTest}   ELSE   set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
+    log   通用签名：${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
-    #log    _sign====${_sign}
+    log    业务签名：${signature}
     ${header}    create dictionary    APPVERSION=${APPVERSION}
     set to dictionary    ${header}    User-Agent=${UserAgent}
     set to dictionary    ${header}    APP_DEV_INFO=${APPDEVINFO}
