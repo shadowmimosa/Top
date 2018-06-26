@@ -10,6 +10,8 @@ Resource          ../OtherMethod/cookie_operation.txt
 Resource          ../Public/http_request.txt
 
 *** Variables ***
+${signOnline}            A4729E62-3701-48C3-A15D-7391838FA186    #可以放置一些公共参数；
+${signTest}            a9ff6970eb814e6894389ca8b12f3030    #可以放置一些公共参数；
 ${pwd}            67889911    #可以放置一些公共参数；
 
 *** Keywords ***
@@ -232,7 +234,7 @@ thejoyrun_postd
 	[Timeout]    30 seconds
 	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}
     ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
+    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}   ${Base_URL} 
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -290,10 +292,13 @@ thejoyrun_postd
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
-    log   通用签名${APP_SGIN}
-    ${sign1}=    set variable   ${APP_SGIN}
+    log  运行环境是:${Base_URL}
+    ${Testenv}    Get Lines Matching Pattern   ${Base_URL}   *-test*
+    ${sign1}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${signTest}   ELSE   set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
+    log   通用签名:${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
+    log   业务签名：${signature}
     set to dictionary    ${heards_dict}    _sign=${_sign}
     set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
@@ -384,9 +389,13 @@ thejoyrun_postnl
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
     #通用签名
-    ${sign1}=    set variable   ${APP_SGIN}
+    log  运行环境是:${Base_URL}
+    ${Testenv}    Get Lines Matching Pattern   ${Base_URL}   *-test*
+    ${sign1}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${signTest}   ELSE   set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
+    log   通用签名:${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
+    log   业务签名：${signature}    
     set to dictionary    ${heards_dict}    _sign=${_sign}
     set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
@@ -416,7 +425,7 @@ thejoyrun_post_nosign
 	[Timeout]    30 seconds
 	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
     ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
+    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}   ${Base_URL}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -577,7 +586,7 @@ thejoyrun_getp
 	[Timeout]    30 seconds
 	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
     ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
+    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}   ${Base_URL}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -627,10 +636,13 @@ thejoyrun_getp
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
-    log   通用签名${APP_SGIN}
-    ${sign1}=    set variable   ${APP_SGIN}
+    log  运行环境是:${Base_URL}
+    ${Testenv}    Get Lines Matching Pattern   ${Base_URL}   *-test*
+    ${sign1}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${signTest}   ELSE   set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
+    log   通用签名:${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
+    log   业务签名：${signature}    
     set to dictionary    ${heards_dict}    _sign=${_sign}
     set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
@@ -656,7 +668,7 @@ thejoyrun_get_nosign
 	[Timeout]    30 seconds
 	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
     ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}
+    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL} 
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
