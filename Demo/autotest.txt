@@ -8,8 +8,6 @@ Library           ../Public/Lib/autotest.py
 Resource          ../Public/public_lib.txt
 
 *** Variables ***
-${home}           G:\\360Downloads\\thejoyrunTestcode20180620    #本地测试代码的根目录
-${demopath}       G:\\360Downloads\\thejoyrunTestcode20180620\\Demo\\Demo.txt    #本地demo文件的路径地址
 
 *** Test Cases ***    url                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    method                                                                                                   Interfacefields
 Class_01              [Documentation]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        自动生接口测试脚本，参数：method类型为：Get,Post,Getc,Getns,Postc;Getc用于跑团小程序的get请求，Getns为无需签名的get请求，Postc为跑团小程的post请求
@@ -42,5 +40,8 @@ autotestcase_V1
     [Documentation]    调用此方法自动生成常规测试用例
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    log    =====home目录:${home}
+    ${demopath}    set variable    ${home}\\Demo\\Demo.txt
     autotestcase    ${home}    ${url}    ${method}    ${Interfacefields}    ${demopath}
+    ${home}    set variable    ${home}
     log    ====接口测试文件已在相应目录下=====

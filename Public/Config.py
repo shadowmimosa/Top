@@ -21,8 +21,16 @@ sys.setdefaultencoding('utf-8')
 # # 环境变量配置JoyrunEvn（测试环境值：Test或0；生产环境值：其他值为生产环境）
 
 JoyrunEvn='Test'
-
-
+#home=Get_pwd()
+ostype = sys.platform   #获取当前系统类型
+print  'os type is:',ostype   
+if  ostype=='win32'  or  ostype=='win64':
+	pwd=os.popen('cd').readlines()[0]
+	print   'Path is  ', pwd
+else:
+    pwd=os.popen('pwd').readlines()[0]
+    print  'Path  is: ', pwd   
+home=pwd.replace('\n','')
 ##==================================开发测试生产环境通用参数=======================
 #请求头参数-前端系统版本号
 SYSVERSION='11.2.1'
@@ -271,6 +279,8 @@ else:
 	
 	#赛事小程序用户身份sid 2018-6-21
 	tripsid='99a6d4221688428b9f4a13e14d796e05d'
+
+
 
 
 

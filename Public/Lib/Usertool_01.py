@@ -18,6 +18,19 @@ import uuid
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+##获取当前的目录
+def  Get_pwd():
+    ostype= sys.platform   #获取当前系统类型
+    print  'os type is:',ostype   
+    if ostype=='win32'  or  ostype=='win64':
+        pwd=os.popen('cd').readlines()[0]
+        print  'Path  is:',pwd     
+    else:
+        pwd=os.popen('pwd').readlines()[0]
+        print  'Path  is:',pwd   
+    pwd=pwd.replace('\n','')
+    return  pwd
+
 #从两个列表中，提取相同的值，并作为一个新的列表返回
 def Get_Duplicates_List(list1,list2):
     list_new=[]
