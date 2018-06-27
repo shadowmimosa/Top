@@ -8,15 +8,15 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    userName           expected
+*** Test Cases ***    phoneNumber        identifyingCode                  ret    msg
 Class_01              [Documentation]    /user/login/phonecode 手机验证码登录
                       [Tags]
-                      [Template]         /user/login/phonecode_Get_assertClass
-                      13829744541        "0"
+                      [Template]         /user/login/phonecode_Get
+                      15555588888        112233                           "0"    成功
 
 *** Keywords ***
-/user/login/phonecode_Get_assertClass
-    [Arguments]    ${userName}    ${expected}
+/user/login/phonecode_Get
+    [Arguments]    ${phoneNumber}    ${identifyingCode}
     [Documentation]    /user/login/phonecode 手机验证码登录
     ${path}=    set variable    /user/login/phonecode
     ${maps}=    create dictionary
