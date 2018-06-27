@@ -167,7 +167,7 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 	tripappid='wx1f211a6a3607d8fe'
 	
 	#赛事小程序用户身份sid 2018-6-21
-	tripsid='5909a5ba9a5245e8b893bd4ac7022674f'
+	tripsid='91bf05d090464b7bbcaa9e9c5ab9125b4'
 
 else:
 #=======================线上发布连接地址(Online)========================

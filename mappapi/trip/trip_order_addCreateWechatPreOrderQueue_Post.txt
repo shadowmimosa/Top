@@ -1,0 +1,55 @@
+*** Settings ***
+Documentation     trip/order/addCreateWechatPreOrderQueue 接口脚本
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           HttpLibrary.HTTP
+Library           ../Public/Lib/tools_library.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***   categoryId    containOwner    elementInfo    eventCategoryPriceId    eventId    goodsInfo    openid    payFee    raceId  ret   msg  
+Class_01              [Documentation]    trip/order/addCreateWechatPreOrderQueue TestCase测试用例
+                      [Tags]             Test   auto_v1
+                      [Template]         trip_order_addCreateWechatPreOrderQueue_thejoyrun_postjson_wxminp_Keywords
+                      0                  成功
+
+*** Keywords ***
+trip_order_addCreateWechatPreOrderQueue_thejoyrun_postjson_wxminp_Keywords
+    [Arguments]   ${categoryId}   ${containOwner}   ${elementInfo}   ${eventCategoryPriceId}   ${eventId}   ${goodsInfo}   ${openid}   ${payFee}   ${raceId}     ${ret}   ${msg}
+    [Documentation]    trip/order/addCreateWechatPreOrderQueue 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${path}=    set variable    /trip/order/addCreateWechatPreOrderQueue
+    ${maps}=    create dictionary
+    set to dictionary  ${maps}  categoryId=${categoryId}
+    set to dictionary  ${maps}  containOwner=${containOwner}
+    set to dictionary  ${maps}  elementInfo=${elementInfo}
+    set to dictionary  ${maps}  eventCategoryPriceId=${eventCategoryPriceId}
+    set to dictionary  ${maps}  eventId=${eventId}
+    set to dictionary  ${maps}  goodsInfo=${goodsInfo}
+    set to dictionary  ${maps}  openid=${openid}
+    set to dictionary  ${maps}  payFee=${payFee}
+    set to dictionary  ${maps}  raceId=${raceId}
+    log    ========输出接口URL：${mapp_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_Keywords    ${path}    ${maps}    ${userName}    ${mapp_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${mapp_URL}${path}；传参：${maps}！！
