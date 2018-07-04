@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     marathon_api/marathon/mls-detail 接口脚本
+Documentation     marathon_api/marathon/mls-detail 马拉松赛事详情接口
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

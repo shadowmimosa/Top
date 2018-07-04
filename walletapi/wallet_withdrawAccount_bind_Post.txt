@@ -1,0 +1,62 @@
+*** Settings ***
+Documentation     wallet/withdrawAccount/bind 接口脚本
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    mobile             verifyCode                                   userName       pwd         nickname    verifyCode    withdrawAccount    withdrawPlatform    withdrawUname    ret       msg
+Class_01              [Documentation]    wallet/withdrawAccount/bind TestCase测试用例
+                      [Tags]             Test                                         txy            auto_v1
+                      [Template]         wallet_withdrawAccount_bind_Post_Keywords
+                      13829744541        112233                                       13829744541    67889911    aa          112233        13422030634        1                   txy              700000    同一个帐号只能绑一次
+
+*** Keywords ***
+wallet_withdrawAccount_bind_Post_Keywords
+    [Arguments]    ${mobile}    ${verifyCode}    ${userName}    ${pwd}    ${nickname}    ${verifyCode}
+    ...    ${withdrawAccount}    ${withdrawPlatform}    ${withdrawUname}    ${ret}    ${msg}
+    [Documentation]    wallet/withdrawAccount/bind 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${path}=    set variable    /withdrawAccount/bind
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    nickname=${nickname}
+    set to dictionary    ${maps}    verifyCode=${verifyCode}
+    set to dictionary    ${maps}    withdrawAccount=${withdrawAccount}
+    set to dictionary    ${maps}    withdrawPlatform=${withdrawPlatform}
+    set to dictionary    ${maps}    withdrawUname=${withdrawUname}
+    log    ========输出接口URL：${wallet_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    sendVerifyCode    ${mobile}    ${userName}    ${pwd}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${wallet_URL}${path}；传参：${maps}！！
+
+sendVerifyCode
+    [Arguments]    ${mobile}    ${userName}    ${pwd}
+    [Documentation]    /sendVerifyCode发送验证码
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /sendVerifyCode
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    mobile=${mobile}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${wallet_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}

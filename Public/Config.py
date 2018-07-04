@@ -174,8 +174,8 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 	#赛事小程序APPID  根据请求url的path取的第一级目录命名+appid=config中的命名，如赛事小程序trip/,tripappid
 	tripappid='wx1f211a6a3607d8fe'
 	
-	#赛事小程序用户身份sid 2018-6-21
-	tripsid='5909a5ba9a5245e8b893bd4ac7022674f'
+	#赛事小程序用户身份sid 2018-6-21   赛事小程序uid15108880，sid
+	tripsid='15c24e792615494383d70f4f2e97b7eaf'
 
 else:
 #=======================线上发布连接地址(Online)========================

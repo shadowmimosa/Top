@@ -1,5 +1,6 @@
 *** Settings ***
-Documentation     trip/order/getMyPayOrder 20180621我的订单列表
+Documentation     trip/form/getEventRegForm 20180622 获取年度赛事表单模块
+Library           ../Public/Lib/tools_library.py
 Resource          ../../Public/public_lib.txt
 
 *** Variable ***
@@ -7,26 +8,26 @@ ${pwd}            000000    # 密码
 ${userName}       15108880    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    bizUid             ret                                                            msg
-Class_01              [Documentation]    trip/order/getMyPayOrder TestCase测试用例
-                      [Tags]             Test                                                           txy
-                      [Template]         trip_order_getMyPayOrder_thejoyrun_postjson_wxminp_Keywords
-                      15108880           0                                                              成功
+*** Test Cases ***    eventId            ret                                        msg
+Class_01              [Documentation]    trip/form/getEventRegForm TestCase测试用例
+                      [Tags]             Test                                       txy
+                      [Template]         trip_form_getEventRegForm_Getw_Keywords
+                      6209               0                                          成功
 
 *** Keywords ***
-trip_order_getMyPayOrder_thejoyrun_postjson_wxminp_Keywords
-    [Arguments]    ${bizUid}    ${ret}    ${msg}
-    [Documentation]    trip/order/getMyPayOrder 接口用例的Keywords关健字
+trip_form_getEventRegForm_Getw_Keywords
+    [Arguments]    ${eventId}    ${ret}    ${msg}
+    [Documentation]    trip/form/getEventRegForm 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /trip/order/getMyPayOrder
+    ${path}=    set variable    /trip/form/getEventRegForm
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    bizUid=${bizUid}
+    set to dictionary    ${maps}    eventId=${eventId}
     log    ========输出接口URL：${mapp_URL}${path}
     log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_postjson_wxminp    ${path}    ${maps}    ${mapp_URL}    ${userName}
+    ${resp}=    thejoyrun_postjson_wxminp    ${path}    ${maps}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

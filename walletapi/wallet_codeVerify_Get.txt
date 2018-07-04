@@ -1,0 +1,56 @@
+*** Settings ***
+Documentation     wallet/codeVerify 20180703验证验证码
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    mobile             verifyCodes                       userName       pwd         verifyCode    ret    msg
+Class_01              [Documentation]    wallet/codeVerify TestCase测试用例
+                      [Tags]             Test                              txy
+                      [Template]         wallet_codeVerify_Get_Keywords
+                      13829744541        112233                            13829744541    67889911    112233        0      成功
+
+*** Keywords ***
+wallet_codeVerify_Get_Keywords
+    [Arguments]    ${mobile}    ${verifyCodes}    ${userName}    ${pwd}    ${verifyCode}    ${ret}
+    ...    ${msg}
+    [Documentation]    wallet/codeVerify 验证验证码
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /codeVerify
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    verifyCode=${verifyCode}
+    log    ========输出接口URL：${wallet_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    sendVerifyCode    ${mobile}    ${userName}    ${pwd}
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${wallet_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${wallet_URL}${path}；传参：${maps}！！
+
+sendVerifyCode
+    [Arguments]    ${mobile}    ${userName}    ${pwd}
+    [Documentation]    /sendVerifyCode发送验证码
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /sendVerifyCode
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    mobile=${mobile}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${wallet_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
