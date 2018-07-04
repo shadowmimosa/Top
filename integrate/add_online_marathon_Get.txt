@@ -22,8 +22,8 @@ marathon_Choice
     #从配置的用户列表中随机取一个用户运行此用例
     ${userName}    Env_username
     ${timeonline}    Gettimes    mm,0,times
-    ${timin}    Gettimes    dd,-1500,times
-    ${timax}    Gettimes    dd,3000,times
+    ${timin}    Gettimes    dd,-15,times
+    ${timax}    Gettimes    dd,30,times
     log    ====筛选出开始时间和结算时间的赛事========
     ${marathonIds}    marathonlist_marathonIds    applyStartTime,${timin},${timeonline}/applyEndTime,${timeonline},${timax}/applyMeter,-2,1    marathonId    ${userName}    ${pwd}
     ${marathonId}    randomchoice    ${marathonIds}    ,

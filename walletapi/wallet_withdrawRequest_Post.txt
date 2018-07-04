@@ -4,14 +4,14 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            000000    # 密码
-${userName}       u666@qq.com    # 默认的用户名
+${userName}       u6666@qq.com    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    amount             withdrawAccountId                       ret    msg
+*** Test Cases ***    amount             withdrawAccountId                       ret       msg
 Class_01              [Documentation]    wallet/withdrawRequest TestCase测试用例
-                      [Tags]             Test                                    txy    auto_v1
+                      [Tags]             Test                                    txy       auto_v1
                       [Template]         wallet_withdrawRequest_Post_Keywords
-                      1000               81                                      0      成功
+                      1000               81                                      700000    提现异常
 
 *** Keywords ***
 wallet_withdrawRequest_Post_Keywords
