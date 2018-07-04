@@ -4,14 +4,14 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            000000    # 密码
-${userName}       32519075    # 默认的用户名
+${userName}       u666@qq.com    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    activityId         uid                                ret        msg
+*** Test Cases ***    activityId         uid                                ret    msg
 Class_01              [Documentation]    judgeBuyCapacity TestCase测试用例
-                      [Tags]             Test                               auto_v1
+                      [Tags]             Test                               txy    Online    auto_v1
                       [Template]         judgeBuyCapacity_Getns_Keywords
-                      1098               32519075                           "0"        成功
+                      1098               20380488                           "0"    成功
 
 *** Keywords ***
 judgeBuyCapacity_Getns_Keywords

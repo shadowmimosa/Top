@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     /wallet/bind绑定钱包手机号
+Documentation     /wallet/bind删除绑定帐号
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -8,8 +8,8 @@ ${userName}       u666@qq.com    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    withdrawAccountId    ret                       msg
-Class_01              [Documentation]      用户加入跑班
-                      [Tags]               Test                      txy
+Class_01              [Documentation]      删除绑定帐号
+                      [Tags]               Test                      txy                 onLine
                       [Template]           withdrawAccount_delete
                       81                   "700000"                  "同一姓名最少二个才能进行删除"
 
