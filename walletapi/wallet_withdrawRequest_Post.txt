@@ -3,15 +3,15 @@ Documentation     wallet/withdrawRequest 20180703提现申请
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
-${pwd}            67889911    # 密码
-${userName}       13829744541    # 默认的用户名
+${pwd}            000000    # 密码
+${userName}       u666@qq.com    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
 *** Test Cases ***    amount             withdrawAccountId                       ret    msg
 Class_01              [Documentation]    wallet/withdrawRequest TestCase测试用例
                       [Tags]             Test                                    txy    auto_v1
                       [Template]         wallet_withdrawRequest_Post_Keywords
-                      0                  成功
+                      1000               81                                      0      成功
 
 *** Keywords ***
 wallet_withdrawRequest_Post_Keywords
