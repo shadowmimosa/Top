@@ -7,11 +7,11 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    mobile             verifyCode                                   userName       pwd         nickname    verifyCode    withdrawAccount    withdrawPlatform    withdrawUname    ret       msg
+*** Test Cases ***    mobile             verifyCode                                   userName       pwd         nickname    verifyCode    withdrawAccount    withdrawPlatform    withdrawUname    ret         msg
 Class_01              [Documentation]    wallet/withdrawAccount/bind TestCase测试用例
                       [Tags]             Test                                         txy            auto_v1
                       [Template]         wallet_withdrawAccount_bind_Post_Keywords
-                      13829744541        112233                                       13829744541    67889911    aa          112233        13422030634        1                   txy              700000    同一个帐号只能绑一次
+                      13829744541        112233                                       13829744541    67889911    aa          112233        13422030634        1                   txy              "700000"    "同一个帐号只能绑一次"
 
 *** Keywords ***
 wallet_withdrawAccount_bind_Post_Keywords
@@ -37,13 +37,13 @@ wallet_withdrawAccount_bind_Post_Keywords
     log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":"${ret}"
+    should contain    ${content}    "ret":${ret}
     log    ret 符合预期为:${ret}
-    log    验证msg是否符合预期:${msg}
-    should contain    ${content}    "msg":"${msg}"
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="700000"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    log    验证OK！！用户${userName}；URL：${wallet_URL}${path}；传参：${maps}！！
+    log    ------------------------ It is OK!!!!-------------------------------------
 
 sendVerifyCode
     [Arguments]    ${mobile}    ${userName}    ${pwd}
