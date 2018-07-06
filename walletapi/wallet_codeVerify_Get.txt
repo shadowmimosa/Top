@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    mobile             verifyCodes                       userName       pwd         verifyCode    ret    msg
 Class_01              [Documentation]    wallet/codeVerify TestCase测试用例
-                      [Tags]             Test                              txy
+                      [Tags]             Test                              txy            Online
                       [Template]         wallet_codeVerify_Get_Keywords
                       13829744541        112233                            13829744541    67889911    112233        0      成功
 
@@ -25,7 +25,18 @@ wallet_codeVerify_Get_Keywords
     set to dictionary    ${maps}    verifyCode=${verifyCode}
     log    ========输出接口URL：${wallet_URL}${path}
     log    ========接口的入参为：${maps}==========
-    sendVerifyCode    ${mobile}    ${userName}    ${pwd}
+    #判断环境
+    ${env}    Env_username    1
+    ${vc}    Run Keyword If    '${env}'=='Test'    sendVerifyCode    ${mobile}    ${userName}    ${pwd}
+    ...    ELSE    Evaluate    [9,"Online no run"]
+    ${cy}    Evaluate    len(${vc})
+    Run Keyword If    ${vc[0]}=="0"    VerifyCodes    ${path}    ${maps}    ${userName}    ${wallet_URL}
+    ...    ${verifyCode}    ${ret}    ${msg}
+    ...    ELSE    log    ========输出错误码:${vc[1]}
+
+VerifyCodes
+    [Arguments]    ${path}    ${maps}    ${userName}    ${wallet_URL}    ${verifyCode}    ${ret}
+    ...    ${msg}
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${wallet_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
@@ -54,3 +65,6 @@ sendVerifyCode
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
+    ${data1}    get json value    ${content}    /ret
+    ${data2}    get json value    ${content}    /msg
+    [Return]    ${data1}    ${data2}
