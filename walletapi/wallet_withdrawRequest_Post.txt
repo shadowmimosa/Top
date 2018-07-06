@@ -4,14 +4,14 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            000000    # 密码
-${userName}       u6666@qq.com    # 默认的用户名
+${userName}       32519119    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    amount             withdrawAccountId                       ret       msg
+*** Test Cases ***    amount             withdrawAccountId                       ret    msg
 Class_01              [Documentation]    wallet/withdrawRequest TestCase测试用例
-                      [Tags]             Test                                    txy       auto_v1
+                      [Tags]             Test                                    txy    auto_v1
                       [Template]         wallet_withdrawRequest_Post_Keywords
-                      1000               81                                      700000    提现异常
+                      1000               2819                                    0      成功
 
 *** Keywords ***
 wallet_withdrawRequest_Post_Keywords
@@ -30,12 +30,9 @@ wallet_withdrawRequest_Post_Keywords
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
-    log    ======开始断言验证=====
-    log    验证ret是否符合预期
-    should contain    ${content}    "ret":"${ret}"
-    log    ret 符合预期为:${ret}
-    log    验证msg是否符合预期:${msg}
-    should contain    ${content}    "msg":"${msg}"
+    ${ret}    get json value    ${content}    /ret
+    ${data1}    get json value    ${content}    /msg
+    Run Keyword If    ${ret}=="0"    should contain    ${content}    "msg":"${msg}"
+    ...    ELSE    should contain    ${content}    "msg":${data1}
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    log    验证OK！！用户${userName}；URL：${wallet_URL}${path}；传参：${maps}！！
+    log    ------------------------ It is OK!!!!-------------------------------------
