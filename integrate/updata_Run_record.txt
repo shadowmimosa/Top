@@ -27,9 +27,11 @@ RunRecord_opinion
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #环境判定和用户的选择
-    ${userName}    Env_username
+    @{usrpwdenv}    usr_pass_env    0
+    ${userName}    Get From List    ${usrpwdenv}    0
+    ${pwd}    Get From List    ${usrpwdenv}    1
+    ${env}    Get From List    ${usrpwdenv}    2
     #${userName}    set variable    13064764870
-    ${env}    Env_username    1
     #从4个热门话题中随机选择一个热门话题
     ${topicName}    FourTopicList_TopicName    ${userName}
     #从热门话题中，选择当前第1页最新的动态
