@@ -125,6 +125,26 @@ Env_username
     log    ====数据返回为为：${runEU}=====
     [Return]    ${runEU}
 
+usr_pass_env
+    [Arguments]    ${ords}=None
+    [Documentation]    根据login_URL值判定环境，再根据不同环境从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online，仅当${ords}==0时随机返回用户及对应的密码，其他数字表示用户列表的序号，返回为数组【user,pass,env】,默认密码为67889911，要指定密码需要config.py的Onlineuserpwd，Testuserpwd配置；注意：密码中有，或；不能用些方法；
+    ${env}    Run keyword If    "${login_URL}"=="http://api-test.thejoyrun.com"    set variable    Test
+    ...    ELSE    set variable    Online
+    log    ====环境为：${env}=====   
+    ${ords}  Run Keyword If  ${ords} is None   set variable  0
+    ...    ELSE  set variable   ${ords} 
+    ${userpwd}  Run Keyword If  '${env}'=='Test'  choiceOrd  ${Testusrp}  ${ords}  
+    ...    ELSE  choiceOrd  ${Onlineusrp}  ${ords}  ,
+    @{list}   Split String    ${userpwd}    /
+    ${listLen}    evaluate    len(${list})
+    ${runUser}  Run Keyword If  ${listLen}>=1   Get From List    ${list}  0    
+    ...    ELSE   set variable   13829744541
+    ${runPwd}   Run Keyword If  ${listLen}>=2   Get From List    ${list}  1   
+    ...    ELSE   set variable   67889911
+    log    ====用户为：${runUser}=====
+    log    ====密码为：${runPwd}=====
+    [Return]    ${runUser}   ${runPwd}   ${env}
+
 	
 Textcontrl
     [Arguments]    ${type}=None

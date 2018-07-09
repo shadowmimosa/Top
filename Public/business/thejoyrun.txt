@@ -173,6 +173,26 @@ randomchoice
     log    ======共${stinglen}数据，随机选中：${strReturn}========
     [Return]    ${strReturn}
 
+choiceOrd
+    [Arguments]    ${str}    ${ords}   ${spitstr}=None 
+    [Documentation]    将字符串分割后按序号返回 abcdef;12;aaaa;123ewq;ddd 以;分割随机返回${str}为源字符串，${spitstr}为源字符串中的分割符（，为默认分隔符）；ords为序号，大于0时，按序号返回，1返第1个值，小于0时，按倒序返回，-1为返回最后一个值，当为0时，即为随机返回一个值；注意分隔符在源字符串仅作分隔符用，正常的值不能有分隔符；
+    #log   spitstr======${spitstr};'${spitstr}'=='None'
+    @{choicelist}  Run keyword If  '${spitstr}'=='None'  
+    ...    Split String   ${str}  ,   
+    ...    ELSE   Split String    ${str}    ${spitstr} 
+    ${stinglen}    evaluate    len(${choicelist})
+    ${ordMax}      evaluate    len(${choicelist})-1
+    ${ord}         evaluate    ${ords}-1
+    ${strReturn}   Run keyword If  ${stinglen}>0 and ${ords}>=${stinglen}             Get From List  ${choicelist}    ${ordMax}
+    ...    ELSE IF  ${stinglen}>0 and ${ords}<${stinglen} and ${ords}==0   randomchoice  ${str}   ${spitstr}
+    ...    ELSE IF  ${stinglen}>0 and ${ords}<${stinglen} and ${ords}>0             Get From List  ${choicelist}    ${ord}
+    ...    ELSE IF  ${stinglen}>0 and ${ords}<${stinglen} and ${ords}<0              Get From List  ${choicelist}    ${ords}
+    ...    ELSE  Set variable  ${EMPTY}
+    Run keyword If   ${ords}>0   log    总共${stinglen}组数据,选中第${ords}组,数据为：${strReturn}
+    ...    ELSE IF   ${ords}<0   log   总共${stinglen}组数据,选中倒数第${ords}组,数据为：${strReturn}
+    [Return]    ${strReturn}
+
+
 stringtolist
     [Arguments]    ${input}
     ${list}=    set variable    ${input}
