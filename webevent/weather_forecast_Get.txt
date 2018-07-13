@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     weather/forecast 接口脚本
+Documentation     weather/forecast 温度-风力- -天气-风向，"TEM": "30", "WINS": "00", "RHU": "89", "WEATHER": "02", "WIND": "06"
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
