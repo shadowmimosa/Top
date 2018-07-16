@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     weather/air 接口脚本
+Documentation     weather/air 空气质量接口<=50优，<=100良,<=150轻度污染，<=200中毒污染，<=300重度污染,>300严重污染
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -7,11 +7,11 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    lat                lng                           ret        msg
-Class_01              [Documentation]    weather/air TestCase测试用例
-                      [Tags]             Test                          txy        auto_v1
-                      [Template]         weather_air_getns_Keywords
-                      39.9               116.4                         success    ${EMPTY}
+*** Test Cases ***    lat                  lng                           ret        msg
+Class_01              [Documentation]      weather/air TestCase测试用例
+                      [Tags]               Test                          txy        auto_v1
+                      [Template]           weather_air_getns_Keywords
+                      23.17743366337013    113.33493478315803            success    ${EMPTY}
 
 *** Keywords ***
 weather_air_getns_Keywords

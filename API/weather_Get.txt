@@ -1,0 +1,43 @@
+﻿*** Settings ***
+Documentation     weather 20180710天气接口=对比web天气接口
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            000000    # 密码
+${userName}       u666@qq.com    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    longitude          latitude                province    city    ret    msg
+Class_01              [Documentation]    weather TestCase测试用例
+                      [Tags]             Test      txy                    auto_v1
+                      [Template]         weather_Get_Keywords
+                      120.405543         36.079126               山东          青岛      0      成功
+
+*** Keywords ***
+weather_Get_Keywords
+    [Arguments]    ${longitude}    ${latitude}    ${province}    ${city}    ${ret}    ${msg}
+    [Documentation]    weather 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${path}=    set variable    /weather
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    longitude=${longitude}
+    set to dictionary    ${maps}    latitude=${latitude}
+    set to dictionary    ${maps}    province=${province}
+    set to dictionary    ${maps}    city=${city}
+    log    ========输出接口URL：${api_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${api_URL}${path}；传参：${maps}！！
