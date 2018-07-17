@@ -28,7 +28,7 @@ thejoyrun_Keywords
     ...		${values}=None      
     [Documentation]  *thejoyrun通用关健字*
     ...
-    ...		BaseURL为http/https开头域名地址，path为url路径，method为方法（Get,Post,Getns,Postns,Getw,Postw,Postnl）fields为接口字段集（字段与字段之间用,英文逗号隔开，）；values为字段值（按字段顺序给出并也用英文逗号隔开）userName 为用户账号，pwd为用户密码
+    ...		BaseURL为http/https开头域名地址，path为url路径，method为方法（Get,Post,Getns,Postns,Getw,Postw,Postnl）fields为接口字段集（字段与字段之间用,英文逗号隔开，）；values为字段值（按字段顺序给出并也用英文逗号隔开）userName 为用户账号，pwd为用户密码,values==Joyrun_null时,fields传maps
     ...		eg: ${content}   thejoyrun_Keywords    ${advert_URL}    ${path}    ${userName}    ${pwd}
     ...		可为None的参数在最后时无需填写，如method 、fields、values无值可不填写
     ...		eg: ${content}   thejoyrun_Keywords    ${advert_URL}    ${path}    None    None   Postnl  ${fields}   ${values}
@@ -39,8 +39,8 @@ thejoyrun_Keywords
     ${maps1}     create dictionary
 	@{fieldsList}  Run Keyword If  '${values}'=='Joyrun_null'  Create List  0   ELSE    Split String    ${fields}    ,
 	@{ValueList}   Run Keyword If  '${values}'=='Joyrun_null'  Create List  0   ELSE    Split String    ${values}    ,
-	${Len}   Run Keyword If  ${fieldsList} is None  Set Variable  0  ELSE    Evaluate   len(${fieldsList})
-    ${maps}   Run Keyword If    ${Len}<=1 and '${values}'!='Joyrun_null'  Set Variable  ${maps1}   
+	${Len}   Run Keyword If  '${fields}'=='None'  Set Variable  0  ELSE    Evaluate   len(${fieldsList})
+    ${maps}   Run Keyword If    ${Len}<1 and '${values}'!='Joyrun_null'  Set Variable  ${maps1}   
 	...    ELSE IF  '${values}'=='Joyrun_null'    create dictionary   &{fields}
 	...    ELSE     thejoyrun_Maps  ${fieldsList}   ${ValueList} 
     log    ===输出测试地址:${BaseURL}${path}====
