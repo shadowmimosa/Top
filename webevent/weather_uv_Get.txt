@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    lat                lng                          ret        msg
 Class_01              [Documentation]    weather/uv TestCase测试用例
-                      [Tags]             Test                         txy        auto_v1
+                      [Tags]             Test                         txy        Online      auto_v1
                       [Template]         weather_uv_getns_Keywords
                       39.9               116.4                        success    ${EMPTY}
 

@@ -84,6 +84,9 @@ event_URL='http://event.api.thejoyrun.com'
 #企业跑团
 cr_URL='https://cr.thejoyrun.com'
 
+#天气web
+webevent_URL='http://webevent.thejoyrun.com'
+
 #=====小程序相关配置=================================
 
 #小程序统一域名
