@@ -11,7 +11,7 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
-${userName}       13829744543    # 默认的用户名
+${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
 *** Test Cases ***    city               domainId                       fid         imgs    memo        postRunId     province    ret      msg

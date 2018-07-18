@@ -16,7 +16,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    domainId                    lastfid                               amount    ret    msg
 Class_01              [Documentation]             running/domain/feed TestCase查询跑场动态
-                      [Tags]                      Test                                  Online    gxy
+                      [Tags]                      Test                                  gxy
                       [Template]                  running_domain_feed_Post_Keywords
                       5ad9b6f291d09d409f4c2f87    \                                     10        0      成功
 

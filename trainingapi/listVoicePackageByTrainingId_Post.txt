@@ -16,7 +16,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    trainingId         ret                                                          msg
 Class_01              [Documentation]    listVoicePackageByTrainingId TestCase根据语音训练id获取语音训练的语音包列表
-                      [Tags]             Test                                                         auto_v1
+                      [Tags]             Test                                                         gxy
                       [Template]         listVoicePackageByTrainingId_post_Keywords
                       1                  0                                                            成功
 

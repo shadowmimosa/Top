@@ -24,7 +24,7 @@ feedpostrun_opinion
     #判断环境随机选择用户
     #${userName}    Env_username    2a
     ${env}    Env_username    1
-    ${userName}    set variable    13829744542
+    #${userName}    set variable    13829744542
     ${topicName}    FourTopicList_TopicName    ${userName}
     ${time}=    Get Time    epoch
     log    time= ${time}
