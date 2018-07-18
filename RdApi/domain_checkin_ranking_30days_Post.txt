@@ -14,11 +14,11 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    amount             domainId                                              ret       msg
+*** Test Cases ***    amount             domainId                                              ret    msg
 Class_01              [Documentation]    running/domain/checkin/ranking/30days TestCase测试用例
-                      [Tags]             Test                                                  Online    gxy
+                      [Tags]             Test                                                  gxy
                       [Template]         domain_checkin_ranking_30days_Post_Keywords
-                      50                 5b32fc1291d022a03d3917d6                              0         成功
+                      50                 5b32fc1291d022a03d3917d6                              0      成功
 
 *** Keywords ***
 domain_checkin_ranking_30days_Post_Keywords
