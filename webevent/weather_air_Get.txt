@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    lat                  lng                           ret        msg
 Class_01              [Documentation]      weather/air TestCase测试用例
-                      [Tags]               Test                          txy        auto_v1
+                      [Tags]               Test                          txy        Online      auto_v1
                       [Template]           weather_air_getns_Keywords
                       23.17743366337013    113.33493478315803            success    ${EMPTY}
 
