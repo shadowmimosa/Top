@@ -139,7 +139,10 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 
 	#企业跑团
 	cr_URL='http://cr-test.thejoyrun.com'
-
+	
+	#跑场
+	rd_URL='http://rd-test.api.thejoyrun.com'
+	
 	##===================小程序相关配置=====================
 
 	#小程序统一域名
@@ -242,6 +245,9 @@ else:
 
 	#企业跑团
 	cr_URL='https://cr.thejoyrun.com'
+	
+	#跑场
+	rd_URL='http://rd.api.thejoyrun.com'
 
 	#=====小程序相关配置=================================
 

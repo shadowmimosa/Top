@@ -37,10 +37,12 @@ thejoyrun_Keywords
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${maps1}     create dictionary
-	@{fieldsList}  Run Keyword If  '${values}'=='Joyrun_null'  Create List  0   ELSE    Split String    ${fields}    ,
-	@{ValueList}   Run Keyword If  '${values}'=='Joyrun_null'  Create List  0   ELSE    Split String    ${values}    ,
-	${Len}   Run Keyword If  ${fieldsList} is None  Set Variable  0  ELSE    Evaluate   len(${fieldsList})
-    ${maps}   Run Keyword If    ${Len}<=1 and '${values}'!='Joyrun_null'  Set Variable  ${maps1}   
+	@{fieldsList}  Run Keyword If  '${values}'=='Joyrun_null'   Create List  0   ELSE    Split String    ${fields}    ,
+	@{ValueList}   Run Keyword If  '${values}'=='Joyrun_null'   Create List  0   ELSE    Split String    ${values}    ,
+	${Len}      Evaluate   len(${fieldsList})
+    ${fildstart}  Run Keyword If   ${Len}==1    Get From List    ${fieldsList}    0  ELSE  Set Variable  0
+    ${Len}   Run Keyword If  ${Len}==1 and '${fildstart}'=='None'  Set Variable  0  ELSE    Set Variable  ${Len}  
+    ${maps}   Run Keyword If    ${Len}<1 and '${values}'!='Joyrun_null'  Set Variable  ${maps1}   
 	...    ELSE IF  '${values}'=='Joyrun_null'    create dictionary   &{fields}
 	...    ELSE     thejoyrun_Maps  ${fieldsList}   ${ValueList} 
     log    ===输出测试地址:${BaseURL}${path}====

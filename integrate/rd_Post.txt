@@ -10,14 +10,13 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
-${userName}       13829744543    # 用户名
+${userName}       5145311    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    courseid           nomoment             private    wgs
 Class_01              [Documentation]    上传跑步记录
-                      [Tags]             Online               Test
+                      [Tags]             Test                 gxy
                       [Template]         RunRecord_opinion
-                      0                  1                    1          1
                       0                  1                    1          1
 
 *** Keywords ***
@@ -45,7 +44,7 @@ RunRecord_opinion
     ...    12000
     ${fid}    Run Keyword If    "${fids}"=="0"    set variable    0
     ...    ELSE    randomchoice    ${fids}    ,
-    ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
+    ${src}=    Getrunrecodeinfo    99057924    ${wgs}    ${userName}
     ${ret}=    get json value    ${src}    /ret
     Run Keyword If    ${ret}=="0"    RuningRecord    ${src}    ${courseid}    ${nomoment}    ${private}
     ...    ${wgs}    ${userName}    ${topicName}
@@ -162,4 +161,6 @@ RuningRecord
     should contain    ${vspostRunId}    ${postRunId}
     log    跑步记录postRunId为===${postRunId},新的FID为${newfid}
     log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud}，是否室外：${type};跑步地区=${province}，来自话题==${topicName},原fid ID== ${fid}，原uid ===${srcuid}
+    ${rdcon}    Run Keyword If    ${fraud}=="0"    thejoyrun_Keywords    ${api_URL}    /feed/post/run    ${userName}
+    ...    ${pwd}    Post    imgs,fid,postRunId,city,province,memo,domainId    \[\],${newfid},${postRunId},广州,广东,45567,5b30b8f291d022a03d3917ac
     log    ------------------------ It is OK!!!!-------------------------------------
