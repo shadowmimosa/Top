@@ -1,0 +1,56 @@
+*** Settings ***
+Documentation     running/domain/list 查询跑场列表
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           HttpLibrary.HTTP
+Library           ../Public/Lib/tools_library.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    amount             cityCode                              latitude     longitude     ret    msg
+Class_01              [Documentation]    running/domain/list TestCase查询跑场列表
+                      [Tags]             Test                                  Online       gxy
+                      [Template]         running_domain_list_Post_Keywords
+                      \                  020                                   23.402831    113.464891    0      成功
+
+*** Keywords ***
+running_domain_list_Post_Keywords
+    [Arguments]    ${amount}    ${cityCode}    ${latitude}    ${longitude}    ${ret}    ${msg}
+    [Documentation]    running/domain/list 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${con}    thejoyrun_Keywords    ${rd_URL}    /running/domain/supportcity    ${userName}    ${pwd}    Post
+    ${codelist}    get json value    ${con}    /data
+    ${codelists}    FilterList    ${codelist}    domainAmount,0,10000    cityCode
+    ${cityCode}    Run Keyword If    '${codelists}'=='0'    set variable    020
+    ...    ELSE    randomchoice    ${codelists}    ,
+    ${cityCode}    replace string    ${cityCode}    ”    ${EMPTY}
+    ${path}=    set variable    /running/domain/list
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    amount=${amount}
+    set to dictionary    ${maps}    cityCode=${cityCode}
+    set to dictionary    ${maps}    latitude=${latitude}
+    set to dictionary    ${maps}    longitude=${longitude}
+    log    ========输出接口URL：${rd_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${rd_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${rd_URL}${path}；传参：${maps}！！
