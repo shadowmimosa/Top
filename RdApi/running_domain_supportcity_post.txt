@@ -1,0 +1,49 @@
+*** Settings ***
+Documentation     查询跑场支持的城市
+Default Tags
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    ret                msg
+Class_01              [Documentation]    查询跑场支持的城市
+                      [Tags]             Test                                Online    gxy
+                      [Template]         /running/domain/supportcity_post
+                      "0"                成功
+
+*** Keywords ***
+/running/domain/supportcity_post
+    [Arguments]    ${ret}    ${msg}
+    [Documentation]    查询跑场支持的城市
+    ${path}=    set variable    /running/domain/supportcity
+    ${maps}=    create dictionary
+    #set to dictionary    ${maps}    domainId=${domainId}
+    #set to dictionary    ${maps}    pageNum=${pageNum}
+    log    ---输出预期值---
+    log    ${ret}
+    log    ${rd_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${rd_URL}
+    ${content}=    charconver    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    ${msg}=    charconver    "成功"
+    Run Keyword If    ${ret}=="0"    verfication_data    ${content}
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    #${data}=    charconver    ${data}
+    #should contain    ${data}    "temp":
+    #当验证的内容有中文时，需要先转码再验证；
+    #${weather}=    charconver    "多云"
+    #should contain    ${data}    ${weather}
+    log    ------------------------ It is OK!!!!-------------------------------------

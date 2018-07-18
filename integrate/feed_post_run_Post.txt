@@ -4,7 +4,7 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            67889911    # 密码
-${userName}       13829744541    # 用户名
+${userName}       13829744543    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    imgs               fid                             postRunId    city    province    memo
@@ -22,9 +22,9 @@ feedpostrun_opinion
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${memo1}    Get_Words    4
     #判断环境随机选择用户
-    ${userName}    Env_username    2a
+    #${userName}    Env_username    2a
     ${env}    Env_username    1
-    #${userName}    set variable    5145311
+    ${userName}    set variable    13829744542
     ${topicName}    FourTopicList_TopicName    ${userName}
     ${time}=    Get Time    epoch
     log    time= ${time}
