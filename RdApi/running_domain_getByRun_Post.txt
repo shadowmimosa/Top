@@ -18,7 +18,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    running/domain/getByRun TestCase根据跑步ID查询关联的跑场
                       [Tags]             Test                                             Online    gxy
                       [Template]         running_domain_getByRun_Post_Keywords
-                      1600062238         0                                                成功
+                      217747522          0                                                成功
 
 *** Keywords ***
 running_domain_getByRun_Post_Keywords
@@ -27,7 +27,7 @@ running_domain_getByRun_Post_Keywords
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
-    #${userName}    Env_username
+    ${userName}    Env_username
     ${con}    thejoyrun_Keywords    ${api_URL}    /userRunList.aspx    ${userName}    ${pwd}    Post
     ...    year,month    2018,2018-07
     ${codelist}    get json value    ${con}    /datas

@@ -16,7 +16,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    domainId                    ret                                           msg
 Class_01              [Documentation]             running/domain/checkin/list TestCase跑场打卡列表
-                      [Tags]                      Test                                          gxy
+                      [Tags]                      Test                                          Online    gxy
                       [Template]                  domain_checkin_list_Post_Keywords
                       5b32fc1291d022a03d3917d6    0                                             成功
 

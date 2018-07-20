@@ -14,11 +14,11 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    city               domainId                       fid         imgs    memo        postRunId     province    ret      msg
+*** Test Cases ***    city               domainId                       fid         imgs    memo        postRunId     province    ret    msg
 Class_01              [Documentation]    feed/post/run TestCase测试用例
                       [Tags]             Test                           gxy
                       [Template]         feed_post_run_Post_Keywords
-                      广州                 5ad9b6f291d09d409f4c2f87       99058004    []      FW发布跑场动态    1600061277    广东          10099    该条跑步记录已被分享到跑友动态
+                      广州                 5ad9b6f291d09d409f4c2f87       99058004    []      FW发布跑场动态    1600061277    广东          0      成功
 
 *** Keywords ***
 feed_post_run_Post_Keywords
@@ -29,6 +29,21 @@ feed_post_run_Post_Keywords
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
+    ${con}    thejoyrun_Keywords    ${rd_URL}    /running/domain/list    ${userName}    ${pwd}    Post
+    ...    cityCode,amount,latitude,longitude    020,${EMPTY},23.402831,113.464891
+    ${codelist}    get json value    ${con}    /data
+    ${codelists}    FilterList    ${codelist}    cityCode,0,9999    domainId
+    ${domainId}    Run Keyword If    '${codelists}'=='0'    set variable    5b487dcb91d01d1b600af88c
+    ...    ELSE    randomchoice    ${codelists}    ,
+    ${con}    thejoyrun_Keywords    ${api_URL}    /userRunList.aspx    ${userName}    ${pwd}    Post
+    ...    year,month    2018,2018-07
+    ${codelist}    get json value    ${con}    /datas
+    ${codelists}    FilterList    ${codelist}    fraud,0,0.1    All
+    ${code}    Get From List    ${codelists}    0
+    ${fid}    get json value    ${code}    /fid
+    ${postRunId}    get json value    ${code}    /postRunId
+    ${con}    thejoyrun_Keywords    ${api_URL}    /feed/delete    ${userName}    ${pwd}    Post
+    ...    fid    ${fid}
     ${path}=    set variable    /feed/post/run
     ${maps}=    create dictionary
     set to dictionary    ${maps}    city=${city}
