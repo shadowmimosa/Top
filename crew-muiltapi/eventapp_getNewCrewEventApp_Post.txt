@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     eventapp/getNewCrewEventApp 接口脚本
+Documentation     eventapp/getNewCrewEventApp 新的跑团活动提醒
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

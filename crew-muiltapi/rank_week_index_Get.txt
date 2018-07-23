@@ -1,35 +1,34 @@
 *** Settings ***
-Documentation     eventapp/getCrewEventList 分页获取跑团活动
+Documentation     /rank/week/index 周排行榜（首页）
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
-${pwd}            67889911    # 密码
-${userName}       13829744541    # 默认的用户名
+${pwd}            123321    # 密码
+${userName}       18011884709    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    crewId             limit                                      page    ret        msg
-Class_01              [Documentation]    eventapp/getCrewEventList TestCase测试用例
-                      [Tags]             Online                                     Test    auto_v1
-                      [Template]         eventapp_getCrewEventList_Post_Keywords
-                      10960              1                                          0       "0"        成功
+*** Test Cases ***    crewId             nodeId                           ret     msg
+Class_01              [Documentation]    /rank/week/index TestCase测试用例
+                      [Tags]             Online                           Test    gxy
+                      [Template]         /rank/week/index_Get_Keywords
+                      10960              0                                "0"     "成功"
 
 *** Keywords ***
-eventapp_getCrewEventList_Post_Keywords
-    [Arguments]    ${crewId}    ${limit}    ${page}    ${ret}    ${msg}
-    [Documentation]    eventapp/getCrewEventList 接口用例的Keywords关健字
+/rank/week/index_Get_Keywords
+    [Arguments]    ${crewId}    ${nodeId}    ${ret}    ${msg}
+    [Documentation]    rank/member 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${crewId}    getMyCrewInfo    crewid    ${userName}
-    ${path}=    set variable    /eventapp/getCrewEventList
+    ${path}=    set variable    /rank/week/index
     ${maps}=    create dictionary
     set to dictionary    ${maps}    crewId=${crewId}
-    set to dictionary    ${maps}    limit=${limit}
-    set to dictionary    ${maps}    page=${page}
+    set to dictionary    ${maps}    nodeId=${nodeId}
     log    ========输出接口URL：${crew_muilt_URL}${path}
     log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

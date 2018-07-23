@@ -1,0 +1,70 @@
+*** Settings ***
+Documentation     /crew-event-new-app 创建跑团活动
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            123321    # 密码
+${userName}       18011884709    # 用户名
+${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+
+*** Test Cases ***    is_private         lng                                     city    meter    key_pair    province_city_code    end_time      title             descriptions    start_time    crew_node_id    event_id                            province    crewid    apply_notes    location          max_cnt    deadline      lat                   cover_img
+Class_01              [Documentation]    /crew-event-new-app-创建跑团活动
+                      [Tags]
+                      [Template]         /crew-event-new-app_Post_assertClass
+                      0                  113.3351525171601                       广州市     1000     ${EMPTY}    257                   1532425740    activity title    跑团活动详情          1532353740    0               f8a8f7b62f9a418b8a8a3e204350a61e    广东省         30230     ${EMPTY}       广东省广州市天河区智汇创意园    0          1532346540    23.177360560017085    http://linked-runner.b0.upaiyun.com/linked-runner/u_32521559_crew_event_cover_180723_1750278942.jpg
+
+*** Keywords ***
+/crew-event-new-app_Post_assertClass
+    [Arguments]    ${is_private}    ${lng}    ${city}    ${meter}    ${key_pair}    ${province_city_code}
+    ...    ${end_time}    ${title}    ${descriptions}    ${start_time}    ${crew_node_id}    ${event_id}
+    ...    ${province}    ${crewid}    ${apply_notes}    ${location}    ${max_cnt}    ${deadline}
+    ...    ${lat}    ${cover_img}
+    [Documentation]    /crew-event-new-app-创建跑团活动
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${crewId}    getMyCrewInfo    crewid    ${userName}
+    ${end_time}    Gettimes    dd,+3,times
+    ${start_time}    Gettimes    dd,+1,times
+    ${deadline}    Gettimes    dd,+2,times
+    ${path}=    set variable    /crew-event-new-app
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    is_private=${is_private}
+    set to dictionary    ${maps}    lng=${lng}
+    set to dictionary    ${maps}    city=${city}
+    set to dictionary    ${maps}    meter=${meter}
+    set to dictionary    ${maps}    key_pair=${key_pair}
+    set to dictionary    ${maps}    province_city_code=${province_city_code}
+    set to dictionary    ${maps}    end_time=${end_time}
+    set to dictionary    ${maps}    title=${title}
+    set to dictionary    ${maps}    descriptions=${descriptions}
+    set to dictionary    ${maps}    start_time=${start_time}
+    set to dictionary    ${maps}    crew_node_id=${crew_node_id}
+    set to dictionary    ${maps}    event_id=${event_id}
+    set to dictionary    ${maps}    province=${province}
+    set to dictionary    ${maps}    crewid=${crewid}
+    set to dictionary    ${maps}    apply_notes=${apply_notes}
+    set to dictionary    ${maps}    location=${location}
+    set to dictionary    ${maps}    max_cnt=${max_cnt}
+    set to dictionary    ${maps}    deadline=${deadline}
+    set to dictionary    ${maps}    lat=${lat}
+    set to dictionary    ${maps}    cover_img=${cover_img}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${crewapp_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crewapp_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+    log    ---开始断言验证---
+    log    response数据为：
+    log    ${resp}
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${expected_code}
+    log    ret 符合预期为:${expected_code}
+    log    验证msg是否符合预期
+    ${msg}=    charconver    "用户操作权限不足"
+    Run Keyword If    ${expected_code}=="0"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    log    ------------------------ It is OK!!!!-------------------------------------
