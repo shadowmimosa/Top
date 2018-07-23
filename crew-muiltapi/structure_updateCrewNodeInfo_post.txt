@@ -4,14 +4,14 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            123321    # 密码
-${userName}       32518253    # 默认的用户名
+${userName}       18011884709    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
 *** Test Cases ***    city               newName                                 faceurl    nodeId    uid         province    remark        ret        msg
 Class_01              [Documentation]    /structure/updateCrewNodeInfo 修改跑团资料
-                      [Tags]             Test                                    gxy
+                      [Tags]             Test                                    gxy        Online
                       [Template]         structure_updateCrewNodeInfo_Post
-                      广州                 高向阳测试跑团-嘿嘿                              \          0         32518253    广东          0622修改跑团名称    "11106"    抱歉，您的跑团最近30天已经更改过跑团所在地
+                      广州                 内部跑团，非请勿入                               \          0         32518253    广东          0622修改跑团名称    "11106"    抱歉，您的跑团最近30天已经更改过跑团所在地
 
 *** Keywords ***
 structure_updateCrewNodeInfo_Post
@@ -22,6 +22,11 @@ structure_updateCrewNodeInfo_Post
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
+    ${con}    thejoyrun_Keywords    ${crew_muilt_URL}    /structure/getMyCrewInfo    ${userName}    ${pwd}    Post
+    ${codelist}    get json value    ${con}    /data
+    ${codelists}    FilterList    ${codelist}    crewid,0,9999999    crewid
+    ${crewId}    Run Keyword If    '${codelists}'=='0'    set variable    1
+    ...    ELSE    randomchoice    ${codelists}    ,
     ${time1}    Gettimes    dd,+1,times
     ${city}    set variable    ${city}${time1}
     ${crewId}    getMyCrewInfo    crewid    ${userName}

@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     user/getNotCheckinList 接口脚本
+Documentation     user/getNotCheckinList 获取跑团未打卡列表
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
