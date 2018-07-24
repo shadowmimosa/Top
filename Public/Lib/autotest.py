@@ -11,6 +11,8 @@ import shutil
 import hashlib
 import logging
 import signal
+import datetime
+import json
 
 
 
@@ -242,6 +244,20 @@ def autotestcase(home,url,method,Interfacefields,demopath):
 		creatfile.write('%s' % ''.join(result)) 
 		creatfile.close()
 		print  folderdirectory,'\\',filename,'接口创建成功'.decode('utf-8')
+
+		
+		
+		
+def get_timestamp():
+    today = datetime.date.today()
+    start_time = today + datetime.timedelta(days=1)
+    end_time = today + datetime.timedelta(days=8)
+    start_time_st =int(time.mktime(time.strptime(str(start_time), '%Y-%m-%d')))#明天开始时间戳
+    end_time_st=int(time.mktime(time.strptime(str(end_time), '%Y-%m-%d')))-1   # 7天结束时间戳
+    ls_time=[start_time_st,end_time_st]
+    t_dict={'start_time_st':start_time_st,'end_time_st':end_time_st}
+    return json.dumps(t_dict,ensure_ascii=False)
+		
 
 
 if __name__ == '__main__':
