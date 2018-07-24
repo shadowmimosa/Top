@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    ec_api/pay/sign TestCase测试用例
                       [Tags]             Test                               txy
                       [Template]         ec_api_pay_sign_Postns_Keywords
-                      10007154           1                                  112233        wallet    0      成功
+                      10007154           1                                  112233        wallet    100    订单已支付
 
 *** Keywords ***
 ec_api_pay_sign_Postns_Keywords
