@@ -20,6 +20,7 @@ Class_01              [Documentation]    /crew-event-cancle-app 取消跑团活�
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
+    ${emv}    Env_username    1
     #${userName}    Env_username
     ${crewId}    getMyCrewInfo    crewid    ${userName}
     ${con}    thejoyrun_Keywords    ${crewapp_URL}    /crew-app-event-list    ${userName}    ${pwd}    Post
@@ -42,7 +43,8 @@ Class_01              [Documentation]    /crew-event-cancle-app 取消跑团活�
     log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
-    Run Keyword If    "${event_id}"=="2e1b98234a9f4c58a4e7ffd9ae077c4d"    should contain    ${content}    "ret":"3","msg":"event not exist"
+    Run Keyword If    "${event_id}"=="2e1b98234a9f4c58a4e7ffd9ae077c4d" and "${emv}" =="Test"    should contain    ${content}    "ret":"3","msg":"event not exist"
+    ...    ELSE IF    "${event_id}"=="2e1b98234a9f4c58a4e7ffd9ae077c4d" and "${emv}" =="Online"    should contain    ${content}    "ret":"5","msg":"event expired"
     ...    ELSE    should contain    ${content}    "ret":"${ret}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
     log    ------------------------ It is OK!!!!-------------------------------------
