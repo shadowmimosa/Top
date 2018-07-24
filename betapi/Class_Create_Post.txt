@@ -1,0 +1,108 @@
+*** Settings ***
+Documentation     class/create 创建跑班+加入该跑班
+Library           ../Public/Lib/autotest.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            000000    # 密码
+${userName}       u555@qq.com    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    coverImgUrl                                                                                                    endRunTime                   introInfo    playRuleType    runMeter    runNum    singleAmount    startRunTime    title       ret    msg
+Class_01              [Documentation]                                                                                                class/create TestCase测试用例
+                      [Tags]                                                                                                         Test                         txy
+                      [Template]                                                                                                     opinion_creat_class
+                      http://linked-runner.b0.upaiyun.com/linked-runner/bet/cover/18/04/23/bet_u_15108880_4744180825858982336.jpg    1532620799                   joyrun18     1               1000        4         1000            1532102400      joyrun18    0      成功
+
+*** Keywords ***
+opinion_creat_class
+    [Arguments]    ${coverImgUrl}    ${endRunTime}    ${introInfo}    ${playRuleType}    ${runMeter}    ${runNum}
+    ...    ${singleAmount}    ${startRunTime}    ${title}    ${ret}    ${msg}
+    [Documentation]    判断用户是否符合创建跑班
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    @{str}    callkeywords    Getmyclassid:${userName}:${pwd};Getmywallet:${userName}:${pwd}:balanceAmount:1
+    ${aa}    Evaluate    len(${str} )
+    ${myclassid}    Get From List    ${str}    0
+    ${mywallet}    Get From List    ${str}    1
+    ${cont_time}=    get_timestamp
+    ${startRunTime1}    Get json value    ${cont_time}    /start_time_st
+    ${endRunTime1}    Get json value    ${cont_time}    /end_time_st
+    ${startRunTime}    set variable    ${startRunTime1}
+    ${endRunTime}    set variable    ${endRunTime1}
+    Run Keyword If    '${myclassid}'<>'0' or '${mywallet}'=='0'    log    ====用户${userName}不满足条件（有未完成的跑班、未开通钱包）=====
+    ...    ELSE    class_create_Post_Keywords    ${mywallet}    ${coverImgUrl}    ${endRunTime}    ${introInfo}
+    ...    ${playRuleType}    ${runMeter}    ${runNum}    ${singleAmount}    ${startRunTime}    ${title}
+    ...    ${ret}    ${msg}
+
+class_create_Post_Keywords
+    [Arguments]    ${mywallet}    ${coverImgUrl}    ${endRunTime}    ${introInfo}    ${playRuleType}    ${runMeter}
+    ...    ${runNum}    ${singleAmount}    ${startRunTime}    ${title}    ${ret}    ${msg}
+    [Documentation]    class/create 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /class/create
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    coverImgUrl=${coverImgUrl}
+    set to dictionary    ${maps}    endRunTime=${endRunTime}
+    set to dictionary    ${maps}    introInfo=${introInfo}
+    set to dictionary    ${maps}    playRuleType=${playRuleType}
+    set to dictionary    ${maps}    runMeter=${runMeter}
+    set to dictionary    ${maps}    runNum=${runNum}
+    set to dictionary    ${maps}    singleAmount=${singleAmount}
+    set to dictionary    ${maps}    startRunTime=${startRunTime}
+    set to dictionary    ${maps}    title=${title}
+    log    ========输出接口URL：${bet_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${bet_URL}
+    ${content}=    charconver    ${resp.content}
+    ${data1}    get json value    ${content}    /data
+    ${classIds}    get json value    ${data1}    /classId
+    ${mobile}    get json value    ${mywallet}    /mobile
+    ${payAmount1}    Evaluate    str(${singleAmount}*${runNum})
+    ${payAmount}    set variable    ${payAmount1}
+    Run Keyword If    ${classIds}=='0'    用户${userName}创建跑班失败！=====
+    ...    ELSE    classPartinPay    ${classIds}    ${userName}    ${pwd}    ${payAmount}
+    ...    3    112233    ${mobile}
+
+classPartinPay
+    [Arguments]    ${classId}    ${userName}    ${pwd}    ${payAmount}    ${paymentType}    ${verifyCode}
+    ...    ${mobile}
+    [Documentation]    用户20380217
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /class/partin/pay
+    log    -----------------${mobile}
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    classId=${classId}
+    set to dictionary    ${maps}    payAmount=${payAmount}
+    set to dictionary    ${maps}    paymentType=${paymentType}
+    set to dictionary    ${maps}    verifyCode=${verifyCode}
+    log    ---输出参数---
+    log    ${maps}
+    log    --输出测试地址--
+    log    ${bet_URL}
+    sendVerifyCode    ${mobile}    ${userName}    ${pwd}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${bet_URL}
+    log    -----------------------${mobile}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
+    log    ---输出返回内容----
+    log json    ${content}
+
+sendVerifyCode
+    [Arguments]    ${mobile}    ${userName}    ${pwd}
+    [Documentation]    /sendVerifyCode发送验证码
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /sendVerifyCode
+    #${mobile}=    set variable    13422030633
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    mobile=${mobile}
+    log    ---输出参数---
+    log    ${maps}
+    log    ---输出测试地址---
+    log    ${wallet_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${resp.content}
