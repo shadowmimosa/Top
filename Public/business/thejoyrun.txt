@@ -10,8 +10,8 @@ Resource          ../OtherMethod/cookie_operation.txt
 Resource          ../Public/http_request.txt
 
 *** Variables ***
-${signOnline}            A4729E62-3701-48C3-A15D-7391838FA186    #可以放置一些公共参数；
-${signTest}            a9ff6970eb814e6894389ca8b12f3030    #可以放置一些公共参数；
+${signOnline}     A4729E62-3701-48C3-A15D-7391838FA186    #可以放置一些公共参数；
+${signTest}       a9ff6970eb814e6894389ca8b12f3030    #可以放置一些公共参数；
 ${pwd}            67889911    #可以放置一些公共参数；
 
 *** Keywords ***
@@ -60,16 +60,16 @@ Removesting
     [Return]    ${restr}
 
 FilterList
-    [Arguments]    ${SrcListstr}    ${filters}    ${Returnfield}   ${Onlyone}=None   ${Num}=None
+    [Arguments]    ${SrcListstr}    ${filters}    ${Returnfield}    ${Onlyone}=None    ${Num}=None
     [Documentation]    *筛选并分隔字符串*
-    ...     支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；
-    ...     SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；
-    ...     filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔);
-    ...     Returnfield为返回值串的字符,为All返回所有字段；
-    ...     Onlyone以哪个字段或字符串来分隔，默认为空；
-    ...     Num源数据列表的条数筛选，默认为空不筛选； 大于0的数时筛选前Num列【0:Num】,小于0的数时筛选倒数Num列【Num:Last】  
-    ...     例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
-	[Timeout]    1 minute
+    ...    支持1-3个条件的筛选记录,有则返回value1,value2,...,否则返回0；
+    ...    SrcListstr 为源字符串(需要符合[{"a":1,"b":2,"c":3},{"a":12,"b":22,"c":33},{"a":11,"b":12,"c":13,"d":13}])；
+    ...    filters为筛选条件：格式为field1,1,2/field2,3,4(筛选字符与值之间用逗号分隔，筛选字段之间用/分隔);
+    ...    Returnfield为返回值串的字符,为All返回所有字段；
+    ...    Onlyone以哪个字段或字符串来分隔，默认为空；
+    ...    Num源数据列表的条数筛选，默认为空不筛选； 大于0的数时筛选前Num列【0:Num】,小于0的数时筛选倒数Num列【Num:Last】
+    ...    例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
+    [Timeout]    1 minute
     log    原字符串:${SrcListstr}
     log    筛选条件:${filters}
     log    返回值串的字段:${Returnfield}
@@ -95,17 +95,31 @@ FilterList
     ${filterfield1max}    Get From List    ${filterstrList1}    2
     ${filterfield2max}    Get From List    ${filterstrList2}    2
     ${filterfield3max}    Get From List    ${filterstrList3}    2
+    ##兼容字段值带引号的情况
     ${SrcListstr}    replace string    ${SrcListstr}    ${EMPTY}[{    {
     ${SrcListstr}    replace string    ${SrcListstr}    }]${EMPTY}    }
     ${SrcListstr}    replace string    ${SrcListstr}    ${SPACE}    ${EMPTY}
-    ${SrcListstr}    Run Keyword If   ${Onlyone}==None    replace string    ${SrcListstr}    },{    }joyrunzzqtestspit{
-    ...    ELSE    replace string    ${SrcListstr}    ${Onlyone}    ${Onlyone}joyrunzzqtestspit${Onlyone}	
+    ${SrcListstr}    Run Keyword If    ${Onlyone}==None    replace string    ${SrcListstr}    },{    }joyrunzzqtestspit{
+    ...    ELSE    replace string    ${SrcListstr}    ${Onlyone}    ${Onlyone}joyrunzzqtestspit${Onlyone}
     @{SrcList}    Split String    ${SrcListstr}    joyrunzzqtestspit
-    ${SrcList}     Run Keyword If  ${Num} is None  Get Slice From List   ${SrcList}   -10
-    ...    ELSE IF   ${Num}>0     Get Slice From List   ${SrcList}   0   ${Num}
-    ...   ELSE IF   ${Num}<0     Get Slice From List   ${SrcList}   ${Num}
-    ...   ELSE     Get Slice From List   ${SrcList}   0    
-    : FOR    ${scrsingle}    IN    @{SrcList}
+    ${SrcList}    Run Keyword If    ${Num} is None    Get Slice From List    ${SrcList}    -10
+    ...    ELSE IF    ${Num}>0    Get Slice From List    ${SrcList}    0    ${Num}
+    ...    ELSE IF    ${Num}<0    Get Slice From List    ${SrcList}    ${Num}
+    ...    ELSE    Get Slice From List    ${SrcList}    0
+    : FOR    ${scr_single}    IN    @{SrcList}
+    \    ${scrsingle}    set variable    ${scr_single}
+    \    ${scrsingle}    replace string    ${scrsingle}    ${filterfield1}":${SPACE}    ${filterfield1}":
+    \    ${scrsingle}    replace string    ${scrsingle}    ${filterfield1}":"    ${filterfield1}":
+    \    log    filterfield1----${scrsingle}
+    \    ${scrsingle}    replace string    ${scrsingle}    ${filterfield2}":${SPACE}    ${filterfield2}":
+    \    ${scrsingle}    replace string    ${scrsingle}    ${filterfield2}":"    ${filterfield2}":
+    \    log    filterfield2----${scrsingle}
+    \    ${scrsingle}    replace string    ${scrsingle}    ${filterfield3}":${SPACE}    ${filterfield3}":
+    \    ${scrsingle}    replace string    ${scrsingle}    ${filterfield3}":"    ${filterfield3}":
+    \    log    filterfield3----${scrsingle}
+    \    ${scrsingle}    replace string    ${scrsingle}    ${Returnfield}":${SPACE}    ${Returnfield}":
+    \    ${scrsingle}    replace string    ${scrsingle}    ${Returnfield}":"    ${Returnfield}":
+    \    log    Returnfield----${scrsingle}
     \    ${filterfield1str}    Get Regexp Matches    ${scrsingle}    "${filterfield1}":([A-Za-z0-9]+)    1
     \    ${filterfield1strlen}    evaluate    len(${filterfield1str})
     \    ${field1Value}    Run Keyword If    ${filterfield1strlen}>0    Get From List    ${filterfield1str}    0
@@ -117,47 +131,53 @@ FilterList
     \    ${filterfield3str}    Get Regexp Matches    ${scrsingle}    "${filterfield3}":([A-Za-z0-9]+)    1
     \    ${filterfield3strlen}    evaluate    len(${filterfield3str})
     \    ${field3Value}    Run Keyword If    ${filterfield3strlen}>0    Get From List    ${filterfield3str}    0
-    \    ...    ELSE    set variable    0
-	\    ${field1Value}    Run Keyword If   '${field1Value}'=='null'   set variable    -1   ELSE   set variable   ${field1Value}
-	\    ${field2Value}    Run Keyword If   '${field2Value}'=='null'   set variable    -1   ELSE   set variable   ${field2Value}	
-	\    ${field3Value}    Run Keyword If   '${field3Value}'=='null'   set variable    -1   ELSE   set variable   ${field3Value}	
-    \    ${ReturnfieldValue}    Run Keyword If    "${Returnfield}"<>"All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}    get json value    ${scrsingle}    /${Returnfield}    
-    \    ...    ELSE IF   "${Returnfield}"=="All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}  set variable    ${scrsingle}  
-    \    ...    ELSE  set variable    joyrunzzqtestspit
-	\	 ${Valuelen}  Evaluate  len(R'${ReturnValue}')
-    \    ${ReturnValue}    Run Keyword If    "${Returnfield}"<>"All" and ${Valuelen}>=1  set variable    ${ReturnValue},${ReturnfieldValue}
-	\	 ...    ELSE IF    "${Returnfield}"<>"All" and ${Valuelen}<1    set variable  ${ReturnfieldValue}
-    \    ...    ELSE   set variable    ${ReturnValue}zzqtestlistspit${ReturnfieldValue}
+    \    ${Returnfieldstr}    Get Regexp Matches    ${scrsingle}    "${Returnfield}":([A-Za-z0-9]+)    1
+    \    ${Returnfieldstrlen}    evaluate    len(${Returnfieldstr})
+    \    ${ReturnfieldValue1}    Run Keyword If    ${Returnfieldstrlen}>0    Get From List    ${Returnfieldstr}    0
+    \    ...    ELSE    set variable    ${EMPTY}
+    \    ${field1Value}    Run Keyword If    '${field1Value}'=='null'    set variable    -1
+    \    ...    ELSE    set variable    ${field1Value}
+    \    ${field2Value}    Run Keyword If    '${field2Value}'=='null'    set variable    -1
+    \    ...    ELSE    set variable    ${field2Value}
+    \    ${field3Value}    Run Keyword If    '${field3Value}'=='null'    set variable    -1
+    \    ...    ELSE    set variable    ${field3Value}
+    \    ${ReturnfieldValue}    Run Keyword If    "${Returnfield}"<>"All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}    set variable    ${ReturnfieldValue1}
+    \    ...    ELSE IF    "${Returnfield}"=="All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}    set variable    ${scr_single}
+    \    ...    ELSE    set variable    joyrunzzqtestspit
+    \    ${Valuelen}    Evaluate    len(R'${ReturnValue}')
+    \    ${ReturnValue}    Run Keyword If    "${Returnfield}"<>"All" and ${Valuelen}>=1    set variable    ${ReturnValue},${ReturnfieldValue}
+    \    ...    ELSE IF    "${Returnfield}"<>"All" and ${Valuelen}<1    set variable    ${ReturnfieldValue}
+    \    ...    ELSE    set variable    ${ReturnValue}zzqtestlistspit${ReturnfieldValue}
     \    ${ReturnValue}    replace string    ${ReturnValue}    ,joyrunzzqtestspit    ${EMPTY}
     \    ${ReturnValue}    replace string    ${ReturnValue}    joyrunzzqtestspit,    ${EMPTY}
     \    ${ReturnValue}    replace string    ${ReturnValue}    joyrunzzqtestspit    ${EMPTY}
-	${ReturnValuelen}  Evaluate  len(R'${ReturnValue}')
+    ${ReturnValuelen}    Evaluate    len(R'${ReturnValue}')
     ${ReturnValuesting}    Run Keyword If    ${ReturnValuelen}<1    set variable    0
     ...    ELSE    set variable    ${ReturnValue}
-	@{returnlist}  Run Keyword If  "${Returnfield}"=="All"   Split String    ${ReturnValuesting}    zzqtestlistspit   ELSE    Create List 
-	Remove Values From List   ${returnlist}      ${EMPTY} 
-	${returnlistlen}  Evaluate   len(${returnlist})
-	@{returnlist}   Run Keyword If   ${returnlistlen}<1   Create List   0   ELSE     Create List   @{returnlist}
-	Run Keyword If  "${Returnfield}"=="All"  Return From Keyword   @{returnlist}    ELSE    Return From Keyword    ${ReturnValuesting}
+    @{returnlist}    Run Keyword If    "${Returnfield}"=="All"    Split String    ${ReturnValuesting}    zzqtestlistspit
+    ...    ELSE    Create List
+    Remove Values From List    ${returnlist}    ${EMPTY}
+    ${returnlistlen}    Evaluate    len(${returnlist})
+    @{returnlist}    Run Keyword If    ${returnlistlen}<1    Create List    0
+    ...    ELSE    Create List    @{returnlist}
+    Run Keyword If    "${Returnfield}"=="All"    Return From Keyword    @{returnlist}
+    ...    ELSE    Return From Keyword    ${ReturnValuesting}
 
-
-callkeywords	
+callkeywords
     [Arguments]    ${str}    ${type}=None
     [Documentation]    按顺序执行多个关键字,并返回每个关键的执行结果，str输入方法为关键字之前用分号（;）隔开，关键字与传参之间用冒号（：）隔开，比如：Getmyclassid:${userName};Getmywallet:${userName}:balanceAmount 这个是执行两个关键字(Getmyclassid,Getmywallet)，每个关键字的冒号后为传参；
-	[Timeout]    30 seconds
-	@{result}   Create List  
+    [Timeout]    30 seconds
+    @{result}    Create List
     @{keywordslist}=    Split String    ${str}    ;
-	:FOR  ${keywordvalue}  IN  @{keywordslist}
-	\	@{keywordlists}     Split String    ${keywordvalue}    :
-	\	${keyword}    Get From List    ${keywordlists}    0
-	\	${keywordinput}  replace string   ${keywordvalue}   ${keyword}:    ${EMPTY}    
-	\	@{input}  Split String    ${keywordinput}    :      	
-	\	${keywordresult}   Run Keyword    ${keyword}  @{input}   
-	\   Append To List   ${result}   ${keywordresult}
-    [Return]    ${result}	
-	
-	
-	
+    : FOR    ${keywordvalue}    IN    @{keywordslist}
+    \    @{keywordlists}    Split String    ${keywordvalue}    :
+    \    ${keyword}    Get From List    ${keywordlists}    0
+    \    ${keywordinput}    replace string    ${keywordvalue}    ${keyword}:    ${EMPTY}
+    \    @{input}    Split String    ${keywordinput}    :
+    \    ${keywordresult}    Run Keyword    ${keyword}    @{input}
+    \    Append To List    ${result}    ${keywordresult}
+    [Return]    ${result}
+
 Getsting
     [Arguments]    ${string}    ${str}
     [Documentation]    将字典类型的字符串取出相应key的值,比如字符串{"source": "", "second": 311, "meter": 1017}中取出meter的值
@@ -174,24 +194,22 @@ randomchoice
     [Return]    ${strReturn}
 
 choiceOrd
-    [Arguments]    ${str}    ${ords}   ${spitstr}=None 
+    [Arguments]    ${str}    ${ords}    ${spitstr}=None
     [Documentation]    将字符串分割后按序号返回 abcdef;12;aaaa;123ewq;ddd 以;分割随机返回${str}为源字符串，${spitstr}为源字符串中的分割符（，为默认分隔符）；ords为序号，大于0时，按序号返回，1返第1个值，小于0时，按倒序返回，-1为返回最后一个值，当为0时，即为随机返回一个值；注意分隔符在源字符串仅作分隔符用，正常的值不能有分隔符；
-    #log   spitstr======${spitstr};'${spitstr}'=='None'
-    @{choicelist}  Run keyword If  '${spitstr}'=='None'  
-    ...    Split String   ${str}  ,   
-    ...    ELSE   Split String    ${str}    ${spitstr} 
+    #log    spitstr======${spitstr};'${spitstr}'=='None'
+    @{choicelist}    Run keyword If    '${spitstr}'=='None'    Split String    ${str}    ,
+    ...    ELSE    Split String    ${str}    ${spitstr}
     ${stinglen}    evaluate    len(${choicelist})
-    ${ordMax}      evaluate    len(${choicelist})-1
-    ${ord}         evaluate    ${ords}-1
-    ${strReturn}   Run keyword If  ${stinglen}>0 and ${ords}>=${stinglen}             Get From List  ${choicelist}    ${ordMax}
-    ...    ELSE IF  ${stinglen}>0 and ${ords}<${stinglen} and ${ords}==0   randomchoice  ${str}   ${spitstr}
-    ...    ELSE IF  ${stinglen}>0 and ${ords}<${stinglen} and ${ords}>0             Get From List  ${choicelist}    ${ord}
-    ...    ELSE IF  ${stinglen}>0 and ${ords}<${stinglen} and ${ords}<0              Get From List  ${choicelist}    ${ords}
-    ...    ELSE  Set variable  ${EMPTY}
-    Run keyword If   ${ords}>0   log    总共${stinglen}组数据,选中第${ords}组,数据为：${strReturn}
-    ...    ELSE IF   ${ords}<0   log   总共${stinglen}组数据,选中倒数第${ords}组,数据为：${strReturn}
+    ${ordMax}    evaluate    len(${choicelist})-1
+    ${ord}    evaluate    ${ords}-1
+    ${strReturn}    Run keyword If    ${stinglen}>0 and ${ords}>=${stinglen}    Get From List    ${choicelist}    ${ordMax}
+    ...    ELSE IF    ${stinglen}>0 and ${ords}<${stinglen} and ${ords}==0    randomchoice    ${str}    ${spitstr}
+    ...    ELSE IF    ${stinglen}>0 and ${ords}<${stinglen} and ${ords}>0    Get From List    ${choicelist}    ${ord}
+    ...    ELSE IF    ${stinglen}>0 and ${ords}<${stinglen} and ${ords}<0    Get From List    ${choicelist}    ${ords}
+    ...    ELSE    Set variable    ${EMPTY}
+    Run keyword If    ${ords}>0    log    总共${stinglen}组数据,选中第${ords}组,数据为：${strReturn}
+    ...    ELSE IF    ${ords}<0    log    总共${stinglen}组数据,选中倒数第${ords}组,数据为：${strReturn}
     [Return]    ${strReturn}
-
 
 stringtolist
     [Arguments]    ${input}
@@ -247,14 +265,15 @@ countbyitem
     [Return]    ${count}
 
 thejoyrun_postd
-    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}   ${pwds}=None
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
     [Documentation]    *用于APP内部需要登录和签名Post场景：post请求data方式关键字*
     ...
     ...    参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
-	[Timeout]    30 seconds
-	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}
+    [Timeout]    30 seconds
+    ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
+    ...    ELSE    set variable    ${pwds}
     ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}   ${Base_URL} 
+    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -312,13 +331,14 @@ thejoyrun_postd
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
-    log  运行环境是:${Base_URL}
-    ${Testenv}    Get Lines Matching Pattern   ${Base_URL}   *-test*
-    ${sign1}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${signTest}   ELSE   set variable   ${APP_SGIN}
+    log    运行环境是:${Base_URL}
+    ${Testenv}    Get Lines Matching Pattern    ${Base_URL}    *-test*
+    ${sign1}    Run Keyword If    '${Testenv}'!='${EMPTY}'    set variable    ${signTest}
+    ...    ELSE    set variable    ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
-    log   通用签名:${_sign}
+    log    通用签名:${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
-    log   业务签名：${signature}
+    log    业务签名：${signature}
     set to dictionary    ${heards_dict}    _sign=${_sign}
     set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
@@ -334,28 +354,21 @@ thejoyrun_postd
     ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
     #${post_param}=    convert to string    ${post_dict_tolist1}
-    #${post_param}=    Replace String    ${post_param}    [    ${EMPTY}
-    #${post_param}=    Replace String    ${post_param}    u'    '
-    #${post_param}=    Replace String    ${post_param}    ', '    =
-    #${post_param}=    Replace String    ${post_param}    ('    ${EMPTY}
-    #${post_param}=    Replace String    ${post_param}    ')    ${EMPTY}
-    #${post_param}=    Replace String    ${post_param}    ,${SPACE}    &
-    #${post_param}=    Replace String    ${post_param}    ]    ${EMPTY}
     #${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
     [Return]    ${resp}
 
 thejoyrun_postnl
-    [Arguments]    ${path}    ${maps}    ${Base_URL}   
+    [Arguments]    ${path}    ${maps}    ${Base_URL}
     [Documentation]    *用于APP内部不需登录的Post场景：post请求data方式关键字——无需登录*
     ...
     ...    用于app的用户注册方面，无需用户信息；参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
-	[Timeout]    30 seconds
+    [Timeout]    30 seconds
     ${heards}=    create dictionary
     #从字典里取出相应key的值
-	##通过服务器获取timestamp
-	${heards_dict}=    create dictionary 
+    ##通过服务器获取timestamp
+    ${heards_dict}=    create dictionary
     Create Session    timestamp    ${login_URL}
     ${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
     ${contentime}=    charconver    ${resptime.content}
@@ -363,33 +376,33 @@ thejoyrun_postnl
     ${timestamp}    Get Json Value    ${contentime}    /lasttime
     log    --------Server time ={timestamp}--------
     ${cookies}=    create dictionary
-	log    code加密处理
-	log dictionary    ${maps}
-	log  maps=====${maps}
-	${mapskey}   Get Dictionary Keys     ${maps}
-	${codeone}   Count Values In List    ${mapskey}   code
-	${cellone}   Count Values In List    ${mapskey}   cellNumber
-	${cellNumber}   Run Keyword If   ${codeone}>0 and ${cellone}>0       Get From Dictionary   ${maps}  cellNumber
-	${codekey}   Run Keyword If   ${codeone}>0 and ${cellone}>0       set variable   joy${timestamp}the${cellNumber}run
-	${code}      Run Keyword If   ${codeone}>0 and ${cellone}>0       encrypt   ${codekey}   md5   32
-	${code}	 Convert To String   ${code}
-	Run Keyword If   ${codeone}>0 and ${cellone}>0     set to dictionary    ${maps}    code=${code}
-	log Dictionary  ${maps}
-	log  maps=====${maps}
+    log    code加密处理
+    log dictionary    ${maps}
+    log    maps=====${maps}
+    ${mapskey}    Get Dictionary Keys    ${maps}
+    ${codeone}    Count Values In List    ${mapskey}    code
+    ${cellone}    Count Values In List    ${mapskey}    cellNumber
+    ${cellNumber}    Run Keyword If    ${codeone}>0 and ${cellone}>0    Get From Dictionary    ${maps}    cellNumber
+    ${codekey}    Run Keyword If    ${codeone}>0 and ${cellone}>0    set variable    joy${timestamp}the${cellNumber}run
+    ${code}    Run Keyword If    ${codeone}>0 and ${cellone}>0    encrypt    ${codekey}    md5    32
+    ${code}    Convert To String    ${code}
+    Run Keyword If    ${codeone}>0 and ${cellone}>0    set to dictionary    ${maps}    code=${code}
+    log Dictionary    ${maps}
+    log    maps=====${maps}
     set to dictionary    ${cookies}    app_version=${appversion}
     ${URL}=    set variable    ${Base_URL}
     ${sign_dict}=    create dictionary    timestamp=${timestamp}
-	log dictionary   ${sign_dict}
+    log dictionary    ${sign_dict}
     ${post_dict}=    create dictionary    timestamp=${timestamp}
     @{mapstolist_sign}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist_sign}
     \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}
-	\    log dictionary   ${sign_dict}
+    \    log dictionary    ${sign_dict}
     @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
-	\    log dictionary   ${post_dict}
-    #log  排序及格式处理
+    \    log dictionary    ${post_dict}
+    #log    排序及格式处理
     #log    参数编码前：${sign_dict}
     #${signparam}    Evaluate    urllib.urlencode(${sign_dict})    urllib
     #log    参数编码后：${signparam}
@@ -409,13 +422,14 @@ thejoyrun_postnl
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
     #通用签名
-    log  运行环境是:${Base_URL}
-    ${Testenv}    Get Lines Matching Pattern   ${Base_URL}   *-test*
-    ${sign1}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${signTest}   ELSE   set variable   ${APP_SGIN}
+    log    运行环境是:${Base_URL}
+    ${Testenv}    Get Lines Matching Pattern    ${Base_URL}    *-test*
+    ${sign1}    Run Keyword If    '${Testenv}'!='${EMPTY}'    set variable    ${signTest}
+    ...    ELSE    set variable    ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
-    log   通用签名:${_sign}
+    log    通用签名:${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
-    log   业务签名：${signature}    
+    log    业务签名：${signature}
     set to dictionary    ${heards_dict}    _sign=${_sign}
     set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
@@ -433,19 +447,18 @@ thejoyrun_postnl
     #${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
-    [Return]    ${resp}	
-	
-	
-	
+    [Return]    ${resp}
+
 thejoyrun_post_nosign
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
     [Documentation]    *用于非APP的页面请求不需签名的场景：joyrun中post请求URL方式关键字*
     ...
     ...    没有加密的用于非APP的页面请求，参数以data方法提交；
-	[Timeout]    30 seconds
-	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
+    [Timeout]    30 seconds
+    ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
+    ...    ELSE    set variable    ${pwds}
     ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}   ${Base_URL}
+    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -474,22 +487,22 @@ thejoyrun_post_nosign
     log    参数编码前：${post_dict}
     ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
-	#因后端和运维的签名方法不一致，兼容处理
-	${path}  set variable   ${path}?${post_param}
+    #因后端和运维的签名方法不一致，兼容处理
+    ${path}    set variable    ${path}?${post_param}
     ####
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
-    #${resp}=    Post Request    run    uri=${path}   data=${post_param}
-    ${resp}=    Post Request    run    uri=${path}  	
+    #${resp}=    Post Request    run    uri=${path}    data=${post_param}
+    ${resp}=    Post Request    run    uri=${path}
     [Return]    ${resp}
 
 thejoyrun_postjson_wxminp
     [Arguments]    ${path}    ${maps}    ${Base_URL}    ${uid}=None
-    [Documentation]    *用于微信小程序Post场景：joyrun中post请求json方式关键字* 
+    [Documentation]    *用于微信小程序Post场景：joyrun中post请求json方式关键字*
     ...
     ...    参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于小程序）；
-	[Timeout]    30 seconds
+    [Timeout]    30 seconds
     ##通过本地获取timestamp
-    ${ContentType}   Set Variable    application/json;charset=UTF-8
+    ${ContentType}    Set Variable    application/json;charset=UTF-8
     ${wxminpnames}    Split String    ${path}    /
     ${wxminpname1}    Get From List    ${wxminpnames}    1
     ${wxminpname}    Run Keyword If    '${wxminpname1}'<>'wallet'    set variable    ${wxminpname1}
@@ -497,23 +510,24 @@ thejoyrun_postjson_wxminp
     ${appid}    set variable    ${${wxminpname}appid}
     ${sid}    set variable    ${${wxminpname}sid}
     #${appkey}    set variable    ${${wxminpname}appkey}
-	${appkey}    set variable    ${mappkey}
-	log  =======获取服务器时间========
-	Create Session    timestamp    ${login_URL}
+    ${appkey}    set variable    ${mappkey}
+    log    =======获取服务器时间========
+    Create Session    timestamp    ${login_URL}
     ${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
     ${contentime}=    charconver    ${resptime.content}
     log json    ${resptime.content}
     ${time}    get json value    ${contentime}    /lasttime
-	##log  ====获取本地时间=======
+    ##log    ====获取本地时间=======
     #${time}=    Get Time    epoch
     ${time}    evaluate    int(${time}*1000)
-	${timestamp}   set variable   ${time}
+    ${timestamp}    set variable    ${time}
     #${timestamp}    evaluate    str(${time})
     log    timestamp=${timestamp}
     #当需要传uid时，则uid从map中取，否则uid为0
-	${mapskey}  Get Dictionary Keys   ${maps}
-	${k}  Get Count  ${mapskey}   uid
-	${uid}  Run Keyword If  ${k}==1   Get From Dictionary    ${maps}    uid   ELSE   set variable  0	
+    ${mapskey}    Get Dictionary Keys    ${maps}
+    ${k}    Get Count    ${mapskey}    uid
+    ${uid}    Run Keyword If    ${k}==1    Get From Dictionary    ${maps}    uid
+    ...    ELSE    set variable    0
     ${heards_dict}=    create dictionary
     log    sid ===${sid}
     log    heards_dict ===${heards_dict}
@@ -525,7 +539,7 @@ thejoyrun_postjson_wxminp
     set to dictionary    ${post_dict}    sid=${sid}
     log    post_dict：${post_dict}
     #${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
-    #log    参数编码后：${post_param}	
+    #log    参数编码后：${post_param}
     #签名
     ${signkey}=    Run Keyword If    ${uid}==0    set variable    ${appid}${timestamp}${sid}${appkey}
     ...    ELSE    set variable    ${appid}${timestamp}${sid}${uid}${appkey}
@@ -533,8 +547,8 @@ thejoyrun_postjson_wxminp
     log    signkey=====${signkey}
     #排序及格式处理
     ${sign}=    encrypt    ${signkey}    md5    32
-	log  使用万能签名${mapp_sgin}
-	${sign}=    Set Variable   ${mapp_sgin}
+    log    使用万能签名${mapp_sgin}
+    ${sign}=    Set Variable    ${mapp_sgin}
     #请求头处理${UserAgent}
     set to dictionary    ${heards_dict}    sign=${sign}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
@@ -544,11 +558,11 @@ thejoyrun_postjson_wxminp
     [Return]    ${resp}
 
 thejoyrun_get_wxminp
-    [Arguments]    ${path}    ${maps}      ${Base_URL}    ${uid}=None
-    [Documentation]    *用于微信小程序Get场景：joyrun中get请求关键字* 
-    ...     
-    ...     参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
-	[Timeout]    30 seconds
+    [Arguments]    ${path}    ${maps}    ${Base_URL}    ${uid}=None
+    [Documentation]    *用于微信小程序Get场景：joyrun中get请求关键字*
+    ...
+    ...    参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
+    [Timeout]    30 seconds
     ${wxminpnames}    Split String    ${path}    /
     ${wxminpname1}    Get From List    ${wxminpnames}    1
     ${wxminpname}    Run Keyword If    '${wxminpname1}'<>'wallet'    set variable    ${wxminpname1}
@@ -556,7 +570,7 @@ thejoyrun_get_wxminp
     ${appid}    set variable    ${${wxminpname}appid}
     ${sid}    set variable    ${${wxminpname}sid}
     #${appkey}    set variable    ${${wxminpname}appkey}
-	${appkey}    set variable    ${mappkey}
+    ${appkey}    set variable    ${mappkey}
     ##通过本地获取timestamp
     ${time}=    Get Time    epoch
     log    time= ${time}
@@ -564,9 +578,10 @@ thejoyrun_get_wxminp
     ${timestamp}=    set variable    ${time}000
     ${timestamp}=    Replace String    ${timestamp}    "    ${EMPTY}
     #当需要传uid时，则uid从map中取，否则uid为0
-	${mapskey}  Get Dictionary Keys   ${maps}
-	${k}  Get Count  ${mapskey}   uid
-	${uid}  Run Keyword If  ${k}==1   Get From Dictionary    ${maps}    uid   ELSE   set variable  0
+    ${mapskey}    Get Dictionary Keys    ${maps}
+    ${k}    Get Count    ${mapskey}    uid
+    ${uid}    Run Keyword If    ${k}==1    Get From Dictionary    ${maps}    uid
+    ...    ELSE    set variable    0
     ${heards_dict}=    create dictionary
     log    sid ===${sid}
     log    heards_dict ===${heards_dict}
@@ -583,8 +598,8 @@ thejoyrun_get_wxminp
     log    signkey=====${signkey}
     #排序及格式处理
     ${sign}=    encrypt    ${signkey}    md5    32
-	log   使用万能签名${mapp_sgin}
-	${sign}=    Set Variable   ${mapp_sgin}
+    log    使用万能签名${mapp_sgin}
+    ${sign}=    Set Variable    ${mapp_sgin}
     #请求头处理
     set to dictionary    ${heards_dict}    sign=${sign}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
@@ -599,14 +614,15 @@ thejoyrun_get_wxminp
     [Return]    ${resp}
 
 thejoyrun_getp
-    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}     ${pwds}=None
+    [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
     [Documentation]    *用于APP内需要登录和签名的Get场景：joyrun中get请求url方式关键字*
     ...
     ...    参数以params方法提交出现Url中，也在body带公共参数（signature、timestamp）；
-	[Timeout]    30 seconds
-	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
+    [Timeout]    30 seconds
+    ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
+    ...    ELSE    set variable    ${pwds}
     ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}   ${Base_URL}
+    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -656,13 +672,14 @@ thejoyrun_getp
     #排序及格式处理
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
-    log  运行环境是:${Base_URL}
-    ${Testenv}    Get Lines Matching Pattern   ${Base_URL}   *-test*
-    ${sign1}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${signTest}   ELSE   set variable   ${APP_SGIN}
+    log    运行环境是:${Base_URL}
+    ${Testenv}    Get Lines Matching Pattern    ${Base_URL}    *-test*
+    ${sign1}    Run Keyword If    '${Testenv}'!='${EMPTY}'    set variable    ${signTest}
+    ...    ELSE    set variable    ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
-    log   通用签名:${_sign}
+    log    通用签名:${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
-    log   业务签名：${signature}    
+    log    业务签名：${signature}
     set to dictionary    ${heards_dict}    _sign=${_sign}
     set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
     set to dictionary    ${heards_dict}    Content-Type=${ContentType}
@@ -685,10 +702,11 @@ thejoyrun_get_nosign
     [Documentation]    *用于非APP请求不需要签名Get场景：joyrun中get请求url方式参数的关键字*
     ...
     ...    参数以params方法提交，出现Url中，也在body中，但不需要签名没有公共参数；
-	[Timeout]    30 seconds
-	${pwd}  Run Keyword If  ${pwds} is None   set variable   ${pwd}   ELSE   set variable   ${pwds}	
+    [Timeout]    30 seconds
+    ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
+    ...    ELSE    set variable    ${pwds}
     ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL} 
+    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid

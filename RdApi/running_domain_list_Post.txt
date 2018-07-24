@@ -34,7 +34,7 @@ running_domain_list_Post_Keywords
     ${cityCode}    Run Keyword If    '${codelists}'=='0'    set variable    020
     ...    ELSE    randomchoice    ${codelists}    ,
     #${cityCode}    replace string    ${cityCode}    ”    ${EMPTY}
-    ${cityCode}    arraytostring    ${cityCode}
+    #${cityCode}    arraytostring    ${cityCode}
     ${path}=    set variable    /running/domain/list
     ${maps}=    create dictionary
     set to dictionary    ${maps}    amount=${amount}
