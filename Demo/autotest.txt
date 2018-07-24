@@ -1,0 +1,37 @@
+*** Settings ***
+Documentation     参数说明
+...               Home为测试代码 根目录
+...               demopath为demo文件的路径；
+...               url为接口地址；
+...               method为请求的公共关健字，Get、Post为app关健字，
+...               Getw,Postw 为小程序关键字，
+...               Getns,Postns为web的无签名的关键字；
+...               Getnl,Postnl为App中不需要登录的接口关键字，公共关健字的首字母要大写；
+...               Interfacefields为POST请求类的非公共参数，Get、Getns、Getnl如url中有带参数Interfacefields为空 ${EMPTY}，多个入参用逗号隔开,
+Library           ../Public/Lib/autotest.py
+Resource          ../Public/public_lib.txt
+
+*** Variables ***
+
+*** Test Cases ***    url                                                              method                                                                                                   Interfacefields
+Class_01              [Documentation]                                                  自动生接口测试脚本，参数：method类型为：Get,Post,Getc,Getns,Postc;Getc用于跑团小程序的get请求，Getns为无需签名的get请求，Postc为跑团小程的post请求
+                      [Tags]                                                           Demo
+                      [Template]                                                       autotestcase_V1
+                      http://wear.api.thejoyrun.com/shoe-comment-list                  Post                                                                                                     page,pagesize,shoe_id
+                      http://ec-test.thejoyrun.com/ec_api/pay/sign                     Postns                                                                                                   orderId,versionNo,verifyCode,type
+                      http://recommend-test.api.thejoyrun.com/push-user-cache?day=0    Get                                                                                                      ${EMPTY}
+                      https://webevent-test.thejoyrun.com/weather/uv                   Getns                                                                                                    lat,lng
+
+*** Keywords ***
+autotestcase_V1
+    [Arguments]    ${url}    ${method}    ${Interfacefields}
+    [Documentation]    调用此方法自动生成常规测试用例，method公共关健字的首字母要大写；
+    ...    Interfacefields为POST请求类的非公共参数，
+    ...    Get、Getns、Getnl如url中有带参数Interfacefields为空${EMPTY}
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    log    =====home目录:${home}
+    ${demopath}    set variable    ${home}\\Demo\\Demo.txt
+    autotestcase    ${home}    ${url}    ${method}    ${Interfacefields}    ${demopath}
+    ${home}    set variable    ${home}
+    log    ====接口测试文件已在相应目录下=====
