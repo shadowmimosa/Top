@@ -7,11 +7,11 @@ ${pwd}            123321    # 密码
 ${userName}       18011884709    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    is_private         lng                                     city    meter    key_pair    province_city_code    end_time      title             descriptions    start_time    crew_node_id    event_id                            province    crewid    apply_notes    location          max_cnt    deadline      lat                   cover_img
+*** Test Cases ***    is_private         lng                                     city    meter    key_pair    province_city_code    end_time      title    descriptions    start_time    crew_node_id    event_id                            province    crewid    apply_notes    location          max_cnt    deadline      lat                   cover_img
 Class_01              [Documentation]    /crew-event-new-app-创建跑团活动
-                      [Tags]
+                      [Tags]             Test
                       [Template]         /crew-event-new-app_Post_assertClass
-                      0                  113.3351525171601                       广州市     1000     ${EMPTY}    257                   1532425740    activity title    跑团活动详情          1532353740    0               f8a8f7b62f9a418b8a8a3e204350a61e    广东省         30230     ${EMPTY}       广东省广州市天河区智汇创意园    0          1532346540    23.177360560017085    http://linked-runner.b0.upaiyun.com/linked-runner/u_32521559_crew_event_cover_180723_1750278942.jpg
+                      0                  115.3351525171601                       广州市     1000     ${EMPTY}    257                   1532425740    title    跑团活动详情          1532353740    0               f8a8f7b62f9a418b8a8a3e204350a61e    广东省         30230     ${EMPTY}       广东省广州市天河区智汇创意园    0          1532346540    28.177360560017085    http://linked-runner.b0.upaiyun.com/linked-runner/u_32521559_crew_event_cover_180723_1750278942.jpg
 
 *** Keywords ***
 /crew-event-new-app_Post_assertClass
@@ -23,9 +23,16 @@ Class_01              [Documentation]    /crew-event-new-app-创建跑团活动
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${crewId}    getMyCrewInfo    crewid    ${userName}
-    ${end_time}    Gettimes    dd,+3,times
-    ${start_time}    Gettimes    dd,+1,times
-    ${deadline}    Gettimes    dd,+2,times
+    ${end_time}    Gettimes    dd,+7,times
+    ${end_time}    Evaluate    str(${end_time})
+    ${start_time}    Gettimes    dd,+4,times
+    ${start_time}    Evaluate    str(${start_time})
+    ${title}    set variable    ${title}${start_time}
+    ${deadline}    Gettimes    dd,+6,times
+    ${deadline}    Evaluate    str(${deadline})
+    ${event_id}    Evaluate    uuid.uuid1()    uuid
+    ${event_id}=    convert to string    ${event_id}
+    ${event_id}=    Replace String    ${event_id}    -    ${EMPTY}
     ${path}=    set variable    /crew-event-new-app
     ${maps}=    create dictionary
     set to dictionary    ${maps}    is_private=${is_private}
@@ -58,13 +65,11 @@ Class_01              [Documentation]    /crew-event-new-app-创建跑团活动
     log    ---输出返回内容----
     log json    ${content}
     log    ---开始断言验证---
-    log    response数据为：
-    log    ${resp}
+    ${ret}    get json value    ${content}    /ret
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected_code}
-    log    ret 符合预期为:${expected_code}
+    should contain    ${content}    "ret":"0"
+    log    ret 符合预期为:'0'
     log    验证msg是否符合预期
-    ${msg}=    charconver    "用户操作权限不足"
-    Run Keyword If    ${expected_code}=="0"    get json value    ${content}    /data
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
     ...    ELSE    should contain    ${content}    "msg":${msg}
     log    ------------------------ It is OK!!!!-------------------------------------
