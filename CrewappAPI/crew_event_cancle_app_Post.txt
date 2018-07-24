@@ -1,0 +1,49 @@
+*** Settings ***
+Documentation     /crew-event-cancle-app 取消跑团活动
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            123321    # 密码
+${userName}       18011884709    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    crewid             event_id                                ret    msg
+Class_01              [Documentation]    /crew-event-cancle-app 取消跑团活动
+                      [Tags]             Test                                    gxy    Online
+                      [Template]         /crew-event-cancle-app_Post_Keywords
+                      30230              f8a8f7b62f9a418b8a8a3e204350a61e        "0"    成功
+
+*** Keywords ***
+/crew-event-cancle-app_Post_Keywords
+    [Arguments]    ${crewid}    ${event_id}    ${ret}    ${msg}
+    [Documentation]    /crew-event-cancle-app
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${crewId}    getMyCrewInfo    crewid    ${userName}
+    ${con}    thejoyrun_Keywords    ${crewapp_URL}    /crew-app-event-list    ${userName}    ${pwd}    Post
+    ...    crewid,crew_node_id    ${crewid},0
+    ${codelist}    get json value    ${con}    /data
+    ${codelists}    FilterList    ${codelist}    status,0,0.1    event_id
+    ${event_id}    Run Keyword If    '${codelists}'=='0'    set variable    2e1b98234a9f4c58a4e7ffd9ae077c4d
+    ...    ELSE    randomchoice    ${codelists}    ,
+    ${event_id}    Replace String    ${event_id}    "    ${EMPTY}
+    ${path}=    set variable    /crew-event-cancle-app
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    crewid=${crewid}
+    set to dictionary    ${maps}    event_id=${event_id}
+    log    ========输出接口URL：${crewapp_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crewapp_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="0"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------
