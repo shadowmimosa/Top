@@ -1,0 +1,28 @@
+*** Settings ***
+Documentation     参数说明
+Resource          ../Public/public_lib.txt
+Library           ../Public/Itchat_method.py
+
+*** Variables ***
+
+*** Test Cases ***    name               msg                                                                                                      sencod
+Class_01              [Documentation]    自动生接口测试脚本，参数：method类型为：Get,Post,Getc,Getns,Postc;Getc用于跑团小程序的get请求，Getns为无需签名的get请求，Postc为跑团小程的post请求
+                      [Tags]             Demo
+                      [Template]         itchatmsg
+                      塘塘                 hi,流恋古镇_Test!!\\r\\n1                                                                                    10
+
+*** Keywords ***
+itchatmsg
+    [Arguments]    ${name}    ${msg}    ${sencod}
+    [Documentation]    调用微信发信息
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${msg}    Get_Words    4
+    Send_itchatmsg    ${name}    ${msg}    ${sencod}
+    #itchat_SendMsg    ${name}    ${msg}    ${sencod}
+    #Evaluate    itchat.auto_login(hotReload=True)    itchat
+    #${myfriend}    Evaluate    itchat.search_friends(name=u'${name}')    itchat
+    #log    ${myfriend}
+    #${myfriendUserName}    Evaluate    r'${myfriend[0]['UserName']}'    string
+    #Evaluate    itchat.send('${msg}', toUserName='${myfriendUserName}')    itchat
+    log    ====OK!!!=====
