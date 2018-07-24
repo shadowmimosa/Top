@@ -19,6 +19,8 @@ Class_01              [Documentation]    上传跑步记录
                       [Template]         RunRecord_opinion
                       0                  1                    1          1
                       0                  1                    1          1
+                      0                  1                    1          1
+                      0                  1                    1          1
 
 *** Keywords ***
 RunRecord_opinion
