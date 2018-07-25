@@ -16,7 +16,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    event_id                            crewid                               key_value    ret    msg
 Class_01              [Documentation]                     crew-event-join-app TestCase测试用例
-                      [Tags]                              Test                                 Online       gxy
+                      [Tags]
                       [Template]                          crew-event-join-app_Post_Keywords
                       7d4e007e8f1411e89e97525400a3a01b    30230                                \            0      加入活动成功
 
