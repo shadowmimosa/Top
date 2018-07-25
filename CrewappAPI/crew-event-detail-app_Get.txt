@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     crew-event-join-app 报名跑团活动
+Documentation     crew-event-detail-app 接口脚本
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -14,16 +14,16 @@ ${pwd}            123321    # 密码
 ${userName}       18011884709    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    event_id                            phone                                uname    key_value    ret       msg
-Class_01              [Documentation]                     crew-event-join-app TestCase测试用例
-                      [Tags]                              Test
-                      [Template]                          crew-event-join-app_Post_Keywords
-                      7d4e007e8f1411e89e97525400a3a01b    18011884709                          悦跑悦快乐    0            加入活动成功
+*** Test Cases ***    event_id                            crewid                                ret       msg
+Class_01              [Documentation]                     crew-event-detail-app TestCase测试用例
+                      [Tags]                              Test                                  Online
+                      [Template]                          crew-event-detail-app_Get_Keywords
+                      c7b872408fd511e893ba48e24458c20a    30230                                 0         成功
 
 *** Keywords ***
-crew-event-join-app_Post_Keywords
-    [Arguments]    ${event_id}    ${crewid}    ${key_value}    ${ret}    ${msg}
-    [Documentation]    crew-event-join-app 接口用例的Keywords关健字
+crew-event-detail-app_Get_Keywords
+    [Arguments]    ${event_id}    ${crewid}    ${ret}    ${msg}
+    [Documentation]    crew-event-detail-app 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
@@ -37,14 +37,13 @@ crew-event-join-app_Post_Keywords
     ${codelists}    FilterList    ${codelist}    status,0,0.1/deadline,${end_time},${end_time1}    event_id    None    -5
     ${event_id}    Run Keyword If    '${codelists}'=='0'    set variable    2e1b98234a9f4c58a4e7ffd9ae077c4d
     ...    ELSE    randomchoice    ${codelists}    ,
-    ${path}=    set variable    /crew-event-join-app
+    ${path}=    set variable    /crew-event-detail-app
     ${maps}=    create dictionary
     set to dictionary    ${maps}    event_id=${event_id}
     set to dictionary    ${maps}    crewid=${crewid}
-    set to dictionary    ${maps}    key_value=${key_value}
     log    ========输出接口URL：${crewapp_URL}${path}
     log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crewapp_URL}
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${crewapp_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

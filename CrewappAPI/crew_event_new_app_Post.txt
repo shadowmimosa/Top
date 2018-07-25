@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 Class_01              [Documentation]    /crew-event-new-app-创建跑团活动
                       [Tags]             Test                                    gxy     Online
                       [Template]         /crew-event-new-app_Post_assertClass
-                      1                  115.3351525171601                       广州市     1000      ${EMPTY}    257                   1532425740    title    跑团活动详情          1532353740    0               f8a8f7b62f9a418b8a8a3e204350a61e    广东省         30230     ${EMPTY}       广东省广州市天河区智汇创意园    0          1532346540    28.177360560017085    http://linked-runner.b0.upaiyun.com/linked-runner/u_32521559_crew_event_cover_180723_1750278942.jpg
+                      1                  115.3351525171601                       广州市     1000      ${EMPTY}    257                   1532425740    title    跑团活动详情          1532353740    0               f8a8f7b62f9a418b8a8a3e204350a61e    广东省         30230     ${EMPTY}       广东省广州市天河区智汇创意园    0          1532346540    28.177360560017085    http://linked-runner.b0.upaiyun.com/linked-runner/u_32518253_crew_event_cover_180725_1452285891.jpg
 
 *** Keywords ***
 /crew-event-new-app_Post_assertClass
