@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     crew-event-join-app 报名跑团活动
+Documentation     eventapp/crew-event-join-list-app 跑团活动报名列表
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -14,38 +14,37 @@ ${pwd}            123321    # 密码
 ${userName}       18011884709    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    event_id                            phone                                uname     key_value    ret       msg
-Class_01              [Documentation]                     crew-event-join-app TestCase测试用例
-                      [Tags]                              Test                                 Onlien    gxy
-                      [Template]                          crew-event-join-app_Post_Keywords
-                      7d4e007e8f1411e89e97525400a3a01b    18011884709                          悦跑悦快乐     0            加入活动成功
+*** Test Cases ***    event_id                            page                                              pagesize    ret       msg
+Class_01              [Documentation]                     eventapp/crew-event-join-list-app TestCase测试用例
+                      [Tags]                              Test                                              gxy         Online
+                      [Template]                          eventapp_crew-event-join-list-app_Get_Keywords
+                      7bec288a8fd911e89f45525400a3a01b    0                                                 10          0         成功
 
 *** Keywords ***
-crew-event-join-app_Post_Keywords
-    [Arguments]    ${event_id}    ${crewid}    ${key_value}    ${ret}    ${msg}
-    [Documentation]    crew-event-join-app 接口用例的Keywords关健字
+eventapp_crew-event-join-list-app_Get_Keywords
+    [Arguments]    ${event_id}    ${page}    ${pagesize}    ${ret}    ${msg}
+    [Documentation]    eventapp/crew-event-join-list-app 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${crewId}    getMyCrewInfo    crewid    ${userName}
-    ${con}    thejoyrun_Keywords    ${crewapp_URL}    /crew-app-event-list    ${userName}    ${pwd}    Post
-    ...    crewid,crew_node_id    ${crewid},0
+    ${con}    thejoyrun_Keywords    ${crew_muilt_URL}    /eventapp/getCrewEventList    ${userName}    ${pwd}    Post
+    ...    crewId,limit,page    ${crewid},10,0
     ${codelist}    get json value    ${con}    /data
     ${end_time}    Gettimes    ss,+1,times
     ${end_time1}    Gettimes    MM,+3,times
-    ${end_time2}    Gettimes    hh,-1,times
-    ${codelists}    FilterList    ${codelist}    status,0,0.1/deadline,${end_time},${end_time1}/create_time,${end_time2},${end_time}    event_id    None    -5
+    ${codelists}    FilterList    ${codelist}    status,0,0.1/endTime,${end_time},${end_time1}    eventId
     ${event_id}    Run Keyword If    '${codelists}'=='0'    set variable    2e1b98234a9f4c58a4e7ffd9ae077c4d
     ...    ELSE    randomchoice    ${codelists}    ,
-    ${path}=    set variable    /crew-event-join-app
+    ${path}=    set variable    /eventapp/crew-event-join-list-app
     ${maps}=    create dictionary
     set to dictionary    ${maps}    event_id=${event_id}
-    set to dictionary    ${maps}    crewid=${crewid}
-    set to dictionary    ${maps}    key_value=${key_value}
-    log    ========输出接口URL：${crewapp_URL}${path}
+    set to dictionary    ${maps}    page=${page}
+    set to dictionary    ${maps}    pagesize=${pagesize}
+    log    ========输出接口URL：${crew_muilt_URL}${path}
     log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crewapp_URL}
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====
@@ -56,4 +55,4 @@ crew-event-join-app_Post_Keywords
     should contain    ${content}    "msg":"${msg}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
     #${data}    get json value    ${content}    /data
-    log    验证OK！！用户${userName}；URL：${crewapp_URL}${path}；传参：${maps}！！
+    log    验证OK！！用户${userName}；URL：${crew_muilt_URL}${path}；传参：${maps}！！

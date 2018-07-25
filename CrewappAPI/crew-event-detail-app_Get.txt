@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     crew-event-detail-app 接口脚本
+Documentation     crew-event-detail-app 查询跑团活动详情
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -16,7 +16,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    event_id                            crewid                                ret       msg
 Class_01              [Documentation]                     crew-event-detail-app TestCase测试用例
-                      [Tags]                              Test                                  Online
+                      [Tags]                              Test                                  Online    gxy
                       [Template]                          crew-event-detail-app_Get_Keywords
                       c7b872408fd511e893ba48e24458c20a    30230                                 0         成功
 
