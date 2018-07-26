@@ -11,7 +11,7 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            123321    # 密码
-${userName}       18011884709    # 默认的用户名
+${userName}       0802@126.com    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
 *** Test Cases ***    event_id                            key_value                                     crewid    ret    msg
@@ -26,16 +26,14 @@ eventapp_crew-event-join-app_Post_Keywords
     [Documentation]    eventapp/crew-event-join-app 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    #从配置的用户列表中随机取一个用户运行此用例
-    #${userName}    Env_username
+    ${emv}    Env_username    1
     ${crewId}    getMyCrewInfo    crewid    ${userName}
     ${con}    thejoyrun_Keywords    ${crew_muilt_URL}    /eventapp/getCrewEventList    ${userName}    ${pwd}    Post
-    ...    crewId,limit,page    ${crewid},1,0
+    ...    crewId,limit,page    ${crewid},10,0
     ${codelist}    get json value    ${con}    /data
     ${end_time}    Gettimes    ss,+1,times
-    ${end_time1}    Gettimes    MM,+3,times
-    ${end_time2}    Gettimes    hh,-1,times
-    ${codelists}    FilterList    ${codelist}    status,0,0.1/endTime,${end_time},${end_time1}/createTime,${end_time2},${end_time}    eventId
+    ${end_time1}    Gettimes    MM,+4,times
+    ${codelists}    FilterList    ${codelist}    joinCnt,0,0.1/endTime,${end_time},${end_time1}    eventId    None    -5
     ${event_id}    Run Keyword If    '${codelists}'=='0'    set variable    2e1b98234a9f4c58a4e7ffd9ae077c4d
     ...    ELSE    randomchoice    ${codelists}    ,
     ${path}=    set variable    /eventapp/crew-event-join-app
@@ -50,10 +48,8 @@ eventapp_crew-event-join-app_Post_Keywords
     log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":"${ret}"
-    log    ret 符合预期为:${ret}
-    log    验证msg是否符合预期:${msg}
-    should contain    ${content}    "msg":"${msg}"
+    Run Keyword If    "${event_id}"=="2e1b98234a9f4c58a4e7ffd9ae077c4d" and "${emv}" =="Test"    should contain    ${content}    "msg":"非法参数","ret":"101"
+    ...    ELSE IF    "${event_id}"=="2e1b98234a9f4c58a4e7ffd9ae077c4d" and "${emv}" =="Online"    should contain    ${content}    "msg":"非法参数","ret":"101"
+    ...    ELSE    should contain    ${content}    "ret":"${ret}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    log    验证OK！！用户${userName}；URL：${crew_muilt_URL}${path}；传参：${maps}！！
+    log    ------------------------ It is OK!!!!-------------------------------------

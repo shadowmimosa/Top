@@ -28,7 +28,7 @@ Class_01              [Documentation]    /crew-event-cancle-app 取消跑团活�
     ${codelist}    get json value    ${con}    /data
     ${end_time}    Gettimes    dd,-2,times
     ${end_time1}    Gettimes    hh,-1,times
-    ${codelists}    FilterList    ${codelist}    status,0,0.1/create_time,${end_time},${end_time1}    event_id
+    ${codelists}    FilterList    ${codelist}    join_cnt,1,99    event_id
     ${event_id}    Run Keyword If    '${codelists}'=='0'    set variable    2e1b98234a9f4c58a4e7ffd9ae077c4d
     ...    ELSE    randomchoice    ${codelists}    ,
     ${event_id}    Replace String    ${event_id}    "    ${EMPTY}
