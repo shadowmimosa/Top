@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     eventapp/crew-event-join-app 接口脚本
+Documentation     eventapp/crew-event-join-app 报名跑团活动
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
