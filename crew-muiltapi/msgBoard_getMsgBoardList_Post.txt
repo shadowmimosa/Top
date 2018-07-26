@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    boardTime          crewId                              nodeId    userName       expected_code
 Class_01              [Documentation]    获取跑团通知getMsgBoardList-线上跑团号10960
-                      [Tags]             Online                              Test
+                      [Tags]             Online                              Test      gxy
                       [Template]         getMsgBoardList_Post_assertClass
                       0                  10960                               0         13829744541    "0"
 

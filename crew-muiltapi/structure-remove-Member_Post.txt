@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    crewId             optUid                                  targetUid    targetNodeId    ret        msg
 Class_01              [Documentation]    /structure/removeMember TestCase测试用例
-                      [Tags]             Test                                    gxy
+                      [Tags]             Test                                    gxy          Online
                       [Template]         structure/removeMember_Post_Keywords
                       30230              32518253                                6365557      0               "12001"    "找不到用户的跑团信息"
 

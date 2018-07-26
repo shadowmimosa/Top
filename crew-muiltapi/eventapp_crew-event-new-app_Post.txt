@@ -1,0 +1,77 @@
+*** Settings ***
+Documentation     /eventapp/crew-event-new-app创建跑团活动
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           HttpLibrary.HTTP
+Library           ../Public/Lib/tools_library.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            123321    # 密码
+${userName}       18011884709    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    apply_notes        city                                          cover_img                                                                                              crewid    deadline      descriptions    end_time      event_id                            is_private    lat                   lng                  location          max_cnt    meter    province    province_city_code    start_time    title               key_pair    crew_node_id    ret    msg
+Class_01              [Documentation]    /eventapp/crew-event-new-app创建跑团活动
+                      [Tags]             Test                                          gxy                                                                                                    Online
+                      [Template]         /eventapp/crew-event-new-app_Post_Keywords
+                      ${EMPTY}           广州市                                           http://linked-runner.b0.upaiyun.com/linked-runner/u_32518253_crew_event_cover_180725_1452285891.jpg    30230     1532586744    跑团活动详情          1532586744    db0dae12906311e8b8dc525400a3a01b    1             28.177360560017085    115.3351525171601    广东省广州市天河区智汇创意园    0          2000     广东省         020                   1532586744    欢迎加入悦跑圈，让我们一起跑步吧    ${EMPTY}    0               0      成功
+
+*** Keywords ***
+/eventapp/crew-event-new-app_Post_Keywords
+    [Arguments]    ${apply_notes}    ${city}    ${cover_img}    ${crewid}    ${deadline}    ${descriptions}
+    ...    ${end_time}    ${event_id}    ${is_private}    ${lat}    ${lng}    ${location}
+    ...    ${max_cnt}    ${meter}    ${province}    ${province_city_code}    ${start_time}    ${title}
+    ...    ${crew_node_id}    ${key_pair}    ${ret}    ${msg}
+    [Documentation]    /eventapp/crew-event-new-app 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${crewId}    getMyCrewInfo    crewid    ${userName}
+    ${start_time}    Gettimes    dd,+1,times
+    ${start_time}    Evaluate    str(${start_time})
+    ${deadline}    Gettimes    dd,+3,times
+    ${deadline}    Evaluate    str(${deadline})
+    ${event_id}    Evaluate    uuid.uuid1()    uuid
+    ${event_id}=    convert to string    ${event_id}
+    ${event_id}=    Replace String    ${event_id}    -    ${EMPTY}
+    ${path}=    set variable    /eventapp/crew-event-new-app
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    apply_notes=${apply_notes}
+    set to dictionary    ${maps}    city=${city}
+    set to dictionary    ${maps}    cover_img=${cover_img}
+    set to dictionary    ${maps}    crewid=${crewid}
+    set to dictionary    ${maps}    deadline=${deadline}
+    set to dictionary    ${maps}    descriptions=${descriptions}
+    set to dictionary    ${maps}    end_time=${deadline}
+    set to dictionary    ${maps}    event_id=${event_id}
+    set to dictionary    ${maps}    is_private=${is_private}
+    set to dictionary    ${maps}    lat=${lat}
+    set to dictionary    ${maps}    lng=${lng}
+    set to dictionary    ${maps}    location=${location}
+    set to dictionary    ${maps}    max_cnt=${max_cnt}
+    set to dictionary    ${maps}    meter=${meter}
+    set to dictionary    ${maps}    province=${province}
+    set to dictionary    ${maps}    province_city_code=${province_city_code}
+    set to dictionary    ${maps}    start_time=${startTime}
+    set to dictionary    ${maps}    title=${title}
+    set to dictionary    ${maps}    crew_node_id=${crew_node_id}
+    set to dictionary    ${maps}    key_pair=${key_pair}
+    log    ========输出接口URL：${crew_muilt_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${crew_muilt_URL}${path}；传参：${maps}！！
