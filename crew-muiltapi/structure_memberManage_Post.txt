@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     structure/memberManage 接口脚本
+Documentation     structure/memberManage 查询跑团管理员
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
