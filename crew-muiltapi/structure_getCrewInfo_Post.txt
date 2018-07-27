@@ -16,7 +16,7 @@ Class_01              [Documentation]    跑团信息查询getCrewInfo-线上跑
 Class_02              [Documentation]    跑团信息查询getCrewInfo-测试跑团10960
                       [Tags]             Online
                       [Template]         getCrewInfo_Post_assertClass
-                      10960              0                               13829744542    "0"
+                      10960              0                               13829744541    "0"
 
 *** Keywords ***
 getCrewInfo_Post_assertClass
