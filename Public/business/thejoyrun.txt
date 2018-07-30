@@ -392,12 +392,7 @@ thejoyrun_postnl
     #从字典里取出相应key的值
     ##通过服务器获取timestamp
     ${heards_dict}=    create dictionary
-    Create Session    timestamp    ${login_URL}
-    ${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
-    ${contentime}=    charconver    ${resptime.content}
-    log json    ${resptime.content}
-    ${timestamp}    Get Json Value    ${contentime}    /lasttime
-    log    --------Server time ={timestamp}--------
+    ${timestamp}        GetServertime    ${login_URL}
     ${cookies}=    create dictionary
     log    code加密处理
     log dictionary    ${maps}
@@ -487,7 +482,7 @@ thejoyrun_post_nosign
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
-    ${timestamp}=    Get From Dictionary    ${heards}    timestamp
+    ${timestamp}        GetServertime    ${login_URL}
     ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
     ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
     ${URL}=    set variable    ${Base_URL}
@@ -539,17 +534,9 @@ thejoyrun_postjson_wxminp
     ${sid}    set variable    ${${wxminpname}sid}
     #${appkey}    set variable    ${${wxminpname}appkey}
     ${appkey}    set variable    ${mappkey}
-    log    =======获取服务器时间========
-    Create Session    timestamp    ${login_URL}
-    ${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
-    ${contentime}=    charconver    ${resptime.content}
-    log json    ${resptime.content}
-    ${time}    get json value    ${contentime}    /lasttime
-    ##log    ====获取本地时间=======
-    #${time}=    Get Time    epoch
+    ${time}    GetServertime    ${login_URL}
     ${time}    evaluate    int(${time}*1000)
     ${timestamp}    set variable    ${time}
-    #${timestamp}    evaluate    str(${time})
     log    timestamp=${timestamp}
     #当需要传uid时，则uid从map中取，否则uid为0
     ${mapskey}    Get Dictionary Keys    ${maps}
@@ -599,12 +586,9 @@ thejoyrun_get_wxminp
     ${sid}    set variable    ${${wxminpname}sid}
     #${appkey}    set variable    ${${wxminpname}appkey}
     ${appkey}    set variable    ${mappkey}
-    ##通过本地获取timestamp
-    ${time}=    Get Time    epoch
-    log    time= ${time}
-    ${time}=    convert to string    ${time}
-    ${timestamp}=    set variable    ${time}000
-    ${timestamp}=    Replace String    ${timestamp}    "    ${EMPTY}
+    ${timestamp}        GetServertime    ${login_URL}
+    ${timestamp1}=    set variable    ${timestamp}000
+    ${timestamp1}=    Replace String    ${timestamp1}    "    ${EMPTY}
     #当需要传uid时，则uid从map中取，否则uid为0
     ${mapskey}    Get Dictionary Keys    ${maps}
     ${k}    Get Count    ${mapskey}    uid
@@ -616,12 +600,12 @@ thejoyrun_get_wxminp
     ${URL}=    set variable    ${Base_URL}
     ${post_dict}=    create dictionary    &{maps}
     #公共参数timestamp、appid、sid
-    set to dictionary    ${post_dict}    timestamp=${timestamp}
+    set to dictionary    ${post_dict}    timestamp=${timestamp1}
     set to dictionary    ${post_dict}    appid=${appid}
     set to dictionary    ${post_dict}    sid=${sid}
     #签名
-    ${signkey}=    Run Keyword If    ${uid}==0    set variable    ${appid}${timestamp}${sid}${appkey}
-    ...    ELSE    set variable    ${appid}${timestamp}${sid}${uid}${appkey}
+    ${signkey}=    Run Keyword If    ${uid}==0    set variable    ${appid}${timestamp1}${sid}${appkey}
+    ...    ELSE    set variable    ${appid}${timestamp1}${sid}${uid}${appkey}
     ${signkey}=    Replace String    ${signkey}    "    ${EMPTY}
     log    signkey=====${signkey}
     #排序及格式处理
@@ -656,7 +640,7 @@ thejoyrun_getp
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
-    ${timestamp}=    Get From Dictionary    ${heards}    timestamp
+    ${timestamp}        GetServertime    ${login_URL}
     ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
     ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
     #${ypcookie1}=    Replace String    ${ypcookie}    =    %3d
@@ -745,7 +729,7 @@ thejoyrun_get_nosign
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
-    ${timestamp}=    Get From Dictionary    ${heards}    timestamp
+    ${timestamp}        GetServertime    ${login_URL}
     ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
     ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
     ##将ypcookie转为url编码
