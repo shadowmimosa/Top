@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     trip/form/getEventRegForm 20180622 获取年度赛事表单模块
-Library           ../Public/Lib/tools_library.py
 Resource          ../../Public/public_lib.txt
 
 *** Variable ***

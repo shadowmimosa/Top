@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     trip/order/userDelOrder 20180625删除订单
-Library           ../Public/Lib/tools_library.py
 Resource          ../../Public/public_lib.txt
 
 *** Variable ***

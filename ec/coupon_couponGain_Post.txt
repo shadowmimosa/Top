@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    coupon/couponGain TestCase测试用例
                       [Tags]             Test                               txy               Online
                       [Template]         coupon_couponGain_Post_Keywords
-                      13829744541        67889911                           51528789176839
+                      13829744542        67889911                           51528789176839
 
 *** Keywords ***
 coupon_couponGain_Post_Keywords
@@ -24,7 +24,7 @@ coupon_couponGain_Post_Keywords
     set to dictionary    ${maps}    couponKey=${couponKey}
     log    ========输出接口URL：${ec_URL}${path}
     log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_post_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
+    ${resp}=    thejoyrun_post_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}    ${pwd}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     should contain    ${content}    "ret":"100001"
