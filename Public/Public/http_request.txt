@@ -326,19 +326,7 @@ joyrun_POST_heardsession
     ${Testenv}    Get Lines Matching Pattern   ${Base_URL}   *-test*
     ${login_URL}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${loginTest}   ELSE   set variable   ${loginOnline}  
     log  运行环境是${login_URL}
-    ##通过服务器获取timestamp
-    #Create Session    timestamp    ${login_URL}
-    #${resptime}=    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
-    #${contentime}=    charconver    ${resptime.content}
-    #log json    ${resptime.content}
-    #${timestamp}    get json value    ${contentime}    /lasttime
-    #log    --------Server time ={timestamp}--------
-    ##通过本地获取timestamp
-    ${time}=    Get Time    epoch
-    log    time= ${time}
-	${time}  evaluate  int(${time})-30   #容错保证本地时间不大于服务器时间；满足：本地时间+300>服务器时间>本地时间，否则会报签名错误；
-    ${timestamp}=    convert to string    ${time}
-    log    --------Client time ={timestamp}--------
+    ${timestamp}    GetServertime    ${login_URL}
     ${Url}=    set variable    ${login_URL}
     ${loginUri}=    set variable    /user/login/normal
     ${pwdmd5}=    encrypt    ${pwd}    md5    32
@@ -378,29 +366,40 @@ joyrun_POST_heardsession
     set to dictionary    ${header}    SYSVERSION=${SYSVERSION}
     set to dictionary    ${header}    _sign=${_sign}
     set to dictionary    ${header}    MODELTYPE=${MODELTYPE}
-    log    登录传参url=${Url}${loginUri}-------headers=${header} -------
+    log    登录前传参url=${Url}${loginUri}
+    log    登录前的heard=${header}
+    log    登录前的body=data=pwd=${pwdmd5}&timestamp=${timestamp}&username=${username}
     Create Session    joyrun    ${Url}    headers=${header}
     ${resplogin}=    post Request    joyrun    /user/login/normal    data=deviceToken=${deviceToken}&pwd=${pwdmd5}&signature=${signature}&timestamp=${timestamp}&username=${username}
-    #${resplogin}=    post Request    joyrun    /user/login/normal    data=pwd=${pwdmd5}&timestamp=${timestamp}&username=${username}
-	log    data=pwd=${pwdmd5}&timestamp=${timestamp}&username=${username}
-    #log    登录后的resp==${resplogin.content}
     ${login_content}=    charconver    ${resplogin.content}
+    ${login_ret}     Get Json Value   ${login_content}   /ret
+    ${login_ret}     Replace String    ${login_ret}    "    ${EMPTY}
+    ${login_error}   Run Keyword If   ${login_ret}!=0   Get Json Value   ${login_content}   /msg
+    Run Keyword If   ${login_ret}==0   log json  ${login_content}       
+    ...    ELSE   log    哈哈，在登录就出错了！！！！！失败原因:${login_error}
+    ${userdata}   Get Json Value    ${login_content}    /data/user
     ${sid}    Get Json Value    ${login_content}    /data/sid
     ${uid}    Get Json Value    ${login_content}    /data/user/uid
     ${nick}    Get Json Value    ${login_content}    /data/user/nick
-    ${userrunlevel}    Get Json Value    ${login_content}    /data/user/userrunlevel
-    ${type}    Get Json Value    ${login_content}    /data/user/type
     ${ypcookie}    set variable    uid=${uid}&sid=${sid}
     ${ypcookie}=    Replace String    ${ypcookie}    "    ${EMPTY}
 	${sid}=    Replace String    ${sid}    "    ${EMPTY}
     ${uid}=    Replace String    ${uid}    "    ${EMPTY}	
-    log    登录用户信息为：nick==${nick}、type=${type}、userrunlevel=${userrunlevel}、uid==${uid}、sid==${sid}
+    ${nick}=    Replace String    ${nick}    "    ${EMPTY}   
+    log    登录后用户基础信息为：nick==${nick}、uid==${uid}、sid==${sid}
     log    登录后的ypcookie==${ypcookie}
+    log    登录后用户userinfo信息为：
+    log json   ${userdata}
     ${heards_dict}=    create dictionary
     set to dictionary    ${heards_dict}    uid=${uid}
     set to dictionary    ${heards_dict}    sid=${sid}
     set to dictionary    ${heards_dict}    ypcookie=${ypcookie}
     set to dictionary    ${heards_dict}    timestamp=${timestamp}
-    log    heards_dict====${heards_dict}
+    set to dictionary    ${heards_dict}    userinfo=${userdata}   
+    Log Dictionary       ${heards_dict}
+    log  将登录成功的用户信息设置为全局变量
+    set to dictionary      ${usersinfo_dict}    ${userName}=${heards_dict}
+    set global variable    &{usersinfo_dict}    &{usersinfo_dict}
+    log dictionary   ${usersinfo_dict} 
     log    -------------------------------heards_dict mothod is log End ---------
     [Return]    ${heards_dict}

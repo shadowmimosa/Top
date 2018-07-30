@@ -9,10 +9,13 @@ Library           ../Lib/tools_library.py
 Resource          ../OtherMethod/cookie_operation.txt
 Resource          ../Public/http_request.txt
 
+
 *** Variables ***
 ${signOnline}     A4729E62-3701-48C3-A15D-7391838FA186    #可以放置一些公共参数；
 ${signTest}       a9ff6970eb814e6894389ca8b12f3030    #可以放置一些公共参数；
 ${pwd}            67889911    #可以放置一些公共参数；
+${usersinfo_dict}    &{EMPTY}
+${Goltimestamp}        0
 
 *** Keywords ***
 Gettimes
@@ -264,6 +267,21 @@ countbyitem
     ${count}    Get Count    ${jkey}    ${attribute}
     [Return]    ${count}
 
+GetServertime
+    [Arguments]    ${login_URL}
+    [Documentation]    获取服务端的时间
+    ${time}=    Get Time    epoch
+    log    time= ${time}
+    ${isend}  evaluate  int(${time})-${Goltimestamp}-280 
+    Run Keyword If  ${isend}>=0    Create Session    timestamp    ${login_URL}
+    ${resptime}     Run Keyword If  ${isend}>=0       RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
+    ${contentime}   Run Keyword If  ${isend}>=0       charconver    ${resptime.content}
+    Run Keyword If  ${isend}>=0   log json    ${resptime.content}
+    ${timestamp}    Run Keyword If  ${isend}>=0   get json value    ${contentime}    /lasttime    ELSE    set variable   ${Goltimestamp}
+    set global variable    ${Goltimestamp}    ${timestamp}
+    [Return]    ${timestamp}
+
+
 thejoyrun_postd
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
     [Documentation]    *用于APP内部需要登录和签名Post场景：post请求data方式关键字*
@@ -272,12 +290,14 @@ thejoyrun_postd
     [Timeout]    30 seconds
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
-    ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}
+    ${userslist}    Get Dictionary Keys     ${usersinfo_dict}
+    ${user_is}      Get Count    ${userslist}    ${userName}
+    ${heards}   Run Keyword If   ${user_is}<=0      joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}    
+    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${userName}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
-    ${timestamp}=    Get From Dictionary    ${heards}    timestamp
+    ${timestamp}    GetServertime    ${login_URL}
     ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
     ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
     ##将ypcookie转为url编码
@@ -357,6 +377,9 @@ thejoyrun_postd
     #${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
+    ${get_count}  Get Count  ${resp.content}   ret\":"401" 
+    Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${userName} 
     [Return]    ${resp}
 
 thejoyrun_postnl
@@ -457,8 +480,10 @@ thejoyrun_post_nosign
     [Timeout]    30 seconds
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
-    ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}
+    ${userslist}    Get Dictionary Keys     ${usersinfo_dict}
+    ${user_is}      Get Count    ${userslist}    ${userName}
+    ${heards}   Run Keyword If   ${user_is}<=0      joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}    
+    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${userName}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -493,6 +518,9 @@ thejoyrun_post_nosign
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     #${resp}=    Post Request    run    uri=${path}    data=${post_param}
     ${resp}=    Post Request    run    uri=${path}
+    ${get_count}  Get Count  ${resp.content}   ret\":"401" 
+    Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${userName}   
     [Return]    ${resp}
 
 thejoyrun_postjson_wxminp
@@ -621,8 +649,10 @@ thejoyrun_getp
     [Timeout]    30 seconds
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
-    ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}
+    ${userslist}    Get Dictionary Keys     ${usersinfo_dict}
+    ${user_is}      Get Count    ${userslist}    ${userName}
+    ${heards}   Run Keyword If   ${user_is}<=0      joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}    
+    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${userName}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -695,6 +725,9 @@ thejoyrun_getp
     log    参数编码后：${post_param}
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Get Request    run    uri=${path}    params=${post_param}
+    ${get_count}  Get Count  ${resp.content}   ret\":"401" 
+    Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${userName}    
     [Return]    ${resp}
 
 thejoyrun_get_nosign
@@ -705,8 +738,10 @@ thejoyrun_get_nosign
     [Timeout]    30 seconds
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
-    ${heards}=    create dictionary
-    ${heards}=    joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}
+    ${userslist}    Get Dictionary Keys     ${usersinfo_dict}
+    ${user_is}      Get Count    ${userslist}    ${userName}
+    ${heards}   Run Keyword If   ${user_is}<=0      joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}    
+    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${userName}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -738,4 +773,7 @@ thejoyrun_get_nosign
     log    参数编码后：${post_param}
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Get Request    run    uri=${path}    params=${post_param}
+    ${get_count}  Get Count  ${resp.content}   ret\":"401" 
+    Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${userName}    
     [Return]    ${resp}
