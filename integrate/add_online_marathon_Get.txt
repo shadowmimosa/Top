@@ -48,7 +48,7 @@ marathon_subject
     ${contentsubject}    get json value    ${content}    /data
     ${subjectCodes}    FilterList    ${contentsubject}    distance,3,11    subjectCode
     ${marathonSubject}    randomchoice    ${subjectCodes}    ,
-    Run Keyword If    ${marathonSubject}<3    log    =======${userName}没有可参加的赛事里程======
+    Run Keyword If    '${marathonSubject}'=='0'    log    =======${userName}没有可参加的赛事${marathonId}里程${marathonSubject}======
     ...    ELSE    marathon_Add    ${marathonId}    ${marathonSubject}    ${userName}    ${pwd}
 
 marathon_Add
