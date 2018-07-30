@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 Class_01              [Documentation]    个人massage
                       [Tags]             Demo
                       [Template]         aaa_Get_assertClass
-                      123                13829744541            "0"
+                      123                13829744541            404
 
 *** Keywords ***
 aaa_Get_assertClass
@@ -26,14 +26,14 @@ aaa_Get_assertClass
     ${content}=    charconver    ${resp.content}
     log    ---输出返回内容----
     log json    ${content}
+    ${msg}    pyfilter    ${content}    msg    }
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":${expected}
+    should contain    ${content}    "ret":"${expected}"
     log    ret 符合预期为:${expected}
     log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
     Run Keyword If    ${expected}=="0"    get json value    ${content}    /data
     ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
