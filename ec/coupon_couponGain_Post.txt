@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    coupon/couponGain TestCase测试用例
                       [Tags]             Test                               txy               Online
                       [Template]         coupon_couponGain_Post_Keywords
-                      13829744542        67889911                           51528789176839
+                      13829744541        67889911                           51528789176839
 
 *** Keywords ***
 coupon_couponGain_Post_Keywords

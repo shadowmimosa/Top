@@ -322,9 +322,10 @@ joyrun_POST_heardsession
     [Arguments]    ${username}    ${pwd}   ${Base_URL}=None
     [Documentation]    Joyrun login 
 	[Timeout]    30 seconds
-    log    -----------------cookies mothod is log start;--------------------------
-    ${Testenv}    Get Lines Matching Pattern   ${Base_URL}   *-test*
-    ${login_URL}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${loginTest}   ELSE   set variable   ${loginOnline}  
+    log    -----------------cookies mothod is log start1;--------------------------
+    log    -----------------cookies mothod is log start2;--------------------------
+    ${env}    Env_URL    ${Base_URL}
+    ${login_URL}    Run Keyword If   '${env}'=='Test'   set variable   ${loginTest}   ELSE   set variable   ${loginOnline}  
     log  运行环境是${login_URL}
     ${timestamp}    GetServertime    ${login_URL}
     ${Url}=    set variable    ${login_URL}
@@ -354,7 +355,7 @@ joyrun_POST_heardsession
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
     #通用签名
-    ${sign1}    Run Keyword If   '${Testenv}'!='${EMPTY}'   set variable   ${signTest}   ELSE   set variable   ${APP_SGIN}
+    ${sign1}    Run Keyword If   '${env}'!='Online'   set variable   ${signTest}   ELSE   set variable   ${APP_SGIN}
     ${_sign} =    Convert To Uppercase    ${sign1}
     log   通用签名：${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
@@ -398,8 +399,11 @@ joyrun_POST_heardsession
     set to dictionary    ${heards_dict}    userinfo=${userdata}   
     Log Dictionary       ${heards_dict}
     log  将登录成功的用户信息设置为全局变量
-    set to dictionary      ${usersinfo_dict}    ${userName}=${heards_dict}
+    ${env}    Run keyword If    "${login_URL}"=="http://api-test.thejoyrun.com"    set variable    Test
+    ...    ELSE    set variable    Online
+    set to dictionary      ${usersinfo_dict}    ${env}${userName}=${heards_dict}
     set global variable    &{usersinfo_dict}    &{usersinfo_dict}
     log dictionary   ${usersinfo_dict} 
-    log    -------------------------------heards_dict mothod is log End ---------
+    log    -------------------------------heards_dict mothod is log End1 ---------
+    log    -------------------------------heards_dict mothod is log End2 ---------
     [Return]    ${heards_dict}

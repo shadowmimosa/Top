@@ -281,6 +281,12 @@ GetServertime
     set global variable    ${Goltimestamp}    ${timestamp}
     [Return]    ${timestamp}
 
+Env_URL
+    [Arguments]    ${InputURL}
+    [Documentation]    根据URL判断运行环境
+    ${Testcount}    Get Lines Matching Pattern   ${InputURL}   *-test*
+    ${env_out}    Run Keyword If   '${Testcount}'=='${EMPTY}'   set variable   Online   ELSE   set variable   Test 
+    [Return]    ${env_out}
 
 thejoyrun_postd
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None
@@ -290,10 +296,11 @@ thejoyrun_postd
     [Timeout]    30 seconds
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
+    ${env}    Env_URL    ${Base_URL}
     ${userslist}    Get Dictionary Keys     ${usersinfo_dict}
-    ${user_is}      Get Count    ${userslist}    ${userName}
+    ${user_is}      Get Count    ${userslist}    ${env}${userName}
     ${heards}   Run Keyword If   ${user_is}<=0      joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}    
-    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${userName}
+    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${env}${userName}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -379,7 +386,7 @@ thejoyrun_postd
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
     ${get_count}  Get Count  ${resp.content}   ret\":"401" 
     Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
-    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${userName} 
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName} 
     [Return]    ${resp}
 
 thejoyrun_postnl
@@ -475,10 +482,11 @@ thejoyrun_post_nosign
     [Timeout]    30 seconds
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
+    ${env}    Env_URL    ${Base_URL}
     ${userslist}    Get Dictionary Keys     ${usersinfo_dict}
-    ${user_is}      Get Count    ${userslist}    ${userName}
+    ${user_is}      Get Count    ${userslist}    ${env}${userName}
     ${heards}   Run Keyword If   ${user_is}<=0      joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}    
-    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${userName}
+    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${env}${userName}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -515,7 +523,7 @@ thejoyrun_post_nosign
     ${resp}=    Post Request    run    uri=${path}
     ${get_count}  Get Count  ${resp.content}   ret\":"401" 
     Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
-    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${userName}   
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}   
     [Return]    ${resp}
 
 thejoyrun_postjson_wxminp
@@ -633,10 +641,11 @@ thejoyrun_getp
     [Timeout]    30 seconds
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
+    ${env}    Env_URL    ${Base_URL}
     ${userslist}    Get Dictionary Keys     ${usersinfo_dict}
-    ${user_is}      Get Count    ${userslist}    ${userName}
+    ${user_is}      Get Count    ${userslist}    ${env}${userName}
     ${heards}   Run Keyword If   ${user_is}<=0      joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}    
-    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${userName}
+    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${env}${userName}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -711,7 +720,7 @@ thejoyrun_getp
     ${resp}=    Get Request    run    uri=${path}    params=${post_param}
     ${get_count}  Get Count  ${resp.content}   ret\":"401" 
     Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
-    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${userName}    
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}    
     [Return]    ${resp}
 
 thejoyrun_get_nosign
@@ -722,10 +731,11 @@ thejoyrun_get_nosign
     [Timeout]    30 seconds
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
+    ${env}    Env_URL    ${Base_URL}    
     ${userslist}    Get Dictionary Keys     ${usersinfo_dict}
-    ${user_is}      Get Count    ${userslist}    ${userName}
+    ${user_is}      Get Count    ${userslist}    ${env}${userName}
     ${heards}   Run Keyword If   ${user_is}<=0      joyrun_POST_heardsession    ${userName}    ${pwd}    ${Base_URL}    
-    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${userName}
+    ...     ELSE    Get From Dictionary    ${usersinfo_dict}    ${env}${userName}
     #从字典里取出相应key的值
     ${uid}=    Get From Dictionary    ${heards}    uid
     ${sid}=    Get From Dictionary    ${heards}    sid
@@ -759,5 +769,5 @@ thejoyrun_get_nosign
     ${resp}=    Get Request    run    uri=${path}    params=${post_param}
     ${get_count}  Get Count  ${resp.content}   ret\":"401" 
     Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
-    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${userName}    
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}     ${env}${userName}    
     [Return]    ${resp}
