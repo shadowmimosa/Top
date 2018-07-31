@@ -33,7 +33,9 @@ eventapp_crew-event-join-app_Post_Keywords
     ${codelist}    get json value    ${con}    /data
     ${end_time}    Gettimes    ss,+1,times
     ${end_time1}    Gettimes    MM,+4,times
-    ${codelists}    FilterList    ${codelist}    joinCnt,0,0.1/endTime,${end_time},${end_time1}    eventId    None    -5
+    ${deadline1}    set variable    ${end_time}000
+    ${deadline2}    set variable    ${end_time1}000
+    ${codelists}    FilterList    ${codelist}    joinCnt,0,0.1/deadline,${deadline1},${deadline2}    eventId    None    -5
     ${event_id}    Run Keyword If    '${codelists}'=='0'    set variable    2e1b98234a9f4c58a4e7ffd9ae077c4d
     ...    ELSE    randomchoice    ${codelists}    ,
     ${path}=    set variable    /eventapp/crew-event-join-app
