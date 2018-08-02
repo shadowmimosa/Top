@@ -19,8 +19,22 @@ Variables         ../Public/Config.py
 ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
+${Global_Var}     &{EMPTY}
 
 *** Keywords ***
+Set_Global_Var
+    [Arguments]   ${Path}   ${data}  ${userName}=None  ${Base_URL}=None 
+    [Documentation]   通过全局字典变量储存常用接口返回的数据，方便跨用例调用；
+    log   Set_Global_Var Start ......
+    ${env}   Env_URL   ${Base_URL}
+    set to dictionary      ${Global_Var}    ${env}${Path}${userName}=${data}
+    set global variable    &{Global_Var}    &{Global_Var}
+    log dictionary   ${Global_Var}
+    log   Set_Global_Var End ...
+
+
+
+
 thejoyrun_Keywords
     [Arguments]    ${BaseURL}    ${path}    ${userName}=None    ${pwd}=None    ${method}=None    ${fields}=None
     ...    ${values}=None
@@ -32,6 +46,7 @@ thejoyrun_Keywords
     ...    eg: ${content} thejoyrun_Keywords ${advert_URL} ${path} None None Postnl ${fields} ${values}
     ...    可为None的参数在中间时，如userName pwd 不需要传时要用None代替
     [Timeout]    30 seconds
+    log   thejoyrun_Keywords Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${maps1}    create dictionary
@@ -66,11 +81,13 @@ thejoyrun_Keywords
     ${content}    charconver    ${resp.content}
     log    ======将返回内容以Json格式打印出来=========
     log json    ${content}
+    log   thejoyrun_Keywords End ...
     [Return]    ${content}
 
 thejoyrun_Maps
     [Arguments]    ${list1}    ${list2}
     [Documentation]    将两个列表放入到字典中，list1为字典Key，list2为Value; 要求两个列表中个数一致，按顺序一一对应；
+    log   thejoyrun_Maps Start ......
     &{maps}=    create dictionary
     ${Len}    Evaluate    len(${list1})
     : FOR    ${index}    IN RANGE    0    ${len}
@@ -78,12 +95,14 @@ thejoyrun_Maps
     \    ${value}    Get From List    ${list2}    ${index}
     \    set to dictionary    ${maps}    ${field}=${value}
     \    log    =====maps:${maps}=======
+    log   thejoyrun_Maps End ...
     [Return]    &{maps}
 
 Get_Words
     [Arguments]    ${type}=None
     [Documentation]    获取词霸每日一句，type:1为英文,2为中文翻译，3为引申翻译，4为1、2、3、5、其他中随机，5调用Textcontrl，其他为1、2、3串联起来；
     [Timeout]    30 seconds
+    log   Get_Words Start ......
     Create Session    iciba    http://open.iciba.com    ${EMPTY}
     ${resp}=    Get Request    iciba    dsapi
     ${contentall}=    charconver    ${resp.content}
@@ -106,11 +125,13 @@ Get_Words
     ${runEU}    Replace String    ${runEU}    投稿人:    ${EMPTY}
     ${runEU}    Replace String    ${runEU}    投稿人    ${EMPTY}
     ${runEU}    Replace String    ${runEU}    小编    ${EMPTY}
+    log   Get_Words End ......
     [Return]    ${runEU}
 
 Send_itchatmsg
     [Arguments]    ${name}    ${msg}    ${sencod}
     [Documentation]    调用微信发信息
+    log   Send_itchatmsg Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     Evaluate    itchat.auto_login(hotReload=True)    itchat
@@ -118,10 +139,12 @@ Send_itchatmsg
     log    ${myfriend}
     ${myfriendUserName}    Evaluate    r'${myfriend[0]['UserName']}'    string
     Evaluate    itchat.send('${msg}', toUserName='${myfriendUserName}')    itchat
+    log   Send_itchatmsg End ...
 
 Env_username
     [Arguments]    ${env}=None
     [Documentation]    根据login_URL值判定环境，再根据不同环境随机从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online，仅当${env}==1时返回环境Online、Test，其他无作用；
+    log   Env_username Start ......
     ${env1}    Run keyword If    "${login_URL}"=="http://api-test.thejoyrun.com"    set variable    Test
     ...    ELSE    set variable    Online
     ${usernamerand}    Run Keyword If    '${env1}'=='Test'    randomchoice    ${Testuserlist}    ,
@@ -130,11 +153,13 @@ Env_username
     ${runEU}    Run Keyword If    '${env}'=='1'    set variable    ${env1}
     ...    ELSE    set variable    ${usernamerand}
     log    ====数据返回为为：${runEU}=====
+    log   Env_username End ...
     [Return]    ${runEU}
 
 usr_pass_env
     [Arguments]    ${ords}=None
     [Documentation]    根据login_URL值判定环境，再根据不同环境从用户列表中选择用户；用户列表在config.py中配置环境分为Test和Online，仅当${ords}==0时随机返回用户及对应的密码，其他数字表示用户列表的序号，返回为数组【user,pass,env】,默认密码为67889911，要指定密码需要config.py的Onlineuserpwd，Testuserpwd配置；注意：密码中有，或；不能用些方法；
+    log   usr_pass_env Start ......
     ${env}    Run keyword If    "${login_URL}"=="http://api-test.thejoyrun.com"    set variable    Test
     ...    ELSE    set variable    Online
     log    ====环境为：${env}=====
@@ -150,11 +175,13 @@ usr_pass_env
     ...    ELSE    set variable    67889911
     log    ====用户为：${runUser}=====
     log    ====密码为：${runPwd}=====
+    log   usr_pass_env End ......
     [Return]    ${runUser}    ${runPwd}    ${env}
 
 Textcontrl
     [Arguments]    ${type}=None
     [Documentation]    根据类型做不同的随机返回文本字符串；
+    log   Textcontrl Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${yyyy1}    ${mm1}    ${dd1}    ${hour1}    ${min1}    ${sec1}    Get Time
@@ -183,4 +210,5 @@ Textcontrl
     ...    ELSE IF    '${type}'=='time' and 11<=${hour}<=15    randomchoice    午安，悦跑小伙伴们！！/愿小伙伴们如日中天！！/早起虫儿被鸟吃！/午间散步！！/跑完午间做个好梦！/打起精神，还有半天就可以下班了！/打起精神，尽快完成工作，早点回家吃饭！/饮食清淡少油腻，水果蔬菜补维c。多喝水少添衣，每日午睡有规律!/睁开眼，缓一缓；快起床，伸懒腰；跑一跑，完美的下午又开始了/    /
     ...    ELSE IF    '${type}'=='time'    randomchoice    跑了脚知道/重在坚持/打完收工！/敌军太飙，咱撤！/夜晚散漫步，聊聊家常，品尝普通的愉悦/再小的坚持X365都会很可观/跑步就是最好的放松/一起来更精彩！/备战中.../心若不动，风又奈何！/今天就到这吧，我还会回来的！！/悦跑日签/悦跑悦快乐！！/恢复打卡/约定跑/跑步打卡/小跑怡情/跑跑更健康/只有努力才会有回报！/现在不给力,老了没有力/趁年轻，做你想做的！！/向生活贷点款，用奋斗去偿还；向成功写张欠条，用拼搏去偿还；向幸福借点钱，用快乐去偿还；向悦跑借点健康，用每天锻炼半小时作为偿还    /
     ...    ELSE    randomchoice    珍惜每一天！！/签到///    /
+    log   Textcontrl End ...
     [Return]    ${returntext}

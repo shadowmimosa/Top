@@ -5,6 +5,7 @@ Library           pymysql
 Library           DatabaseLibrary
 Library           String
 Library           HttpLibrary.HTTP
+Library           ../Lib/tool_reptile.py
 Library           ../Lib/tools_library.py
 Resource          ../OtherMethod/cookie_operation.txt
 Resource          ../Public/http_request.txt
@@ -294,6 +295,7 @@ thejoyrun_postd
     ...
     ...    参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
     [Timeout]    30 seconds
+    log   thejoyrun_postd Start ......
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
     ${env}    Env_URL    ${Base_URL}
@@ -324,29 +326,14 @@ thejoyrun_postd
     @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
-    #排序及格式处理
-    #log    参数编码前：${sign_dict}
-    #${signparam}    Evaluate    urllib.urlencode(${sign_dict})    urllib
-    #log    参数编码后：${signparam}
     ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.iteritems())
     ${len}=    evaluate    len(${sign_dict_tolist})
     ${signparam} =    set variable    ${EMPTY}
     : FOR    ${index}    IN RANGE    0    ${len}
     \    ${signparamsting} =    evaluate    "".join(${sign_dict_tolist[${index}]})
     \    ${signparam} =    set variable    ${signparam}${signparamsting}
-    #${signparam}=    convert to string    ${sign_dict_tolist}
-    #${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
-    #${signparam}=    Replace String    ${signparam}    u'    '
-    #${signparam}=    Replace String    ${signparam}    ', '    ${EMPTY}
-    #${signparam}=    Replace String    ${signparam}    ('    ${EMPTY}
-    #${signparam}=    Replace String    ${signparam}    ')    ${EMPTY}
-    #${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}
-    #${signparam}=    Replace String    ${signparam}    ]    ${EMPTY}
-    #${signparam}=    Evaluate    '${signparam}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     log    signparam=======${signparam}
     #排序及格式处理
-    #@{keylist1}    Create List    ${signparam} ${appkey1} ${uid} ${sid}
-    #@{keylist2}    Create List    ${signparam} ${appkey2} ${uid} ${sid}
     ${signkey1}    set variable    ${signparam}${appkey1}${uid}${sid}
     ${signkey2}    set variable    ${signparam}${appkey2}${uid}${sid}
     #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}
@@ -380,13 +367,12 @@ thejoyrun_postd
     log    参数编码前：${post_dict}
     ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
-    #${post_param}=    convert to string    ${post_dict_tolist1}
-    #${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
     ${get_count}  Get Count  ${resp.content}   ret\":"401" 
     Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
     Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName} 
+    log   thejoyrun_postd End ...
     [Return]    ${resp}
 
 thejoyrun_postnl
@@ -395,6 +381,7 @@ thejoyrun_postnl
     ...
     ...    用于app的用户注册方面，无需用户信息；参数以data方法提交，不出现Url中，而只在body中带公共参数（sign、timestamp）；
     [Timeout]    30 seconds
+    log   thejoyrun_postnl Start ......
     ${heards}=    create dictionary
     #从字典里取出相应key的值
     ##通过服务器获取timestamp
@@ -427,10 +414,6 @@ thejoyrun_postnl
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     \    log dictionary    ${post_dict}
-    #log    排序及格式处理
-    #log    参数编码前：${sign_dict}
-    #${signparam}    Evaluate    urllib.urlencode(${sign_dict})    urllib
-    #log    参数编码后：${signparam}
     ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.iteritems())
     ${len}=    evaluate    len(${sign_dict_tolist})
     ${signparam} =    set variable    ${EMPTY}
@@ -472,6 +455,7 @@ thejoyrun_postnl
     #${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
+    log   thejoyrun_postnl End ......
     [Return]    ${resp}
 
 thejoyrun_post_nosign
@@ -480,6 +464,7 @@ thejoyrun_post_nosign
     ...
     ...    没有加密的用于非APP的页面请求，参数以data方法提交；
     [Timeout]    30 seconds
+    log   thejoyrun_post_nosign Start ......
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
     ${env}    Env_URL    ${Base_URL}
@@ -523,7 +508,8 @@ thejoyrun_post_nosign
     ${resp}=    Post Request    run    uri=${path}
     ${get_count}  Get Count  ${resp.content}   ret\":"401" 
     Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
-    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}   
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}  
+    log   thejoyrun_post_nosign End ......
     [Return]    ${resp}
 
 thejoyrun_postjson_wxminp
@@ -532,6 +518,7 @@ thejoyrun_postjson_wxminp
     ...
     ...    参数以data提交，在出现Url中，也在body中带公共参数（appid、timestamp、sid主要用于小程序）；
     [Timeout]    30 seconds
+    log   thejoyrun_postjson_wxminp Start ......
     ##通过本地获取timestamp
     ${ContentType}    Set Variable    application/json;charset=UTF-8
     ${wxminpnames}    Split String    ${path}    /
@@ -578,6 +565,7 @@ thejoyrun_postjson_wxminp
     set to dictionary    ${heards_dict}    User-Agent=Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X)
     Create Session    runwx    ${URL}    headers=${heards_dict}
     ${resp}=    Post Request    runwx    uri=${path}    data=${post_dict}
+    log   thejoyrun_postjson_wxminp End ......
     [Return]    ${resp}
 
 thejoyrun_get_wxminp
@@ -586,6 +574,7 @@ thejoyrun_get_wxminp
     ...
     ...    参数以params提交，在出现Url中，带公共参数（appid、timestamp、sid主要用于跑团小程序）；
     [Timeout]    30 seconds
+    log   thejoyrun_get_wxminp Start ......
     ${wxminpnames}    Split String    ${path}    /
     ${wxminpname1}    Get From List    ${wxminpnames}    1
     ${wxminpname}    Run Keyword If    '${wxminpname1}'<>'wallet'    set variable    ${wxminpname1}
@@ -631,6 +620,7 @@ thejoyrun_get_wxminp
     log    参数编码后：${post_dict}
     Create Session    run    ${URL}    headers=${heards_dict}
     ${resp}=    Get Request    run    uri=${path}    params=${post_dict}
+    log   thejoyrun_get_wxminp End ...
     [Return]    ${resp}
 
 thejoyrun_getp
@@ -639,6 +629,7 @@ thejoyrun_getp
     ...
     ...    参数以params方法提交出现Url中，也在body带公共参数（signature、timestamp）；
     [Timeout]    30 seconds
+    log   thejoyrun_getp Start ......
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
     ${env}    Env_URL    ${Base_URL}
@@ -652,8 +643,6 @@ thejoyrun_getp
     ${timestamp}        GetServertime    ${login_URL}
     ${ypcookie}=    Get From Dictionary    ${heards}    ypcookie
     ${heards_dict}=    create dictionary    ypcookie=${ypcookie}
-    #${ypcookie1}=    Replace String    ${ypcookie}    =    %3d
-    #${ypcookie1}=    Replace String    ${ypcookie1}    &    %26
     ##将ypcookie转为url编码
     ${ypcookie1}=    urlencode    ${ypcookie}
     ${cookies}=    create dictionary
@@ -720,7 +709,8 @@ thejoyrun_getp
     ${resp}=    Get Request    run    uri=${path}    params=${post_param}
     ${get_count}  Get Count  ${resp.content}   ret\":"401" 
     Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
-    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}    
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}   
+    log   thejoyrun_getp End ... 
     [Return]    ${resp}
 
 thejoyrun_get_nosign
@@ -729,6 +719,7 @@ thejoyrun_get_nosign
     ...
     ...    参数以params方法提交，出现Url中，也在body中，但不需要签名没有公共参数；
     [Timeout]    30 seconds
+    log   thejoyrun_get_nosign Start ......
     ${pwd}    Run Keyword If    ${pwds} is None    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
     ${env}    Env_URL    ${Base_URL}    
@@ -769,5 +760,6 @@ thejoyrun_get_nosign
     ${resp}=    Get Request    run    uri=${path}    params=${post_param}
     ${get_count}  Get Count  ${resp.content}   ret\":"401" 
     Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
-    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}     ${env}${userName}    
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}     ${env}${userName} 
+    log   thejoyrun_get_nosign End ...   
     [Return]    ${resp}
