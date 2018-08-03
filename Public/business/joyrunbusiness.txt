@@ -402,7 +402,8 @@ marathonlist_marathonIds
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${marathon_URL}    ${pwd}
     ${content}=    charconver    ${resp.content}
     log json    ${content}	
-	${marathonlists}   get json value    ${content}   /data
+    ${ret0_count}    Get Count  ${content}   ret\":"0" 
+	${marathonlists}   Run Keyword If  ${ret0_count}==1   get json value    ${content}   /data    ELSE  set variable    ${EMPTY}
 	${marathonIds}   FilterList    ${marathonlists}    ${filters}    ${Returnfield}
     log   marathonlist_marathonIds End ......
 	[Return]    ${marathonIds}	

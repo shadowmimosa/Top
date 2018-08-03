@@ -121,7 +121,9 @@ thejoyrun_Keywords
     ${data_Out}    charconver    ${resp.content}
     log    ======将返回内容以Json格式打印出来=========
     log json    ${data_Out}
-    Set_Global_Var  ${path}   ${data_Out}   ${userName}  ${BaseURL}
+    ${ret0_count}    Get Count  ${data_Out}   ret\":"0" 
+    Run Keyword If  ${ret0_count}==1  Set_Global_Var  ${path}   ${data_Out}   
+    ...     ${userName}  ${BaseURL}
     log   thejoyrun_Keywords End ...
     [Return]    ${data_Out}
 
