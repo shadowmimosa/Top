@@ -31,13 +31,14 @@ sorted_request_data
     log  排序->URL编码后：
     log  【${map_list_URL}】   
     ${data_out_Unicode}   Convert To String   ${map_list_URL}
+    #?${data_out_Unicode}   charconver   ${map_list_URL}
     log  排序->URL编码->unicode编码后：
     log  【${data_out_Unicode}】    
-    ${data_out_display}    Evaluate    '${data_out_Unicode}'.decode('unicode_escape')
-    log   排序->URL编码->unicode编码->unicode解码后：
-    log   【${data_out_display}】
-    ${data_out}  Run Keyword If  '${tpye}'=='decode'   
-    ...     set variable  ${data_out_display}   ELSE
+    ${data_out_UTF8}    charconver    ${data_out_Unicode}
+    log   排序->URL编码->unicode编码->UTF-8解码后：
+    log   【${data_out_UTF8}】
+    ${data_out}  Run Keyword If  '${tpye}'=='UTF8'   
+    ...     set variable  ${data_out_UTF8}   ELSE
     ...     set variable  ${data_out_Unicode}
     log   sorted_request_data End ......
     [Return]    ${data_out}

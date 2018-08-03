@@ -1,6 +1,7 @@
 # coding=utf-8
 import re
 import sys
+import json
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -126,11 +127,33 @@ def Dict_sorted(scrdict,type=None):
         print "  【%s】" % orderlist
     return  orderlist
 
+def Json_to_Dict(scrdata):
+    #print   type.__doc__
+    if  type(scrdata)==unicode:
+        scrdata = scrdata.decode('unicode_escape')
+    print   "scrdata类型为%s".decode('utf-8') %type(scrdata)
+    if type(scrdata)==dict:
+        print "源变量为dict类型,将转为字符str类型"
+        DictJson = json.dumps(scrdata)
+        print   "转化后的类型为",type(DictJson)
+        print   DictJson
+    elif  type(scrdata)==str:
+        print "源变量为Json str类型,将转为字典dictionary类型"
+        DictJson = json.loads(scrdata)
+        print "转化后的类型为",type(DictJson)
+        print DictJson
+    else:
+        print "非字典dictionary和json字符str类型"
+        DictJson=scrdata
+    return DictJson
 
 # 测试代码
 if __name__ == '__main__':
     #t = tools_reptile()
-    a = FindAndValue("[{\"ret\":11111},{\"ret\":2222},{\"ret\":\"ab1cd_w\"}]","ret","}",'1')
-    b = Dict_sorted({"ret":"0","sid":"e8705bd983da43d98b9cc0963a78666d","lasttime":1533108241,"user":12345,"msg":"e1aa"})
+   # a = FindAndValue("[{\"ret\":11111},{\"ret\":2222},{\"ret\":\"ab1cd_w\"}]","ret","}",'1')
+    #b = Dict_sorted({"ret":"0","sid":"e8705bd983da43d98b9cc0963a78666d","lasttime":1533108241,"user":12345,"msg":"e1aa"})
+    #data1 = "{\"b\":789,\"c\": 456,\"a\":123}"
+    data1 = {"b":789,"c": 456,"a":123}
+    c= Json_to_Dict(data1)
 
     #print Dict_sorted.__doc__,pyfilter.__doc__
