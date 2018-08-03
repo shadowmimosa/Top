@@ -22,6 +22,7 @@ ${Goltimestamp}        0
 Gettimes
     [Arguments]    ${fields}
     [Documentation]    根据入参和当前时间输出处理后的相应时间格式，times输出时间戳格式；yy以年运算，MM以月运算，dd以天运算，hh以时运算，mm以分运算，ss以秒运算；ctime输出Wed Mar 21 10:36:38 2018 格式的时间； 第1、2个参数为时间运算粒度，第3个参数为输出格式,参数与参数之间用英文逗号隔开；例如：dd,+5,times 为输出当前时间的5天后的时间戳，注意：以月运算和以年运算分别是以30天和365天进行运算；
+    log   Gettimes Start ......
     log    入参为：${fields}
     @{fieldslist}    Split String    ${fields}    ,
     ${fieldfiler}    Get From List    ${fieldslist}    0
@@ -43,11 +44,13 @@ Gettimes
     ${retime}    Run Keyword If    '${returnfield}'=='ctime'    set variable    ${ctime}
     ...    ELSE    set variable    ${times}
     log    本地时间：${localctime}===${localtimes}，处理后的时间：${ctime}=====${times}
+    log   Gettimes End ......
     [Return]    ${retime}
 
 Removesting
     [Arguments]    ${srcstring}    ${movestr}    ${spitsting}
     [Documentation]    从源字符串中删除某些字符串，如：123,abc,1234,444,eee 中删除abc,eee 两个字符串的分割符需要一致，${srcstring} 源字符串，${movestr}为需要删除的字符串， ${spitsting} 为两个字符串的分割符；
+    log   Removesting Start ......
     log    原字符串${srcstring}
     log    需要移除${movestr}
     log    分割符${spitsting}
@@ -61,6 +64,7 @@ Removesting
     \    ${srcstring}    replace string    ${srcstring}    ${spitsting}${spitsting}    ${spitsting}
     ${restr}    Run Keyword If    '${srcstring}'=='${spitsting}'    set variable    ${EMPTY}
     ...    ELSE    set variable    ${srcstring}
+    log   Removesting End ......
     [Return]    ${restr}
 
 FilterList
@@ -74,6 +78,7 @@ FilterList
     ...    Num源数据列表的条数筛选，默认为空不筛选； 大于0的数时筛选前Num列【0:Num】,小于0的数时筛选倒数Num列【Num:Last】
     ...    例如从源字符串[{"fid":123,"uid": 2315,"meter1": 2315},{"fid":2123,"uid": 23151,"meter1": 22315},{"fid":1423,"uid": 23152,"meter1": 2315,"meter2": 23415},{"fid":2123,"uid": 24315,"meter1": 23415}] 中对fid、uid、meter1、meter2条件筛选符合的记录
     [Timeout]    1 minute
+    log    FilterList Start ......
     log    原字符串:${SrcListstr}
     log    筛选条件:${filters}
     log    返回值串的字段:${Returnfield}
@@ -164,6 +169,7 @@ FilterList
     ${returnlistlen}    Evaluate    len(${returnlist})
     @{returnlist}    Run Keyword If    ${returnlistlen}<1    Create List    0
     ...    ELSE    Create List    @{returnlist}
+    log    FilterList End ......
     Run Keyword If    "${Returnfield}"=="All"    Return From Keyword    @{returnlist}
     ...    ELSE    Return From Keyword    ${ReturnValuesting}
 
@@ -171,6 +177,7 @@ callkeywords
     [Arguments]    ${str}    ${type}=None
     [Documentation]    按顺序执行多个关键字,并返回每个关键的执行结果，str输入方法为关键字之前用分号（;）隔开，关键字与传参之间用冒号（：）隔开，比如：Getmyclassid:${userName};Getmywallet:${userName}:balanceAmount 这个是执行两个关键字(Getmyclassid,Getmywallet)，每个关键字的冒号后为传参；
     [Timeout]    30 seconds
+    log    callkeywords Start ......
     @{result}    Create List
     @{keywordslist}=    Split String    ${str}    ;
     : FOR    ${keywordvalue}    IN    @{keywordslist}
@@ -180,26 +187,32 @@ callkeywords
     \    @{input}    Split String    ${keywordinput}    :
     \    ${keywordresult}    Run Keyword    ${keyword}    @{input}
     \    Append To List    ${result}    ${keywordresult}
+    log    callkeywords End ......
     [Return]    ${result}
 
 Getsting
     [Arguments]    ${string}    ${str}
     [Documentation]    将字典类型的字符串取出相应key的值,比如字符串{"source": "", "second": 311, "meter": 1017}中取出meter的值
+    log    Getsting Start ......
     ${intstart}    evaluate    ${string}[${str}]
+    log    Getsting End ......
     [Return]    ${intstart}
 
 randomchoice
     [Arguments]    ${str}    ${spitstr}
     [Documentation]    将字符串分割后随机返回 abcdef;12;aaaa;123ewq;ddd 以;分割随机返回${str}为源字符串，${spitstr}为源字符串中的分割符；
+    log    randomchoice Start ......
     @{list}=    Split String    ${str}    ${spitstr}
     ${stinglen}    evaluate    len(${list})
     ${strReturn}    evaluate    random.choice(${list})    random
     log    ======共${stinglen}数据，随机选中：${strReturn}========
+    log    randomchoice End ......
     [Return]    ${strReturn}
 
 choiceOrd
     [Arguments]    ${str}    ${ords}    ${spitstr}=None
     [Documentation]    将字符串分割后按序号返回 abcdef;12;aaaa;123ewq;ddd 以;分割随机返回${str}为源字符串，${spitstr}为源字符串中的分割符（，为默认分隔符）；ords为序号，大于0时，按序号返回，1返第1个值，小于0时，按倒序返回，-1为返回最后一个值，当为0时，即为随机返回一个值；注意分隔符在源字符串仅作分隔符用，正常的值不能有分隔符；
+    log    choiceOrd Start ......
     #log    spitstr======${spitstr};'${spitstr}'=='None'
     @{choicelist}    Run keyword If    '${spitstr}'=='None'    Split String    ${str}    ,
     ...    ELSE    Split String    ${str}    ${spitstr}
@@ -213,36 +226,44 @@ choiceOrd
     ...    ELSE    Set variable    ${EMPTY}
     Run keyword If    ${ords}>0    log    总共${stinglen}组数据,选中第${ords}组,数据为：${strReturn}
     ...    ELSE IF    ${ords}<0    log    总共${stinglen}组数据,选中倒数第${ords}组,数据为：${strReturn}
+    log    choiceOrd End ......
     [Return]    ${strReturn}
 
 stringtolist
     [Arguments]    ${input}
+    log    stringtolist Start ......
     ${list}=    set variable    ${input}
     ${list}=    replace string    ${list}    {    ${EMPTY}
     ${list}=    replace string    ${list}    }    ${EMPTY}
     ${list}=    replace string    ${list}    "    ${EMPTY}
     @{list}=    Split String    ${list}    ,
+    log    stringtolist End ......
     [Return]    @{list}
 
 format listtostring
     [Arguments]    @{list}
     [Documentation]    将List变量(List的单个值是字典)按顺序串联成字符串，例如变量值[(u'a', u'123'),(u'b', u'456')]换成a123b456,
+    log    format listtostring Start ......
     ${listtostring}=    set variable    ${EMPTY}
     ${len}=    evaluate    len(${list})
     : FOR    ${index}    IN RANGE    ${len}
     \    ${string}    evaluate    "".join(${list[${index}]})
     \    ${listtostring} =    set variable    ${listtostring}${string}
+    log    format listtostring End ......
     [Return]    ${listtostring}
 
 arraytostring
     [Arguments]    ${array}
     [Documentation]    将字符类型改为数组类型，例如变量值"[a,b c]" 换成[a,b,c]
+    log    arraytostring Start ......
     ${list}=    evaluate    "".join(${array})
+    log    arraytostring End ......
     [Return]    ${list}
 
 listtolist
     [Arguments]    ${a}    ${b}
     [Documentation]    将字符类型改为数组类型[aa,bb] 与[cc,dd] 合并成[aa,bb,cc,dd] ,${a} ${b}为list类型变量@{a}@{b}
+    log    listtolist Start ......
     log    =====合并数组listtolist=========
     ${lena}=    evaluate    len(${a})
     ${lenb}=    evaluate    len(${b})
@@ -257,20 +278,24 @@ listtolist
     ${abstring}    set variable    ${listasting},${listbsting}
     ${abstring}=    replace string    ${abstring}    abcdefg19527egthejoyrun9898,    ${EMPTY}
     ${abstring}    set variable    [${abstring}]
+    log    listtolist End ......
     [Return]    ${abstring}
 
 countbyitem
     [Arguments]    ${content}    ${item}    ${attribute}
     [Documentation]    检查每个分类返回的数据个数
+    log    countbyitem Start ......
     ${dict}=    Evaluate    json.dumps(${content})    json
     ${jkey}=    Evaluate    ${dict}.get('data').get('${item}')    json
     ${jkey}=    Convert To String    ${jkey}
     ${count}    Get Count    ${jkey}    ${attribute}
+    log    countbyitem End ......
     [Return]    ${count}
 
 GetServertime
     [Arguments]    ${login_URL}
     [Documentation]    获取服务端的时间
+    log    GetServertime Start ......
     ${time}=    Get Time    epoch
     log    time= ${time}
     ${isend}  evaluate  int(${time})-${Goltimestamp}-280 
@@ -280,13 +305,16 @@ GetServertime
     Run Keyword If  ${isend}>=0   log json    ${resptime.content}
     ${timestamp}    Run Keyword If  ${isend}>=0   get json value    ${contentime}    /lasttime    ELSE    set variable   ${Goltimestamp}
     set global variable    ${Goltimestamp}    ${timestamp}
+    log    GetServertime End ......
     [Return]    ${timestamp}
 
 Env_URL
     [Arguments]    ${InputURL}
     [Documentation]    根据URL判断运行环境
+    log    Env_URL Start ......
     ${Testcount}    Get Lines Matching Pattern   ${InputURL}   *-test*
     ${env_out}    Run Keyword If   '${Testcount}'=='${EMPTY}'   set variable   Online   ELSE   set variable   Test 
+    log    Env_URL End ......
     [Return]    ${env_out}
 
 thejoyrun_postd
@@ -330,16 +358,16 @@ thejoyrun_postd
     ${len}=    evaluate    len(${sign_dict_tolist})
     ${signparam} =    set variable    ${EMPTY}
     : FOR    ${index}    IN RANGE    0    ${len}
-    \    ${signparamsting} =    evaluate    "".join(${sign_dict_tolist[${index}]})
-    \    ${signparam} =    set variable    ${signparam}${signparamsting}
+    \    ${signparamkey}     set variable    ${sign_dict_tolist[${index}][0]} 
+    \    ${signparamValue}   set variable    ${sign_dict_tolist[${index}][1]} 
+    \    ${signparamsting}   set variable    ${signparamkey}${signparamValue} 
+    \    ${signparam} =    set variable      ${signparam}${signparamsting}
     log    signparam=======${signparam}
     #排序及格式处理
     ${signkey1}    set variable    ${signparam}${appkey1}${uid}${sid}
     ${signkey2}    set variable    ${signparam}${appkey2}${uid}${sid}
     #${signkey1}=    Replace String    ${signkey1}    "    ${EMPTY}
     #${signkey2}=    Replace String    ${signkey2}    "    ${EMPTY}
-    #${signkey3}=    evaluate    "".join(list(${keylist1}))
-    #${signkey4}=    evaluate    "".join(list(${keylist2}))
     log    signkey1=====${signkey1}
     log    signkey2=====${signkey2}
     #排序及格式处理
@@ -369,9 +397,12 @@ thejoyrun_postd
     log    参数编码后：${post_param}
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
-    ${get_count}  Get Count  ${resp.content}   ret\":"401" 
+    ${ret_result}    charconver    ${resp.content}  
+    ${get_count}     Get Count  ${ret_result}   ret\":"401" 
+    ${ret0_count}    Get Count  ${ret_result}   ret\":"0" 
     Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
-    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName} 
+    Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}
+    #Run Keyword If  ${ret0_count}==1   Set_Global_Var  ${path}   ${ret_result}   ${userName}  ${Base_URL} 
     log   thejoyrun_postd End ...
     [Return]    ${resp}
 
@@ -418,7 +449,9 @@ thejoyrun_postnl
     ${len}=    evaluate    len(${sign_dict_tolist})
     ${signparam} =    set variable    ${EMPTY}
     : FOR    ${index}    IN RANGE    0    ${len}
-    \    ${signparamsting} =    evaluate    "".join(${sign_dict_tolist[${index}]})
+    \    ${signparamkey}     set variable    ${sign_dict_tolist[${index}][0]} 
+    \    ${signparamValue}   set variable    ${sign_dict_tolist[${index}][1]} 
+    \    ${signparamsting}   set variable    ${signparamkey}${signparamValue} 
     \    ${signparam} =    set variable    ${signparam}${signparamsting}
     log    signparam=======${signparam}
     #排序及格式处理

@@ -1,4 +1,4 @@
-﻿*** Settings ***
+*** Settings ***
 Documentation     活动列表
 Resource          ../Public//public_lib.txt
 
@@ -26,6 +26,8 @@ hudonglist_Post_assertClass
     log    ---输出测试地址---
     log    ${advert_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${advert_URL}
+    #${aaaa}    Get_Global_Var    /advert-list    ${userName}    ${advert_URL}    ${pwd}
+    #log    ${aaaa}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
     log    ---输出返回内容----

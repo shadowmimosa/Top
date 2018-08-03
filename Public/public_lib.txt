@@ -22,22 +22,62 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 ${Global_Var}     &{EMPTY}
 
 *** Keywords ***
+
 Set_Global_Var
     [Arguments]   ${Path}   ${data}  ${userName}=None  ${Base_URL}=None 
     [Documentation]   通过全局字典变量储存常用接口返回的数据，方便跨用例调用；
+    ...         返回是否存在，如已存在则返回大于0的数字，如不存在则返回0
     log   Set_Global_Var Start ......
+    ${Vardict}   create dictionary
     ${env}   Env_URL   ${Base_URL}
-    set to dictionary      ${Global_Var}    ${env}${Path}${userName}=${data}
-    set global variable    &{Global_Var}    &{Global_Var}
+    #${data}   Json_to_Dict   ${data}
+    ${PortKey}   Set Variable   ${env}${Path}${userName}
+    ${PortKey}   Replace String   ${PortKey}   /    _
+    ${PortKey}   Replace String   ${PortKey}   @    _
+    ${PortKey}   Replace String   ${PortKey}   .    ${EMPTY}
+    ${PortKey}   Replace String   ${PortKey}   ${SPACE}    ${EMPTY} 
+    ${PortKey}   Replace String   ${PortKey}   -    ${EMPTY} 
+    ${GlobalKeylist}  Get Dictionary Keys   ${Global_Var}
+    ${IsOrNo}     Get Count    ${GlobalKeylist}    ${PortKey}
+    Run Keyword If   ${IsOrNo}>0    
+    ...     Get From Dictionary    ${Global_Var}    ${PortKey}    ELSE    
+    ...     Set to dictionary      ${Global_Var}    ${PortKey}=${data}  
+    Set global variable    ${Global_Var}    ${Global_Var}
     log dictionary   ${Global_Var}
     log   Set_Global_Var End ...
+    [Return]    ${IsOrNo}
+
+Get_Global_Var
+    [Arguments]   ${Path}  ${userName}=None  ${Base_URL}=None  ${pwd}=None  
+    ...     ${method}=None    ${fields}=None    ${values}=None
+    [Documentation]   通过全局字典变量取回以前的访问过的接口数据，方便跨用例调用；
+    ...     如果全局变量中没有，直接调接口（传入接口参数）并将结果存入到全局变量中;
+    ...     pwd、method、fields、values为当全局变量中不存在此接口参数，否则不用传；
+    log   Get_Global_Var Start ......
+    ${env}   Env_URL   ${Base_URL}
+    ${PortKey}   Set Variable   ${env}${Path}${userName}
+    ${PortKey}   Replace String   ${PortKey}   /    _
+    ${PortKey}   Replace String   ${PortKey}   @    _
+    ${PortKey}   Replace String   ${PortKey}   .    ${EMPTY}
+    ${PortKey}   Replace String   ${PortKey}   ${SPACE}    ${EMPTY} 
+    ${PortKey}   Replace String   ${PortKey}   -    ${EMPTY}     
+    ${GlobalKeylist}  Get Dictionary Keys   ${Global_Var}
+    ${IsOrNo}     Get Count    ${GlobalKeylist}    ${PortKey}
+    ${Var_Out}     Run Keyword If   ${IsOrNo}>0    
+    ...     Get From Dictionary    ${Global_Var}    ${PortKey}    ELSE
+    ...     thejoyrun_Keywords    ${BaseURL}    ${path}    ${userName}  ${pwd}
+    ...     ${method}    ${fields}   ${values}
+    Set_Global_Var   ${Path}  ${Var_Out}   ${userName}   ${Base_URL}
+    Run Keyword If   ${IsOrNo}>0    log json     ${Var_Out}
+    log   Get_Global_Var End ...... 
+    [Return]    ${Var_Out}
 
 
 
 
 thejoyrun_Keywords
-    [Arguments]    ${BaseURL}    ${path}    ${userName}=None    ${pwd}=None    ${method}=None    ${fields}=None
-    ...    ${values}=None
+    [Arguments]    ${BaseURL}    ${path}    ${userName}=None    ${pwd}=None
+    ...    ${method}=None    ${fields}=None     ${values}=None
     [Documentation]    *thejoyrun通用关健字*
     ...
     ...    BaseURL为http/https开头域名地址，path为url路径，method为方法（Get,Post,Getns,Postns,Getw,Postw,Postnl）fields为接口字段集（字段与字段之间用,英文逗号隔开，）；values为字段值（按字段顺序给出并也用英文逗号隔开）userName 为用户账号，pwd为用户密码,values==Joyrun_null时,fields传maps
@@ -78,11 +118,12 @@ thejoyrun_Keywords
     ...    ELSE    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${BaseURL}
     ...    ${pwd}
     log    =====将返回内容转换成UTF-8编码=======
-    ${content}    charconver    ${resp.content}
+    ${data_Out}    charconver    ${resp.content}
     log    ======将返回内容以Json格式打印出来=========
-    log json    ${content}
+    log json    ${data_Out}
+    Set_Global_Var  ${path}   ${data_Out}   ${userName}  ${BaseURL}
     log   thejoyrun_Keywords End ...
-    [Return]    ${content}
+    [Return]    ${data_Out}
 
 thejoyrun_Maps
     [Arguments]    ${list1}    ${list2}
