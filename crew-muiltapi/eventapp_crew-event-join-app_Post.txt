@@ -26,7 +26,6 @@ eventapp_crew-event-join-app_Post_Keywords
     [Documentation]    eventapp/crew-event-join-app 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${emv}    Env_username    1
     ${crewId}    getMyCrewInfo    crewid    ${userName}
     ${con}    thejoyrun_Keywords    ${crew_muilt_URL}    /eventapp/getCrewEventList    ${userName}    ${pwd}    Post
     ...    crewId,limit,page    ${crewid},10,0
@@ -36,8 +35,16 @@ eventapp_crew-event-join-app_Post_Keywords
     ${deadline1}    set variable    ${end_time}000
     ${deadline2}    set variable    ${end_time1}000
     ${codelists}    FilterList    ${codelist}    joinCnt,0,0.1/deadline,${deadline1},${deadline2}    eventId    None    -5
-    ${event_id}    Run Keyword If    '${codelists}'=='0'    set variable    2e1b98234a9f4c58a4e7ffd9ae077c4d
+    ${event_id}    Run Keyword If    '${codelists}'=='0'    set variable    0
     ...    ELSE    randomchoice    ${codelists}    ,
+    Run Keyword If    '${event_id}'!='0'    top    ${event_id}    ${key_value}    ${crewid}    ${ret}
+    ...    ${msg}    ${userName}
+    ...    ELSE    log    ${userName}没有可报名的活动
+
+top
+    [Arguments]    ${event_id}    ${key_value}    ${crewid}    ${ret}    ${msg}    ${userName}
+    [Documentation]    eventapp/crew-event-join-app 接口用例的Keywords关健字
+    ${emv}    Env_username    1
     ${path}=    set variable    /eventapp/crew-event-join-app
     ${maps}=    create dictionary
     set to dictionary    ${maps}    event_id=${event_id}
