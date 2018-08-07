@@ -23,10 +23,10 @@ Class_01              [Documentation]    /crew-event-new-app-创建跑团活动
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${crewId}    getMyCrewInfo    crewid    ${userName}
-    ${start_time}    Gettimes    dd,+1,times
+    ${start_time}    Gettimes    hh,+1,times
     ${start_time}    Evaluate    str(${start_time})
     ${title}    set variable    ${title}${start_time}
-    ${deadline}    Gettimes    dd,+3,times
+    ${deadline}    Gettimes    dd,+2,times
     ${deadline}    Evaluate    str(${deadline})
     ${event_id}    Evaluate    uuid.uuid1()    uuid
     ${event_id}=    convert to string    ${event_id}

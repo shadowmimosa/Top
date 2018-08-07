@@ -28,11 +28,14 @@ eventapp_crew-event-cancle-app_Post_Keywords
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
+    ${emv}    Env_username    1
+    ${end_time}    Gettimes    ss,+5,times
+    ${end_time1}    Gettimes    dd,+3,times
     ${crewId}    getMyCrewInfo    crewid    ${userName}
     ${con}    thejoyrun_Keywords    ${crew_muilt_URL}    /eventapp/getCrewEventList    ${userName}    ${pwd}    Post
     ...    crewId,limit,page    ${crewid},10,0
     ${codelist}    get json value    ${con}    /data
-    ${codelists}    FilterList    ${codelist}    joinCnt,1,999/status,0,0.1    eventId
+    ${codelists}    FilterList    ${codelist}    joinCnt,1,99/endTime,${end_time},${end_time1}    eventId
     ${event_id}    Run Keyword If    '${codelists}'=='0'    set variable    2e1b98234a9f4c58a4e7ffd9ae077c4d
     ...    ELSE    randomchoice    ${codelists}    ,
     ${path}=    set variable    /eventapp/crew-event-cancle-app
@@ -46,10 +49,8 @@ eventapp_crew-event-cancle-app_Post_Keywords
     log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":"${ret}"
-    log    ret 符合预期为:${ret}
-    log    验证msg是否符合预期:${msg}
-    should contain    ${content}    "msg":"${msg}"
+    Run Keyword If    "${event_id}"=="2e1b98234a9f4c58a4e7ffd9ae077c4d" and "${emv}" =="Test"    should contain    ${content}    "ret":"3","msg":"event not exist"
+    ...    ELSE IF    "${event_id}"=="2e1b98234a9f4c58a4e7ffd9ae077c4d" and "${emv}" =="Online"    should contain    ${content}    "msg":"活动已结束","ret":"13005"
+    ...    ELSE    should contain    ${content}    "ret":"${ret}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    log    验证OK！！用户${userName}；URL：${crew_muilt_URL}${path}；传参：${maps}！！
+    log    ------------------------ It is OK!!!!-------------------------------------
