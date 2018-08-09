@@ -21,11 +21,11 @@ marathon_api_marathon_online-mls-detail_Getns_Keywords
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${marathonIds}    marathonlist_marathonIds    applyStatus,-1,0.5    marathonId    ${userName}
-    ${marathonIds}    randomchoice    ${marathonIds}    ,
+    ${path}=    set variable    /marathon_api/marathon/online-mls-detail
+    ${marathonIds1}    Get_Global_Var    /marathon/online-mls-list    ${userName}    ${marathon_URL}    ${pwd}    Post
+    ${marathonIds}    FindAndValue    ${marathonIds1}    marathonId    ,    1
     ${marathonId}    Run Keyword If    '${marathonIds}'=='${EMPTY}'    set variable    ${marathonId}
     ...    ELSE    set variable    ${marathonIds}
-    ${path}=    set variable    /marathon_api/marathon/online-mls-detail
     ${maps}=    create dictionary
     set to dictionary    ${maps}    marathonId=${marathonId}
     log    ========输出接口URL：${ec_URL}${path}

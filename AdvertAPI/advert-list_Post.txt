@@ -18,7 +18,7 @@ advert-list_Post_assertClass
     [Arguments]    ${expected_code}
     [Documentation]    氛围广告启动页接口advert-list-无参数-基本验证
     Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /advert-list
     ${maps}=    create dictionary
     log    ---输出参数---
@@ -27,7 +27,7 @@ advert-list_Post_assertClass
     log    ${advert_URL}
     #${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${advert_URL}
     ${content}    thejoyrun_Keywords    ${advert_URL}    ${path}    ${userName}    ${pwd}
-    #${content}=    charconver    ${resp.content}
+    ${content}=    charconver    ${content}
     log    ---开始断言验证---
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${expected_code}
@@ -35,5 +35,12 @@ advert-list_Post_assertClass
     Run Keyword If    ${expected_code}=="0"    get json value    ${content}    /data
     ...    ELSE    should contain    ${content}    "msg":
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
+    ${data}    get json value    ${content}    /data
+    ${data}    Evaluate    list(${data})
+    ${aaa}    pyfilter    ${data}    ad_type>=8 And ad_duration<>112
+    log list    ${aaa}
+    ${aaa1}    get from list    ${aaa}    0
+    log    ${aaa1}
+    ${aaa}    convertCode    ${aaa}    UTF-8
+    log list    ${aaa}
     log    ------------------------ It is OK!!!!-------------------------------------
