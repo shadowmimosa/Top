@@ -59,7 +59,9 @@ RuningRecord
     [Documentation]    /po.aspx type=1或7，为上传跑步记录
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${altitude}=    get json value    ${src}    /runrecord/altitude
+    ${isaltitude}    Get Count    ${src}    "altitude":
+    ${altitude}    Run Keyword If    ${isaltitude}>0    get json value    ${src}    /runrecord/altitude
+    ...    ELSE    set variable    0
     ${content}=    get json value    ${src}    /runrecord/content
     ${daka}=    get json value    ${src}    /runrecord/daka
     ${heartrate}=    get json value    ${src}    /runrecord/heartrate
@@ -165,5 +167,7 @@ RuningRecord
     #log    vspostRunId=${vspostRunId}
     #should contain    ${vspostRunId}    ${postRunId}
     log    跑步记录postRunId为===${postRunId},新的FID为${newfid}
-    log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud}，是否室外：${type};跑步地区=${province}，来自话题==${topicName},原fid ID== ${fid}，原uid ===${srcuid}
+    log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud};
+    log    是否室外：${type};跑步地区=${province};
+    log    来自话题==${topicName},原fid ID== ${fid}，原uid ===${srcuid}
     log    ------------------------ It is OK!!!!-------------------------------------

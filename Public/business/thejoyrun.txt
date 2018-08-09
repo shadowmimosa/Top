@@ -411,8 +411,9 @@ thejoyrun_postd
     ...    ELSE    Set Variable    ${-1}
     Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_postd  
     ...    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}  ${Retry}
+    ${result}    Set variable    ${resp}
     log   thejoyrun_postd End ...
-    [Return]    ${resp}
+    [Return]    ${result}
 
 thejoyrun_postnl
     [Arguments]    ${path}    ${maps}    ${Base_URL}   ${Retry}=None
@@ -504,8 +505,9 @@ thejoyrun_postnl
     ...    ELSE    Set Variable    ${-1}
     Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_postnl  
     ...    ${path}    ${maps}    ${userName}    ${Base_URL}      ${Retry}
+    ${result}    Set variable    ${resp}
     log   thejoyrun_postnl End ......
-    [Return]    ${resp}
+    [Return]    ${result}
 
 thejoyrun_post_nosign
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None  ${Retry}=None
@@ -563,9 +565,10 @@ thejoyrun_post_nosign
     ${Retry}   Run Keyword If   ${get_count}==1   Evaluate  ${Retry}-1
     ...    ELSE    Set Variable    ${-1}
     Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_post_nosign  
-    ...    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}   ${Retry}  
+    ...    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}   ${Retry} 
+    ${result}    Set variable    ${resp} 
     log   thejoyrun_post_nosign End ......
-    [Return]    ${resp}
+    [Return]    ${result}
 
 thejoyrun_postjson_wxminp
     [Arguments]    ${path}    ${maps}    ${Base_URL}    ${uid}=None   
@@ -771,9 +774,10 @@ thejoyrun_getp
     ...    ELSE    Set Variable    ${-1}
     Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_getp  
     ...    ${path}    ${maps}    ${userName}    ${Base_URL}    
-    ...    ${pwds}   ${Retry}      
+    ...    ${pwds}   ${Retry}   
+    ${result}    Set variable    ${resp}    
     log   thejoyrun_getp End ... 
-    [Return]    ${resp}
+    [Return]    ${result}
 
 thejoyrun_get_nosign
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None   ${Retry}=None
@@ -828,6 +832,7 @@ thejoyrun_get_nosign
     ${Retry}   Run Keyword If   ${get_count}==1   Evaluate  ${Retry}-1
     ...    ELSE    Set Variable    ${-1}
     Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_get_nosign  
-    ...    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}   ${Retry} 
+    ...    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}   ${Retry}
+    ${result}    Set variable    ${resp}   
     log   thejoyrun_get_nosign End ...   
-    [Return]    ${resp}
+    [Return]    ${result}

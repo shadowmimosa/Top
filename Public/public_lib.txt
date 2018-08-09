@@ -20,7 +20,7 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 ${Global_Var}     &{EMPTY}
-${Retry_order}    ${3}    #设置重试次数
+${Retry_Pub}    ${3}    #设置重试次数
 
 *** Keywords ***
 Set_Global_Var
@@ -85,7 +85,7 @@ thejoyrun_Keywords
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${maps1}    create dictionary
-    ${Retry_order}    Run Keyword If    '${Retry_order}'=='None'    set variable    ${Retry_order}
+    ${Retry_order}    Run Keyword If    '${Retry_order}'=='None'    set variable    ${Retry_Pub}
     ...    ELSE    set variable    ${Retry_order}
     @{fieldsList}    Run Keyword If    '${values}'=='Joyrun_null'    Create List    0
     ...    ELSE    Split String    ${fields}    ,
@@ -125,8 +125,9 @@ thejoyrun_Keywords
     ...    ELSE    Set Variable    ${-1}
     Run Keyword If    ${isRetry}==1 and ${Retry_order}>=0    thejoyrun_Keywords    ${BaseURL}    ${path}    ${userName}    ${pwd}
     ...    ${method}    ${fields}    ${values}    ${Retry_order}
+    ${result}   Set Variable   ${data_Out}
     log    thejoyrun_Keywords End ...
-    [Return]    ${data_Out}
+    [Return]    ${result}
 
 thejoyrun_Maps
     [Arguments]    ${list1}    ${list2}
