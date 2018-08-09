@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     getUserHisTrainPlans 获取用户参与的训练计划历史
+Documentation     getPlansByCategoryId 获取训练计划方案列表信息
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -7,22 +7,23 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    ret                msg
-Class_01              [Documentation]    getUserHisTrainPlans TestCase测试用例
+*** Test Cases ***    categoryId         ret                                   msg
+Class_01              [Documentation]    getPlansByCategoryId TestCase测试用例
                       [Tags]             Test                                  txy    Online
-                      [Template]         getUserHisTrainPlans_Post_Keywords
-                      0                  成功
+                      [Template]         getPlansByCategoryId_Post_Keywords
+                      16                 0                                     成功
 
 *** Keywords ***
-getUserHisTrainPlans_Post_Keywords
-    [Arguments]    ${ret}    ${msg}
-    [Documentation]    getUserHisTrainPlans 接口用例的Keywords关健字
+getPlansByCategoryId_Post_Keywords
+    [Arguments]    ${categoryId}    ${ret}    ${msg}
+    [Documentation]    getPlansByCategoryId 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     ${userName}    Env_username    a
-    ${path}=    set variable    /getUserHisTrainPlans
+    ${path}=    set variable    /getPlansByCategoryId
     ${maps}=    create dictionary
+    set to dictionary    ${maps}    categoryId=${categoryId}
     log    ========输出接口URL：${training_URL}${path}
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}

@@ -1,0 +1,58 @@
+*** Settings ***
+Documentation     joinUserTrainPlan 参加训练计划
+Library           ../Public/Lib/autotest.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    planId             timeZone                          trainDays        trainStartDateline    ret    msg
+Class_01              [Documentation]    joinUserTrainPlan TestCase测试用例
+                      [Tags]             Test                              txy              Online
+                      [Template]         opinion_join_plan
+                      31                 8                                 1,0,1,0,1,1,0    ${EMPTY}              0      成功
+
+*** Keywords ***
+opinion_join_plan
+    [Arguments]    ${planId}    ${timeZone}    ${trainDays}    ${trainStartDateline}    ${ret}    ${msg}
+    [Documentation]    判断用户是否正在参加训练计划
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    ${userName}    Env_username    a
+    ${cont_time}=    get_timestamp
+    ${trainStartDateline}    Get json value    ${cont_time}    /start_time_st
+    @{str}    callkeywords    Getmyplanid:${userName}:${pwd}
+    ${aa}    Evaluate    len(${str} )
+    ${userplanId}    Get From List    ${str}    0
+    Run Keyword If    '${userplanId}'!='0'    log    ====用户${userName}不满足条件（用户有正在进行中的训练计划）=====
+    ...    ELSE    joinUserTrainPlan_Post_Keywords    ${planId}    ${timeZone}    ${trainDays}    ${trainStartDateline}
+    ...    ${ret}    ${msg}
+
+joinUserTrainPlan_Post_Keywords
+    [Arguments]    ${planId}    ${timeZone}    ${trainDays}    ${trainStartDateline}    ${ret}    ${msg}
+    [Documentation]    joinUserTrainPlan 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /joinUserTrainPlan
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    planId=${planId}
+    set to dictionary    ${maps}    timeZone=${timeZone}
+    set to dictionary    ${maps}    trainDays=${trainDays}
+    set to dictionary    ${maps}    trainStartDateline=${trainStartDateline}
+    log    ========输出接口URL：${training_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${training_URL}${path}；传参：${maps}！！
