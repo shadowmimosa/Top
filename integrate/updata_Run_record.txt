@@ -58,7 +58,9 @@ RuningRecord
     [Documentation]    /po.aspx type=1或7，为上传跑步记录
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    ${altitude}=    get json value    ${src}    /runrecord/altitude
+    ${isaltitude}    Get Count    ${src}    "altitude":
+    ${altitude}    Run Keyword If    ${isaltitude}>0    get json value    ${src}    /runrecord/altitude
+    ...    ELSE    set variable    0
     ${content}=    get json value    ${src}    /runrecord/content
     ${daka}=    get json value    ${src}    /runrecord/daka
     ${heartrate}=    get json value    ${src}    /runrecord/heartrate
