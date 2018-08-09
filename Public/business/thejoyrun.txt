@@ -404,16 +404,20 @@ thejoyrun_postd
     ${ret_result}    charconver    ${resp.content}  
     ${get_count}     Get Count  ${ret_result}   ret\":"401" 
     ${ret0_count}    Get Count  ${ret_result}   ret\":"0" 
+    #:FOR    ${index}    IN RANGE    0    ${RetryInti} 
+    #\    Exit For Loop If    ${get_count} == 0
+    #\    thejoyrun_postd  
+    #\    ...    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}  ${Retry}
     Run Keyword If  ${get_count}==1    log    ${userName}的SID过期而登录失败 
     Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}
     #Run Keyword If  ${ret0_count}==1   Set_Global_Var  ${path}   ${ret_result}   ${userName}  ${Base_URL} 
     ${Retry}   Run Keyword If   ${get_count}==1   Evaluate  ${Retry}-1
     ...    ELSE    Set Variable    ${-1}
-    Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_postd  
+    ${resp}  Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_postd  
     ...    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}  ${Retry}
-    ${result}    Set variable    ${resp}
+    ...    ELSE  set variable   ${resp}
     log   thejoyrun_postd End ...
-    [Return]    ${result}
+    [Return]    ${resp}
 
 thejoyrun_postnl
     [Arguments]    ${path}    ${maps}    ${Base_URL}   ${Retry}=None
@@ -503,11 +507,12 @@ thejoyrun_postnl
     ...    ELSE    Set Variable    ${1}
     ${Retry}   Run Keyword If   ${get_count}==1   Evaluate  ${Retry}-1
     ...    ELSE    Set Variable    ${-1}
-    Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_postnl  
+    ${resp}  Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_postnl  
     ...    ${path}    ${maps}    ${userName}    ${Base_URL}      ${Retry}
-    ${result}    Set variable    ${resp}
+    ...    ELSE  set variable   ${resp}
+    Run Keyword If   ${get_count} == 0    Return From Keyword    ${resp}
     log   thejoyrun_postnl End ......
-    [Return]    ${result}
+    [Return]    ${resp}
 
 thejoyrun_post_nosign
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None  ${Retry}=None
@@ -564,11 +569,12 @@ thejoyrun_post_nosign
     Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}
     ${Retry}   Run Keyword If   ${get_count}==1   Evaluate  ${Retry}-1
     ...    ELSE    Set Variable    ${-1}
-    Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_post_nosign  
-    ...    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}   ${Retry} 
-    ${result}    Set variable    ${resp} 
+    ${resp}  Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_post_nosign  
+    ...    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}   ${Retry}
+    ...    ELSE  set variable   ${resp} 
+    Run Keyword If   ${get_count} == 0    Return From Keyword    ${resp} 
     log   thejoyrun_post_nosign End ......
-    [Return]    ${result}
+    [Return]    ${resp}
 
 thejoyrun_postjson_wxminp
     [Arguments]    ${path}    ${maps}    ${Base_URL}    ${uid}=None   
@@ -772,12 +778,13 @@ thejoyrun_getp
     Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName} 
     ${Retry}   Run Keyword If   ${get_count}==1   Evaluate  ${Retry}-1
     ...    ELSE    Set Variable    ${-1}
-    Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_getp  
+    ${resp}  Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_getp  
     ...    ${path}    ${maps}    ${userName}    ${Base_URL}    
-    ...    ${pwds}   ${Retry}   
-    ${result}    Set variable    ${resp}    
+    ...    ${pwds}   ${Retry} 
+    ...    ELSE  set variable   ${resp}  
+    Run Keyword If   ${get_count} == 0    Return From Keyword    ${resp}  
     log   thejoyrun_getp End ... 
-    [Return]    ${result}
+    [Return]    ${resp}
 
 thejoyrun_get_nosign
     [Arguments]    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}=None   ${Retry}=None
@@ -831,8 +838,9 @@ thejoyrun_get_nosign
     Run Keyword If  ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}     ${env}${userName} 
     ${Retry}   Run Keyword If   ${get_count}==1   Evaluate  ${Retry}-1
     ...    ELSE    Set Variable    ${-1}
-    Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_get_nosign  
+    ${resp}   Run Keyword If   ${get_count}==1 and ${Retry}>=0   thejoyrun_get_nosign  
     ...    ${path}    ${maps}    ${userName}    ${Base_URL}    ${pwds}   ${Retry}
-    ${result}    Set variable    ${resp}   
+    ...    ELSE  set variable   ${resp}
+    Return From Keyword If   ${get_count}==0      ${resp}
     log   thejoyrun_get_nosign End ...   
-    [Return]    ${result}
+    [Return]    ${resp}

@@ -123,11 +123,12 @@ thejoyrun_Keywords
     Run Keyword If    ${isRetry}==0    Set_Global_Var    ${path}    ${data_Out}    ${userName}    ${BaseURL}
     ${Retry_order}    Run Keyword If    ${isRetry}==1    Evaluate    ${Retry_order}-1
     ...    ELSE    Set Variable    ${-1}
-    Run Keyword If    ${isRetry}==1 and ${Retry_order}>=0    thejoyrun_Keywords    ${BaseURL}    ${path}    ${userName}    ${pwd}
+    ${data_Out}  Run Keyword If    ${isRetry}==1 and ${Retry_order}>=0    thejoyrun_Keywords    ${BaseURL}    ${path}    ${userName}    ${pwd}
     ...    ${method}    ${fields}    ${values}    ${Retry_order}
-    ${result}   Set Variable   ${data_Out}
+    ...    ELSE  set variable   ${data_Out}
+    Run Keyword If   ${isRetry} == 0    Return From Keyword    ${data_Out}
     log    thejoyrun_Keywords End ...
-    [Return]    ${result}
+    [Return]    ${data_Out}
 
 thejoyrun_Maps
     [Arguments]    ${list1}    ${list2}
