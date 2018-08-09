@@ -20,18 +20,12 @@ marathon_api_marathon_mls-detail_Getns_Keywords
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
-<<<<<<< HEAD
-    ${userName}    Env_username
-    ${marathonIds}    marathonlist_marathonIds    applyStatus,-1,0    marathonId    ${userName}    ${pwd}
-    ${marathonIds}    randomchoice    ${marathonIds}    ,
-=======
     #${userName}    Env_username
     ${path}=    set variable    /marathon_api/marathon/mls-detail
     #${marathonIds}    marathonlist_marathonIds    applyStatus,-1,0    marathonId    ${userName}    ${pwd}
     ${marathonIds1}    Get_Global_Var    /marathon/online-mls-list    ${userName}    ${marathon_URL}    ${pwd}    Post
     ${marathonIdlist}    FindAndValue    ${marathonIds1}    marathonId    ,    0
     ${marathonIds}    evaluate    random.choice(${marathonIdlist})    random
->>>>>>> develop-zzq
     ${marathonId}    Run Keyword If    '${marathonIds}'=='${EMPTY}'    set variable    ${marathonId}
     ...    ELSE    set variable    ${marathonIds}
     ${maps}=    create dictionary
