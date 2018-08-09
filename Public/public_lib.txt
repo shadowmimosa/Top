@@ -20,6 +20,7 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 ${Global_Var}     &{EMPTY}
+${Retry_order}    ${3}    #设置重试次数
 
 *** Keywords ***
 
@@ -67,7 +68,7 @@ Get_Global_Var
     ...     Get From Dictionary    ${Global_Var}    ${PortKey}    ELSE
     ...     thejoyrun_Keywords    ${BaseURL}    ${path}    ${userName}  ${pwd}
     ...     ${method}    ${fields}   ${values}
-    Set_Global_Var   ${Path}  ${Var_Out}   ${userName}   ${Base_URL}
+    Run Keyword If   ${IsOrNo}<=0  Set_Global_Var   ${Path}  ${Var_Out}   ${userName}   ${Base_URL}
     Run Keyword If   ${IsOrNo}>0    log json     ${Var_Out}
     log   Get_Global_Var End ...... 
     [Return]    ${Var_Out}
@@ -77,7 +78,7 @@ Get_Global_Var
 
 thejoyrun_Keywords
     [Arguments]    ${BaseURL}    ${path}    ${userName}=None    ${pwd}=None
-    ...    ${method}=None    ${fields}=None     ${values}=None
+    ...    ${method}=None    ${fields}=None     ${values}=None  ${Retry_order}=None
     [Documentation]    *thejoyrun通用关健字*
     ...
     ...    BaseURL为http/https开头域名地址，path为url路径，method为方法（Get,Post,Getns,Postns,Getw,Postw,Postnl）fields为接口字段集（字段与字段之间用,英文逗号隔开，）；values为字段值（按字段顺序给出并也用英文逗号隔开）userName 为用户账号，pwd为用户密码,values==Joyrun_null时,fields传maps
@@ -90,6 +91,8 @@ thejoyrun_Keywords
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${maps1}    create dictionary
+    ${Retry_order}  Run Keyword If  '${Retry_order}'=='None'   set variable   
+    ...    ${Retry_order}    ELSE    set variable    ${Retry_order}
     @{fieldsList}    Run Keyword If    '${values}'=='Joyrun_null'    Create List    0
     ...    ELSE    Split String    ${fields}    ,
     @{ValueList}    Run Keyword If    '${values}'=='Joyrun_null'    Create List    0
@@ -118,12 +121,25 @@ thejoyrun_Keywords
     ...    ELSE    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${BaseURL}
     ...    ${pwd}
     log    =====将返回内容转换成UTF-8编码=======
-    ${data_Out}    charconver    ${resp.content}
+    ${content}    charconver    ${resp.content}
     log    ======将返回内容以Json格式打印出来=========
+<<<<<<< HEAD
     log json    ${data_Out}
     ${ret0_count}    Get Count  ${data_Out}   ret\":"0" 
     Run Keyword If  ${ret0_count}==1  Set_Global_Var  ${path}   ${data_Out}   
     ...     ${userName}  ${BaseURL}
+=======
+    log json    ${content}
+    ${isRetry}     Get Count    ${content}    "ret":"401"
+    ${data_Out}    Set Variable    ${content}
+    Run Keyword If   ${isRetry}==0   Set_Global_Var  ${path}   ${data_Out}   
+    ...    ${userName}  ${BaseURL}    
+    ${Retry_order}   Run Keyword If   ${isRetry}==1   Evaluate  ${Retry_order}-1
+    ...    ELSE    Set Variable    ${-1}
+    Run Keyword If   ${isRetry}==1 and ${Retry_order}>=0   thejoyrun_Keywords  
+    ...    ${BaseURL}    ${path}    ${userName}   ${pwd}   ${method}    
+    ...    ${fields}     ${values}  ${Retry_order}
+>>>>>>> develop-zzq
     log   thejoyrun_Keywords End ...
     [Return]    ${data_Out}
 
