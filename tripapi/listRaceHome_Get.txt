@@ -1,0 +1,43 @@
+*** Settings ***
+Documentation     listRaceHome 赛事日历首页
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    limit              month                        page    year      ret    msg
+Class_01              [Documentation]    listRaceHome TestCase测试用例
+                      [Tags]             Test                         txy     Online
+                      [Template]         listRaceHome_Get_Keywords
+                      10                 7                            10      2018      0      成功
+
+*** Keywords ***
+listRaceHome_Get_Keywords
+    [Arguments]    ${limit}    ${month}    ${page}    ${year}    ${ret}    ${msg}
+    [Documentation]    listRaceHome 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    ${userName}    Env_username    a
+    ${path}=    set variable    /race/listRaceHome
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    limit=${limit}
+    set to dictionary    ${maps}    month=${month}
+    set to dictionary    ${maps}    page=${page}
+    set to dictionary    ${maps}    year=${year}
+    log    ========输出接口URL：${trip_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${trip_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${trip_URL}${path}；传参：${maps}！！

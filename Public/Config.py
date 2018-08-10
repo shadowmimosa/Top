@@ -160,6 +160,9 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 	#跑场
 	rd_URL='http://rd-test.api.thejoyrun.com'
 	
+	#赛事小助手
+	trip_URL='http://trip-test.api.thejoyrun.com'
+	
 	##===================小程序相关配置=====================
 
 	#小程序统一域名
@@ -267,7 +270,10 @@ else:
 	rd_URL='http://rd.api.thejoyrun.com'
 
 	#天气web
-	webevent_URL='https://webevent-test.thejoyrun.com'
+	webevent_URL='https://webevent.thejoyrun.com'
+	
+	#赛事小助手
+	trip_URL='https://trip.api.thejoyrun.com'
 	
 	#=====小程序相关配置=================================
 
@@ -296,7 +302,7 @@ else:
 	tripappid='wx1f211a6a3607d8fe'
 	
 	#赛事小程序用户身份sid 2018-6-21
-	tripsid='99a6d4221688428b9f4a13e14d796e05d'
+	tripsid='cfd56ea6c401403cba16c80d467bd7233'
 
 
 

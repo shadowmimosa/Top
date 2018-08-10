@@ -464,6 +464,82 @@ Getmyclassid
     log   Getmyclassid End ......
 	[Return]    ${myclassid} 
 	
+Getmyplanid
+    [Arguments]    ${userName}  ${pwd}   ${isall}=None
+    [Documentation]    /getUserProceedTrainPlan获取参加中的训练计划id,如没有则返回0；如有正在进行中的训练计划且isall不为空时返回data,否则返回userplanId；
+    ${path}=    set variable    /getUserProceedTrainPlan
+    ${maps}=    create dictionary
+    log    ======${training_URL}${path}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${training_URL}   ${pwd}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}	
+	${data}    get json value    ${content}    /data   
+	log  isall===${isall}====
+	${userplanId}   Run Keyword If    '${data}'=='null'  set variable   0    ELSE IF  ${isall} is None   get json value  ${data}  /userplanId   ELSE  set variable   ${data}
+	[Return]    ${userplanId}	
+	
+Getmyplanid_filters
+    [Arguments]    ${filters}    ${Returnfield}    ${userName}    ${pwd}
+    [Documentation]    /getUserProceedTrainPlan获取参加中的训练计划id,如没有则返回0；如有正在进行中的训练计划且isall不为空时返回data,否则返回userplanId；
+    ${path}=    set variable    /getUserProceedTrainPlan
+    ${maps}=    create dictionary
+    log    ========输出接口URL：${training_URL}${path}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${training_URL}    ${pwd}
+    ${content}=    charconver    ${resp.content}
+    ${data}    get json value    ${content}    /data
+    ${userPlanDetails}    get json value    ${data}    /userPlanDetails
+    ${Returnfieldvalues}    FilterList    ${userPlanDetails}    ${filters}    ${Returnfield}
+    [Return]    ${Returnfieldvalues}
+	
+getPlanDetails
+    [Arguments]    ${planId}     ${filters}   ${Returnfield}    ${userName}   ${pwd}   
+    [Documentation]    /getPlanDetails获取用户参加中的训练计划详情中的detailType
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /getPlanDetails
+    ${maps}=    create dictionary
+	set to dictionary    ${maps}    planId=${planId}
+    log    ========输出接口URL：${training_URL}${path}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}    ${pwd}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+	${data}    get json value    ${content}    /data
+	log  =========================================================================${data}
+	${plandetails}    get json value    ${data}    /plandetails
+	${Returnfieldvalues}   FilterList    ${plandetails}    ${filters}    ${Returnfield}  
+	[Return]    ${Returnfieldvalues}	
+	
+getUserRepairTrainPlan
+    [Arguments]    ${userName}  ${pwd}   ${isall}=None
+    [Documentation]    /getUserRepairTrainPlan 获取用户登记补完成训练的训练计划，没有返回0；有登记的训练计划且isall不为空时返回data,否则返回userplandetailId；
+    ${path}=    set variable    /getUserRepairTrainPlan
+    ${maps}=    create dictionary
+    log    ======${training_URL}${path}
+    ${resp}=     thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}   ${pwd}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}	
+	${data}    get json value    ${content}    /data   
+	log  isall===${isall}====
+	${userplandetailId}   Run Keyword If    '${data}'=='null'  set variable   0    ELSE IF  ${isall} is None   get json value  ${data}  /userplandetailId   ELSE  set variable   ${data}
+	[Return]    ${userplandetailId}
+	
+   
+getUserHisTrainPlans
+    [Arguments]    ${filters}   ${Returnfield}     ${userName}  ${pwd}  
+    [Documentation]    /getUserHisTrainPlans获取用户的历史训练计划列表,如没有则返回0；filters过滤条件；Returnfield需要返回的字段
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    getUserHisTrainPlans
+    ${maps}=    create dictionary
+    log    ========输出接口URL：${training_URL}${path}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}    ${pwd}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+	${HisTrainPlanslists}   get json value    ${content}   /data
+	${Returnfieldvalues}   FilterList    ${HisTrainPlanslists}    ${filters}    ${Returnfield}  
+	[Return]    ${Returnfieldvalues}	
+ 	
+	
 Getmywallet
     [Arguments]     ${userName}   ${pwd}   ${field}   ${isall}=None
     [Documentation]    wallet/getUserBalanceAmount 个人钱包信息,field为需要返回的字段：balanceAmount(钱包余额)，mobile(手机号码)，status（1：正常,0:冻结），uid，withdrawAmount（可提现金额），未开通钱包或未实名时返回0；

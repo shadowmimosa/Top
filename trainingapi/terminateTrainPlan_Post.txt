@@ -1,0 +1,69 @@
+*** Settings ***
+Documentation     terminateTrainPlan 用户终止训练计划
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    userplanId         ret                                msg
+Class_01              [Documentation]    terminateTrainPlan TestCase测试用例
+                      [Tags]             Test                               txy    Online
+                      [Template]         opinion_join_plan
+                      ${EMPTY}           0                                  成功
+
+*** Keywords ***
+opinion_join_plan
+    [Arguments]    ${userplanId}    ${ret}    ${msg}
+    [Documentation]    判断用户是否正在参加训练计划
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    ${userName}    Env_username    a
+    @{str}    callkeywords    Getmyplanid:${userName}:${pwd}
+    ${aa}    Evaluate    len(${str} )
+    ${userplanId}    Get From List    ${str}    0
+    Run Keyword If    '${userplanId}'=='0'    log    ====用户${userName}不满足条件（用户没有正在进行中的训练计划）=====
+    ...    ELSE    terminateTrainPlan_Post_Keywords    ${userplanId}    ${ret}    ${msg}
+
+terminateTrainPlan_Post_Keywords
+    [Arguments]    ${userplanId}    ${ret}    ${msg}
+    [Documentation]    terminateTrainPlan 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /terminateTrainPlan
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    userplanId=${userplanId}
+    log    ========输出接口URL：${training_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    ${userplanHisId}    get json value    ${content}    /data
+    Run Keyword If    '${userplanHisId}'<>'0'    addStopReason    不想继续训练计划    ${userplanHisId}
+    ...    ELSE    log    ========输出错误码:${msg}
+    log    ======开始断言验证====================${userplanHisId}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${training_URL}${path}；传参：${maps}！！
+
+addStopReason
+    [Arguments]    ${reason}    ${userplanHisId}
+    [Documentation]    addStopReason 添加终止原因
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${path}=    set variable    /addStopReason
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    reason=${reason}
+    set to dictionary    ${maps}    userplanHisId=${userplanHisId}
+    log    ========输出接口URL：${training_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}
+    ${content}=    charconver    ${resp.content}

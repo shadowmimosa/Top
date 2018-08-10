@@ -1,0 +1,83 @@
+*** Settings ***
+Documentation     finishUserTrainPlanDetail 完成力量训练，或核心训练
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            000000    # 密码
+${userName}       u4444@qq.com    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    userplandetailId    ret                                       msg
+Class_01              [Documentation]     finishUserTrainPlanDetail TestCase测试用例
+                      [Tags]              Test                                      txy
+                      [Template]          opinion_join_plan
+                      ${EMPTY}            0                                         成功
+
+*** Keywords ***
+opinion_join_plan
+    [Arguments]    ${userplandetailId}    ${ret}    ${msg}
+    [Documentation]    判断用户是否正在参加训练计划
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username    a
+    @{str}    callkeywords    Getmyplanid_filters:plandetailId,1,10000/:All:${userName}:${pwd}
+    ${aa}    Evaluate    len(${str} )
+    ${userPlanDetails}    Get From List    ${str}    0
+    log    =======================================================接口的入参为：${userPlanDetails}==========
+    Run Keyword If    '${userPlanDetails[0]}'=='0'    log    ====用户${userName}不满足条件（用户没有正在进行中的训练计划、可点击完成的力量训练或核心训练）=====
+    ...    ELSE    opinion_join_again    ${userPlanDetails}    ${ret}    ${msg}
+
+opinion_join_again
+    [Arguments]    ${userPlanDetails}    ${ret}    ${msg}
+    [Documentation]    再次判断
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${userplandetailIds}    Get From List    ${userPlanDetails}    0
+    ${userplandetailId}    get json value    ${userplandetailIds}    /userplandetailId
+    ${plandetailId}    get json value    ${userplandetailIds}    /plandetailId
+    ${trainDateline}    get json value    ${userplandetailIds}    /trainDateline
+    @{str}    callkeywords    getPlanDetails:31:detailType,2,3/:All:${userName}:${pwd}
+    ${detailType}    Get From List    ${str}    0
+    Run Keyword If    ${balanceAmount}<${payAmount1} or ${status}==0 or ${mobile}<=1    log    =====用户${userName}钱包被封或余额不足，请冲值！！===========
+    ...    ELSE    finishUserTrainPlanDetail_Post_Keywords    ${userplandetailId}    ${ret}    ${msg}
+
+finishUserTrainPlanDetail_Post_Keywords
+    [Arguments]    ${userplandetailId}    ${ret}    ${msg}
+    [Documentation]    finishUserTrainPlanDetail 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    #${userplandetailIdsrc}    Get From List    ${userplandetailId}    0
+    #${userplandetailId}    get json value    ${userplandetailIdsrc}    /userplandetailId
+    ${path}=    set variable    /finishUserTrainPlanDetail
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    userplandetailId=${userplandetailId}
+    log    ========输出接口URL：${training_URL}${path}
+    log    ========接口的入参为：${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${training_URL}${path}；传参：${maps}！！
+
+Getmyplanid
+    [Arguments]    ${filters}    ${Returnfield}    ${userName}    ${pwd}
+    [Documentation]    /getUserProceedTrainPlan获取参加中的训练计划id,如没有则返回0；如有正在进行中的训练计划且isall不为空时返回data,否则返回userplanId；
+    ${path}=    set variable    /getUserProceedTrainPlan
+    ${maps}=    create dictionary
+    log    ========输出接口URL：${training_URL}${path}
+    ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${training_URL}    ${pwd}
+    ${content}=    charconver    ${resp.content}
+    ${data}    get json value    ${content}    /data
+    ${userPlanDetails}    get json value    ${data}    /userPlanDetails
+    ${Returnfieldvalues}    FilterList    ${userPlanDetails}    ${filters}    ${Returnfield}
+    [Return]    ${Returnfieldvalues}
