@@ -21,7 +21,7 @@ opinion_join_plan
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
-    ${userName}    Env_username    a
+    #${userName}    Env_username    a
     ${cont_time}=    get_timestamp
     ${trainStartDateline}    Get json value    ${cont_time}    /start_time_st
     @{str}    callkeywords    Getmyplanid:${userName}:${pwd}
