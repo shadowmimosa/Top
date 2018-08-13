@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     finishUserTrainPlanDetail 完成力量训练，或核心训练
+Library           ../Public/Lib/autotest.py
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -21,7 +22,9 @@ opinion_join_plan
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username    a
-    @{str}    callkeywords    Getmyplanid_filters:plandetailId,1,10000/:All:${userName}:${pwd}
+    ${cont_time}=    get_timestamp
+    ${trainDatelines}    Get json value    ${cont_time}    /start_time_st
+    @{str}    callkeywords    Getmyplanid_filters:plandetailId,1,10000/trainDateline,0,${trainDatelines}:All:${userName}:${pwd}
     ${aa}    Evaluate    len(${str} )
     ${userPlanDetails}    Get From List    ${str}    0
     log    =======================================================接口的入参为：${userPlanDetails}==========
