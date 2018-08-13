@@ -4,7 +4,7 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            000000    # 密码
-${userName}       u4444@qq.com    # 默认的用户名
+${userName}       u2222@qq.com    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
 *** Test Cases ***    timeZone           userplandetailId                         ret    msg
@@ -24,7 +24,7 @@ opinion_join_plan
     @{str}    callkeywords    getUserRepairTrainPlan:${userName}:${pwd}
     ${aa}    Evaluate    len(${str} )
     ${userplandetailId}    Get From List    ${str}    0
-    Run Keyword If    '${userplandetailId[0]}'!='0'    log    ====用户${userName}不满足条件（用户已存在登记补完成的训练计划）=====
+    Run Keyword If    '${userplandetailId[0]}'=='0'    log    ====用户${userName}不满足条件（用户未登记补完成的训练计划）=====
     ...    ELSE    repairUserTrainPlanDetail_Post_Keywords    ${timeZone}    ${userplandetailId}    ${ret}    ${msg}
 
 repairUserTrainPlanDetail_Post_Keywords
