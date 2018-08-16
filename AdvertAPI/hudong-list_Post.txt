@@ -21,32 +21,26 @@ hudonglist_Post_assertClass
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     ${path}=    set variable    /huodong-list
     ${maps}=    create dictionary
-    log    ---输出参数---
-    log    ${maps}
-    log    ---输出测试地址---
-    log    ${advert_URL}
+    ${maps1}=    create dictionary
+    set to dictionary    ${maps1}    ret=a1
+    set to dictionary    ${maps1}    bs23=b1
+    set to dictionary    ${maps1}    csee=10
+    log    测试地址:${advert_URL}${path}
+    log    用户及传参:${userName}:${maps}
+    ${Lista}    Evaluate    ["msg","ret","data"]
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${advert_URL}
     #${aaaa}    Get_Global_Var    /advert-list    ${userName}    ${advert_URL}    ${pwd}
-    #log    ${aaaa}
+    ${bbbb}    list_From_json    ${Lista}    ${resp.content}
+    ${jsons}    Dict to Json    ${bbbb}
+    log    ${bbbb}
     ${content}=    charconver    ${resp.content}
     log json    ${resp.content}
-    log    ---输出返回内容----
-    log json    ${content}
-    log    ---开始断言验证---
-    log    response数据为：
-    log    ${resp}
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${expected_code}
     log    ret 符合预期为:${expected_code}
-    log    验证msg是否符合预期
-    ${msg}=    charconver    "成功"
     Run Keyword If    ${expected_code}=="0"    verfication_data    ${content}
-    ...    ELSE    should contain    ${content}    "msg":${msg}
+    log    测试地址:${advert_URL}${path}
+    log    用户及传参:${userName}:${maps}
     #当需要添加对data的内容进行单独验证时，可以以下方式
     #${data}    get json value    ${content}    /data
-    #${data}=    charconver    ${data}
-    #should contain    ${data}    "temp":
-    #当验证的内容有中文时，需要先转码再验证；
-    #${weather}=    charconver    "多云"
-    #should contain    ${data}    ${weather}
     log    ------------------------ It is OK!!!!-------------------------------------

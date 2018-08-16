@@ -42,11 +42,14 @@ arraystoarray
     [Return]    ${Listabcd}
 
 Getrunrecodeinfo
-    [Arguments]    ${fid}    ${wgs}    ${userName}    ${pwd}=None
+    [Arguments]    ${fid}    ${wgs}    ${userName}    ${pwd}=None     ${Base_URL}=None
     [Documentation]    Run/GetInfo.aspx某跑步记录数据详情,如跑步记录不存在则，请求fid=181392202
     log   Getrunrecodeinfo Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${api_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${api_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${path}=    set variable    /Run/GetInfo.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fid=${fid}
@@ -67,9 +70,12 @@ Getrunrecodeinfo
     [Return]    ${respruninfo}
 
 feedListBasicBulk_fid
-    [Arguments]    ${fids}    ${userName}    ${findtext}    ${min}    ${max}   ${pwd}=None
+    [Arguments]    ${fids}    ${userName}    ${findtext}    ${min}    ${max}   ${pwd}=None    ${Base_URL}=None
     [Documentation]    /feed/feedListBasicBulk批量获取话题中fid的基础数据，返回前10条符合条件的跑步记录的fid串；findtext为条件字段，min,max 为条件值的最小最大值 左闭右开区间,findtext 支持两层过滤，如找run下的meter可写成run/meter
     log   feedListBasicBulk_fid Start ......
+    ${api_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${api_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${path}=    set variable    /feed/feedListBasicBulk
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fids=${fids}
@@ -119,9 +125,13 @@ feedListBasicBulk_fid
     [Return]    ${BSfid}
 
 getHotsFeedList_fids
-    [Arguments]    ${page}    ${limit}    ${userName}   ${pwd}=None
+    [Arguments]    ${page}    ${limit}    ${userName}   
+    ...            ${pwd}=None   ${Base_URL}=None
     [Documentation]    *getHotsFeedListt首页获取执门动态列表返回热度排名前10条的fids串*
     log   getHotsFeedList_fids Start ......
+    ${topic_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${topic_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${path}=    set variable    /newTopic/getHotsFeedList
     ${maps}=    create dictionary
     set to dictionary    ${maps}    page=${page}
@@ -153,9 +163,12 @@ getHotsFeedList_fids
     [Return]    ${hotfids}
 
 FourTopicList_TopicName
-    [Arguments]    ${userName}    ${pwd}=None
+    [Arguments]    ${userName}    ${pwd}=None    ${Base_URL}=None
     [Documentation]    getFourTopicList获取置顶新话题,随机选中某热门话题,返回4个热门话题中的一个和约定跑话题；
     log   FourTopicList_TopicName Start ......
+    ${topic_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${topic_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${path}=    set variable    /newTopic/getFourTopicList
     ${maps}=    create dictionary
     ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${topic_URL}   ${pwd}
@@ -183,12 +196,15 @@ FourTopicList_TopicName
     [Return]    ${topicName}
 
 TopicDetail_Fids
-    [Arguments]    ${topicName}    ${page}    ${type}    ${userName}    ${timelen}   ${pwd}=None
+    [Arguments]    ${topicName}    ${page}    ${type}    ${userName}    ${timelen}   ${pwd}=None   ${Base_URL}=None
     [Documentation]    /newTopic/topicDetail获取话题的跑步列表返回fids串，type:1代表该话题的热门列表，type:2代表该话题的最新列表,timelen 表示多少时间内的记录秒为单位；
     log   TopicDetail_Fids Start ......
     log    ================topicName:${topicName}=============
     Run Keyword If    ${type}==1    log    ================话题的热门列表=============
     ...    ELSE    log    ================话题的最新列表=============
+    ${topic_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${topic_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${firstFeedDateline}    set variable    0
     ${time}=    Get Time    epoch
     ${timemin}    evaluate    int(${time})-${timelen}
@@ -217,11 +233,14 @@ TopicDetail_Fids
     [Return]    ${Fids}
 
 FeedListv5_Fids
-    [Arguments]    ${userName}   ${pwd}=None
+    [Arguments]    ${userName}   ${pwd}=None   ${Base_URL}=None
     [Documentation]    *我的动态列表前10条*
     log   FeedListv5_Fids Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${api_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${api_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${path}=    set variable    /feedListv5.aspx
     ${maps}=    create dictionary
     log    ---输出测试地址---
@@ -257,11 +276,15 @@ FeedListv5_Fids
     [Return]    ${fidv5}
 
 UserRunList_Fid
-    [Arguments]       ${userName}    ${filters}    ${Returnfield}   ${pwd}=None
+    [Arguments]       ${userName}    ${filters}    ${Returnfield}  
+    ...               ${pwd}=None    ${Base_URL}=None
     [Documentation]    userRunList用户本人的跑步记录基本验证,year 年份，filters 为过滤规则格式:lasttime,1521603644,1621603644,表示查找字段lasttime的值在1521603644-1621603644之间的记录，多个过滤条件用/隔开，最多支持三个条件；Returnfield为需要返回的字段值，例如：fid则返回符合条件的fid值；
     log   UserRunList_Fid Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${api_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${api_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${path}=    set variable    /userRunList.aspx
     ${time}=    Get Time    epoch
     log    time= ${time}
@@ -288,11 +311,14 @@ UserRunList_Fid
 
 
 oneclickdetails_userinfo
-    [Arguments]    ${returnfield}    ${userName}  ${pwd}=None
+    [Arguments]    ${returnfield}    ${userName}  ${pwd}=None   ${Base_URL}=None
     [Documentation]    通过userName 返回用户相关字段信息；all返回datas中所有字段的值；uid:返回uid；address:返回地址；nick返回昵称；name返回真实姓名；province返回省份；city返回地区；cellnumber返回电话号码；email返回邮箱；birthday返回生日YYYYMMDD；
     log   oneclickdetails_userinfo Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${api_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${api_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${option}=    set variable    get
     ${path}=    set variable    /oneclickdetails.aspx
     ${maps}=    create dictionary
@@ -308,11 +334,14 @@ oneclickdetails_userinfo
     [Return]    ${fieldvalue}
 
 getMyCrewInfo
-    [Arguments]   ${returnfield}  ${userName}      ${pwd}=None
+    [Arguments]   ${returnfield}  ${userName}      ${pwd}=None   ${Base_URL}=None
     [Documentation]    getMyCrewInfo返回本人跑团相关信息,crewid返回跑团id,uid返回uid,nodeType返回nodeType,adminLevel返回adminLevel,jointime返回加入跑团时间,totalmember返回跑成员数，endNodeid返回endNodeid，role返回roleid,all返回datas中所有字段的值
     log   getMyCrewInfo Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${crew_muilt_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${crew_muilt_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${path}=    set variable    /structure/getMyCrewInfo
     ${maps}=    create dictionary
     log    ============${crew_muilt_URL}${path},map:${maps}==============
@@ -325,12 +354,15 @@ getMyCrewInfo
     [Return]    ${fieldvalue}	
 	
 check_runfeed
-    [Arguments]    ${fids}    ${userName}   ${pwd}=None
+    [Arguments]    ${fids}    ${userName}   ${pwd}=None   ${Base_URL}=None
     [Documentation]    check/run查询跑步记录是不是发过动态
     [Timeout]    30 seconds
     log   check_runfeed Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${api_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${api_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     @{fidList}    Split String    ${fids}    ,
     ${postRunId}    set variable    0
     ${fidlen}    Evaluate    len(${fidList})
@@ -358,9 +390,13 @@ check_runfeed
     [Return]    ${passfid}
 
 challengeList_filters
-    [Arguments]   ${filters}    ${Returnfield}    ${userName}   ${pwd}=None
+    [Arguments]   ${filters}    ${Returnfield}    ${userName}  
+    ...           ${pwd}=None   ${Base_URL}=None
     [Documentation]    challenge/challengeList挑战活动，返回uid和活动ID串，以list形式返回，第1个为活动ID串，第2个为uid
     log   challengeList_filters Start ......
+    ${challenge_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${challenge_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${uid}    oneclickdetails_userinfo    uid    ${userName}
     ${path}=    set variable    /challenge/challengeList
     ${maps}=    create dictionary
@@ -373,9 +409,13 @@ challengeList_filters
 	[Return]    ${challenge}   ${uid}
 	
 classList_classids
-    [Arguments]    ${dataType}   ${filters}   ${Returnfield}   ${userName}   ${pwd}=None
+    [Arguments]    ${dataType}   ${filters}   ${Returnfield}   ${userName} 
+    ...            ${pwd}=None    ${Base_URL}=None
     [Documentation]    /class/list跑班列表,dataType:1为普通跑班列表，2：为官方推荐列表；filters过滤条件；Returnfield需要返回的字段
     log   classList_classids Start ......
+    ${bet_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${bet_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
 	${pageNum}  set variable    0
     ${path}=    set variable     /class/list
     ${maps}=    create dictionary
@@ -391,11 +431,15 @@ classList_classids
 	
 	
 marathonlist_marathonIds
-    [Arguments]   ${filters}    ${Returnfield}     ${userName}     ${pwd}=None
+    [Arguments]   ${filters}    ${Returnfield}     ${userName}  
+    ...           ${pwd}=None   ${Base_URL}=None
     [Documentation]    marathon/online-mls-list 线上马的列表
     log   marathonlist_marathonIds Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${marathon_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${marathon_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${path}=    set variable    /marathon/online-mls-list
     ${maps}=    create dictionary
     log    ========输出接口入参：${marathon_URL}${maps}==========
@@ -409,11 +453,14 @@ marathonlist_marathonIds
 	[Return]    ${marathonIds}	
 	
 Get_shoe_id
-    [Arguments]       ${userName}    ${pwd}=None
+    [Arguments]       ${userName}    ${pwd}=None   ${Base_URL}=None
     [Documentation]    通过调brand-list和brand-shoe-list 接口随机选中一个shoe_id的公共Keywords关健字
     log   Get_shoe_id Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${wear_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${wear_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
 	${page}     set variable    1
 	${pagesize}     set variable    200
     ${path}=    set variable    /brand-list
@@ -449,9 +496,12 @@ Get_shoe_id
 	[Return]    ${shoe_id}	
 	
 Getmyclassid
-    [Arguments]    ${userName}  ${pwd}   ${isall}=None
+    [Arguments]    ${userName}  ${pwd}   ${isall}=None   ${Base_URL}=None
     [Documentation]    /user/my/mission获取参加中的跑班id,如没有则返回0；如有正在进行中的跑班且isall不为空时返回data,否则返回classId；
     log   Getmyclassid Start ......
+    ${bet_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${bet_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${path}=    set variable    /user/my/mission
     ${maps}=    create dictionary
     log    ======${bet_URL}${path}
@@ -465,11 +515,14 @@ Getmyclassid
 	[Return]    ${myclassid} 
 	
 Getmywallet
-    [Arguments]     ${userName}   ${pwd}   ${field}   ${isall}=None
+    [Arguments]     ${userName}   ${pwd}   ${field}   ${isall}=None   ${Base_URL}=None
     [Documentation]    wallet/getUserBalanceAmount 个人钱包信息,field为需要返回的字段：balanceAmount(钱包余额)，mobile(手机号码)，status（1：正常,0:冻结），uid，withdrawAmount（可提现金额），未开通钱包或未实名时返回0；
     log   Getmywallet Start ......
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${wallet_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${wallet_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${path}=    set variable    /wallet/getUserBalanceAmount
@@ -486,9 +539,13 @@ Getmywallet
 
  	
 GetmywithdrawAccount
-    [Arguments]    ${isDeleted}   ${filters}   ${Returnfield}   ${userName}   ${pwd}=None
+    [Arguments]    ${isDeleted}   ${filters}   ${Returnfield}   ${userName}
+    ...            ${pwd}=None   ${Base_URL}=None
     [Documentation]     /withdrawAccount/list用户钱包绑定帐号列表,isDeleted:1为已删除，0为正常如没有则返回0；filters过滤条件；Returnfield需要返回的字段
     log   GetmywithdrawAccount Start ......
+    ${wallet_URL}  Run Keyword IF  "${Base_URL}"=="None"   
+    ...     Set Variable   ${wallet_URL}
+    ...     ELSE  Set Variable   ${Base_URL}
     ${path}=    set variable    /withdrawAccount/list
     ${maps}=    create dictionary
 	set to dictionary    ${maps}    isDeleted=${isDeleted}

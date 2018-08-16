@@ -15,11 +15,23 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    courseid           nomoment             private    wgs
 Class_01              [Documentation]    上传跑步记录
-                      [Tags]             Online               Test
+                      [Tags]             Test                 Online
                       [Template]         RunRecord_opinion
                       0                  1                    1          1
+
+Class_02              [Documentation]    上传跑步记录
+                      [Tags]             Test
+                      [Template]         RunRecord_opinion
                       0                  1                    1          1
+
+Class_03              [Documentation]    上传跑步记录
+                      [Tags]             Test
+                      [Template]         RunRecord_opinion
                       0                  1                    1          1
+
+Class_04              [Documentation]    上传跑步记录
+                      [Tags]             Test
+                      [Template]         RunRecord_opinion
                       0                  1                    1          1
 
 *** Keywords ***
@@ -28,30 +40,24 @@ RunRecord_opinion
     [Documentation]    跑步判断，是否满足条件跑步
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
-    #环境判定和用户的选择
-    ${userName}    Env_username
+    #用线上环境用户取线上数据
     #${userName}    set variable    0802@163.com
-    ${env}    Env_username    1
     #从4个热门话题中随机选择一个热门话题
-    ${topicName}    FourTopicList_TopicName    ${userName}
+    ${topicName}    FourTopicList_TopicName    ${userName}    ${pwd}    http://topic.api.thejoyrun.com
     #从热门话题中，选择当前第1页最新的动态
-    ${srcfids}    Run Keyword If    '${env}'=='Test'    TopicDetail_Fids    ${topicName}    1    2
-    ...    ${userName}    8640000
-    ...    ELSE    TopicDetail_Fids    ${topicName}    1    2    ${userName}
-    ...    7200
+    ${srcfids}    TopicDetail_Fids    ${topicName}    1    2    ${userName}    7200
+    ...    ${pwd}    http://topic.api.thejoyrun.com
     #从传入的动态中选出符合条件的跑步记录运态
     ${fids}    Run Keyword If    "${srcfids}"=="0"    set variable    0
-    ...    ELSE IF    '${env}'=='Test'    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter
-    ...    2000    25000
     ...    ELSE    feedListBasicBulk_fid    ${srcfids}    ${userName}    run/meter    3000
-    ...    12000
+    ...    812000    ${pwd}    http://api.thejoyrun.com
     ${fid}    Run Keyword If    "${fids}"=="0"    set variable    0
     ...    ELSE    randomchoice    ${fids}    ,
-    ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
+    ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}    ${pwd}    http://api.thejoyrun.com
     ${ret}=    get json value    ${src}    /ret
     Run Keyword If    ${ret}=="0"    RuningRecord    ${src}    ${courseid}    ${nomoment}    ${private}
     ...    ${wgs}    ${userName}    ${topicName}
-    ...    ELSE    log    =====环境：${env};用户：${userName} ===姿势不好不跑了！！！======
+    ...    ELSE    log    =====用户：${userName} ===姿势不好不跑了！！！======
 
 RuningRecord
     [Arguments]    ${src}    ${courseid}    ${nomoment}    ${private}    ${wgs}    ${userName}
@@ -59,6 +65,10 @@ RuningRecord
     [Documentation]    /po.aspx type=1或7，为上传跑步记录
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${userNamelist}    usr_pass_env    0
+    ${userName}    Get From List    ${userNamelist}    0
+    ${pwd}    Get From List    ${userNamelist}    1
+    ${env}    Get From List    ${userNamelist}    2
     ${isaltitude}    Get Count    ${src}    "altitude":
     ${altitude}    Run Keyword If    ${isaltitude}>0    get json value    ${src}    /runrecord/altitude
     ...    ELSE    set variable    0

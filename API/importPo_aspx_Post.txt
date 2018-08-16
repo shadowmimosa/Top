@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     demo_Documentation 接口脚本
+Documentation     importPo.aspx 离线上传跑步数据接口脚本
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -14,25 +14,31 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    ret                msg
-Class_01              [Documentation]    demo_Documentation TestCase测试用例
-                      [Tags]             Demo
-                      [Template]         demo_URL_Keywords
-                      0                  成功
+*** Test Cases ***    altitude           city                                  content    courseid    ret    msg
+Class_01              [Documentation]    importPo.aspx TestCase离线上传跑步数据测试用例
+                      [Tags]             auto_v1
+                      [Template]         importPo_aspx_Post_Keywords
+                      \[\]               广州市                                   0          0           0      成功
 
 *** Keywords ***
-demo_URL_Keywords
-    [Arguments]    ${ret}    ${msg}
-    [Documentation]    demo_Documentation 接口用例的Keywords关健字
+importPo_aspx_Post_Keywords
+    [Arguments]    ${altitude}    ${city}    ${content}    ${courseid}    ${ret}    ${msg}
+    [Documentation]    importPo.aspx 离线上传跑步数据接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /urlpath
+    ${path}=    set variable    /importPo.aspx
+    ${source}    Set Variable    EZON E1S
     ${maps}=    create dictionary
+    set to dictionary    ${maps}    altitude=${altitude}
+    set to dictionary    ${maps}    city=${city}
+    set to dictionary    ${maps}    content=${content}
+    set to dictionary    ${maps}    courseid=${courseid}
+    set to dictionary    ${maps}    source=${source}
     log    ========输出接口URL：${api_URL}${path}
     log    ========接口的入参为：${userName}:${maps}==========
-    ${resp}=    thejoyrun_Keywords    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

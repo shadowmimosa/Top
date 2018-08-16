@@ -229,7 +229,7 @@ Textcontrl
     [Documentation]    根据类型做不同的随机返回文本字符串；
     log    Textcontrl Start ......
     Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${yyyy1}    ${mm1}    ${dd1}    ${hour1}    ${min1}    ${sec1}    Get Time
     ...    year,month,day,hour,min,sec
     ${yyyy}    Evaluate    int(${yyyy1})
