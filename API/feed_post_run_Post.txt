@@ -22,13 +22,14 @@ Class_01              [Documentation]    feed/post/run TestCase测试用例
 
 *** Keywords ***
 feed_post_run_Post_Keywords
-    [Arguments]    ${city}    ${domainId}    ${fid}    ${imgs}    ${memo}    ${postRunId}
-    ...    ${province}    ${ret}    ${msg}
+    [Arguments]    ${city}    ${domainId}    ${fid}    ${imgs}    ${memo}    
+    ...     ${postRunId}     ${province}    ${ret}    ${msg}
     [Documentation]    feed/post/run 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
+    ${memo}   Get_Words  4
     ${con}    thejoyrun_Keywords    ${rd_URL}    /running/domain/list    ${userName}    ${pwd}    Post
     ...    cityCode,amount,latitude,longitude    020,${EMPTY},23.402831,113.464891
     ${codelist}    get json value    ${con}    /data
