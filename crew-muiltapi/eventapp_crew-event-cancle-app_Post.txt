@@ -38,10 +38,10 @@ eventapp_crew-event-cancle-app_Post_Keywords
     ${codelists}    FilterList    ${codelist}    joinCnt,1,99/endTime,${end_time},${end_time1}    eventId
     Run Keyword IF    '${codelists}'=='0'    log    没有跑团活动可取消，暂不运行！！
     ...    ELSE    cancle crew-event    ${crewid}    ${event_id}    ${ret}    ${msg}
-    ...    ${codelists}
+    ...    ${codelists}   ${emv} 
 
 cancle crew-event
-    [Arguments]    ${crewid}    ${event_id}    ${ret}    ${msg}    ${codelists}
+    [Arguments]    ${crewid}    ${event_id}    ${ret}    ${msg}    ${codelists}  ${emv} 
     [Documentation]    取消跑团活动
     ${event_id}    randomchoice    ${codelists}    ,
     ${path}=    set variable    /eventapp/crew-event-cancle-app
