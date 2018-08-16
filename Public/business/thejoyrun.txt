@@ -379,8 +379,9 @@ thejoyrun_postd
     ${sign2}=    encrypt    ${signkey2}    md5    32
     log    运行环境是:${Base_URL}
     ${Testenv}    Get Lines Matching Pattern    ${Base_URL}    *-test*
-    ${sign1}    Run Keyword If    '${Testenv}'!='${EMPTY}'    set variable    ${signTest}
-    ...    ELSE    set variable    ${APP_SGIN}
+    ${sign1}    Run Keyword If    '${Testenv}'!='${EMPTY}'    
+    ...     set variable    ${signTest}
+    ...     ELSE    set variable    ${signOnline}
     ${_sign} =    Convert To Uppercase    ${sign1}
     log    通用签名:${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
@@ -481,7 +482,7 @@ thejoyrun_postnl
     log    运行环境是:${Base_URL}
     ${Testenv}    Get Lines Matching Pattern    ${Base_URL}    *-test*
     ${sign1}    Run Keyword If    '${Testenv}'!='${EMPTY}'    set variable    ${signTest}
-    ...    ELSE    set variable    ${APP_SGIN}
+    ...    ELSE    set variable    ${signOnline}
     ${_sign} =    Convert To Uppercase    ${sign1}
     log    通用签名:${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
@@ -753,7 +754,7 @@ thejoyrun_getp
     log    运行环境是:${Base_URL}
     ${Testenv}    Get Lines Matching Pattern    ${Base_URL}    *-test*
     ${sign1}    Run Keyword If    '${Testenv}'!='${EMPTY}'    set variable    ${signTest}
-    ...    ELSE    set variable    ${APP_SGIN}
+    ...    ELSE    set variable    ${signOnline}
     ${_sign} =    Convert To Uppercase    ${sign1}
     log    通用签名:${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}

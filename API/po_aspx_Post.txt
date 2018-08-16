@@ -7,11 +7,11 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    imgs                                                                                                                                                  type                       city         province    memo
-Class_01              [Documentation]                                                                                                                                       /po.aspx发表动态与删除动态
-                      [Tags]                                                                                                                                                LF_Test                    LF_Online
-                      [Template]                                                                                                                                            po_aspxPost_assertClass
-                      \[\{\"imgurl\":\"http://joyrun-activity.b0.upaiyun.com/shoe/7df8180b29d24637a5362608f58343d6.png\",\"imgwidth\":\"640\",\"imgheight\":\"1138\"\}\]    2                          广州           广东          哈哈
+*** Test Cases ***    imgs                                                                                         type                       city    province    memo
+Class_01              [Documentation]                                                                              /po.aspx发表动态与删除动态
+                      [Tags]                                                                                       Test
+                      [Template]                                                                                   po_aspxPost_assertClass
+                      \[\{\"imgurl\":\"aabbccddeeffzouzhiquan\",\"imgwidth\":\"640\",\"imgheight\":\"1138\"\}\]    2                          广州      广东          哈哈
 
 *** Keywords ***
 po_aspxPost_assertClass
@@ -19,8 +19,17 @@ po_aspxPost_assertClass
     [Documentation]    /po.aspx 发布动态接口基本验证
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    ${NewTopic}    Get_Global_Var    /newTopic/getHotsFeedList    ${userName}    http://topic.api.thejoyrun.com
+    ${fidslist}    Find And Value    ${NewTopic}    fid    ,    0
+    ${fids}    Get From List    ${fidslist}    1
+    ${fidinfo}    Get_Global_Var    feed/feedListBasicBulk    ${userName}    http://api.thejoyrun.com    ${pwd}    Post
+    ...    fids    ${fids}
+    ${imgurl}    Find And Value    ${fidinfo}    imgurl    ",    1
+    ${imgurl}    replace string    ${imgurl}    "    ${EMPTY}
+    ${imgs}    replace string    ${imgs}    aabbccddeeffzouzhiquan    ${imgurl}
     ${time1}=    Get Time    epoch
-    ${memo}=    set variable    ${memo}${time1}
+    ${memo}=    Get Words    1
+    ${memo}    Set Variable    ${memo}【${time1}】
     ${path}=    set variable    /po.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    imgs=${imgs}

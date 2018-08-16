@@ -14,6 +14,7 @@ ${signTest}            a9ff6970eb814e6894389ca8b12f3030    #可以放置一些�
 ${pwd}                 67889911    #可以放置一些公共参数；
 ${loginTest}           http://api-test.thejoyrun.com
 ${loginOnline}         http://api.thejoyrun.com
+${Gen_dict}            &{EMPTY}
 ${fxUrl}               http://fanxing.kugoucom
 *** Keywords ***
 
@@ -74,7 +75,7 @@ joyrun_POST_heardsession
     ${sign1}=    encrypt    ${signkey1}    md5    32
     ${sign2}=    encrypt    ${signkey2}    md5    32
     #通用签名
-    ${sign1}    Run Keyword If   '${env}'!='Online'   set variable   ${signTest}   ELSE   set variable   ${APP_SGIN}
+    ${sign1}    Run Keyword If   '${env}'!='Online'   set variable   ${signTest}   ELSE   set variable   ${signOnline}
     ${_sign} =    Convert To Uppercase    ${sign1}
     log   通用签名：${_sign}
     ${signature} =    Convert To Uppercase    ${sign2}
@@ -89,8 +90,12 @@ joyrun_POST_heardsession
     log    登录前传参url=${Url}${loginUri}
     log    登录前的heard=${header}
     log    登录前的body=data=pwd=${pwdmd5}&timestamp=${timestamp}&username=${username}
+    ${data}  Set Variable  deviceToken=${deviceToken}&pwd=${pwdmd5}&signature=${signature}&timestamp=${timestamp}&username=${username}
     Create Session    joyrun    ${Url}    headers=${header}
-    ${resplogin}=    post Request    joyrun    /user/login/normal    data=deviceToken=${deviceToken}&pwd=${pwdmd5}&signature=${signature}&timestamp=${timestamp}&username=${username}
+    ${resplogin}=    Post Request    joyrun    /user/login/normal   data=${data}     
+    ##...     ${EMPTY}   ${EMPTY}   None   ${True}   ${EMPTY}   
+    log    ${resplogin.headers}
+    #log    ${resplogin.json}
     ${login_content}=    charconver    ${resplogin.content}
     ${login_ret}     Get Json Value   ${login_content}   /ret
     ${login_ret}     Replace String    ${login_ret}    "    ${EMPTY}
@@ -129,13 +134,202 @@ joyrun_POST_heardsession
 
 
 
-Request_Gen
-    [Arguments]    ${URL}   ${method}=None   ${map}=None   ${type}=None   ${heards}=None    
-    [Documentation]    通用的http请求的方法; url为url的地址栏，method为Post,Get方法；Map为提交的参数和数据，此为json字典格式，type为提交数据的格式（data,pama);heards为请求头中的参数和值，此为json字典格式；
+Gen_Request
+    [Arguments]    ${URL}   ${method}=None   ${map}=None   ${type}=None   ${heards}=None     
+    [Documentation]    通用的http请求的方法; url为url的地址栏，method为Post,Get方法；Map为提交的参数和数据，此为json字典格式{Key1:Value1,key2:Value2}，type为提交数据的格式（data,pama);heards为请求头中的参数和值，传值方式为：{Key1:Value1,key2:Value2}；
     [Timeout]    30 seconds
     log  URL为：${URL} 
     log  method为：${method} 
     log  map为：${map}
     log  type为：${type} 
     log  heards为：${heards} 
+    log  开始处理Host和Path...
+    ${URList}   Evaluate   ${URL}.replace("://","JoyRun").split("/")
+    ${Host}   Get From List    ${URList}   0
+    ${Host}   Evaluate   ${Host}.replace("JoyRun","://")  
+    ${Path}   Replace String     ${URL}     ${Host}    ${EMPTY}
+    log   Host和Path处理完毕！！
+    log   开始处理Heards...
+    ${Gen_HearderPama}   Run Keyword IF  'Gen_Headers'  IN  ${heards}   
+    ...     Get Json Value    ${heards}   /Gen_Headers
+    ${header}   Run Keyword IF  'Gen_Hearder'  IN  ${header} 
+    ...     Gen_Hearder    ${Gen_HearderPama} 
+    ...     ELSE   Set Variable    ${heards}
+    log    headers 处理完毕！！
+
+    #| data=None | params=None | headers=None | files=None | allow_redirects=None | timeout=None
+    Create Session    Gen    ${Host}    headers=${header}
+    ${resplogin}    post Request    Gen     
+
+
+Gen_Headers
+    [Arguments]    ${jsondatas}       
+    [Documentation]    通用的Headers处理方法，Headers_URL,Headers_type,Headers_method,Headers_Map,Headers_header为heards需要URL请求用;rebody,reheaders，这些字段传的方式为json格式；rebody为从返回body中获取的字段（需要返回多个时用英文逗号隔开），reheaders为从返回的headers中获取的字段（需要返回多个时用英文逗号隔开，默认为cookie）；Jsondatas=
+    ...     {"Headers_URL":"value1","Headers_type":"value2","Headers_Map":"value3",
+    ...     "Headers_method":"value3","Headers_header":"value4",
+    ...     "rebody":"value5","reheaders":"value6"};
+    ...     当调用第3方方法处理header时，传字段名：threeMethod,值传:方法名,
+    ...     threeMethodPama：方法参数集;
+    ...     Jsondatas={"threeMethod":"方法名","threeMethodPama":参数集"}
+    log    Gen_Hearder start ...
+    ${Gen_Headers_type}  Run Keyword IF   "Headers_URL"  IN   ${jsondatas}   
+    ...     Set Variable   ${1}
+    ...     ELSE   Set Varible   ${0}
+    log   开始处理Headers的参数...
+    ${Headers_URL}   Run Keyword IF   "Headers_URL"  IN   ${jsondatas}   
+    ...     Get Json Value    ${jsondatas}   /Headers_URL
+     ${Headers_type}   Run Keyword IF   "Headers_type"  IN   ${jsondatas}    
+    ...     Get Json Value    ${jsondatas}   /Headers_type
+    ${Headers_method}   Run Keyword IF   "Headers_method"  IN   ${jsondatas}    
+    ...     Get Json Value    ${jsondatas}   /Headers_method
+    ${Headers_Map}    Run Keyword IF   "Headers_Map"  in   ${jsondatas}    
+    ...     Get Json Value    ${jsondatas}   /Headers_Map
+    ${Headers_header}    Run Keyword IF   "Headers_header"  IN   ${jsondatas}    
+    ...     Get Json Value    ${jsondatas}   /Headers_header
+    ${threeMethod}   Run Keyword IF   "threeMethod"  IN   ${jsondatas}
+    ...     Get Json Value    ${jsondatas}   /threeMethod
+    ${threeMethodPama}   Run Keyword IF   "threeMethodPama"  IN   ${jsondatas}
+    ...     Get Json Value    ${jsondatas}   /threeMethodPama
+    ${reheaders}   Run Keyword IF   "reheaders"  IN   ${jsondatas}
+    ...     Get Json Value    ${jsondatas}   /reheaders
+    ${reheaderslist}  Run Keyword IF  "reheaders"  IN   ${jsondatas}
+    ...      Evaluate   ${reheaders}.split(",")
+    ${rebody}   Run Keyword IF   "rebody"  IN   ${jsondatas}
+    ...     Get Json Value    ${jsondatas}   /rebody
+    ${rebodylist}  Run Keyword IF  "rebody"  IN   ${jsondatas}
+    ...      Evaluate   ${rebody}.split(",")
+    log   Headers参数处理完毕！！
+    log   开始网络请求或调用自定方法处理...
+    ${Header}   Create Dictionary
+    ${Hearderesp}   Run Keyword IF   ${Gen_Headers_type}==1
+    ...     Gen_Request   ${Headers_URL}  ${Headers_method}      
+    ...     ${Headers_Map}   ${Headers_type}     ${Headers_header}
+    ...     ELSE     ${threeMethod}    ${threeMethodPama}
+    ${statuscode}    Run Keyword IF   ${Gen_Headers_type}==1
+    ...      Set Variable  ${Hearderesp.status_code}
+    ...      Set Variable  ${200}
+    ${headersdict}   Run Keyword IF   ${Gen_Headers_type}==1 and ${statuscode}==200
+    ...      set variable    ${Hearderesp.headers}
+    ${Set_cookie}   Run Keyword IF   ${Gen_Headers_type}==1 and ${statuscode}==200 
+    ...     Get Json Value   ${Hearderesp.headers}   /Set-Cookie
+    Run Keyword IF   ${Gen_Headers_type}==1 and ${statuscode}==200
+    ...     set to dictionary  ${Header}   Cookie=${Set_cookie}
+    Run Keyword IF   ${Gen_Headers_type}==1  and ${statuscode}==200
+    ...      ${Header}   list_From_json   ${reheaderslist}   ${headersdict}  ${Header}
+    Run Keyword IF   ${Gen_Headers_type}==1 and ${statuscode}==200
+    ...      ${Header}  list_From_json  ${rebodylist}  ${Hearderesp.content}    
+    ...      ${Header}  
+    ${Headerstring}   Run Keyword IF   ${Gen_Headers_type}==1 and ${statuscode}==200
+    ...      Dict to Json   ${Header}   {}
+    ...      ELSE IF   ${Gen_Headers_type}==1 and ${statuscode}!=200
+    ...      Set Varibale  {"msg":"Headers No Success!!"}
+    ...      ELSE   Set Variable   ${Hearderesp} 
+    log     处理完毕!!
+    log     Gen_Hearder End !!!
+    [Return]   ${Hearder}
+
+
+lists_To_dict
+    [Arguments]    ${keylist}  ${valuelist}  ${dict}
+    [Documentation]  将keylist和valuelist 一一对应放到dict字典中；
+    log  lists_To_dict start ....
+    log list     ${keylist}
+    log list     ${valuelist}
+    log dictionary  ${dict}
+    ${num}   Evaluate  len(${keylist})
+    ${i}  set variable  ${0}
+    :FOR  ${Key}  in  ${keylist}
+    \   set to dictionary   ${dict}   ${Key}=${valuelist[${i}]}
+    \   ${i}   Evaluate   ${i}+1
+    \   log  i==${i}
+    \   log  dict===${dict}
+    log  lists_To_dict End!!!
+    [Return]   ${dict}
+
+list_From_json
+    [Arguments]    ${keylist}   ${jsonstring}   ${redicts}=None
+    [Documentation]  从Json串中取一系列key的value值，并组成dict返回；
+    log  list_From_json start ...
+    ${redict}   Run Keyword IF  ${redicts}==None   create dictionary
+    ...         ELSE   Copy Dictionary    ${redicts} 
+    log dictionary   ${redict}
+    :FOR  ${Key}  IN  @{keylist}
+    \   ${index}   Get Count    ${jsonstring}   ${Key}
+    \   ${valuestring}  Run Keyword IF  ${index}>0
+    \    ...    Get Json Value  ${jsonstring}  /${Key}
+    \    ...    ELSE   Set Variable   ${EMPTY}
+    \   Set to Dictionary   ${redict}   ${Key}=${valuestring}
+    log dictionary   ${redict}
+    log  list_From_json End !!!
+    [Return]   ${redict}
+
+Dict to Json
+    [Arguments]   ${Dicts}  ${Jsonstrings}=None
+    [Documentation]  将字典转换为json字符串，并拼接在Jsonstring字符串中
+    log  Dict to Json start ...
+    ${dictstring}   Evaluate   json.dumps(${Dicts})   json
+    log dictionary    ${Dicts}
+    log json  ${dictstring} 
+    #${dictstring}   Json_to_Dict   ${Dicts}
+    ${Jsonstring}  Run Keyword IF  "${Jsonstrings}"!="None"    
+    ...     Set Variable  ${Jsonstrings}
+    ...     ELSE   Set Variable   ${dictstring} 
+    ${Jsonstring}   Run Keyword IF  "${Jsonstrings}"!="None"    
+    ...     Replace String   ${Jsonstring}  }${EMPTY}    ,${dictstring}}
+    ...     ELSE   Set Variable   ${Jsonstring}
+    ${Jsonstring}   Run Keyword IF  "${Jsonstrings}"!="None"    
+    ...     Replace String   ${Jsonstring}  ]${EMPTY}    ,${dictstring}]
+    ...     ELSE   Set Variable   ${Jsonstring}
+    Run Keyword IF  "${Jsonstrings}"=="None"     log Json   ${Jsonstring} 
+    log  Dict to Json End !!!
+    [Return]   ${Jsonstring}
+
+List to Str
+    [Arguments]   ${Lists}   ${String}=None
+    [Documentation]  将列表转换字符串，并拼接在String字符串之后
+    log   List to Str start ...
+    log    list===${Lists}
+    log    String==${String}
+    @{List}   Evaluate   list(${Lists})
+    ${str1}   Set Variable  ${EMPTY}
+    :FOR  ${idex}  IN  @{List}
+    \     log    idex==${idex}
+    \     ${intx}    Evaluate   type(${idex})==int 
+    \     ${listx}   Evaluate   type(${idex})==list
+    \     @{idexList}   Run Keyword IF  ${listx}>0   Evaluate   list(${idex})
+    \     Run Keyword IF  ${listx}>0   log   ${idexList[0]}
+    \     ${dictx}   Evaluate   type(${idex})==dict 
+    \     &{idexdict}   Run Keyword IF  ${dictx}>0   Evaluate   dict(${idex})
+    \     ${str1}    Run Keyword IF  ${intx}==True
+    \     ...  Set Variable   ${str1}${idex},
+    \     ...  ELSE IF  ${listx}==True
+    \     ...  List to Str   ${idexList}   ${str1}
+    \     ...  ELSE IF  ${dictx}>0 
+    \     ...  Dict to Json  ${idexdict}   ${str1}  
+    \     ...  ELSE   Set Variable   ${str1}${idex},
+    ${String}   Run Keyword IF  "${String}"!="None"      
+    ...         replace string   ${String}  }${EMPTY}    ,${str1}}
+    ${String}   Run Keyword IF  "${String}"!="None"   
+    ...         replace string   ${String}  ]${EMPTY}    ,${str1}]
+    ${String}   Run Keyword IF  "${String}"!="None"    
+    ...         replace string   ${String}  ,}${EMPTY}   }${EMPTY}
+    ${String}   Run Keyword IF  "${String}"!="None"   
+    ...         replace string   ${String}  ,]${EMPTY}   ]${EMPTY}
+    ${String}   Run Keyword IF  "${String}"!="None"    
+    ...         replace string   ${String}  ,${EMPTY}   ${EMPTY}
+    ${String}   Run Keyword IF  "${String}"!="None"     
+    ${String}    Run Keyword IF  "${String}"!="None"   
+    ...         Set Variable     ${String1} 
+    ...         ELSE  Set Variable    ${str1}
+    log   String==${String}
+    log   List to Str End !!!
+    [Return]   ${String}
+
+
+
+
+
+
+
+
 
