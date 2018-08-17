@@ -90,6 +90,9 @@ rd_URL='http://rd.api.thejoyrun.com'
 #天气web
 webevent_URL='http://webevent.thejoyrun.com'
 
+#阿凡达
+equipment_URL='http://equipment.api.thejoyrun.com'
+
 
 #=====小程序相关配置=================================
 

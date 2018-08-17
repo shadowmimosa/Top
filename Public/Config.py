@@ -163,6 +163,9 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 	#赛事小助手
 	trip_URL='http://trip-test.api.thejoyrun.com'
 	
+	#阿凡达
+	equipment_URL='http://equipment-test.api.thejoyrun.com'
+	
 	##===================小程序相关配置=====================
 
 	#小程序统一域名
@@ -274,6 +277,9 @@ else:
 	
 	#赛事小助手
 	trip_URL='https://trip.api.thejoyrun.com'
+	
+	#阿凡达
+	equipment_URL='http://equipment.api.thejoyrun.com'	
 	
 	#=====小程序相关配置=================================
 
