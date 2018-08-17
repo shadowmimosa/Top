@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     getUserCurrentEqpt 获取用户当前使用装备
+Documentation     badge/getBadgeListByBadgeIds 根据勋章ID获取勋章信息
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -14,25 +14,26 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    ret                msg
-Class_01              [Documentation]    getUserCurrentEqpt TestCase测试用例
-                      [Tags]             Test                               gxy
-                      [Template]         getUserCurrentEqpt_Get_Keywords
-                      0                  成功
+*** Test Cases ***    badgeIds           ret                                          msg
+Class_01              [Documentation]    badge/getBadgeListByBadgeIds TestCase测试用例
+                      [Tags]             Test                                         gxy    Online
+                      [Template]         badge_getBadgeListByBadgeIds_Get_Keywords
+                      200206             0                                            成功
 
 *** Keywords ***
-getUserCurrentEqpt_Get_Keywords
-    [Arguments]    ${ret}    ${msg}
-    [Documentation]    getUserCurrentEqpt 接口用例的Keywords关健字
+badge_getBadgeListByBadgeIds_Get_Keywords
+    [Arguments]    ${badgeIds}    ${ret}    ${msg}
+    [Documentation]    badge/getBadgeListByBadgeIds 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /getUserCurrentEqpt
+    ${path}=    set variable    /badge/getBadgeListByBadgeIds
     ${maps}=    create dictionary
-    log    ========输出接口URL：${equipment_URL}${path}
-    log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${equipment_URL}
+    set to dictionary    ${maps}    badgeIds=${badgeIds}
+    log    ========输出接口URL：${user_URL}${path}
+    log    ========接口的入参为：${userName}:${maps}==========
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${user_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====
@@ -43,4 +44,4 @@ getUserCurrentEqpt_Get_Keywords
     should contain    ${content}    "msg":"${msg}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
     #${data}    get json value    ${content}    /data
-    log    验证OK！！用户${userName}；URL：${equipment_URL}${path}；传参：${maps}！！
+    log    验证OK！！用户${userName}；URL：${user_URL}${path}；传参：${maps}！！

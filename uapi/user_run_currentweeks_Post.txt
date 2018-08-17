@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     getUserCurrentEqpt 获取用户当前使用装备
+Documentation     user/run/currentweeks 获取用户连续跑步周
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -15,24 +15,24 @@ ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
 *** Test Cases ***    ret                msg
-Class_01              [Documentation]    getUserCurrentEqpt TestCase测试用例
-                      [Tags]             Test                               gxy
-                      [Template]         getUserCurrentEqpt_Get_Keywords
+Class_01              [Documentation]    user/run/currentweeks TestCase测试用例
+                      [Tags]             Test                                   gxy    Online
+                      [Template]         user_run_currentweeks_Post_Keywords
                       0                  成功
 
 *** Keywords ***
-getUserCurrentEqpt_Get_Keywords
+user_run_currentweeks_Post_Keywords
     [Arguments]    ${ret}    ${msg}
-    [Documentation]    getUserCurrentEqpt 接口用例的Keywords关健字
+    [Documentation]    user/run/currentweeks 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /getUserCurrentEqpt
+    ${path}=    set variable    /user/run/currentweeks
     ${maps}=    create dictionary
-    log    ========输出接口URL：${equipment_URL}${path}
-    log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${equipment_URL}
+    log    ========输出接口URL：${user_URL}${path}
+    log    ========接口的入参为：${userName}:${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${user_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====
@@ -43,4 +43,4 @@ getUserCurrentEqpt_Get_Keywords
     should contain    ${content}    "msg":"${msg}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
     #${data}    get json value    ${content}    /data
-    log    验证OK！！用户${userName}；URL：${equipment_URL}${path}；传参：${maps}！！
+    log    验证OK！！用户${userName}；URL：${user_URL}${path}；传参：${maps}！！

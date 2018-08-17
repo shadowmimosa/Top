@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     saveUserCurrentEqpt 接口脚本
+Documentation     saveUserCurrentEqpt 保存所选装备
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
