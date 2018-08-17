@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     getUserEqptByType 接口脚本
+Documentation     getUserEqptByType 获取装备列表：1-衣服，2-裤子，3-鞋子
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
