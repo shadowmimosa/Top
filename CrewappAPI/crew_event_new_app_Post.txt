@@ -7,11 +7,11 @@ ${pwd}            123321    # 密码
 ${userName}       18011884709    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    is_private         lng                                     city    meter     key_pair    province_city_code    end_time      title    descriptions    start_time    crew_node_id    event_id                            province    crewid    apply_notes    location          max_cnt    deadline      lat                   cover_img
+*** Test Cases ***    is_private         lng                                     city    meter     key_pair    province_city_code    end_time      title               descriptions    start_time    crew_node_id    event_id                            province    crewid    apply_notes    location          max_cnt    deadline      lat                   cover_img
 Class_01              [Documentation]    /crew-event-new-app-创建跑团活动
                       [Tags]             Test                                    gxy     Online
                       [Template]         /crew-event-new-app_Post_assertClass
-                      1                  115.3351525171601                       广州市     1000      ${EMPTY}    020                   1532425740    title    跑团活动详情          1532353740    0               f8a8f7b62f9a418b8a8a3e204350a61e    广东省         30230     ${EMPTY}       广东省广州市天河区智汇创意园    0          1532346540    28.177360560017085    http://linked-runner.b0.upaiyun.com/linked-runner/u_32518253_crew_event_cover_180725_1452285891.jpg
+                      1                  115.3351525171601                       广州市     1000      ${EMPTY}    020                   1532425740    欢迎加入悦跑圈，让我们一起跑步吧    跑团活动详情          1532353740    0               f8a8f7b62f9a418b8a8a3e204350a61e    广东省         30230     ${EMPTY}       广东省广州市天河区智汇创意园    0          1532346540    28.177360560017085    http://linked-runner.b0.upaiyun.com/linked-runner/u_32518253_crew_event_cover_180725_1452285891.jpg
 
 *** Keywords ***
 /crew-event-new-app_Post_assertClass
@@ -25,7 +25,7 @@ Class_01              [Documentation]    /crew-event-new-app-创建跑团活动
     ${crewId}    getMyCrewInfo    crewid    ${userName}
     ${start_time}    Gettimes    hh,+1,times
     ${start_time}    Evaluate    str(${start_time})
-    ${title}    set variable    ${title}${start_time}
+    #${title}    set variable    ${title}${start_time}
     ${deadline}    Gettimes    dd,+2,times
     ${deadline}    Evaluate    str(${deadline})
     ${event_id}    Evaluate    uuid.uuid1()    uuid
