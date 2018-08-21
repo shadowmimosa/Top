@@ -1,0 +1,53 @@
+*** Settings ***
+Documentation     shoe-comment-pre-check 检查用户是否能评论
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           HttpLibrary.HTTP
+Library           ../Public/Lib/tools_library.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            123321    # 密码
+${userName}       18011884709    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    shoe_id            msg                                    ret
+Class_01              [Documentation]    shoe-comment-pre-check TestCase测试用例
+                      [Tags]             Test                                   Online    gxy
+                      [Template]         shoe-comment-pre-check_Get_Keywords
+                      339                您还未用该跑鞋跑过步，无法评论                        11003
+
+*** Keywords ***
+shoe-comment-pre-check_Get_Keywords
+    [Arguments]    ${shoe_id}    ${msg}    ${ret}
+    [Documentation]    shoe-comment-pre-check 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${con}    thejoyrun_Keywords    ${wear_URL}    /brand-shoe-list    ${userName}    ${pwd}    Post
+    ...    brand_id,page,pagesize,sortType    3,1,10,1
+    ${codelist}    get json value    ${con}    /data
+    ${codelists}    FilterList    ${codelist}    brand_id,3,33    shoe_id
+    ${shoe_id}    Run Keyword If    '${codelists}'=='0'    set variable    0
+    ...    ELSE    randomchoice    ${codelists}    ,
+    ${path}=    set variable    /shoe-comment-pre-check
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    shoe_id=${shoe_id}
+    log    ========输出接口URL：${wear_URL}${path}
+    log    ========接口的入参为：${userName}:${maps}==========
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${wear_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${wear_URL}${path}；传参：${maps}！！

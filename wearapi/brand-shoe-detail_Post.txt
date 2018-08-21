@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     brand-shoe-detail 接口脚本
+Documentation     brand-shoe-detail 品牌跑鞋详情
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

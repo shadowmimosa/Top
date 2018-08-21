@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     活动列表
+Documentation     首发跑鞋列表
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

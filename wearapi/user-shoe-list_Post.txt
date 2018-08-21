@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     user-shoe-list 接口脚本
+Documentation     user-shoe-list 用户跑鞋列表
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -7,15 +7,15 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***     ret   msg  
+*** Test Cases ***    ret                msg
 Class_01              [Documentation]    user-shoe-list TestCase测试用例
-                      [Tags]             Test   auto_v1   Online
+                      [Tags]             Test                            auto_v1    Online
                       [Template]         user-shoe-list_Post_Keywords
                       "0"                成功
 
 *** Keywords ***
 user-shoe-list_Post_Keywords
-    [Arguments]     ${ret}   ${msg}
+    [Arguments]    ${ret}    ${msg}
     [Documentation]    user-shoe-list 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys

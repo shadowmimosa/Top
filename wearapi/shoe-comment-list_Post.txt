@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     shoe-comment-list 接口脚本
+Documentation     shoe-comment-list 跑鞋评论列表
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -7,26 +7,26 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***   page    pagesize    shoe_id  ret   msg  
+*** Test Cases ***    page               pagesize                           shoe_id    ret       msg
 Class_01              [Documentation]    shoe-comment-list TestCase测试用例
-                      [Tags]             Test   auto_v1   Online
+                      [Tags]             Test                               auto_v1    Online
                       [Template]         shoe-comment-list_Post_Keywords
-                      1    10   2909   "0"                成功
+                      1                  10                                 2909       "0"       成功
 
 *** Keywords ***
 shoe-comment-list_Post_Keywords
-    [Arguments]   ${page}   ${pagesize}   ${shoe_id}     ${ret}   ${msg}
+    [Arguments]    ${page}    ${pagesize}    ${shoe_id}    ${ret}    ${msg}
     [Documentation]    shoe-comment-list 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-	${shoe_id}   Get_shoe_id    ${userName}
+    ${shoe_id}    Get_shoe_id    ${userName}
     ${path}=    set variable    /shoe-comment-list
     ${maps}=    create dictionary
-    set to dictionary  ${maps}  page=${page}
-    set to dictionary  ${maps}  pagesize=${pagesize}
-    set to dictionary  ${maps}  shoe_id=${shoe_id}
+    set to dictionary    ${maps}    page=${page}
+    set to dictionary    ${maps}    pagesize=${pagesize}
+    set to dictionary    ${maps}    shoe_id=${shoe_id}
     log    ========输出接口URL：${wear_URL}${path}
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wear_URL}

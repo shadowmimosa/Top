@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     brand-list 接口脚本
+Documentation     brand-list 品牌列表
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -7,15 +7,15 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***   page    pagesize  ret   msg  
+*** Test Cases ***    page               pagesize                    ret        msg
 Class_01              [Documentation]    brand-list TestCase测试用例
-                      [Tags]             Test   auto_v1    Online
+                      [Tags]             Test                        auto_v1    Online
                       [Template]         brand-list_Post_Keywords
-                      1   200    "0"                成功
+                      1                  200                         "0"        成功
 
 *** Keywords ***
 brand-list_Post_Keywords
-    [Arguments]   ${page}   ${pagesize}     ${ret}   ${msg}
+    [Arguments]    ${page}    ${pagesize}    ${ret}    ${msg}
     [Documentation]    brand-list 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -23,8 +23,8 @@ brand-list_Post_Keywords
     #${userName}    Env_username
     ${path}=    set variable    /brand-list
     ${maps}=    create dictionary
-    set to dictionary  ${maps}  page=${page}
-    set to dictionary  ${maps}  pagesize=${pagesize}
+    set to dictionary    ${maps}    page=${page}
+    set to dictionary    ${maps}    pagesize=${pagesize}
     log    ========输出接口URL：${wear_URL}${path}
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wear_URL}

@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]             trip/order/userDelOrder TestCase测试用例
                       [Tags]                      Test                                                          txy
                       [Template]                  trip_order_userDelOrder_thejoyrun_postjson_wxminp_Keywords
-                      153068886755017160100307    0                                                             成功
+                      153068886755017160100307    "500"                                                         "成功"
 
 *** Keywords ***
 trip_order_userDelOrder_thejoyrun_postjson_wxminp_Keywords
@@ -31,10 +31,10 @@ trip_order_userDelOrder_thejoyrun_postjson_wxminp_Keywords
     log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
-    should contain    ${content}    "ret":"${ret}"
+    should contain    ${content}    "ret":${ret}
     log    ret 符合预期为:${ret}
-    log    验证msg是否符合预期:${msg}
-    should contain    ${content}    "msg":"${msg}"
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="500"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msg}
     #当需要添加对data的内容进行单独验证时，可以以下方式
-    #${data}    get json value    ${content}    /data
-    log    验证OK！！用户${userName}；URL：${mapp_URL}${path}；传参：${maps}！！
+    log    ------------------------ It is OK!!!!-------------------------------------
