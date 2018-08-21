@@ -26,16 +26,17 @@ join_select
     @{challengeList}    challengeList_filters    activityStatus,0,1.5    challengeId    ${userName}
     ${cids}    Get From List    ${challengeList}    0
     ${uid}    Get From List    ${challengeList}    1
+    @{cidlist}    Run Keyword If    '${cids}'!='0'    Split String    ${cids}    ,
     Run Keyword If    '${cids}'=='0'    log    没有未完成的活动可参加；
-    ...    ELSE    select_challenge    ${uid}    ${cids}    ${ret}    ${msg}
+    ...    ELSE    select_challenge    ${uid}    ${cidlist}    ${ret}    ${msg}
     ...    ${userName}
 
 select_challenge
-    [Arguments]    ${uid}    ${cids}    ${ret}    ${msg}    ${userName}
+    [Arguments]    ${uid}    ${cidlist}    ${ret}    ${msg}    ${userName}
     [Documentation]    /challenge/getActivity 选择未参与的活动；
-    @{cidlist}    Split String    ${cids}    ,
     ${cid}    Get From List    ${cidlist}    0
-    ${cids}    Removesting    ${cids}    ${cid}    ,
+    Remove Values From List    ${cidlist}    ${cid}
+    ${cidlen}    Evaluate    len(${cidlist})
     ${path}=    set variable    /challenge/getActivity
     ${maps}=    create dictionary
     set to dictionary    ${maps}    uid=${uid}
@@ -47,7 +48,7 @@ select_challenge
     ...    ELSE    set variable    error{ret11}
     Run Keyword If    ${userJoinStatus}==0    joinchallengeuser_post    ${uid}    ${cid}    ${ret}    ${msg}
     ...    ${userName}
-    ...    ELSE IF    ${userJoinStatus}<>0 and "${cids}"<>"${EMPTY}"    select_challenge    ${uid}    ${cids}    ${ret}
+    ...    ELSE IF    ${userJoinStatus}!=0 and ${cidlen}>0    select_challenge    ${uid}    ${cidlist}    ${ret}
     ...    ${msg}    ${userName}
     ...    ELSE    log    ${userName}所有活动都已参加，无未参加的活动
 
