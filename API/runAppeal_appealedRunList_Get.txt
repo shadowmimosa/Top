@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     run/best 查询历史最佳
+Documentation     runAppeal/appealedRunList 跑步申诉记录
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -14,26 +14,27 @@ ${pwd}            123321    # 密码
 ${userName}       18011884709    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    year               ret                       msg
-Class_01              [Documentation]    run/best TestCase测试用例
-                      [Tags]             Test                      gxy
-                      [Template]         run_best_Post_Keywords
-                      2018               0                         成功
+*** Test Cases ***    page               pagesize                                  ret       msg
+Class_01              [Documentation]    runAppeal/appealedRunList TestCase测试用例
+                      [Tags]             Test                                      Online    gxy
+                      [Template]         runAppeal_appealedRunList_Get_Keywords
+                      0                  10                                        0         成功
 
 *** Keywords ***
-run_best_Post_Keywords
-    [Arguments]    ${year}    ${ret}    ${msg}
-    [Documentation]    run/best 接口用例的Keywords关健字
+runAppeal_appealedRunList_Get_Keywords
+    [Arguments]    ${page}    ${pagesize}    ${ret}    ${msg}
+    [Documentation]    runAppeal/appealedRunList 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /run/best
+    ${path}=    set variable    /runAppeal/appealedRunList
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    year=${year}
+    set to dictionary    ${maps}    page=${page}
+    set to dictionary    ${maps}    pagesize=${pagesize}
     log    ========输出接口URL：${api_URL}${path}
-    log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    log    ========接口的入参为：${userName}:${maps}==========
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

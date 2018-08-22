@@ -1,0 +1,60 @@
+*** Settings ***
+Documentation     runAppeal/add 提交跑步申诉
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           HttpLibrary.HTTP
+Library           ../Public/Lib/tools_library.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            123321    # 密码
+${userName}       18011884709    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    images                                                                                                                                                                                                                                                         postId                         reason                       ret    msg
+Class_01              [Documentation]                                                                                                                                                                                                                                                runAppeal/add TestCase测试用例
+                      [Tags]                                                                                                                                                                                                                                                         Test                           Online                       gxy
+                      [Template]                                                                                                                                                                                                                                                     runAppeal_add_Post_Keywords
+                      \["http://linked-runner.b0.upaiyun.com/linked-runner-file/appeal/record/2018/08/22/android_32518666_1600073397_1534925356171","http://linked-runner.b0.upaiyun.com/linked-runner-file/appeal/record/2018/08/22/android_32518666_1600073397_1534925356806"\]    1600073397                     有可申诉的跑步数据才运行该用例，无时则不运行该用例    0      成功
+
+*** Keywords ***
+runAppeal_add_Post_Keywords
+    [Arguments]    ${images}    ${postId}    ${reason}    ${ret}    ${msg}
+    [Documentation]    runAppeal/add 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${con}    thejoyrun_Keywords    ${api_URL}    /runAppeal/canAppealRunList    ${userName}    ${pwd}    Post
+    ${codelist}    get json value    ${con}    /data
+    ${codelists}    FilterList    ${codelist}    status,8,8.1    postId
+    Run Keyword IF    '${codelists}'=='0'    log    没有跑步记录可申诉，暂不运行！！
+    ...    ELSE    add_runAppeal    ${images}    ${postId}    ${reason}    ${ret}
+    ...    ${msg}    ${codelists}
+
+add_runAppeal
+    [Arguments]    ${images}    ${postId}    ${reason}    ${ret}    ${msg}    ${codelists}
+    [Documentation]    runAppeal/add 接口用例的Keywords关健字
+    ${postId}    randomchoice    ${codelists}    ,
+    ${path}=    set variable    /runAppeal/add
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    images=${images}
+    set to dictionary    ${maps}    postId=${postId}
+    set to dictionary    ${maps}    reason=${reason}
+    log    ========输出接口URL：${api_URL}${path}
+    log    ========接口的入参为：${userName}:${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${api_URL}${path}；传参：${maps}！！

@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     run/best 查询历史最佳
+Documentation     run/delete 接口脚本
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -14,26 +14,32 @@ ${pwd}            123321    # 密码
 ${userName}       18011884709    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    year               ret                       msg
-Class_01              [Documentation]    run/best TestCase测试用例
-                      [Tags]             Test                      gxy
-                      [Template]         run_best_Post_Keywords
-                      2018               0                         成功
+*** Test Cases ***    fid                postRunId                  ret    msg
+Class_01              [Documentation]    run/delete TestCase测试用例
+                      [Tags]             Test                       gxy
+                      [Template]         run_delete_Get_Keywords
+                      99078710           1600072020                 0      成功
+
+Class_02              [Documentation]    run/delete TestCase测试用例
+                      [Tags]             Online                     gxy
+                      [Template]         run_delete_Get_Keywords
+                      181315262          174019481                  0      成功
 
 *** Keywords ***
-run_best_Post_Keywords
-    [Arguments]    ${year}    ${ret}    ${msg}
-    [Documentation]    run/best 接口用例的Keywords关健字
+run_delete_Get_Keywords
+    [Arguments]    ${fid}    ${postRunId}    ${ret}    ${msg}
+    [Documentation]    run/delete 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /run/best
+    ${path}=    set variable    /run/delete
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    year=${year}
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${maps}    postRunId=${postRunId}
     log    ========输出接口URL：${api_URL}${path}
-    log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    log    ========接口的入参为：${userName}:${maps}==========
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

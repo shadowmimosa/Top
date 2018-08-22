@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     run/best 查询历史最佳
+Documentation     resetpwd.aspx 重置密码-邮件
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -9,30 +9,25 @@ Library           HttpLibrary.HTTP
 Library           ../Public/Lib/tools_library.py
 Resource          ../Public/public_lib.txt
 
-*** Variable ***
-${pwd}            123321    # 密码
-${userName}       18011884709    # 默认的用户名
-${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
-
-*** Test Cases ***    year               ret                       msg
-Class_01              [Documentation]    run/best TestCase测试用例
-                      [Tags]             Test                      gxy
-                      [Template]         run_best_Post_Keywords
-                      2018               0                         成功
+*** Test Cases ***    mail               msg                            ret
+Class_01              [Documentation]    resetpwd.aspx TestCase测试用例
+                      [Tags]             Test                           Online    gxy
+                      [Template]         resetpwd_aspx_Post_Keywords
+                      0802@126.com       发送邮件成功                         0
 
 *** Keywords ***
-run_best_Post_Keywords
-    [Arguments]    ${year}    ${ret}    ${msg}
-    [Documentation]    run/best 接口用例的Keywords关健字
+resetpwd_aspx_Post_Keywords
+    [Arguments]    ${mail}    ${msg}    ${ret}
+    [Documentation]    resetpwd.aspx 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /run/best
+    ${path}=    set variable    /resetpwd.aspx
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    year=${year}
+    set to dictionary    ${maps}    mail=${mail}
     log    ========输出接口URL：${api_URL}${path}
-    log    ========接口的入参为：${maps}==========
+    log    ========接口的入参为：${userName}:${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
