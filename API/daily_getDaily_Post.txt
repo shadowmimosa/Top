@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     daily/getDaily 接口脚本
+Documentation     daily/getDaily 获取当天日签内容
 Resource          ../Public/public_lib.txt
 
 *** Variable ***

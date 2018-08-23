@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     feed/post/run 接口脚本
+Documentation     feed/check/run 检查跑步记录是否发过动态
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -14,28 +14,20 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    city               domainId                       fid         imgs    memo        postRunId     province    ret    msg
-Class_01              [Documentation]    feed/post/run TestCase测试用例
-                      [Tags]             Test                           Online      gxy
-                      [Template]         feed_post_run_Post_Keywords
-                      广州                 5ad9b6f291d09d409f4c2f87       99058004    []      FW发布跑场动态    1600061277    广东          0      成功
+*** Test Cases ***    fid                postRunId                      ret       msg
+Class_01              [Documentation]    feed/check/run TestCase测试用例
+                      [Tags]             Test                           Online    gxy
+                      [Template]         feed_check_run_Get_Keywords
+                      99058004           1600061277                     0         成功
 
 *** Keywords ***
-feed_post_run_Post_Keywords
-    [Arguments]    ${city}    ${domainId}    ${fid}    ${imgs}    ${memo}    ${postRunId}
-    ...    ${province}    ${ret}    ${msg}
-    [Documentation]    feed/post/run 接口用例的Keywords关健字
+feed_check_run_Get_Keywords
+    [Arguments]    ${fid}    ${postRunId}    ${ret}    ${msg}
+    [Documentation]    feed/check/run 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${memo}    Get_Words    4
-    ${con}    thejoyrun_Keywords    ${rd_URL}    /running/domain/list    ${userName}    ${pwd}    Post
-    ...    cityCode,amount,latitude,longitude    020,${EMPTY},23.402831,113.464891
-    ${codelist}    get json value    ${con}    /data
-    ${codelists}    FilterList    ${codelist}    cityCode,0,9999    domainId
-    ${domainId}    Run Keyword If    '${codelists}'=='0'    set variable    5b487dcb91d01d1b600af88c
-    ...    ELSE    randomchoice    ${codelists}    ,
     ${con}    thejoyrun_Keywords    ${api_URL}    /userRunList.aspx    ${userName}    ${pwd}    Post
     ...    year    0
     ${codelist}    get json value    ${con}    /datas
@@ -45,18 +37,13 @@ feed_post_run_Post_Keywords
     ${postRunId}    get json value    ${code}    /postRunId
     ${con}    thejoyrun_Keywords    ${api_URL}    /feed/delete    ${userName}    ${pwd}    Post
     ...    fid    ${fid}
-    ${path}=    set variable    /feed/post/run
+    ${path}=    set variable    /feed/check/run
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    city=${city}
-    set to dictionary    ${maps}    domainId=${domainId}
     set to dictionary    ${maps}    fid=${fid}
-    set to dictionary    ${maps}    imgs=${imgs}
-    set to dictionary    ${maps}    memo=${memo}
     set to dictionary    ${maps}    postRunId=${postRunId}
-    set to dictionary    ${maps}    province=${province}
     log    ========输出接口URL：${api_URL}${path}
-    log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
+    log    ========接口的入参为：${userName}:${maps}==========
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====

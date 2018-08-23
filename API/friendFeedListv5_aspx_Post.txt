@@ -9,7 +9,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    rich               touid                                  ret    msg
 Class_01              [Documentation]    friendFeedListv5.aspx TestCase测试用例
-                      [Tags]             Test                                   txy    Online    auto_v1
+                      [Tags]             Test                                   txy    Online
                       [Template]         friendFeedListv5_aspx_Post_Keywords
                       1                  2026                                   0      成功
 
