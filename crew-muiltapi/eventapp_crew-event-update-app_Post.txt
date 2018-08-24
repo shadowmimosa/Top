@@ -18,7 +18,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    eventapp/crew-event-update-app TestCase测试用例
                       [Tags]             Test                                            gxy                                                                                                    Online
                       [Template]         eventapp_crew-event-update-app_Post_Keywords
-                      ${EMPTY}           广州市                                             http://linked-runner.b0.upaiyun.com/linked-runner/u_32518253_crew_event_cover_180725_1452285891.jpg    30230     1532586744    跑团活动详情          1532586744    db0dae12906311e8b8dc525400a3a01b    1             28.177360560017085    115.3351525171601    广东省广州市天河区智汇创意园    0          2000     广东省         020                   1532586744    欢迎加入悦跑圈，让我们一起跑步吧    0      成功
+                      这是报名须知，不知不行        广州市                                             http://linked-runner.b0.upaiyun.com/linked-runner/u_32518253_crew_event_cover_180725_1452285891.jpg    30230     1532586744    跑团活动详情          1532586744    db0dae12906311e8b8dc525400a3a01b    1             28.177360560017085    115.3351525171601    广东省广州市天河区智汇创意园    0          2000     广东省         020                   1532586744    欢迎加入悦跑圈，让我们一起跑步吧    0      成功
 
 *** Keywords ***
 eventapp_crew-event-update-app_Post_Keywords
@@ -43,7 +43,7 @@ eventapp_crew-event-update-app_Post_Keywords
     ${codelisting}    get from list    ${codelists}    0
     ${event_id}    get json value    ${codelisting}    /eventId
     ${deadline}    get json value    ${codelisting}    /deadline
-    ${deadline}    Replace String    ${deadline}    000    ${EMPTY}
+    ${deadline}    Get Substring    ${deadline}    0    10
     ${endTime}    get json value    ${codelisting}    /endTime
     ${startTime}    get json value    ${codelisting}    /startTime
     ${event_id}    Replace String    ${event_id}    "    ${EMPTY}
