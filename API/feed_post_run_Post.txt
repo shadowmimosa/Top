@@ -39,7 +39,7 @@ feed_post_run_Post_Keywords
     ${con}    thejoyrun_Keywords    ${api_URL}    /userRunList.aspx    ${userName}    ${pwd}    Post
     ...    year    0
     ${codelist}    get json value    ${con}    /datas
-    ${codelists}    FilterList    ${codelist}    fraud,0,0.1    All
+    ${codelists}    FilterList    ${codelist}    fraud,0,0.1/type,1,1,1    All
     ${code}    Get From List    ${codelists}    0
     ${fid}    get json value    ${code}    /fid
     ${postRunId}    get json value    ${code}    /postRunId
