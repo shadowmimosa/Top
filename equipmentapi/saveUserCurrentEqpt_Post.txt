@@ -14,11 +14,16 @@ ${pwd}            123321    # 密码
 ${userName}       18011884709    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    eqpts                                                                                                              ret                                  msg
-Class_01              [Documentation]                                                                                                    saveUserCurrentEqpt TestCase测试用例
-                      [Tags]                                                                                                             Test                                 Online    gxy
-                      [Template]                                                                                                         saveUserCurrentEqpt_Post_Keywords
-                      \[{"eqptType":1,"bizId":0,"eqptId":1},{"eqptType":2,"bizId":0,"eqptId":3},{"eqptType":3,"bizId":0,"eqptId":5}\]    0                                    成功
+*** Test Cases ***    eqpts                                                                                                                ret                                  msg
+Class_01              [Documentation]                                                                                                      saveUserCurrentEqpt TestCase测试用例
+                      [Tags]                                                                                                               Test                                 gxy
+                      [Template]                                                                                                           saveUserCurrentEqpt_Post_Keywords
+                      \[{"bizId":0,"eqptType":1,"eqptId":1},{"bizId":0,"eqptType":2,"eqptId":2},{"bizId":0,"eqptType":3,"eqptId":108}\]    0                                    成功
+
+Class_02              [Documentation]                                                                                                      saveUserCurrentEqpt TestCase测试用例
+                      [Tags]                                                                                                               Online                               gxy
+                      [Template]                                                                                                           saveUserCurrentEqpt_Post_Keywords
+                      \[{"eqptType":1,"bizId":0,"eqptId":1},{"eqptType":2,"bizId":0,"eqptId":3},{"eqptType":3,"bizId":0,"eqptId":5}\]      0                                    成功
 
 *** Keywords ***
 saveUserCurrentEqpt_Post_Keywords
