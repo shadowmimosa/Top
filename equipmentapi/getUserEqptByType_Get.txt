@@ -14,11 +14,21 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    refresh            pageSize                          page    eqptType    ret    msg
+*** Test Cases ***    refresh            pageSize                          page      eqptType    ret    msg
 Class_01              [Documentation]    getUserEqptByType TestCase测试用例
-                      [Tags]             Test                              gxy
+                      [Tags]             Test                              Online    gxy
                       [Template]         getUserEqptByType_Get_Keywords
-                      1                  40                                0       1           0      成功
+                      1                  40                                0         1           0      成功
+
+Class_02              [Documentation]    getUserEqptByType TestCase测试用例
+                      [Tags]             Test                              Online    gxy
+                      [Template]         getUserEqptByType_Get_Keywords
+                      1                  40                                0         2           0      成功
+
+Class_03              [Documentation]    getUserEqptByType TestCase测试用例
+                      [Tags]             Test                              Online    gxy
+                      [Template]         getUserEqptByType_Get_Keywords
+                      1                  40                                0         3           0      成功
 
 *** Keywords ***
 getUserEqptByType_Get_Keywords

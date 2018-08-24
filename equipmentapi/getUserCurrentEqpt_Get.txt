@@ -16,7 +16,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    ret                msg
 Class_01              [Documentation]    getUserCurrentEqpt TestCase测试用例
-                      [Tags]             Test                               gxy
+                      [Tags]             Test                               Online    gxy
                       [Template]         getUserCurrentEqpt_Get_Keywords
                       0                  成功
 
