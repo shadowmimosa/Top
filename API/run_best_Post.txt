@@ -16,7 +16,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    year               ret                       msg
 Class_01              [Documentation]    run/best TestCase测试用例
-                      [Tags]             Test                      gxy
+                      [Tags]             Test                      Online    gxy
                       [Template]         run_best_Post_Keywords
                       2018               0                         成功
 
