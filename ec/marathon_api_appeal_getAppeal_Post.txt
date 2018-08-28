@@ -1,0 +1,43 @@
+*** Settings ***
+Documentation     marathon_api/appeal/getAppeal 获取用户申诉信息接口
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+#${pwd}           198599    # 密码
+#${userName}      714279    # 默认的用户名
+${pwd}            000000    # 密码
+${userName}       u666@qq.com    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    appeal_obj_id      appeal_type                                    ret    msg
+Class_01              [Documentation]    marathon_api/appeal/getAppeal TestCase测试用例
+                      [Tags]             Test                                           txy    Online
+                      [Template]         marathon_api_appeal_getAppeal_Post_Keywords
+                      5                  1                                              "2"    "无申诉内容"
+
+*** Keywords ***
+marathon_api_appeal_getAppeal_Post_Keywords
+    [Arguments]    ${appeal_obj_id}    ${appeal_type}    ${ret}    ${msg}
+    [Documentation]    marathon_api/appeal/getAppeal 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${path}=    set variable    /marathon_api/appeal/getAppeal
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    appeal_obj_id=${appeal_obj_id}
+    set to dictionary    ${maps}    appeal_type=${appeal_type}
+    log    ========输出接口URL：${ec_URL}${path}
+    log    ========接口的入参为：${userName}:${maps}==========
+    ${resp}=    thejoyrun_post_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":${ret}
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期
+    Run Keyword If    ${ret}=="2"    get json value    ${content}    /data
+    ...    ELSE    should contain    ${content}    "msg":${msg}
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    log    ------------------------ It is OK!!!!-------------------------------------
