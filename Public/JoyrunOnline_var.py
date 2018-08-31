@@ -93,6 +93,9 @@ webevent_URL='http://webevent.thejoyrun.com'
 #阿凡达
 equipment_URL='http://equipment.api.thejoyrun.com'
 
+#赛事小助手
+trip_URL='http://trip.api.thejoyrun.com'
+
 
 #=====小程序相关配置=================================
 
