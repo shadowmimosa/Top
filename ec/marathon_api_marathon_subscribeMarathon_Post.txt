@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    marathon_api/marathon/subscribeMarathon TestCase测试用例
                       [Tags]             Test                                                    txy    Online
                       [Template]         marathon_Choice
-                      315                0                                                       成功
+                      139                0                                                       成功
 
 *** Keywords ***
 marathon_Choice
@@ -42,7 +42,7 @@ marathon_subscribeMarathon_Post_Keywords
     set to dictionary    ${maps}    marathonId=${marathonId}
     log    ========输出接口URL：${ec_URL}${path}
     log    ========接口的入参为：${userName}:${maps}==========
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${ec_URL}
+    ${resp}=    thejoyrun_post_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====
