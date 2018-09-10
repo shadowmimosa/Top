@@ -49,12 +49,12 @@ RunRecord_opinion
     ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}
     ${ret}=    get json value    ${src}    /ret
     Run Keyword If    ${ret}=="0"    RuningRecord    ${src}    ${courseid}    ${nomoment}    ${private}
-    ...    ${wgs}    ${userName}    ${topicName}
+    ...    ${wgs}    ${userName}    ${topicName}    ${env}
     ...    ELSE    log    =====环境：${env};用户：${userName} ===姿势不好不跑了！！！======
 
 RuningRecord
     [Arguments]    ${src}    ${courseid}    ${nomoment}    ${private}    ${wgs}    ${userName}
-    ...    ${topicName}
+    ...    ${topicName}    ${env}=None
     [Documentation]    /po.aspx type=1或7，为上传跑步记录
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -160,9 +160,23 @@ RuningRecord
     ...    ELSE    set variable    error:${ret}
     ${newfid}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /fid
     ...    ELSE    set variable    error:${ret}
+    ${src_userinfo}    Get From Dictionary    ${usersinfo_dict}    ${env}${userName}
+    ${userinfo}    Get From Dictionary    ${src_userinfo}    userinfo
+    ${allmeter}    Get Json Value    ${userinfo}    /allmeter
+    ${allmeter}    Evaluate    int(${allmeter})
+    ${Metertotal}    Run Keyword If    ${fraud}=="1"    Set Variable    ${allmeter}
+    ...    ELSE    Evaluate    int(${allmeter})+int(${meter})
+    ${userinfonew}    thejoyrun_Keywords    ${api_URL}    /user.aspx    ${userName}    ${pwd}    Get
+    ...    option,touid    info,${EMPTY}
+    ${Metertotal_New}    Get Json Value    ${userinfonew}    /user/allmeter
+    ${Metertotal_New}    Evaluate    int(${Metertotal_New})
+    should be equal    ${Metertotal}    ${Metertotal_New}
+    log    用户名==${userName}，是否被判作弊=${fraud}，是否室外：${type};跑步地区=${province}，来自话题==${topicName}
+    log    跑步记录的距离==${meter},用户之前的跑步总距离为${allmeter},最新的总距离为${Metertotal_New};
     ${vspostRunId}    UserRunList_Fid    ${userName}    fraud,0,2    postRunId
     log    vspostRunId=${vspostRunId}
     should contain    ${vspostRunId}    ${postRunId}
-    log    跑步记录postRunId为===${postRunId},新的FID为${newfid}
-    log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud}，是否室外：${type};跑步地区=${province}，来自话题==${topicName},原fid ID== ${fid}，原uid ===${srcuid}
+    log    跑步记录postRunId为===${postRunId},新的FID为${newfid},原fid ID== ${fid}，原uid ===${srcuid}
+    log    用户名==${userName}，是否被判作弊=${fraud}，是否室外：${type};跑步地区=${province}，来自话题==${topicName}
+    log    跑步记录的距离==${meter},用户之前的跑步总距离为${allmeter},最新的总距离为${Metertotal_New};
     log    ------------------------ It is OK!!!!-------------------------------------
