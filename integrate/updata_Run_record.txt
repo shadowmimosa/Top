@@ -145,7 +145,11 @@ RuningRecord
     set to dictionary    ${maps}    city=${city}
     set to dictionary    ${maps}    province=${province}
     set to dictionary    ${maps}    daka=${daka}
-    log    ---输出参数---
+    log    先查看增加跑步记录前的用户数据
+    ${userinfo}    thejoyrun_Keywords    ${api_URL}    /user.aspx    ${userName}    ${pwd}    Get
+    ...    option,touid    info,${EMPTY}
+    ${allmeter}    Get Json Value    ${userinfo}    /user/allmeter
+    ${allmeter}    Evaluate    int(${allmeter})
     log    ${api_URL}${path}${maps}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
@@ -160,10 +164,6 @@ RuningRecord
     ...    ELSE    set variable    error:${ret}
     ${newfid}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /fid
     ...    ELSE    set variable    error:${ret}
-    ${src_userinfo}    Get From Dictionary    ${usersinfo_dict}    ${env}${userName}
-    ${userinfo}    Get From Dictionary    ${src_userinfo}    userinfo
-    ${allmeter}    Get Json Value    ${userinfo}    /allmeter
-    ${allmeter}    Evaluate    int(${allmeter})
     ${Metertotal}    Run Keyword If    ${fraud}=="1"    Set Variable    ${allmeter}
     ...    ELSE    Evaluate    int(${allmeter})+int(${meter})
     ${userinfonew}    thejoyrun_Keywords    ${api_URL}    /user.aspx    ${userName}    ${pwd}    Get
