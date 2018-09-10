@@ -12,7 +12,7 @@ class_01              [Documentation]    /challengeuser/join 参加挑战活动
                       [Tags]             Online                        Test
                       [Setup]            log                           初始化用例！！！！！
                       [Template]         join_select
-                      [Timeout]          10 seconds
+                      [Timeout]          30 seconds
                       0                  0                             "0"            成功
                       [Teardown]         log                           用例已结束了！！！！！
 
