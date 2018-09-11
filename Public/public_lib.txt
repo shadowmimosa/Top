@@ -120,7 +120,7 @@ thejoyrun_Keywords
     log json    ${content}
     ${isRetry}    Get Count    ${content}    "ret":"401"
     ${data_Out}    Set Variable    ${content}
-    Run Keyword If    ${isRetry}==0    Set_Global_Var    ${path}    ${data_Out}    ${userName}    ${BaseURL}
+    #Run Keyword If    ${isRetry}==0    Set_Global_Var    ${path}    ${data_Out}    ${userName}    ${BaseURL}
     ${Retry_order}    Run Keyword If    ${isRetry}==1    Evaluate    ${Retry_order}-1
     ...    ELSE    Set Variable    ${-1}
     ${data_Out}  Run Keyword If    ${isRetry}==1 and ${Retry_order}>=0    thejoyrun_Keywords    ${BaseURL}    ${path}    ${userName}    ${pwd}
