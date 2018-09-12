@@ -131,7 +131,7 @@ RuningRecord
     ${path}=    set variable    /po.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    altitude=${altitude}
-    set to dictionary    ${maps}    content=${content}
+    set to dictionary    ${maps}    content=${EMPTY}
     set to dictionary    ${maps}    courseid=${courseid}
     set to dictionary    ${maps}    heartrate=${heartrate}
     set to dictionary    ${maps}    dateline=${dateline}
@@ -152,7 +152,7 @@ RuningRecord
     set to dictionary    ${maps}    stepremark=${stepremark}
     set to dictionary    ${maps}    totalsteps=${totalsteps}
     set to dictionary    ${maps}    wgs=${wgs}
-    set to dictionary    ${maps}    type=${type}
+    set to dictionary    ${maps}    type=1
     set to dictionary    ${maps}    city=${city}
     set to dictionary    ${maps}    province=${province}
     set to dictionary    ${maps}    daka=${daka}

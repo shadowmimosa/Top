@@ -12,7 +12,7 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 Class_01              [Documentation]    /user/login/phonecode 手机验证码登录
                       [Tags]
                       [Template]         /user/login/phonecode_Get
-                      15555588888        112233                           "0"    成功
+                      15555588888        112233                           0      成功
 
 *** Keywords ***
 /user/login/phonecode_Get

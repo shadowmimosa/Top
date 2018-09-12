@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     feed/post/run 接口脚本
+Documentation     feed/post/run 发布跑步动态-跑场
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
