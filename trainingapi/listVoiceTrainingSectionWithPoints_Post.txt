@@ -14,11 +14,11 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    trainingId         groupId                                                           ret    msg
+*** Test Cases ***    trainingId         groupId                                                           ret       msg
 Class_01              [Documentation]    listVoiceTrainingSectionWithPoints TestCase根据TrainingId获取训练项列表
-                      [Tags]             Test                                                              gxy
+                      [Tags]             Test                                                              Online    gxy
                       [Template]         listVoiceTrainingSectionWithPoints_Post_Keywords
-                      0                  0                                                                 0      成功
+                      0                  0                                                                 0         成功
 
 *** Keywords ***
 listVoiceTrainingSectionWithPoints_Post_Keywords

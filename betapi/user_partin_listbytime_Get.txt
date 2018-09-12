@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     crewInfoRest/getCrewInfoByUid 根据uid 获取所在跑团的基础信息
+Documentation     user/partin/listbytime 根据时间段获取用户参与跑班
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -14,26 +14,27 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    uid                ret                                           msg
-Class_01              [Documentation]    crewInfoRest/getCrewInfoByUid TestCase测试用例
-                      [Tags]
-                      [Template]         crewInfoRest_getCrewInfoByUid_Get_Keywords
-                      ${EMPTY}           0                                             成功
+*** Test Cases ***    startTime          endTime                                ret        msg
+Class_01              [Documentation]    user/partin/listbytime TestCase测试用例
+                      [Tags]             Test                                   auto_v1
+                      [Template]         user_partin_listbytime_Get_Keywords
+                      1535731200         1538323199                             0          成功
 
 *** Keywords ***
-crewInfoRest_getCrewInfoByUid_Get_Keywords
-    [Arguments]    ${uid}    ${ret}    ${msg}
-    [Documentation]    crewInfoRest/getCrewInfoByUid 接口用例的Keywords关健字
+user_partin_listbytime_Get_Keywords
+    [Arguments]    ${startTime}    ${endTime}    ${ret}    ${msg}
+    [Documentation]    user/partin/listbytime 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /crewInfoRest/getCrewInfoByUid
+    ${path}=    set variable    /user/partin/listbytime
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    uid=${uid}
-    log    ========输出接口URL：${crew_muilt_URL}${path}
-    log    ========接口的入参为：${maps}==========
-    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
+    set to dictionary    ${maps}    startTime=${startTime}
+    set to dictionary    ${maps}    endTime=${endTime}
+    log    ========输出接口URL：${bet_URL}${path}
+    log    ========接口的入参为：${userName}:${maps}==========
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${bet_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====
@@ -44,4 +45,4 @@ crewInfoRest_getCrewInfoByUid_Get_Keywords
     should contain    ${content}    "msg":"${msg}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
     #${data}    get json value    ${content}    /data
-    log    验证OK！！用户${userName}；URL：${crew_muilt_URL}${path}；传参：${maps}！！
+    log    验证OK！！用户${userName}；URL：${bet_URL}${path}；传参：${maps}！！
