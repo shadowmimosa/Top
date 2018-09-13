@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     crew-discover 附近跑团
+Documentation     crew-event-detail 跑团活动详情
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -11,29 +11,30 @@ Resource          ../Public/public_lib.txt
 
 *** Variable ***
 ${pwd}            123321    # 密码
-${userName}       ypq@126.com    # 默认的用户名
+${userName}       18011884709    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    province           offset                         city      limit    ret
-Class_01              [Documentation]    crew-discover TestCase测试用例
-                      [Tags]             Test                           Online    gxy
-                      [Template]         crew-discover_Post_Keywords
-                      澳门                 0                              澳门        10       0
+*** Test Cases ***    crewid             event_id                           ret    msg
+Class_01              [Documentation]    crew-event-detail TestCase测试用例
+                      [Tags]
+                      [Template]         crew-event-detail_Post_Keywords
+                      0                  0                                  0      成功
 
 *** Keywords ***
-crew-discover_Post_Keywords
-    [Arguments]    ${province}    ${offset}    ${city}    ${limit}    ${ret}
-    [Documentation]    crew-discover 接口用例的Keywords关健字
+crew-event-detail_Post_Keywords
+    [Arguments]    ${crewid}    ${event_id}    ${ret}    ${msg}
+    [Documentation]    crew-event-detail 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /crew-discover
+    ${crewideventid}    Get_Global_Var    /crew-event-new-app    ${userName}    ${crewapp_URL}    ${pwd}    Post
+    ${crewid}    get json value    ${crewideventid}    /data/crewid
+    ${event_id}    get json value    ${crewideventid}    /data/event_id
+    ${path}=    set variable    /crew-event-detail
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    province=${province}
-    set to dictionary    ${maps}    offset=${offset}
-    set to dictionary    ${maps}    city=${city}
-    set to dictionary    ${maps}    limit=${limit}
+    set to dictionary    ${maps}    crewid=${crewid}
+    set to dictionary    ${maps}    event_id=${event_id}
     log    ========输出接口URL：${crew_URL}${path}
     log    ========接口的入参为：${userName}:${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_URL}
@@ -43,6 +44,8 @@ crew-discover_Post_Keywords
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"
     log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
     #${data}    get json value    ${content}    /data
     log    验证OK！！用户${userName}；URL：${crew_URL}${path}；传参：${maps}！！

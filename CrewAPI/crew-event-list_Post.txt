@@ -11,12 +11,12 @@ ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 Class_01              [Documentation]    获取跑团活动crew-event-list-线上跑团号10960
                       [Tags]             Online
                       [Template]         crew-event-list_Post_assertClass
-                      10960              13829744541                                "0"
+                      25329              13829744541                                "0"
 
 Class_02              [Documentation]    获取跑团活动crew-event-list-测试跑团30230-非跑团成员获取
                       [Tags]             Test
                       [Template]         crew-event-list_Post_assertClass
-                      30230              13829744541                                "0"
+                      10109              13829744541                                "0"
 
 *** Keywords ***
 crew-event-list_Post_assertClass

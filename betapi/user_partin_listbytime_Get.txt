@@ -14,11 +14,11 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    startTime          endTime                                ret        msg
+*** Test Cases ***    startTime          endTime                                ret       msg
 Class_01              [Documentation]    user/partin/listbytime TestCase测试用例
-                      [Tags]             Test                                   auto_v1
+                      [Tags]             Test                                   Online    gxy
                       [Template]         user_partin_listbytime_Get_Keywords
-                      1535731200         1538323199                             0          成功
+                      1535731200         1538323199                             0         成功
 
 *** Keywords ***
 user_partin_listbytime_Get_Keywords

@@ -7,15 +7,15 @@ ${pwd}            67889911    # 密码
 ${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***   city    province  ret   msg  
+*** Test Cases ***    city               province                                       ret        msg
 Class_01              [Documentation]    crew-app-event-recommend-list TestCase测试用例
-                      [Tags]             Test   auto_v1    Online
+                      [Tags]             Test                                           auto_v1    Online
                       [Template]         crew-app-event-recommend-list_Post_Keywords
-                      广州    广东   "0"                成功
+                      香港                 香港特别行政区                                        "0"        成功
 
 *** Keywords ***
 crew-app-event-recommend-list_Post_Keywords
-    [Arguments]   ${city}   ${province}     ${ret}   ${msg}
+    [Arguments]    ${city}    ${province}    ${ret}    ${msg}
     [Documentation]    crew-app-event-recommend-list 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
@@ -23,8 +23,8 @@ crew-app-event-recommend-list_Post_Keywords
     #${userName}    Env_username
     ${path}=    set variable    /crew-app-event-recommend-list
     ${maps}=    create dictionary
-    set to dictionary  ${maps}  city=${city}
-    set to dictionary  ${maps}  province=${province}
+    set to dictionary    ${maps}    city=${city}
+    set to dictionary    ${maps}    province=${province}
     log    ========输出接口URL：${crewapp_URL}${path}
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crewapp_URL}
