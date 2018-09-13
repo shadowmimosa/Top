@@ -7,11 +7,16 @@ ${pwd}            123321    # 密码
 ${userName}       18011884709    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    is_private         lng                                     city    meter     key_pair    province_city_code    end_time      title               descriptions    start_time    crew_node_id    event_id                            province    crewid    apply_notes    location          max_cnt    deadline      lat                   cover_img
+*** Test Cases ***    is_private         lng                                     city      meter    key_pair    province_city_code    end_time      title               descriptions    start_time    crew_node_id    event_id                            province    crewid    apply_notes    location          max_cnt    deadline      lat                   cover_img
 Class_01              [Documentation]    /crew-event-new-app-创建跑团活动
-                      [Tags]             Test                                    gxy     Online
+                      [Tags]             Test                                    gxy
                       [Template]         /crew-event-new-app_Post_assertClass
-                      1                  115.3351525171601                       广州市     1000      ${EMPTY}    020                   1532425740    欢迎加入悦跑圈，让我们一起跑步吧    跑团活动详情          1532353740    0               f8a8f7b62f9a418b8a8a3e204350a61e    广东省         30230     ${EMPTY}       广东省广州市天河区智汇创意园    0          1532346540    28.177360560017085    http://linked-runner.b0.upaiyun.com/linked-runner/u_32518253_crew_event_cover_180725_1452285891.jpg
+                      0                  115.3351525171601                       广州市       1000     ${EMPTY}    020                   1532425740    欢迎加入悦跑圈，让我们一起跑步吧    跑团活动详情          1532353740    0               f8a8f7b62f9a418b8a8a3e204350a61e    广东省         30230     ${EMPTY}       广东省广州市天河区智汇创意园    0          1532346540    28.177360560017085    http://linked-runner.b0.upaiyun.com/linked-runner/u_32518253_crew_event_cover_180725_1452285891.jpg
+
+Class_02              [Documentation]    /crew-event-new-app-创建跑团活动
+                      [Tags]             gxy                                     Online
+                      [Template]         /crew-event-new-app_Post_assertClass
+                      1                  115.3351525171601                       广州市       1000     ${EMPTY}    020                   1532425740    欢迎加入悦跑圈，让我们一起跑步吧    跑团活动详情          1532353740    0               f8a8f7b62f9a418b8a8a3e204350a61e    广东省         30230     ${EMPTY}       广东省广州市天河区智汇创意园    0          1532346540    28.177360560017085    http://linked-runner.b0.upaiyun.com/linked-runner/u_32518253_crew_event_cover_180725_1452285891.jpg
 
 *** Keywords ***
 /crew-event-new-app_Post_assertClass
@@ -59,6 +64,7 @@ Class_01              [Documentation]    /crew-event-new-app-创建跑团活动
     log    ${crewapp_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crewapp_URL}
     ${content}=    charconver    ${resp.content}
+    Set_Global_Var    ${path}    ${content}    ${userName}    ${crewapp_URL}
     log json    ${resp.content}
     log    ---输出返回内容----
     log json    ${content}

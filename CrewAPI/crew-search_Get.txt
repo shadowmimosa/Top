@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     crew-discover 附近跑团
+Documentation     crew-search 搜索跑团
 Library           Collections
 Library           RequestsLibrary
 Library           pymysql
@@ -10,33 +10,35 @@ Library           ../Public/Lib/tools_library.py
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
-${pwd}            123321    # 密码
-${userName}       ypq@126.com    # 默认的用户名
+${pwd}            67889911    # 密码
+${userName}       13829744541    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    province           offset                         city      limit    ret
-Class_01              [Documentation]    crew-discover TestCase测试用例
-                      [Tags]             Test                           Online    gxy
-                      [Template]         crew-discover_Post_Keywords
-                      澳门                 0                              澳门        10       0
+*** Test Cases ***    q                  ret
+Class_01              [Documentation]    crew-search TestCase测试用例
+                      [Tags]             Test                        gxy
+                      [Template]         crew-search_Get_Keywords
+                      30230              0
+
+Class_02              [Documentation]    crew-search TestCase测试用例
+                      [Tags]             Online                      gxy
+                      [Template]         crew-search_Get_Keywords
+                      10960              0
 
 *** Keywords ***
-crew-discover_Post_Keywords
-    [Arguments]    ${province}    ${offset}    ${city}    ${limit}    ${ret}
-    [Documentation]    crew-discover 接口用例的Keywords关健字
+crew-search_Get_Keywords
+    [Arguments]    ${q}    ${ret}
+    [Documentation]    crew-search 接口用例的Keywords关健字
     Evaluate    reload(sys)    sys
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${path}=    set variable    /crew-discover
+    ${path}=    set variable    /crew-search
     ${maps}=    create dictionary
-    set to dictionary    ${maps}    province=${province}
-    set to dictionary    ${maps}    offset=${offset}
-    set to dictionary    ${maps}    city=${city}
-    set to dictionary    ${maps}    limit=${limit}
+    set to dictionary    ${maps}    q=${q}
     log    ========输出接口URL：${crew_URL}${path}
     log    ========接口的入参为：${userName}:${maps}==========
-    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_URL}
+    ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${crew_URL}
     ${content}=    charconver    ${resp.content}
     log json    ${content}
     log    ======开始断言验证=====
