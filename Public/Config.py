@@ -187,7 +187,7 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 	betappid='wx77b7bc5511256564'
 
 	#约定跑小程序用户身份sid  2018-05-10 12:30 
-	betsid='5015ecce82ea4bd1836f189ac335aadc4'
+	betsid='45e1af48da7541cebc86aec6c8215110f'
 	
 	#赛事小程序APPID  根据请求url的path取的第一级目录命名+appid=config中的命名，如赛事小程序trip/,tripappid
 	tripappid='wx1f211a6a3607d8fe'
