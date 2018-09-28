@@ -166,6 +166,9 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 	#阿凡达
 	equipment_URL='http://equipment-test.api.thejoyrun.com'
 	
+	#搜索
+	search_URL='http://search-test.api.thejoyrun.com'
+	
 	##===================小程序相关配置=====================
 
 	#小程序统一域名
@@ -280,6 +283,9 @@ else:
 	
 	#阿凡达
 	equipment_URL='http://equipment.api.thejoyrun.com'	
+	
+	#搜索
+	search_URL='http://search.api.thejoyrun.com'	
 	
 	#=====小程序相关配置=================================
 

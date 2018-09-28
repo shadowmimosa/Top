@@ -18,7 +18,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    crew-discover TestCase测试用例
                       [Tags]             Test                           Online    gxy
                       [Template]         crew-discover_Post_Keywords
-                      澳门                 0                              澳门        10       0
+                      内蒙古自治区             0                              西夏        10       0
 
 *** Keywords ***
 crew-discover_Post_Keywords

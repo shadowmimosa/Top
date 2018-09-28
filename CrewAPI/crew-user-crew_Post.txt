@@ -11,7 +11,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 Class_01              [Documentation]    crew-user-crew TestCase测试用例
                       [Tags]             Test                            auto_v1
                       [Template]         crew-user-crew_Post_Keywords
-                      32518359           "0"                             成功
+                      32521559           "0"                             成功
 
 Class_02              [Documentation]    crew-user-crew TestCase测试用例
                       [Tags]             auto_v1                         Online
