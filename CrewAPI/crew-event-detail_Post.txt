@@ -14,11 +14,16 @@ ${pwd}            123321    # 密码
 ${userName}       18011884709    # 默认的用户名
 ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
 
-*** Test Cases ***    crewid             event_id                           ret    msg
+*** Test Cases ***    crewid             event_id                            ret    msg
 Class_01              [Documentation]    crew-event-detail TestCase测试用例
-                      [Tags]
+                      [Tags]             Test                                gxy
                       [Template]         crew-event-detail_Post_Keywords
-                      0                  0                                  0      成功
+                      10109              cea468afd6b94b3d986aee749e7d4762    0      成功
+
+Class_02              [Documentation]    crew-event-detail TestCase测试用例
+                      [Tags]             Online                              gxy
+                      [Template]         crew-event-detail_Post_Keywords
+                      25329              57383b110d2348fc84dcfd49e6a6bae7    0      成功
 
 *** Keywords ***
 crew-event-detail_Post_Keywords
@@ -28,9 +33,9 @@ crew-event-detail_Post_Keywords
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
-    ${crewideventid}    Get_Global_Var    /crew-event-new-app    ${userName}    ${crewapp_URL}    ${pwd}    Post
-    ${crewid}    get json value    ${crewideventid}    /data/crewid
-    ${event_id}    get json value    ${crewideventid}    /data/event_id
+    #${crewideventid}    Get_Global_Var    /crew-event-new-app    ${userName}    ${crewapp_URL}    ${pwd}    Post
+    #${crewid}    get json value    ${crewideventid}    /data/crewid
+    #${event_id}    get json value    ${crewideventid}    /data/event_id
     ${path}=    set variable    /crew-event-detail
     ${maps}=    create dictionary
     set to dictionary    ${maps}    crewid=${crewid}

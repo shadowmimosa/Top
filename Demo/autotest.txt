@@ -13,11 +13,11 @@ Resource          ../Public/public_lib.txt
 
 *** Variables ***
 
-*** Test Cases ***    url                                               method                                                                                                   Interfacefields
-Class_01              [Documentation]                                   自动生接口测试脚本，参数：method类型为：Get,Post,Getc,Getns,Postc;Getc用于跑团小程序的get请求，Getns为无需签名的get请求，Postc为跑团小程的post请求
-                      [Tags]                                            Demo
-                      [Template]                                        autotestcase_V1
-                      http://crew-test.api.thejoyrun.com/crew-search    Get                                                                                                      q
+*** Test Cases ***    url                                                        method                                                                                                   Interfacefields
+Class_01              [Documentation]                                            自动生接口测试脚本，参数：method类型为：Get,Post,Getc,Getns,Postc;Getc用于跑团小程序的get请求，Getns为无需签名的get请求，Postc为跑团小程的post请求
+                      [Tags]                                                     Demo
+                      [Template]                                                 autotestcase_V1
+                      http://search-test.api.thejoyrun.com/squareSearchByType    Get                                                                                                      keyword,page,size,type
 
 *** Keywords ***
 autotestcase_V1
