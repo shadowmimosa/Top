@@ -98,6 +98,8 @@ trip_URL='http://trip.api.thejoyrun.com'
 
 #赛事实况
 racelive_URL='http://racelive.api.thejoyrun.com'
+#搜索
+search_URL='http://search.api.thejoyrun.com'
 
 
 #=====小程序相关配置=================================
