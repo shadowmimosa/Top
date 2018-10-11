@@ -184,8 +184,8 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 	#跑团小程序APPID
 	corpcrewappid='wx1fef2e38049c8d5f'
 
-	#跑团小程序用户身份sid  2018-02-06 12:30 
-	corpcrewsid='eda1412c27f249189d4a0901d9c18c4b8'
+	#跑团小程序用户身份sid  2018-02-06 12:30    eda1412c27f249189d4a0901d9c18c4b8
+	corpcrewsid='80e564cec2364e749f5400f1dad8a76bb'
 
 	#约定跑小程序APPID    wxd19597f62e33ba65
 	betappid='wx77b7bc5511256564'
