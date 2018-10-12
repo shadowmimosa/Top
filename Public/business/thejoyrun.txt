@@ -698,7 +698,7 @@ thejoyrun_getp
     log    thejoyrun_getp Start ......
     ${Retry}    Run Keyword If    '${Retry}'=='None'    set variable    ${RetryInti}
     ...    ELSE    set variable    ${Retry}
-    ${pwd}    Run Keyword If    '${pwds}'==None    set variable    ${pwd}
+    ${pwd}    Run Keyword If    '${pwds}'=='None'    set variable    ${pwd}
     ...    ELSE    set variable    ${pwds}
     ${env}    Env_URL    ${Base_URL}
     ${userslist}    Get Dictionary Keys    ${usersinfo_dict}
