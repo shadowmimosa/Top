@@ -16,7 +16,7 @@ ${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数�
 
 *** Test Cases ***    keyword            page                            size        ret    msg
 Class_01              [Documentation]    squareSearchAgg TestCase测试用例
-                      [Tags]             Test                            gxy
+                      [Tags]             Test                            Online      gxy
                       [Template]         squareSearchAgg_Get_Keywords
                       悦跑圈                ${EMPTY}                        ${EMPTY}    0      ${EMPTY}
 
