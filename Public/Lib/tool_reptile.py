@@ -2,6 +2,7 @@
 import re
 import sys
 import json
+import logging
 
 reload(sys)
 sys.setdefaultencoding('UTF-8')
@@ -333,8 +334,80 @@ def pyfilter(srcobjs,condition,spitstring=None):
     print  "pyfilter End ..."
     return  resrobj
 
+def pylatlang(a,b):   #a b 为两个轨迹直线,数据格式为 [[x1,y1],[x2,y2]];列表嵌套列表；
+	if a[0][0]<a[1][0]:
+		alatmin=a[0][0]
+		alatmax=a[1][0]
+	else:
+	   alatmin=a[1][0]
+	   alatmax=a[0][0]
+	if b[0][0]<b[1][0]:
+		blatmin=b[0][0]
+		blatmax=b[1][0]
+	else:
+	   blatmin=b[1][0]
+	   blatmax=b[0][0]
+	if a[0][1]<a[1][1]:
+		alangmin=a[0][1]
+		alangmax=a[1][1]
+	else:
+	   alangmin=a[1][1]
+	   alangmax=a[0][1]   
+	if b[0][1]<b[1][1]:
+		blangmin=b[0][1]
+		blangmax=b[1][1]
+	else:
+	   blangmin=b[1][1]
+	   blangmax=b[0][1] 
+	logging.info('alatmax={},alatmin={},alangmax={},alangmin={}'.format(alatmax,alatmin,alangmax,alangmin)) 
+	logging.info('blatmax={},blatmin={},blangmax={},blangmin={}'.format(blatmax,blatmin,blangmax,blangmin))  
+	if alatmax>blatmax:  #lat最大值中取小值
+		latmaxi=blatmax
+	else:
+		latmaxi=alatmax
+		
+	if alatmin<blatmin:  #lat最小值中取大值
+		latminx=blatmin
+	else:
+		latminx=alatmin
+	
+	if latmaxi<=latminx:  #lat差值
+		clat=0
+	else:
+		clat=latmaxi-latminx
+		
+		
+	if alangmax>blangmax:  #lang最大值中取小值
+		langmaxi=blangmax
+	else:
+		langmaxi=alangmax
+		
+	if alangmin<blangmin:   #lang最大值中取大值
+		langminx=blangmin
+	else:
+		langminx=alangmin
+	if langmaxi<=langminx:  #lang差值
+		clang=0
+	else:
+		clang=langmaxi-langminx
+		
+	logging.info('clat={},clang={}'.format(clat,clang))
+	if clat==0 or clang==0:
+		comeq=0
+		comeqpre=0
+		print  comeqpre
 
-
+	else:
+		comeq= clat * clang
+		aeqlat=alatmax-alatmin
+		aeqlang=alangmax-alangmin
+		aeq= aeqlat * aeqlang
+		print 'aeq=', aeq
+		comeqpre=comeq/aeq * 100
+		logging.info('comeqpre={}'.format(comeqpre))
+	print 'comeq=', comeq
+	print 'comeqpre=',comeqpre
+	return  comeqpre
 
 
 
@@ -344,12 +417,20 @@ if __name__ == '__main__':
     #a = FindAndValue("[{\"ret\":11111},{\"ret\":2222},{\"ret\":\"ab1cd_w\"}]","ret","}",'1',"int")
     #b = Dict_sorted({"ret":"0","sid":"e8705bd983da43d98b9cc0963a78666d","lasttime":1533108241,"user":12345,"msg":"e1aa"})
     #data1 = "{\"b\":789,\"c\": 456,\"a\":123}"
-    data1 = {"b":789,"c": 456,"a":123}
-    c= Json_to_Dict(data1)
+    #data1 = {"b":789,"c": 456,"a":123}
+    #c= Json_to_Dict(data1)
     #print  str.split.__doc__
     #e = [{"b":7,"c":"ab","a":1},{"b":9,"c":"4a6","a":12},{"b":78,"c":46,"a":13},{"b":781,"c":"416","a":123},{"b":7,"c":"6","a":913},{"b":78,"c":"46","a":93},{"b":79,"c":"56","a":13}]
-    e="[{\"b\":7,\"c\":\"ab\",\"a\":1},{\"b\":9,\"c\":\"4a6\",\"a\":12},{\"b\":9,\"c\":\"4a6\",\"a\":112}]"
-    d = pyfilter(e,"b>=9 And \"c\"==\"4a6\" And a<>112","c")
+    #e="[{\"b\":7,\"c\":\"ab\",\"a\":1},{\"b\":9,\"c\":\"4a6\",\"a\":12},{\"b\":9,\"c\":\"4a6\",\"a\":112}]"
+    #d = pyfilter(e,"b>=9 And \"c\"==\"4a6\" And a<>112","c")
+	x1=  113.335719,23.154720
+	x2=  113.344572,23.157433
+	y1=  113.335987,23.155189
+	y2=  113.340029,23.157695
+	aa= x1,x2
+	bb= y1,y2
+	cc=pylatlang(aa,bb)
+
     
 
     #print Dict_sorted.__doc__,pyfilter.__doc__

@@ -9,8 +9,8 @@ Library           HttpLibrary.HTTP
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
-${pwd}            67889911    # 密码
-${userName}       13829744541    # 用户名
+${pwd}            xy000000    # 密码
+${userName}       15435124    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    courseid           nomoment             private    wgs
@@ -53,11 +53,14 @@ RunRecord_opinion
     ...    812000    ${pwd}    http://api.thejoyrun.com
     ${fid}    Run Keyword If    "${fids}"=="0"    set variable    0
     ...    ELSE    randomchoice    ${fids}    ,
+    #将指定的跑步记录复制
+    #${fid}    set variable    252891859
     ${src}=    Getrunrecodeinfo    ${fid}    ${wgs}    ${userName}    ${pwd}    http://api.thejoyrun.com
     ${ret}=    get json value    ${src}    /ret
+    ${msg}=    get json value    ${src}    /msg
     Run Keyword If    ${ret}=="0"    RuningRecord    ${src}    ${courseid}    ${nomoment}    ${private}
     ...    ${wgs}    ${userName}    ${topicName}
-    ...    ELSE    log    =====用户：${userName} ===姿势不好不跑了！！！======
+    ...    ELSE    log    =====ret:${ret},msg:${msg};==用户：${userName}说:"姿势不对不跑了！！！"======
 
 RuningRecord
     [Arguments]    ${src}    ${courseid}    ${nomoment}    ${private}    ${wgs}    ${userName}
@@ -68,6 +71,9 @@ RuningRecord
     ${userNamelist}    usr_pass_env    0
     ${userName}    Get From List    ${userNamelist}    0
     ${pwd}    Get From List    ${userNamelist}    1
+    #指定测试环境账号和密码
+    #${userName}    set variable    13829744542
+    #${pwd}    set variable    67889911
     ${env}    Get From List    ${userNamelist}    2
     ${isaltitude}    Get Count    ${src}    "altitude":
     ${altitude}    Run Keyword If    ${isaltitude}>0    get json value    ${src}    /runrecord/altitude
@@ -176,7 +182,7 @@ RuningRecord
     #${vspostRunId}    UserRunList_Fid    ${userName}    fraud,0,2    postRunId
     #log    vspostRunId=${vspostRunId}
     #should contain    ${vspostRunId}    ${postRunId}
-    log    跑步记录postRunId为===${postRunId},新的FID为${newfid}
+    log    新跑步记录postRunId为===${postRunId},新的FID为${newfid}
     log    跑步记录的距离==${meter},用户名==${userName}，是否被判作弊=${fraud};
     log    是否室外：${type};跑步地区=${province};
     log    来自话题==${topicName},原fid ID== ${fid}，原uid ===${srcuid}

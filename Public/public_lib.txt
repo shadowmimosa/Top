@@ -211,7 +211,7 @@ usr_pass_env
     log    ====环境为：${env}=====
     ${ords}    Run Keyword If    ${ords} is None    set variable    0
     ...    ELSE    set variable    ${ords}
-    ${userpwd}    Run Keyword If    '${env}'=='Test'    choiceOrd    ${Testusrp}    ${ords}
+    ${userpwd}    Run Keyword If    '${env}'=='Test'    choiceOrd    ${Testusrp}    ${ords}   ,
     ...    ELSE    choiceOrd    ${Onlineusrp}    ${ords}    ,
     @{list}    Split String    ${userpwd}    /
     ${listLen}    evaluate    len(${list})
