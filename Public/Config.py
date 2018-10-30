@@ -171,6 +171,7 @@ if  JoyrunEvn=='Test' or JoyrunEvn=='0':
 	
 	#搜索
 	search_URL='http://search-test.api.thejoyrun.com'
+
 	
 	##===================小程序相关配置=====================
 
@@ -289,8 +290,10 @@ else:
 	
 	#赛事实况
 	racelive_URL='http://racelive.api.thejoyrun.com'
+
 	#搜索
-	search_URL='http://search.api.thejoyrun.com'	
+	search_URL='http://search.api.thejoyrun.com'
+
 	
 	#=====小程序相关配置=================================
 
