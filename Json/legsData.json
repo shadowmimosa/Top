@@ -1,0 +1,667 @@
+{
+    "_index": "logstash-java_bussiness-2018.09.16",
+    "_type": "doc",
+    "_id": "9ls54GUB8u67mjecr_g5",
+    "_version": 1,
+    "_score": null,
+    "_source": {
+        "host": "ali-ecs-apps-dubbo-3-46",
+        "message":"2018-09-16 10:33:19.377 c.y.r.service.impl.RaceLiveImpl [INFO] - [PORTAL] receive runner's upload data. raceItemId:3 uid:29813555 data:UploadDataVo(uid=29813555, raceItemId=3, totalMeters=45132, totalSeconds=10539, longitude=116394340, latitude=39897161, bib=F1932, totalSteps=36113, startRunTime=1537054656, legsData=[
+            UploadLegVo(
+                index=null, meters=1000, seconds=253, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=2000, seconds=220, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=3000, seconds=230, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=4000, seconds=236, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=5000, seconds=225, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=6000, seconds=225, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=7000, seconds=231, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=8000, seconds=240, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=9000, seconds=230, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=10000, seconds=200, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=11000, seconds=201, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=12000, seconds=240, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=13000, seconds=235, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=14000, seconds=231, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=15000, seconds=225, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=16000, seconds=245, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=17000, seconds=240, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=18000, seconds=246, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=19000, seconds=230, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=20000, seconds=235, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=21000, seconds=256, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=21097, seconds=4894, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=22000, seconds=230, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=23000, seconds=240, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=24000, seconds=236, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=25000, seconds=225, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=26000, seconds=270, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=27000, seconds=240, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=28000, seconds=235, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=29000, seconds=261, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=30000, seconds=250, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=31000, seconds=250, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=32000, seconds=212, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=33000, seconds=222, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=34000, seconds=230, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=35000, seconds=250, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=36000, seconds=235, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=37000, seconds=255, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=38000, seconds=265, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=39000, seconds=230, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=40000, seconds=185, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=41000, seconds=220, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=42000, seconds=240, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=42195, seconds=9900, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=43000, seconds=200, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=44000, seconds=210, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=45000, seconds=250, longitude=116394340, latitude=39897161), 
+            UploadLegVo(
+                index=null, meters=46000, seconds=24, longitude=116394340, latitude=39897161)])",
+        "@timestamp": "2018-09-16T02:33:20.367Z",
+        "prospector": {
+            "type": "log"
+        },
+        "beat": {
+            "hostname": "ali-ecs-apps-dubbo-3-46",
+            "version": "6.2.4",
+            "name": "ali-ecs-apps-dubbo-3-46"
+        },
+        "offset": 244112541,
+        "@version": "1",
+        "source": "/apps/logs/yp-racelive-service-impl.2018-09-16.log",
+        "tags": [
+            "java_bussiness",
+            "beats_input_codec_plain_applied",
+            "_grokparsefailure"
+        ]
+    },
+    "fields": {
+        "@timestamp": [
+            "2018-09-16T02:33:20.367Z"
+        ]
+    },
+    "highlight": {
+        "message": [
+            "2018-09-16 10:33:19.377 @kibana-highlighted-field@c.y.r.service.impl.RaceLiveImpl@/kibana-highlighted-field@ [INFO] - [PORTAL] receive runner's upload data. raceItemId:3 uid:@kibana-highlighted-field@29813555@/kibana-highlighted-field@ data:UploadDataVo(uid=@kibana-highlighted-field@29813555@/kibana-highlighted-field@, raceItemId=3, totalMeters=45132, totalSeconds=10539, longitude=116394340, latitude=39897161, bib=F1932, totalSteps=36113, startRunTime=1537054656, legsData=[
+                UploadLegVo(
+                    index=null, meters=1000, seconds=253, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=2000, seconds=220, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=3000, seconds=230, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=4000, seconds=236, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=5000, seconds=225, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=6000, seconds=225, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=7000, seconds=231, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=8000, seconds=240, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=9000, seconds=230, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=10000, seconds=200, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=11000, seconds=201, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=12000, seconds=240, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=13000, seconds=235, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=14000, seconds=231, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=15000, seconds=225, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=16000, seconds=245, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=17000, seconds=240, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=18000, seconds=246, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=19000, seconds=230, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=20000, seconds=235, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=21000, seconds=256, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=21097, seconds=4894, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=22000, seconds=230, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=23000, seconds=240, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=24000, seconds=236, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=25000, seconds=225, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=26000, seconds=270, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=27000, seconds=240, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=28000, seconds=235, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=29000, seconds=261, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=30000, seconds=250, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=31000, seconds=250, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=32000, seconds=212, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=33000, seconds=222, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=34000, seconds=230, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=35000, seconds=250, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=36000, seconds=235, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=37000, seconds=255, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=38000, seconds=265, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=39000, seconds=230, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=40000, seconds=185, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=41000, seconds=220, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=42000, seconds=240, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=42195, seconds=9900, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=43000, seconds=200, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=44000, seconds=210, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=45000, seconds=250, longitude=116394340, latitude=39897161), 
+                UploadLegVo(
+                    index=null, meters=46000, seconds=24, longitude=116394340, latitude=39897161)])"
+        ]
+    },
+    "sort": [
+        1537065200367
+    ]
+}
+
+{
+    "message": "2018-09-16 10:33:19.377 c.y.r.service.impl.RaceLiveImpl [INFO] - [PORTAL] receive runner's upload data. raceItemId:3 uid:29813555 data:UploadDataVo(uid=29813555, raceItemId=3, totalMeters=45132, totalSeconds=10539, longitude=116394340, latitude=39897161, bib=F1932, totalSteps=36113, startRunTime=1537054656, legsData=[
+        UploadLegVo(
+            index=null, meters=1000, seconds=253, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=2000, seconds=220, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=3000, seconds=230, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=4000, seconds=236, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=5000, seconds=225, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=6000, seconds=225, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=7000, seconds=231, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=8000, seconds=240, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=9000, seconds=230, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=10000, seconds=200, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=11000, seconds=201, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=12000, seconds=240, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=13000, seconds=235, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=14000, seconds=231, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=15000, seconds=225, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=16000, seconds=245, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=17000, seconds=240, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=18000, seconds=246, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=19000, seconds=230, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=20000, seconds=235, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=21000, seconds=256, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=21097, seconds=4894, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=22000, seconds=230, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=23000, seconds=240, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=24000, seconds=236, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=25000, seconds=225, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=26000, seconds=270, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=27000, seconds=240, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=28000, seconds=235, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=29000, seconds=261, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=30000, seconds=250, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=31000, seconds=250, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=32000, seconds=212, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=33000, seconds=222, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=34000, seconds=230, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=35000, seconds=250, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=36000, seconds=235, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=37000, seconds=255, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=38000, seconds=265, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=39000, seconds=230, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=40000, seconds=185, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=41000, seconds=220, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=42000, seconds=240, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=42195, seconds=9900, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=43000, seconds=200, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=44000, seconds=210, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=45000, seconds=250, longitude=116394340, latitude=39897161), 
+        UploadLegVo(
+            index=null, meters=46000, seconds=24, longitude=116394340, latitude=39897161)])",
+
+}
+
+
+{
+    "_index": "logstash-java_bussiness-2018.09.16",
+    "_type": "doc",
+    "_id": "kc_C4GUB8u67mjecmq9m",
+    "_version": 1,
+    "_score": null,
+    "_source": {
+        "host": "ali-ecs-apps-task-3-37",
+        "message": 
+        "2018-09-16 13:02:54.013 c.y.r.t.s.calc.RunnerDataProcessor [INFO] - 
+        user status judged: uid:13171001, raceItemId:3, status:RunnerStatusInfo(currStatus=RACE_ONGOING, 
+        meters=43366, seconds=19591, longitude=0.0, latitude=0.0, judgeComment=[未在1KM范围, 等待新数据] 
+        race end judged. user exceeded the race item distance but the end-point doesnt meet the 1km requirement. 
+        continue for more data. uid:13171001 raceItemId:3 distance to end-point:12234698 
+        data:UploadDataVo(
+        uid=13171001, raceItemId=3, totalMeters=43366, totalSeconds=19591, longitude=0, latitude=0, bib=C2957, 
+        totalSteps=52080, startRunTime=1537054578, 
+        legsData=[
+            UploadLegVo(
+                index=null, meters=1000, seconds=373, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=2000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=3000, seconds=341, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=4000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=5000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=6000, seconds=345, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=7000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=8000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=9000, seconds=360, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=10000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=11000, seconds=360, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=12000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=13000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=14000, seconds=365, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=15000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=16000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=17000, seconds=365, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=18000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=19000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=20000, seconds=380, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=21000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=22000, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=22903, seconds=375, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=23903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=24903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=25903, seconds=360, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=26903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=27903, seconds=431, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=28903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=29903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=30903, seconds=380, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=31903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=32903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=33903, seconds=415, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=34903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=35903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=36903, seconds=395, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=37903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=38903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=39903, seconds=390, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=40903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=41903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=42903, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=43903, seconds=470, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=44708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=45708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=46708, seconds=396, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=47708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=48708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=49708, seconds=470, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=50708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=51708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=52708, seconds=420, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=53708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=54708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=55708, seconds=435, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=56708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=57708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=58708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=59708, seconds=570, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=60708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=61708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=62708, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=21097, seconds=8631, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=21097, seconds=8636, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=21097, seconds=8641, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=21097, seconds=8646, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=22097, seconds=385, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=23097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=24097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=25097, seconds=425, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=26097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=27097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=28097, seconds=541, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=29097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=30097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=31097, seconds=415, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=32097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=33097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=34097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=35097, seconds=545, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=36097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=37097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=38097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=39097, seconds=480, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=40097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=41097, seconds=390, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=42097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=43097, seconds=5, longitude=116393821, latitude=39899439), 
+            UploadLegVo(
+                index=null, meters=44097, seconds=563, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=45097, seconds=4, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=46097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=47097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=48097, seconds=451, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=49097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=50097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=51097, seconds=555, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=52097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=53097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=54097, seconds=460, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=55097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=56097, seconds=435, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=57097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=58097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=59097, seconds=510, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=60097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=61097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=62097, seconds=456, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=63097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=64097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=65097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=66097, seconds=480, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=67097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=68097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=69097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=70097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=71097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=72097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=73097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=74097, seconds=480, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=75097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=76097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=77097, seconds=470, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=78097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=79097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=80097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=81097, seconds=515, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=82097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=83097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=84097, seconds=451, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=85097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=86097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=87097, seconds=495, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=88097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=89097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=90097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=91097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=92097, seconds=480, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=93097, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=42195, seconds=18942, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=42195, seconds=18947, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=42195, seconds=18952, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=42195, seconds=18957, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=42195, seconds=18962, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=42195, seconds=18967, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=42195, seconds=18972, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=43195, seconds=525, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=44195, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=45195, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=46195, seconds=5, longitude=0, latitude=0), 
+            UploadLegVo(
+                index=null, meters=47195, seconds=209, longitude=0, latitude=0)])) 
+            raceItem:LiveRaceItem [
+                Hash = -1613750034, id=3, raceId=2, name=全程马拉松, meters=42195, startTime=Sun Sep 16 07:30:00 CST 2018, 
+                closeTime=Sun Sep 16 14:15:00 CST 2018, startValidTime=Sun Sep 16 07:15:00 CST 2018, 
+                startInvalidTime=Sun Sep 16 08:15:00 CST 2018, startLongitude=116.3933596, startLatitude=39.9016219, 
+                endLongitude=116.3870630, endLatitude=39.9948986, delFlag=0, createTime=Mon Sep 10 16:05:26 CST 2018, 
+                updateTime=Sat Sep 15 21:59:40 CST 2018, serialVersionUID=1]"
+
+
+
+
+                

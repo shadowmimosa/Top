@@ -1,0 +1,11 @@
+{
+    "C_Cpp.intelliSenseEngineFallback": "Enabled",
+    "C_Cpp.errorSquiggles": "Enabled",
+    "python.pythonPath": "C:\\Users\\ShadowMimosa\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    // "files.associations": {
+    //     "cmath": "cpp",
+    //     "ostream": "cpp",
+    //     "xstring": "cpp"
+    // },
+    "python.formatting.provider": "yapf"
+}

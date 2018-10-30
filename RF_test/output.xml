@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.0.4 (Python 3.7.0 on win32)" generated="20181015 16:33:43.607">
+<suite id="s1" name="user create class role Get" source="C:\Users\ShadowMimosa\Desktop\STU\Top\RF_test\user_create_class_role_Get.txt">
+<test id="s1-t1" name="Class_01">
+<kw name="createclassrole_Get_assertClass">
+<doc>user/create/class/role跑班创建权限查询</doc>
+<arguments>
+<arg>13829744541</arg>
+<arg>"0"</arg>
+</arguments>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>/user/create/class/role</arg>
+</arguments>
+<assign>
+<var>${path}</var>
+</assign>
+<msg timestamp="20181015 16:33:43.780" level="INFO">${path} = /user/create/class/role</msg>
+<status status="PASS" starttime="20181015 16:33:43.780" endtime="20181015 16:33:43.780"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<assign>
+<var>${maps}</var>
+</assign>
+<msg timestamp="20181015 16:33:43.781" level="INFO">${maps} = {}</msg>
+<status status="PASS" starttime="20181015 16:33:43.780" endtime="20181015 16:33:43.781"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>---输出预期值---</arg>
+</arguments>
+<msg timestamp="20181015 16:33:43.781" level="INFO">---输出预期值---</msg>
+<status status="PASS" starttime="20181015 16:33:43.781" endtime="20181015 16:33:43.781"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${expected}</arg>
+</arguments>
+<msg timestamp="20181015 16:33:43.781" level="INFO">"0"</msg>
+<status status="PASS" starttime="20181015 16:33:43.781" endtime="20181015 16:33:43.781"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${bet_URL}</arg>
+</arguments>
+<msg timestamp="20181015 16:33:43.782" level="FAIL">Variable '${bet_URL}' not found.</msg>
+<status status="FAIL" starttime="20181015 16:33:43.782" endtime="20181015 16:33:43.782"></status>
+</kw>
+<status status="FAIL" starttime="20181015 16:33:43.779" endtime="20181015 16:33:43.782"></status>
+</kw>
+<doc>user/create/class/role跑班创建权限查询-无参数</doc>
+<tags>
+<tag>Online</tag>
+<tag>Test</tag>
+</tags>
+<status status="FAIL" starttime="20181015 16:33:43.778" endtime="20181015 16:33:43.783" critical="yes">Variable '${bet_URL}' not found.</status>
+</test>
+<doc>跑班创建权限查询</doc>
+<status status="FAIL" starttime="20181015 16:33:43.609" endtime="20181015 16:33:43.783"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1">Critical Tests</stat>
+<stat pass="0" fail="1">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="1">Online</stat>
+<stat pass="0" fail="1">Test</stat>
+</tag>
+<suite>
+<stat pass="0" fail="1" id="s1" name="user create class role Get">user create class role Get</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20181015 16:33:43.727" level="ERROR">Error in test library 'pymysql': Creating keyword 'Connect' failed: Keyword with same name defined multiple times.</msg>
+<msg timestamp="20181015 16:33:43.756" level="ERROR">Error in file 'C:\Users\ShadowMimosa\Desktop\STU\Top\RF_test\public_lib.txt': Resource file '..\business\thejoyrun.txt' does not exist.</msg>
+<msg timestamp="20181015 16:33:43.758" level="ERROR">Error in file 'C:\Users\ShadowMimosa\Desktop\STU\Top\RF_test\public_lib.txt': Resource file '..\business\joyrunbusiness.txt' does not exist.</msg>
+<msg timestamp="20181015 16:33:43.759" level="ERROR">Error in file 'C:\Users\ShadowMimosa\Desktop\STU\Top\RF_test\public_lib.txt': Variable file '..\Config.py' does not exist.</msg>
+</errors>
+</robot>

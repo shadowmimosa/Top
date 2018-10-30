@@ -1,0 +1,247 @@
+2018-10-18 15:10:37,893 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Usertool_01.py[line:121] - INFO: you are winner
+2018-10-18 15:10:38,159 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Usertool_01.py[line:121] - INFO: <script>window.name={"code":0,"data":{"fxId":39097443,"kugouId":582326271,"success":true,"ticket":"016800FDCDCA8847C0C769059957BF5F22F267DFC155319A74F5B8B581BB4A5A464DE0DA364032C704B8008319A255E58D475A3C36407B30E589509E569CF4399C239948EB9EA3A7BF2AE939869EA6CD70FEC4FFC4BABEBB5BBEFFFAFD5308CC366F05ECC2EF3923EE0AD1"},"needCaptcha":0,"times":1458035189124};</script>
+2018-10-18 15:11:15,946 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Usertool_01.py[line:121] - INFO: you are winner
+2018-10-18 15:11:16,240 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Usertool_01.py[line:121] - INFO: <script>window.name={"code":0,"data":{"fxId":39097443,"kugouId":582326271,"success":true,"ticket":"016800FDCDCA8847C0C769059957BF5F22F267DFC155319A74F5B8B581BB4A5A464DE0DA364032C704B8008319A255E58D475A3C36407B30E589509E569CF4399C239948EB9EA3A7BF2AE939869EA6CD70FEC4FFC4BABEBB5BBEFFFAFD5308CC366F05ECC2EF3923EE0AD1"},"needCaptcha":0,"times":1458035189124};</script>
+2018-10-18 15:11:23,878 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:73] - INFO: ---基本信息获取---
+2018-10-18 15:11:24,105 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:74] - INFO: 传入的data为list列表对象!
+2018-10-18 15:11:24,321 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:75] - INFO: 传入过来的list列表对象的长度：2
+2018-10-18 15:11:24,547 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:77] - INFO: ---开始进行字段校验---
+2018-10-18 15:11:25,160 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:83] - INFO: --传入的data数据，列表中第1个子元素
+2018-10-18 15:11:26,777 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:163] - INFO: {'songId': 8269, 'singerId': 5785, 'hash': 'A31F9FBFC5E73AA93CBF7EC1C6247A98', 'recomflag': 5, 'singerName': '1', 'singerImg': '20140117151145992387.jpg', 'startTime': 75000, 'climaxHash': 'B349729F8E040F849C532C904B2A4C22', 'krc': 'jj'}对应值的类型为dict且长度为9
+2018-10-18 15:11:27,636 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:93] - INFO: 指定检测字段个数为:1
+2018-10-18 15:11:27,828 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:94] - INFO: 指定检测字段分别为：['None']
+2018-10-18 15:11:28,011 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:95] - INFO: 实际获取到的字段个数为:9
+2018-10-18 15:11:28,211 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:96] - INFO: 实际获取到的字段分别为:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])
+2018-10-18 15:11:29,898 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:108] - INFO: 请注意,被检测的字段【None】不在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中,请检查!
+2018-10-18 15:11:56,881 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Usertool_01.py[line:121] - INFO: you are winner
+2018-10-18 15:11:57,172 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Usertool_01.py[line:121] - INFO: <script>window.name={"code":0,"data":{"fxId":39097443,"kugouId":582326271,"success":true,"ticket":"016800FDCDCA8847C0C769059957BF5F22F267DFC155319A74F5B8B581BB4A5A464DE0DA364032C704B8008319A255E58D475A3C36407B30E589509E569CF4399C239948EB9EA3A7BF2AE939869EA6CD70FEC4FFC4BABEBB5BBEFFFAFD5308CC366F05ECC2EF3923EE0AD1"},"needCaptcha":0,"times":1458035189124};</script>
+2018-10-18 15:12:05,159 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:73] - INFO: ---基本信息获取---
+2018-10-18 15:12:05,364 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:74] - INFO: 传入的data为list列表对象!
+2018-10-18 15:12:05,578 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:75] - INFO: 传入过来的list列表对象的长度：2
+2018-10-18 15:12:05,800 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:77] - INFO: ---开始进行字段校验---
+2018-10-18 15:12:06,558 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:83] - INFO: --传入的data数据，列表中第1个子元素
+2018-10-18 15:12:08,199 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:163] - INFO: {'songId': 8269, 'singerId': 5785, 'hash': 'A31F9FBFC5E73AA93CBF7EC1C6247A98', 'recomflag': 5, 'singerName': '1', 'singerImg': '20140117151145992387.jpg', 'startTime': 75000, 'climaxHash': 'B349729F8E040F849C532C904B2A4C22', 'krc': 'jj'}对应值的类型为dict且长度为9
+2018-10-18 15:12:09,000 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:93] - INFO: 指定检测字段个数为:3
+2018-10-18 15:12:09,213 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:94] - INFO: 指定检测字段分别为：['songId', 'hash', 'singerId']
+2018-10-18 15:12:09,425 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:95] - INFO: 实际获取到的字段个数为:9
+2018-10-18 15:12:09,638 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:96] - INFO: 实际获取到的字段分别为:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])
+2018-10-18 15:12:10,489 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【songId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:12:11,542 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【hash】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:12:12,512 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【singerId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:12:34,859 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Usertool_01.py[line:121] - INFO: you are winner
+2018-10-18 15:12:35,148 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Usertool_01.py[line:121] - INFO: <script>window.name={"code":0,"data":{"fxId":39097443,"kugouId":582326271,"success":true,"ticket":"016800FDCDCA8847C0C769059957BF5F22F267DFC155319A74F5B8B581BB4A5A464DE0DA364032C704B8008319A255E58D475A3C36407B30E589509E569CF4399C239948EB9EA3A7BF2AE939869EA6CD70FEC4FFC4BABEBB5BBEFFFAFD5308CC366F05ECC2EF3923EE0AD1"},"needCaptcha":0,"times":1458035189124};</script>
+2018-10-18 15:12:38,813 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:73] - INFO: ---基本信息获取---
+2018-10-18 15:12:39,023 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:74] - INFO: 传入的data为list列表对象!
+2018-10-18 15:12:39,236 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:75] - INFO: 传入过来的list列表对象的长度：2
+2018-10-18 15:12:39,469 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:77] - INFO: ---开始进行字段校验---
+2018-10-18 15:12:40,403 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:83] - INFO: --传入的data数据，列表中第1个子元素
+2018-10-18 15:12:42,479 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:163] - INFO: {'songId': 8269, 'singerId': 5785, 'hash': 'A31F9FBFC5E73AA93CBF7EC1C6247A98', 'recomflag': 5, 'singerName': '1', 'singerImg': '20140117151145992387.jpg', 'startTime': 75000, 'climaxHash': 'B349729F8E040F849C532C904B2A4C22', 'krc': 'jj'}对应值的类型为dict且长度为9
+2018-10-18 15:12:43,282 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:93] - INFO: 指定检测字段个数为:3
+2018-10-18 15:12:43,475 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:94] - INFO: 指定检测字段分别为：['songId', 'hash', 'singerId']
+2018-10-18 15:12:43,664 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:95] - INFO: 实际获取到的字段个数为:9
+2018-10-18 15:12:43,857 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:96] - INFO: 实际获取到的字段分别为:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])
+2018-10-18 15:12:44,647 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【songId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:12:45,621 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【hash】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:12:46,565 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【singerId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:13:20,752 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Usertool_01.py[line:121] - INFO: you are winner
+2018-10-18 15:13:21,041 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Usertool_01.py[line:121] - INFO: <script>window.name={"code":0,"data":{"fxId":39097443,"kugouId":582326271,"success":true,"ticket":"016800FDCDCA8847C0C769059957BF5F22F267DFC155319A74F5B8B581BB4A5A464DE0DA364032C704B8008319A255E58D475A3C36407B30E589509E569CF4399C239948EB9EA3A7BF2AE939869EA6CD70FEC4FFC4BABEBB5BBEFFFAFD5308CC366F05ECC2EF3923EE0AD1"},"needCaptcha":0,"times":1458035189124};</script>
+2018-10-18 15:13:23,812 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:73] - INFO: ---基本信息获取---
+2018-10-18 15:13:23,990 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:74] - INFO: 传入的data为list列表对象!
+2018-10-18 15:13:24,186 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:75] - INFO: 传入过来的list列表对象的长度：2
+2018-10-18 15:13:24,368 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:77] - INFO: ---开始进行字段校验---
+2018-10-18 15:13:24,936 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:83] - INFO: --传入的data数据，列表中第1个子元素
+2018-10-18 15:13:26,375 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:163] - INFO: {'songId': 8269, 'singerId': 5785, 'hash': 'A31F9FBFC5E73AA93CBF7EC1C6247A98', 'recomflag': 5, 'singerName': '1', 'singerImg': '20140117151145992387.jpg', 'startTime': 75000, 'climaxHash': 'B349729F8E040F849C532C904B2A4C22', 'krc': 'jj'}对应值的类型为dict且长度为9
+2018-10-18 15:13:27,145 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:93] - INFO: 指定检测字段个数为:3
+2018-10-18 15:13:27,323 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:94] - INFO: 指定检测字段分别为：['songId', 'hash', 'singerId']
+2018-10-18 15:13:27,519 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:95] - INFO: 实际获取到的字段个数为:9
+2018-10-18 15:13:27,705 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:96] - INFO: 实际获取到的字段分别为:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])
+2018-10-18 15:13:28,603 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【songId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:13:29,524 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【hash】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:13:30,434 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【singerId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:13:31,687 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:32,140 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第1对象元素,key值对应为:songId---
+2018-10-18 15:13:32,339 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: songId:8269
+2018-10-18 15:13:34,098 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:34,237 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第2对象元素,key值对应为:singerId---
+2018-10-18 15:13:34,276 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerId:5785
+2018-10-18 15:13:34,758 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:34,948 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第3对象元素,key值对应为:hash---
+2018-10-18 15:13:35,004 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: hash:A31F9FBFC5E73AA93CBF7EC1C6247A98
+2018-10-18 15:13:36,509 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 32
+2018-10-18 15:13:36,624 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-18 15:13:37,626 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:37,729 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第4对象元素,key值对应为:recomflag---
+2018-10-18 15:13:37,829 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: recomflag:5
+2018-10-18 15:13:38,191 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:38,321 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第5对象元素,key值对应为:singerName---
+2018-10-18 15:13:38,400 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerName:1
+2018-10-18 15:13:39,616 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 1
+2018-10-18 15:13:39,782 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-18 15:13:40,565 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:41,010 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第6对象元素,key值对应为:singerImg---
+2018-10-18 15:13:41,217 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerImg:20140117151145992387.jpg
+2018-10-18 15:13:42,844 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 24
+2018-10-18 15:13:43,033 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-18 15:13:43,806 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:44,190 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第7对象元素,key值对应为:startTime---
+2018-10-18 15:13:44,749 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: startTime:75000
+2018-10-18 15:13:45,518 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:46,148 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第8对象元素,key值对应为:climaxHash---
+2018-10-18 15:13:46,181 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: climaxHash:B349729F8E040F849C532C904B2A4C22
+2018-10-18 15:13:46,802 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 32
+2018-10-18 15:13:47,362 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-18 15:13:47,570 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:47,658 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第9对象元素,key值对应为:krc---
+2018-10-18 15:13:47,725 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: krc:jj
+2018-10-18 15:13:48,808 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 2
+2018-10-18 15:13:48,876 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-18 15:13:49,061 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:83] - INFO: --传入的data数据，列表中第2个子元素
+2018-10-18 15:13:50,099 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:154] - INFO: [{'songId': 8269, 'singerId': 5785, 'hash': 'A31F9FBFC5E73AA93CBF7EC1C6247A98', 'recomflag': 5, 'singerName': '1', 'singerImg': '20140117151145992387.jpg', 'startTime': 75000, 'climaxHash': 'B349729F8E040F849C532C904B2A4C22', 'krc': 'jj'}]对应值的类型为list且长度为1
+2018-10-18 15:13:50,163 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:156] - INFO: 
+2018-10-18 15:13:50,217 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:157] - INFO: 内嵌的列表中，第1个子元素
+2018-10-18 15:13:50,598 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:163] - INFO: {'songId': 8269, 'singerId': 5785, 'hash': 'A31F9FBFC5E73AA93CBF7EC1C6247A98', 'recomflag': 5, 'singerName': '1', 'singerImg': '20140117151145992387.jpg', 'startTime': 75000, 'climaxHash': 'B349729F8E040F849C532C904B2A4C22', 'krc': 'jj'}对应值的类型为dict且长度为9
+2018-10-18 15:13:51,300 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:93] - INFO: 指定检测字段个数为:3
+2018-10-18 15:13:51,860 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:94] - INFO: 指定检测字段分别为：['songId', 'hash', 'singerId']
+2018-10-18 15:13:51,940 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:95] - INFO: 实际获取到的字段个数为:9
+2018-10-18 15:13:51,942 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:96] - INFO: 实际获取到的字段分别为:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])
+2018-10-18 15:13:52,218 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【songId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:13:52,533 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【hash】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:13:52,814 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【singerId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-18 15:13:53,205 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:53,294 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第1对象元素,key值对应为:songId---
+2018-10-18 15:13:53,329 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: songId:8269
+2018-10-18 15:13:53,708 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:53,817 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第2对象元素,key值对应为:singerId---
+2018-10-18 15:13:53,862 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerId:5785
+2018-10-18 15:13:54,252 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:54,309 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第3对象元素,key值对应为:hash---
+2018-10-18 15:13:54,354 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: hash:A31F9FBFC5E73AA93CBF7EC1C6247A98
+2018-10-18 15:13:54,657 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 32
+2018-10-18 15:13:54,702 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-18 15:13:54,888 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:54,987 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第4对象元素,key值对应为:recomflag---
+2018-10-18 15:13:55,043 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: recomflag:5
+2018-10-18 15:13:55,433 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:55,533 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第5对象元素,key值对应为:singerName---
+2018-10-18 15:13:55,589 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerName:1
+2018-10-18 15:13:55,936 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 1
+2018-10-18 15:13:55,971 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-18 15:13:56,190 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:56,289 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第6对象元素,key值对应为:singerImg---
+2018-10-18 15:13:56,323 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerImg:20140117151145992387.jpg
+2018-10-18 15:13:56,668 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 24
+2018-10-18 15:13:56,746 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-18 15:13:58,344 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:13:58,755 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第7对象元素,key值对应为:startTime---
+2018-10-18 15:13:58,970 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: startTime:75000
+2018-10-18 15:14:00,576 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:14:00,674 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第8对象元素,key值对应为:climaxHash---
+2018-10-18 15:14:00,708 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: climaxHash:B349729F8E040F849C532C904B2A4C22
+2018-10-18 15:14:01,055 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 32
+2018-10-18 15:14:01,110 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-18 15:14:01,273 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-18 15:14:01,337 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第9对象元素,key值对应为:krc---
+2018-10-18 15:14:01,372 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:172] - INFO: krc:jj
+2018-10-18 15:14:01,684 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 2
+2018-10-18 15:14:01,720 - c:\Users\ShadowMimosa\Desktop\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-30 11:15:04,128 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Usertool_01.py[line:121] - INFO: you are winner
+2018-10-30 11:15:04,405 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Usertool_01.py[line:121] - INFO: <script>window.name={"code":0,"data":{"fxId":39097443,"kugouId":582326271,"success":true,"ticket":"016800FDCDCA8847C0C769059957BF5F22F267DFC155319A74F5B8B581BB4A5A464DE0DA364032C704B8008319A255E58D475A3C36407B30E589509E569CF4399C239948EB9EA3A7BF2AE939869EA6CD70FEC4FFC4BABEBB5BBEFFFAFD5308CC366F05ECC2EF3923EE0AD1"},"needCaptcha":0,"times":1458035189124};</script>
+2018-10-30 11:15:04,410 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:73] - INFO: ---基本信息获取---
+2018-10-30 11:15:04,411 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:74] - INFO: 传入的data为list列表对象!
+2018-10-30 11:15:04,411 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:75] - INFO: 传入过来的list列表对象的长度：2
+2018-10-30 11:15:04,411 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:77] - INFO: ---开始进行字段校验---
+2018-10-30 11:15:04,412 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:83] - INFO: --传入的data数据，列表中第1个子元素
+2018-10-30 11:15:04,412 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:163] - INFO: {'songId': 8269, 'singerId': 5785, 'hash': 'A31F9FBFC5E73AA93CBF7EC1C6247A98', 'recomflag': 5, 'singerName': '1', 'singerImg': '20140117151145992387.jpg', 'startTime': 75000, 'climaxHash': 'B349729F8E040F849C532C904B2A4C22', 'krc': 'jj'}对应值的类型为dict且长度为9
+2018-10-30 11:15:04,412 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:93] - INFO: 指定检测字段个数为:3
+2018-10-30 11:15:04,412 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:94] - INFO: 指定检测字段分别为：['songId', 'hash', 'singerId']
+2018-10-30 11:15:04,413 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:95] - INFO: 实际获取到的字段个数为:9
+2018-10-30 11:15:04,413 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:96] - INFO: 实际获取到的字段分别为:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])
+2018-10-30 11:15:04,413 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【songId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-30 11:15:04,414 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【hash】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-30 11:15:04,414 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【singerId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-30 11:15:04,415 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,415 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第1对象元素,key值对应为:songId---
+2018-10-30 11:15:04,416 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: songId:8269
+2018-10-30 11:15:04,416 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,416 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第2对象元素,key值对应为:singerId---
+2018-10-30 11:15:04,416 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerId:5785
+2018-10-30 11:15:04,417 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,417 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第3对象元素,key值对应为:hash---
+2018-10-30 11:15:04,417 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: hash:A31F9FBFC5E73AA93CBF7EC1C6247A98
+2018-10-30 11:15:04,417 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 32
+2018-10-30 11:15:04,417 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-30 11:15:04,417 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,417 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第4对象元素,key值对应为:recomflag---
+2018-10-30 11:15:04,417 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: recomflag:5
+2018-10-30 11:15:04,418 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,418 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第5对象元素,key值对应为:singerName---
+2018-10-30 11:15:04,418 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerName:1
+2018-10-30 11:15:04,418 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 1
+2018-10-30 11:15:04,418 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-30 11:15:04,418 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,418 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第6对象元素,key值对应为:singerImg---
+2018-10-30 11:15:04,418 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerImg:20140117151145992387.jpg
+2018-10-30 11:15:04,418 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 24
+2018-10-30 11:15:04,419 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-30 11:15:04,419 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,419 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第7对象元素,key值对应为:startTime---
+2018-10-30 11:15:04,419 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: startTime:75000
+2018-10-30 11:15:04,419 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,419 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第8对象元素,key值对应为:climaxHash---
+2018-10-30 11:15:04,419 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: climaxHash:B349729F8E040F849C532C904B2A4C22
+2018-10-30 11:15:04,419 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 32
+2018-10-30 11:15:04,419 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-30 11:15:04,420 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,420 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第9对象元素,key值对应为:krc---
+2018-10-30 11:15:04,420 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: krc:jj
+2018-10-30 11:15:04,420 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 2
+2018-10-30 11:15:04,420 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-30 11:15:04,420 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:83] - INFO: --传入的data数据，列表中第2个子元素
+2018-10-30 11:15:04,420 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:154] - INFO: [{'songId': 8269, 'singerId': 5785, 'hash': 'A31F9FBFC5E73AA93CBF7EC1C6247A98', 'recomflag': 5, 'singerName': '1', 'singerImg': '20140117151145992387.jpg', 'startTime': 75000, 'climaxHash': 'B349729F8E040F849C532C904B2A4C22', 'krc': 'jj'}]对应值的类型为list且长度为1
+2018-10-30 11:15:04,420 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:156] - INFO: 
+2018-10-30 11:15:04,420 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:157] - INFO: 内嵌的列表中，第1个子元素
+2018-10-30 11:15:04,421 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:163] - INFO: {'songId': 8269, 'singerId': 5785, 'hash': 'A31F9FBFC5E73AA93CBF7EC1C6247A98', 'recomflag': 5, 'singerName': '1', 'singerImg': '20140117151145992387.jpg', 'startTime': 75000, 'climaxHash': 'B349729F8E040F849C532C904B2A4C22', 'krc': 'jj'}对应值的类型为dict且长度为9
+2018-10-30 11:15:04,421 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:93] - INFO: 指定检测字段个数为:3
+2018-10-30 11:15:04,421 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:94] - INFO: 指定检测字段分别为：['songId', 'hash', 'singerId']
+2018-10-30 11:15:04,421 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:95] - INFO: 实际获取到的字段个数为:9
+2018-10-30 11:15:04,421 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:96] - INFO: 实际获取到的字段分别为:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])
+2018-10-30 11:15:04,421 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【songId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-30 11:15:04,421 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【hash】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-30 11:15:04,421 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:101] - INFO: 被检测的字段【singerId】在实际返回的列表字段:dict_keys(['songId', 'singerId', 'hash', 'recomflag', 'singerName', 'singerImg', 'startTime', 'climaxHash', 'krc'])中
+2018-10-30 11:15:04,421 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,422 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第1对象元素,key值对应为:songId---
+2018-10-30 11:15:04,422 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: songId:8269
+2018-10-30 11:15:04,422 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,422 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第2对象元素,key值对应为:singerId---
+2018-10-30 11:15:04,422 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerId:5785
+2018-10-30 11:15:04,422 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,422 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第3对象元素,key值对应为:hash---
+2018-10-30 11:15:04,422 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: hash:A31F9FBFC5E73AA93CBF7EC1C6247A98
+2018-10-30 11:15:04,422 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 32
+2018-10-30 11:15:04,423 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-30 11:15:04,423 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,423 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第4对象元素,key值对应为:recomflag---
+2018-10-30 11:15:04,423 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: recomflag:5
+2018-10-30 11:15:04,423 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,423 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第5对象元素,key值对应为:singerName---
+2018-10-30 11:15:04,423 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerName:1
+2018-10-30 11:15:04,423 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 1
+2018-10-30 11:15:04,423 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-30 11:15:04,424 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,424 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第6对象元素,key值对应为:singerImg---
+2018-10-30 11:15:04,424 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: singerImg:20140117151145992387.jpg
+2018-10-30 11:15:04,424 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 24
+2018-10-30 11:15:04,424 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-30 11:15:04,424 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,424 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第7对象元素,key值对应为:startTime---
+2018-10-30 11:15:04,424 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: startTime:75000
+2018-10-30 11:15:04,424 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,425 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第8对象元素,key值对应为:climaxHash---
+2018-10-30 11:15:04,425 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: climaxHash:B349729F8E040F849C532C904B2A4C22
+2018-10-30 11:15:04,425 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 32
+2018-10-30 11:15:04,425 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 
+2018-10-30 11:15:04,425 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:169] - INFO: 
+2018-10-30 11:15:04,425 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:171] - INFO: ---内嵌的字典中,第9对象元素,key值对应为:krc---
+2018-10-30 11:15:04,425 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:172] - INFO: krc:jj
+2018-10-30 11:15:04,425 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:180] - INFO: Length is 2
+2018-10-30 11:15:04,425 - c:\Users\ShadowMimosa\Documents\STU\Top\Lib\Verification_Field.py[line:181] - INFO: 

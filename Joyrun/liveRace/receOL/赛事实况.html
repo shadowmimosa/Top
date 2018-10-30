@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" integrity="sha384-BTL0nVi8DnMrNdMQZG1Ww6yasK9ZGnUxL1ZWukXQ7fygA1py52yPp9W4wrR00VML" crossorigin="anonymous">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 26px; line-height: 22px; word-wrap: break-word; } #code-csp-warning { position: fixed; top: 0; right: 0; color: white; margin: 16px; text-align: center; font-size: 12px; font-family: sans-serif; background-color:#444444; cursor: pointer; padding: 6px; box-shadow: 1px 1px 1px rgba(0,0,0,.25); } #code-csp-warning:hover { text-decoration: none; background-color:#007acc; box-shadow: 2px 2px 2px rgba(0,0,0,.25); } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-light.showEditorSelection .code-line .code-line:hover:before { border-left: none; } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-dark.showEditorSelection .code-line .code-line:hover:before { border-left: none; } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } .vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before { border-left: none; } img { max-width: 100%; max-height: 100%; } a { text-decoration: none; } a:hover { text-decoration: underline; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left-width: 5px; border-left-style: solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } pre:not(.hljs), pre.hljs code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ pre code { color: var(--vscode-editor-foreground); } .vscode-light pre:not(.hljs), .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark pre:not(.hljs), .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast pre:not(.hljs), .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } 
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <font size=4 face="楷体">  
+<h3 id="%E8%B5%9B%E4%BA%8B%E5%AE%9E%E5%86%B5os%E4%BD%BF%E7%94%A8%E5%A4%87%E6%B3%A8">赛事实况os使用备注</h3>
+<h4 id="%E6%96%B0%E5%A2%9E%E8%B5%9B%E4%BA%8B">新增赛事</h4>
+<ul>
+<li>赛事名称</li>
+<li>比赛日期</li>
+<li>
+<ul>
+<li>显示在前端的比赛日期</li>
+</ul>
+</li>
+<li>所在地</li>
+<li>
+<ul>
+<li>显示在前端的比赛地 <em>如广东·广州</em></li>
+</ul>
+</li>
+<li>顺序权重</li>
+<li>
+<ul>
+<li>权重大的显示在最上面 <em>上限127</em></li>
+</ul>
+</li>
+<li>赛事封面图</li>
+<li>
+<ul>
+<li>赛事实况列表中赛事的封面 <em>格式:672*264</em></li>
+</ul>
+</li>
+<li>赛事弹窗图片url</li>
+<li>
+<ul>
+<li>进入赛事模式弹窗上图片 <em>格式:600*160</em></li>
+</ul>
+</li>
+<li>上架时间、下架时间</li>
+<li>
+<ul>
+<li>控制赛事出现在赛事列表时间</li>
+</ul>
+</li>
+<li>开始时间、关门时间</li>
+<li>
+<ul>
+<li>控制前端显示比赛状态（即将开始、正在进行、已经结束）</li>
+</ul>
+</li>
+<li>赛事对应广告</li>
+<li>
+<ul>
+<li>规则:(只能输入数字和英文状态下的逗号)
+请输入advIds，如有多个advIds则用(英文)逗号隔开，例如：10001,10002</li>
+</ul>
+</li>
+</ul>
+<h4 id="%E6%96%B0%E5%A2%9E%E8%B5%9B%E4%BA%8B%E9%A1%B9%E7%9B%AE">新增赛事项目</h4>
+<ul>
+<li>赛事项目名称</li>
+<li>赛事项目名称</li>
+<li>
+<ul>
+<li>前端显示的赛事项目名称</li>
+</ul>
+</li>
+<li>项目长度（米）</li>
+<li>
+<ul>
+<li>项目实际里程，单位为米</li>
+</ul>
+</li>
+<li>开始时间</li>
+<li>
+<ul>
+<li>此项目的开始时间</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>此项目的关门时间</li>
+</ul>
+</li>
+<li>有效时间段头</li>
+<li>
+<ul>
+<li>开始可以进入赛事模式时间（用于控制用户点击跑步，可以进入赛事模式的弹窗出现时间）</li>
+</ul>
+</li>
+<li>有效时间段尾</li>
+<li>
+<ul>
+<li>此时间后，不能进入赛事模式</li>
+</ul>
+</li>
+<li>项目的起始点经度</li>
+<li>
+<ul>
+<li>必须使用谷歌地球坐标(非谷歌地图) <em>否则有可能不能进入赛事模式 网址:<a href="http://www.gpsspg.com/maps.htm">http://www.gpsspg.com/maps.htm</a></em></li>
+</ul>
+</li>
+<li>项目的起始点纬度</li>
+<li>
+<ul>
+<li>必须使用谷歌地球坐标(非谷歌地图)</li>
+</ul>
+</li>
+<li>项目的终点经度</li>
+<li>
+<ul>
+<li>必须使用谷歌地球坐标(非谷歌地图)</li>
+</ul>
+</li>
+<li>项目的终点纬度</li>
+<li>
+<ul>
+<li>必须使用谷歌地球坐标(非谷歌地图)</li>
+</ul>
+</li>
+<li>权重</li>
+<li>
+<ul>
+<li>权重大的项目显示在上面 <em>上限127</em></li>
+</ul>
+</li>
+</ul>
+<h4 id="%E9%85%8D%E7%BD%AE%E5%AF%B9%E6%88%98%E5%B1%9E%E6%80%A7">配置对战属性</h4>
+<ul>
+<li>属性名称</li>
+<li>
+<ul>
+<li>战队属性名称</li>
+</ul>
+</li>
+<li>属性图标</li>
+<li>
+<ul>
+<li>规格:120*120</li>
+</ul>
+</li>
+<li>是否是默认</li>
+<li>
+<ul>
+<li>新建赛事时，是否默认勾选属性</li>
+</ul>
+</li>
+<li>描述</li>
+<li>
+<ul>
+<li>战队属性描述 <em>上限256字</em></li>
+</ul>
+</li>
+<li>开放限制</li>
+<li>
+<ul>
+<li>所有人可见</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>
+<ul>
+<li>前端用户创建战队时，此属性可见</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>前端创建战队时不可见</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>
+<ul>
+<li>隐藏战队属性 <em>如阿迪小队</em></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="%E6%96%B0%E5%A2%9E%E6%88%98%E9%98%9F">新增战队</h4>
+<ul>
+<li>战队属性</li>
+<li>
+<ul>
+<li>此战队的属性</li>
+</ul>
+</li>
+<li>战队名称</li>
+<li>
+<ul>
+<li>此战队的名称 <em>上限50字</em></li>
+</ul>
+</li>
+<li>赛事项目ID</li>
+<li>
+<ul>
+<li>此战队要参加的赛事项目</li>
+</ul>
+</li>
+<li>队长ID</li>
+<li>
+<ul>
+<li>真实存在的队长uid</li>
+</ul>
+</li>
+<li>参赛号</li>
+<li>
+<ul>
+<li>限制44字符 <em>英文或数字</em></li>
+</ul>
+</li>
+<li>目标成绩</li>
+<li>
+<ul>
+<li>队长的目标成绩 <em>单位为秒</em></li>
+</ul>
+</li>
+<li>顺序权重</li>
+<li>
+<ul>
+<li>权重大的显示在上面 <em>上限127</em></li>
+</ul>
+</li>
+</ul>
+<h4 id="%E6%96%B0%E5%A2%9E%E5%AF%B9%E6%88%98">新增对战</h4>
+<ul>
+<li>赛事id</li>
+<li>
+<ul>
+<li>两个战队参加的赛事id <em>相同</em></li>
+</ul>
+</li>
+<li>赛事项目id</li>
+<li>
+<ul>
+<li>两个战队参加的赛事项目id <em>相同</em></li>
+</ul>
+</li>
+<li>战队1ID</li>
+<li>
+<ul>
+<li>战队id</li>
+</ul>
+</li>
+<li>战队2ID</li>
+<li>
+<ul>
+<li>战队id <em>与战队1不同</em></li>
+</ul>
+</li>
+<li>顺序权重</li>
+<li>
+<ul>
+<li>权重大的显示在上面 <em>上限127</em></li>
+</ul>
+</li>
+</ul>
+<h4 id="%E5%95%86%E4%B8%9A%E5%8C%96%E6%95%B0%E5%80%BC">商业化数值</h4>
+<ul>
+<li>商业化数值</li>
+<li>
+<ul>
+<li>前端展示参加战队总数为<em>商业化数值+实际战队数</em> <em>上限127</em></li>
+</ul>
+</li>
+</ul>
+
+    </body>
+    </html>
