@@ -7,11 +7,11 @@ ${pwd}            000000    # 密码
 ${userName}       u888@qq.com    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
-*** Test Cases ***    mobile             verifyCode    userName       pwd       ret         msg
+*** Test Cases ***    mobile             verifyCode    userName       pwd       ret        msg
 Class_01              [Documentation]    绑定钱包手机号
                       [Tags]             Test          txy            Online
                       [Template]         WalletBind
-                      13400000494        112233        u888@qq.com    000000    "700000"    "成功"
+                      13400000494        1122          u888@qq.com    000000    "41006"    "验证码错误"
 
 *** Keywords ***
 WalletBind
