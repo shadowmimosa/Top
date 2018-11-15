@@ -9,8 +9,8 @@ Library           HttpLibrary.HTTP
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
-${pwd}            67889911    # 密码
-${userName}       32518359    # 用户名
+${pwd}            123321    # 密码
+${userName}       32521559    # 用户名
 ${ContentType}    application/x-www-form-urlencoded    # POST数据格式
 
 *** Test Cases ***    courseid           nomoment             private    wgs
@@ -27,7 +27,7 @@ RunRecord_opinion
     Evaluate    sys.setdefaultencoding( "utf-8" )    sys
     #环境判定和用户的选择
     @{usrpwdenv}    usr_pass_env    0
-    ${userName}    Get From List    ${usrpwdenv}    0
+    #${userName}    Get From List    ${usrpwdenv}    0
     ${pwd}    Get From List    ${usrpwdenv}    1
     ${env}    Get From List    ${usrpwdenv}    2
     #${userName}    set variable    13064764870

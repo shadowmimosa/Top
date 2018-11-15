@@ -54,11 +54,9 @@ running_domain_apply_Post_Keywords
     log    验证ret是否符合预期
     ${msg1}    Run Keyword If    ${ret}=="700005"    get json value    ${content}    /msg
     ...    ELSE    set variable    ${msg}
-    ${msg2}    Run Keyword If    ${ret}=="700005"    FindAndValue    ${msg1}    id.*\"    \\\\\"\]
-    ...    1    gen
     log    ret 符合预期为:${ret}
     log    验证msg是否符合预期:${msg1}
-    Run Keyword If    ${ret}=="700005"    Should Not Be Empty    ${msg2}
+    Run Keyword If    ${ret}=="700005"    Should Not Be Empty    ${msg1}
     ...    ELSE    should contain    ${content}    "msg":"${msg1}"
     #当需要添加对data的内容进行单独验证时，可以以下方式
     #${data}    get json value    ${content}    /data

@@ -1,0 +1,57 @@
+*** Settings ***
+Documentation     crewCreateApply/newApply 申请创建跑团
+Library           Collections
+Library           RequestsLibrary
+Library           pymysql
+Library           DatabaseLibrary
+Library           String
+Library           HttpLibrary.HTTP
+Library           ../Public/Lib/tools_library.py
+Resource          ../Public/public_lib.txt
+
+*** Variable ***
+${pwd}            123321    # 密码
+${userName}       8477133    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    city               crewname                                  email         idCardA                                                                                                idCardB                                                                                                name       phone          province    remark    wechatId    ret    msg
+Class_01              [Documentation]    crewCreateApply/newApply TestCase测试用例
+                      [Tags]             Test                                      gxy
+                      [Template]         crewCreateApply_newApply_Post_Keywords
+                      广州                 朝阳跑团                                      123@123.om    http://linked-runner.b0.upaiyun.com/linked-runner-file/crew/id_cardA/android_92796761_1541658760603    http://linked-runner.b0.upaiyun.com/linked-runner-file/crew/id_cardA/android_92796761_1541658760603    michael    18820130825    广东          这是跑团介绍    wer123      0      成功
+
+*** Keywords ***
+crewCreateApply_newApply_Post_Keywords
+    [Arguments]    ${city}    ${crewname}    ${email}    ${idCardA}    ${idCardB}    ${name}
+    ...    ${phone}    ${province}    ${remark}    ${wechatId}    ${ret}    ${msg}
+    [Documentation]    crewCreateApply/newApply 接口用例的Keywords关健字
+    Evaluate    reload(sys)    sys
+    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    #从配置的用户列表中随机取一个用户运行此用例
+    #${userName}    Env_username
+    ${path}=    set variable    /crewCreateApply/newApply
+    ${maps}=    create dictionary
+    set to dictionary    ${maps}    city=${city}
+    set to dictionary    ${maps}    crewname=${crewname}
+    set to dictionary    ${maps}    email=${email}
+    set to dictionary    ${maps}    idCardA=${idCardA}
+    set to dictionary    ${maps}    idCardB=${idCardB}
+    set to dictionary    ${maps}    name=${name}
+    set to dictionary    ${maps}    phone=${phone}
+    set to dictionary    ${maps}    province=${province}
+    set to dictionary    ${maps}    remark=${remark}
+    set to dictionary    ${maps}    wechatId=${wechatId}
+    log    ========输出接口URL：${crew_muilt_URL}${path}
+    log    ========接口的入参为：${userName}:${maps}==========
+    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
+    ${content}=    charconver    ${resp.content}
+    log json    ${content}
+    log    ======开始断言验证=====
+    log    验证ret是否符合预期
+    should contain    ${content}    "ret":"${ret}"
+    log    ret 符合预期为:${ret}
+    log    验证msg是否符合预期:${msg}
+    should contain    ${content}    "msg":"${msg}"
+    #当需要添加对data的内容进行单独验证时，可以以下方式
+    #${data}    get json value    ${content}    /data
+    log    验证OK！！用户${userName}；URL：${crew_muilt_URL}${path}；传参：${maps}！！
