@@ -17,8 +17,8 @@ Class_01              [Documentation]    wallet/recharge/payResult TestCase测�
 wallet_recharge_payResult_Get_Keywords
     [Arguments]    ${orderId}    ${ret}    ${msg}
     [Documentation]    wallet/recharge/payResult 钱包充值订单支付结果查询
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${path}=    set variable    /wallet/recharge/payResult
@@ -28,7 +28,7 @@ wallet_recharge_payResult_Get_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${wallet_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

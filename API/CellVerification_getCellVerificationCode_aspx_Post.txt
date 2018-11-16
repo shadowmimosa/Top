@@ -17,8 +17,8 @@ Class_01              [Documentation]    CellVerification/getCellVerificationCod
 CellVerification_getCellVerificationCode_aspx_Post_Keywords
     [Arguments]    ${cellNumber}    ${code}    ${ret}    ${msg}
     [Documentation]    CellVerification/getCellVerificationCode.aspx 注册发送验证码接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /CellVerification/getCellVerificationCode.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    cellNumber=${cellNumber}
@@ -27,7 +27,7 @@ CellVerification_getCellVerificationCode_aspx_Post_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postnl    ${path}    ${maps}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

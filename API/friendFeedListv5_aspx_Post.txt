@@ -17,8 +17,8 @@ Class_01              [Documentation]    friendFeedListv5.aspx TestCase测试用
 friendFeedListv5_aspx_Post_Keywords
     [Arguments]    ${rich}    ${touid}    ${ret}    ${msg}
     [Documentation]    friendFeedListv5.aspx 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /friendFeedListv5.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    rich=${rich}
@@ -27,7 +27,7 @@ friendFeedListv5_aspx_Post_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

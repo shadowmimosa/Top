@@ -22,8 +22,8 @@ Class_02              [Documentation]    bet/user/class/info TestCase测试用�
 user_class_info_Getw_Keywords
     [Arguments]    ${classId}    ${uid}    ${ret}    ${msg}
     [Documentation]    bet/user/class/info 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /bet/user/class/info
     ${maps}=    create dictionary
     set to dictionary    ${maps}    classId=${classId}
@@ -32,7 +32,7 @@ user_class_info_Getw_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_get_wxminp    ${path}    ${maps}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

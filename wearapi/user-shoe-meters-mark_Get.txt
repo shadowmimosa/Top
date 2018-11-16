@@ -5,7 +5,7 @@ Library           RequestsLibrary
 Library           pymysql
 Library           DatabaseLibrary
 Library           String
-Library           HttpLibrary.HTTP
+# Library           HttpLibrary.HTTP
 Library           ../Public/Lib/tools_library.py
 Resource          ../Public/public_lib.txt
 
@@ -29,8 +29,8 @@ Class_02              [Documentation]    user-shoe-meters-mark TestCase测试用
 user-shoe-meters-mark_Get_Keywords
     [Arguments]    ${user_shoe_id}    ${fid}    ${msg}    ${ret}
     [Documentation]    user-shoe-meters-mark 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${con}    thejoyrun_Keywords    ${wear_URL}    /user-shoe-list    ${userName}    ${pwd}    Post
@@ -46,7 +46,7 @@ user-shoe-meters-mark_Get_Keywords
     log    ========接口的入参为：${userName}:${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${wear_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

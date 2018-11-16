@@ -18,8 +18,8 @@ userAdd_DEL_shoe_Post_Keywords
     [Arguments]    ${remark}    ${self_defined}    ${shoeColorId}    ${shoeGender}    ${shoeSize}    ${shoeSizeType}
     ...    ${shoe_id}    ${shoe_name}    ${userShoeId}
     [Documentation]    userAdd_DEL_shoe_Post_Keywords 增加shoe及删除shoe业务验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     ${userName}    Env_username
     ${shoe_id}    Get_shoe_id    ${userName}
@@ -38,7 +38,7 @@ userAdd_DEL_shoe_Post_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wear_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     ${ret}    get json value    ${content}    /ret
     ${msg}    get json value    ${content}    /msg
     Run Keyword If    ${ret}=="0"    userAdd_DEL_shoe_Test    ${content}    ${shoe_id}    ${userName}
@@ -53,7 +53,7 @@ userAdd_DEL_shoe_Test
     log    user-shoe-list:${wear_URL}${path1},${maps1}
     ${resp1}=    thejoyrun_postd    ${path1}    ${maps1}    ${userName}    ${wear_URL}
     ${content1}=    charconver    ${resp1.content}
-    log json    ${content1}
+    # log json    ${content1}
     Should Contain    ${content1}    "user_shoe_id":"${user_shoe_id}"
     ${path2}    set variable    /user-shoe-delete
     ${maps2}    create dictionary
@@ -61,9 +61,9 @@ userAdd_DEL_shoe_Test
     log    user-shoe-delete:${wear_URL}${path2},${maps2}
     ${resp2}=    thejoyrun_postd    ${path2}    ${maps2}    ${userName}    ${wear_URL}
     ${content2}=    charconver    ${resp2.content}
-    log json    ${content2}
+    # log json    ${content2}
     ${resp3}=    thejoyrun_postd    ${path1}    ${maps1}    ${userName}    ${wear_URL}
     ${content3}=    charconver    ${resp3.content}
-    log json    ${content3}
+    # log json    ${content3}
     Should Not Contain    ${content3}    "user_shoe_id":"${user_shoe_id}"
     log    ===========${userName}删除shoe_id：${shoe_id}成功，user_shoe_id===${user_shoe_id}===========

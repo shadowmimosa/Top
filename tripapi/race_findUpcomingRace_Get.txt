@@ -17,8 +17,8 @@ Class_01              [Documentation]    race/findUpcomingRace TestCase测试用
 race_findUpcomingRace_Get_Keywords
     [Arguments]    ${day}    ${limit}    ${page}    ${ret}    ${msg}
     [Documentation]    race/findUpcomingRace 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${userName}    Env_username    a
     ${path}=    set variable    /race/findUpcomingRace
     ${maps}=    create dictionary
@@ -29,7 +29,7 @@ race_findUpcomingRace_Get_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${trip_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

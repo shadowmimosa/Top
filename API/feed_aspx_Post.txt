@@ -34,8 +34,8 @@ Class_04              [Documentation]    /feed.aspx评论与删除接口-测试�
 feed_aspxPost_assertClass
     [Arguments]    ${fid}    ${option}    ${rid}    ${touid}    ${memo}    ${expected_code}
     [Documentation]    /feed.aspx点赞与取消点赞接口基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /feed.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fid=${fid}
@@ -49,9 +49,9 @@ feed_aspxPost_assertClass
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}
@@ -67,8 +67,8 @@ feed_aspxPost_assertClass
 feed_aspxPost_Memo_assertClass
     [Arguments]    ${fid}    ${option}    ${touid}    ${memo}
     [Documentation]    /feed.aspx评论接口
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /feed.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fid=${fid}
@@ -81,9 +81,9 @@ feed_aspxPost_Memo_assertClass
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     ${ret}    get json value    ${content}    /ret
     ${rid}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /rid
@@ -94,8 +94,8 @@ feed_aspxPost_Memo_assertClass
 feed_aspxPost_Memo2_assertClass
     [Arguments]    ${fid}    ${option}    ${rid}    ${touid}    ${memo}    ${expected_code}
     [Documentation]    /feed.aspx评论与删除接口基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${rid}=    feed_aspxPost_Memo_assertClass    ${fid}    re    0    棒棒的
     log    rid=====${rid}
     ${path}=    set variable    /feed.aspx
@@ -111,9 +111,9 @@ feed_aspxPost_Memo2_assertClass
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

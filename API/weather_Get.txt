@@ -17,8 +17,8 @@ Class_01              [Documentation]    weather TestCase测试用例
 weather_Get_Keywords
     [Arguments]    ${longitude}    ${latitude}    ${province}    ${city}    ${ret}    ${msg}
     [Documentation]    weather 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${path}=    set variable    /weather
@@ -31,7 +31,7 @@ weather_Get_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

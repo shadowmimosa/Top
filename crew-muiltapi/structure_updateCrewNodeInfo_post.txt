@@ -18,8 +18,8 @@ structure_updateCrewNodeInfo_Post
     [Arguments]    ${city}    ${newName}    ${faceurl}    ${nodeId}    ${uid}    ${province}
     ...    ${remark}    ${ret}    ${msg}
     [Documentation]    structure/updateCrewNodeInfo_Post 修改跑团资料
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${con}    thejoyrun_Keywords    ${crew_muilt_URL}    /structure/getMyCrewInfo    ${userName}    ${pwd}    Post
@@ -44,7 +44,7 @@ structure_updateCrewNodeInfo_Post
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     ${ret}    get json value    ${content}    /ret
     log    ======开始断言验证=====
     log    验证ret是否符合预期

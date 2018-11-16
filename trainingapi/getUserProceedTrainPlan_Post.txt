@@ -17,8 +17,8 @@ Class_01              [Documentation]    获取本人训练计划getUserProceedT
 getUserProceedTrainPlan_Post_assertClass
     [Arguments]    ${expected_code}
     [Documentation]    获取本人训练计划基本验证getUserProceedTrainPlan
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /getUserProceedTrainPlan
     ${maps}=    create dictionary
     log    ---输出参数---
@@ -27,9 +27,9 @@ getUserProceedTrainPlan_Post_assertClass
     log    ${training_URL}${maps}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

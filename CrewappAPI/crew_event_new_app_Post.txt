@@ -25,8 +25,8 @@ Class_02              [Documentation]    /crew-event-new-app-创建跑团活动
     ...    ${province}    ${crewid}    ${apply_notes}    ${location}    ${max_cnt}    ${deadline}
     ...    ${lat}    ${cover_img}
     [Documentation]    /crew-event-new-app-创建跑团活动
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${crewId}    getMyCrewInfo    crewid    ${userName}
     ${start_time}    Gettimes    hh,+1,times
     ${start_time}    Evaluate    str(${start_time})
@@ -65,9 +65,9 @@ Class_02              [Documentation]    /crew-event-new-app-创建跑团活动
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crewapp_URL}
     ${content}=    charconver    ${resp.content}
     Set_Global_Var    ${path}    ${content}    ${userName}    ${crewapp_URL}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     ${ret}    get json value    ${content}    /ret
     log    验证ret是否符合预期

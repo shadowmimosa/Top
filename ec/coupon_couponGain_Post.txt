@@ -17,8 +17,8 @@ Class_01              [Documentation]    coupon/couponGain TestCase测试用例
 coupon_couponGain_Post_Keywords
     [Arguments]    ${userName}    ${pwd}    ${couponKey}
     [Documentation]    coupon/couponGain 20180530优惠券领取
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /ec_api/coupon/couponGain
     ${maps}=    create dictionary
     set to dictionary    ${maps}    couponKey=${couponKey}
@@ -26,7 +26,7 @@ coupon_couponGain_Post_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_post_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}    ${pwd}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     should contain    ${content}    "ret":"100001"
     #当需要添加对data的内容进行单独验证时，可以以下方式
     log    ------------------------ It is OK!!!!-------------------------------------

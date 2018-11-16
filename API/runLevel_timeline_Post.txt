@@ -22,8 +22,8 @@ Class_02              [Documentation]    user/runLevel/timeline个人达到等�
 runLeveltimeline_Post_assertClass
     [Arguments]    ${ret}    ${msg}    ${env}
     [Documentation]    rank跑友的日、周、月跑量排行榜
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${userName}    Env_username    ${env}
     ${path}=    set variable    /user/runLevel/timeline
     ${maps}=    create dictionary
@@ -34,9 +34,9 @@ runLeveltimeline_Post_assertClass
     #log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

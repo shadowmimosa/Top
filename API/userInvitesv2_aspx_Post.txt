@@ -17,8 +17,8 @@ Class_01              [Documentation]    userInvitesv2用户邀请信息-无传�
 userInvitesv2Post_assertClass
     [Arguments]    ${lasttime}    ${expected_code}
     [Documentation]    userInvitesv2用户邀请信息接口 基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /userInvitesv2.aspx
     ${time}=    Get Time    epoch
     log    time= ${time}
@@ -34,9 +34,9 @@ userInvitesv2Post_assertClass
     ${content}=    charconver    ${resp.content}
     ${data}    get json value    ${content}    /datas
     ${data}=    charconver    ${data}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

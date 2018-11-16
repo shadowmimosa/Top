@@ -5,7 +5,7 @@ Library           RequestsLibrary
 Library           pymysql
 Library           DatabaseLibrary
 Library           String
-Library           HttpLibrary.HTTP
+# Library           HttpLibrary.HTTP
 Resource          ../Public/public_lib.txt
 
 *** Variable ***
@@ -38,8 +38,8 @@ Class_04              [Documentation]    上传跑步记录
 RunRecord_opinion
     [Arguments]    ${courseid}    ${nomoment}    ${private}    ${wgs}
     [Documentation]    跑步判断，是否满足条件跑步
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #用线上环境用户取线上数据
     #${userName}    set variable    0802@163.com
     #从4个热门话题中随机选择一个热门话题
@@ -66,8 +66,8 @@ RuningRecord
     [Arguments]    ${src}    ${courseid}    ${nomoment}    ${private}    ${wgs}    ${userName}
     ...    ${topicName}
     [Documentation]    /po.aspx type=1或7，为上传跑步记录
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${userNamelist}    usr_pass_env    0
     ${userName}    Get From List    ${userNamelist}    0
     ${pwd}    Get From List    ${userNamelist}    1
@@ -95,9 +95,9 @@ RuningRecord
     ${type}=    get json value    ${src}    /runrecord/type
     ${srcuid}=    get json value    ${src}    /runrecord/uid
     ${city1}=    get json value    ${src}    /runrecord/city
-    ${province}    Run Keyword If    ${province1}>0    set variable    ${province1}
+    ${province}    Run Keyword If    ${province1}!=''    set variable    ${province1}
     ...    ELSE    set variable    香港
-    ${city}    Run Keyword If    ${city1}>0    set variable    ${city1}
+    ${city}    Run Keyword If    ${city1}!=0    set variable    ${city1}
     ...    ELSE    set variable    香港
     ${dateline}=    get json value    ${src}    /lasttime
     ${lasttime}=    Evaluate    ${dateline}-120
@@ -168,7 +168,7 @@ RuningRecord
     ${content}=    thejoyrun_Keywords    http://api-test.thejoyrun.com    ${path}    ${userName}    ${pwd}    Postd
     ...    ${maps}    Joyrun_null
     #${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"0"
     log    ret 符合预期为"0"

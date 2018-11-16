@@ -17,8 +17,8 @@ Class_01              [Documentation]    weather/forecast TestCase测试用例
 weather_forecast_getns_Keywords
     [Arguments]    ${lat}    ${lng}    ${ret}    ${msg}
     [Documentation]    weather/forecast 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${path}=    set variable    /weather/forecast
@@ -30,7 +30,7 @@ weather_forecast_getns_Keywords
     ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${webevent_URL}
     ${content}=    charconver    ${resp.content}
     ${content}    Replace String    ${content}    ${Space}    ${EMPTY}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "status":"${ret}"

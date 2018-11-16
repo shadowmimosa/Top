@@ -17,8 +17,8 @@ Class_01              [Documentation]    活动列表-无传参
 hudonglist_Post_assertClass
     [Arguments]    ${expected_code}
     [Documentation]    基本验证-活动列表/huodong-list
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /huodong-list
     ${maps}=    create dictionary
     ${maps1}=    create dictionary
@@ -34,7 +34,7 @@ hudonglist_Post_assertClass
     ${jsons}    Dict to Json    ${bbbb}
     log    ${bbbb}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${expected_code}
     log    ret 符合预期为:${expected_code}

@@ -4,7 +4,7 @@ Library           RequestsLibrary
 Library           pymysql
 Library           DatabaseLibrary
 Library           String
-Library           HttpLibrary.HTTP
+# Library           HttpLibrary.HTTP
 Resource          ../Public/cookie_mps_web.txt
 Resource          ../public_lib.txt
 
@@ -33,11 +33,11 @@ mps_web_get
     ${jsonpcallback}=    set variable    jsonpcallback
     ${post_dict}=    create dictionary
     Set To Dictionary    ${post_dict}    jsonpcallback=${jsonpcallback}    pid=${pid}    version=${version}
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     #排序及格式处理
-    ${post_dict_tolist}=    evaluate    sorted(${post_dict}.iteritems())
+    ${post_dict_tolist}=    evaluate    sorted(${post_dict}.items())
     ${signparam}=    convert to string    ${post_dict_tolist}
     ${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    u'    '
@@ -51,9 +51,9 @@ mps_web_get
     #排序及格式处理
     # ${sign}=    encrypt    ${signparam}${appkey}    md5
     # set to dictionary    ${post_dict}    sign=${sign}
-    # ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
+    # ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.items())
     # log    参数编码前：${post_dict}
-    # ${post_dict}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    # ${post_dict}    Evaluate    urllib.parse.urlencode(${post_dict})    urllib
     # log    参数编码后：${post_dict}
     # #增加日志输出，默认注释掉
     # # ${tempfile}    writeFile    ${post_dict}    c:\post_dict.txt
@@ -91,11 +91,11 @@ acshow_guest_post
     set to dictionary    ${post_dict}    version=${version}    platform=${platform}    device=${device}
     set to dictionary    ${post_dict}    times    ${times}    channel    ${channel}
     #    ${maps}=    create dictionary    opusId    123    playerId    456
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     #排序及格式处理
-    ${post_dict_tolist}=    evaluate    sorted(${post_dict}.iteritems())
+    ${post_dict_tolist}=    evaluate    sorted(${post_dict}.items())
     ${signparam}=    convert to string    ${post_dict_tolist}
     ${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    u'    '
@@ -109,7 +109,7 @@ acshow_guest_post
     #排序及格式处理
     ${sign}=    encrypt    ${signparam}${appkey}    md5
     set to dictionary    ${post_dict}    sign    ${sign}
-    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
+    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.items())
     ${post_param}=    convert to string    ${post_dict_tolist1}
     ${post_param}=    Replace String    ${post_param}    [    ${EMPTY}
     ${post_param}=    Replace String    ${post_param}    u'    '
@@ -134,13 +134,13 @@ acshow_get
     ${appkey}=    set variable    $_fan_xing_$
     ${get_dict}=    create dictionary
     set to dictionary    ${get_dict}    version=${version}    platform=${platform}
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())    #排序
+    @{mapstolist}=    evaluate    sorted(${maps}.items())    #排序
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${get_dict}    ${map[0]}=${map[1]}
     ${get_dict_full}=    copy dictionary    ${get_dict}
     ${get_dict_notnull}=    popNull    ${get_dict}    #删掉value为空的属性
     #排序及格式处理
-    ${get_dict_tolist}=    evaluate    sorted(${get_dict_notnull}.iteritems())
+    ${get_dict_tolist}=    evaluate    sorted(${get_dict_notnull}.items())
     ${signparam}=    convert to string    ${get_dict_tolist}
     ${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    u'    '
@@ -154,7 +154,7 @@ acshow_get
     #排序及格式处理
     ${sign}=    encrypt    ${signparam}${appkey}    md5
     set to dictionary    ${get_dict_full}    sign=${sign}
-    ${get_dict_tolist1}=    evaluate    sorted(${get_dict_full}.iteritems())
+    ${get_dict_tolist1}=    evaluate    sorted(${get_dict_full}.items())
     ${get_param}=    convert to string    ${get_dict_tolist1}
     ${get_param}=    Replace String    ${get_param}    [    ${EMPTY}
     ${get_param}=    Replace String    ${get_param}    u'    '
@@ -191,11 +191,11 @@ acshow_post_key
     ${month}    get time    month
     ${day}    get time    day
     ${t}    Set Variable    ${year}-${month}-${day}
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     #排序及格式处理
-    ${post_dict_tolist}=    evaluate    sorted(${post_dict}.iteritems())
+    ${post_dict_tolist}=    evaluate    sorted(${post_dict}.items())
     ${signparam}=    convert to string    ${post_dict_tolist}
     ${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
     ${signparam}=    Replace String    ${signparam}    u'    '
@@ -209,7 +209,7 @@ acshow_post_key
     #排序及格式处理
     ${sign}=    encrypt    ${signparam}${keybase}${t}    md5    32
     set to dictionary    ${post_dict}    sign=${sign}
-    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
+    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.items())
     ${post_param}=    convert to string    ${post_dict_tolist1}
     ${post_param}=    Replace String    ${post_param}    [    ${EMPTY}
     ${post_param}=    Replace String    ${post_param}    u'    '

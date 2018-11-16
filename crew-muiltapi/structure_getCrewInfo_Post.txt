@@ -22,8 +22,8 @@ Class_02              [Documentation]    跑团信息查询getCrewInfo-测试跑
 getCrewInfo_Post_assertClass
     [Arguments]    ${crewId}    ${nodeId}    ${userName}    ${expected_code}
     [Documentation]    跑团信息查询getMyCrewInfo基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /structure/getCrewInfo
     ${maps}=    create dictionary
     set to dictionary    ${maps}    crewId=${crewId}
@@ -34,9 +34,9 @@ getCrewInfo_Post_assertClass
     log    ${crew_muilt_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

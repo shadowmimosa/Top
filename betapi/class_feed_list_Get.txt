@@ -17,8 +17,8 @@ Class_01              [Documentation]    class/feed/list TestCase测试用例
 class_feed_list_Get_Keywords
     [Arguments]    ${classId}    ${fid}    ${ret}    ${msg}
     [Documentation]    class/feed/list 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${userName}    Env_username
     ${classIds}    classList_classids    1    runMeter,1000,10000    classId    ${userName}
     ${classId}    randomchoice    ${classIds}    ,
@@ -30,7 +30,7 @@ class_feed_list_Get_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${bet_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

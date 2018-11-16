@@ -18,8 +18,8 @@ feedpostrun_opinion
     [Arguments]    ${imgs}    ${fid}    ${postRunId}    ${city}    ${province}    ${memo}
     [Documentation]    /feed/post/run发布跑步动态
     [Timeout]    1 minute
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${memo1}    Get_Words    4
     #判断环境随机选择用户
     ${userName}    Env_username    2a
@@ -48,8 +48,8 @@ feedpostrun_assertClass
     ...    ${userName}
     [Documentation]    /feed/post/run发布跑步动态
     [Timeout]    1 minute
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /feed/post/run
     ${maps}=    create dictionary
     set to dictionary    ${maps}    imgs=${imgs}
@@ -64,9 +64,9 @@ feedpostrun_assertClass
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}    ${pwd}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    ret 符合预期
     ${ret}    get json value    ${content}    /ret

@@ -456,10 +456,10 @@
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
 <arguments>
 <arg>${isend}&gt;=0</arg>
-<arg>log json</arg>
+<arg># log json</arg>
 <arg>${resptime.content}</arg>
 </arguments>
-<kw name="Log Json" library="HttpLibrary.HTTP">
+<kw name="# log json" library="HttpLibrary.HTTP">
 <doc>Logs a pretty printed version of the JSON document `json_string`.</doc>
 <arguments>
 <arg>${resptime.content}</arg>
@@ -624,7 +624,7 @@
 <kw name="Evaluate" library="BuiltIn">
 <doc>Evaluates the given expression in Python and returns the results.</doc>
 <arguments>
-<arg>sorted(${map}.iteritems())</arg>
+<arg>sorted(${map}.items())</arg>
 </arguments>
 <assign>
 <var>${map_list_before}</var>
@@ -651,7 +651,7 @@
 <kw name="Evaluate" library="BuiltIn">
 <doc>Evaluates the given expression in Python and returns the results.</doc>
 <arguments>
-<arg>urllib.urlencode(${map_list_before})</arg>
+<arg>urllib.parse.urlencode(${map_list_before})</arg>
 <arg>urllib</arg>
 </arguments>
 <assign>
@@ -1054,13 +1054,13 @@
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
 <arguments>
 <arg>${login_ret}==0</arg>
-<arg>log json</arg>
+<arg># log json</arg>
 <arg>${login_content}</arg>
 <arg>ELSE</arg>
 <arg>log</arg>
 <arg>哈哈，在登录就出错了！！！！！失败原因:${login_error}</arg>
 </arguments>
-<kw name="Log Json" library="HttpLibrary.HTTP">
+<kw name="# log json" library="HttpLibrary.HTTP">
 <doc>Logs a pretty printed version of the JSON document `json_string`.</doc>
 <arguments>
 <arg>${login_content}</arg>
@@ -1238,7 +1238,7 @@
 <msg timestamp="20181030 12:19:00.810" level="INFO">登录后用户userinfo信息为：</msg>
 <status status="PASS" endtime="20181030 12:19:00.811" starttime="20181030 12:19:00.810"></status>
 </kw>
-<kw name="Log Json" library="HttpLibrary.HTTP">
+<kw name="# log json" library="HttpLibrary.HTTP">
 <doc>Logs a pretty printed version of the JSON document `json_string`.</doc>
 <arguments>
 <arg>${userdata}</arg>
@@ -1520,7 +1520,7 @@ Test13829744541: {u'uid': u'32518359', u'sid': u'526834fded4764c19c7dee587c06e00
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
 <arguments>
 <arg>${isend}&gt;=0</arg>
-<arg>log json</arg>
+<arg># log json</arg>
 <arg>${resptime.content}</arg>
 </arguments>
 <status status="PASS" endtime="20181030 12:19:00.848" starttime="20181030 12:19:00.847"></status>
@@ -1662,7 +1662,7 @@ Test13829744541: {u'uid': u'32518359', u'sid': u'526834fded4764c19c7dee587c06e00
 <kw name="Evaluate" library="BuiltIn">
 <doc>Evaluates the given expression in Python and returns the results.</doc>
 <arguments>
-<arg>sorted(${maps}.iteritems())</arg>
+<arg>sorted(${maps}.items())</arg>
 </arguments>
 <assign>
 <var>@{mapstolist_sign}</var>
@@ -1676,7 +1676,7 @@ Test13829744541: {u'uid': u'32518359', u'sid': u'526834fded4764c19c7dee587c06e00
 <kw name="Evaluate" library="BuiltIn">
 <doc>Evaluates the given expression in Python and returns the results.</doc>
 <arguments>
-<arg>sorted(${maps}.iteritems())</arg>
+<arg>sorted(${maps}.items())</arg>
 </arguments>
 <assign>
 <var>@{mapstolist}</var>
@@ -1690,7 +1690,7 @@ Test13829744541: {u'uid': u'32518359', u'sid': u'526834fded4764c19c7dee587c06e00
 <kw name="Evaluate" library="BuiltIn">
 <doc>Evaluates the given expression in Python and returns the results.</doc>
 <arguments>
-<arg>sorted(${sign_dict}.iteritems())</arg>
+<arg>sorted(${sign_dict}.items())</arg>
 </arguments>
 <assign>
 <var>${sign_dict_tolist}</var>
@@ -1991,7 +1991,7 @@ Test13829744541: {u'uid': u'32518359', u'sid': u'526834fded4764c19c7dee587c06e00
 <kw name="Evaluate" library="BuiltIn">
 <doc>Evaluates the given expression in Python and returns the results.</doc>
 <arguments>
-<arg>sorted(${post_dict}.iteritems())</arg>
+<arg>sorted(${post_dict}.items())</arg>
 </arguments>
 <assign>
 <var>${post_dict_tolist1}</var>
@@ -2010,7 +2010,7 @@ Test13829744541: {u'uid': u'32518359', u'sid': u'526834fded4764c19c7dee587c06e00
 <kw name="Evaluate" library="BuiltIn">
 <doc>Evaluates the given expression in Python and returns the results.</doc>
 <arguments>
-<arg>urllib.urlencode(${post_dict})</arg>
+<arg>urllib.parse.urlencode(${post_dict})</arg>
 <arg>urllib</arg>
 </arguments>
 <assign>
@@ -2182,7 +2182,7 @@ Test13829744541: {u'uid': u'32518359', u'sid': u'526834fded4764c19c7dee587c06e00
 <msg timestamp="20181030 12:19:01.032" level="INFO">${content} = {"ret":"0","sid":"526834fded4764c19c7dee587c06e000","lasttime":1540873140,"data":{"openid":"joyrun-openid-3ff2ae81012f416381b08707b7ae6bde","unionid":"joyrun-unionid-ea06e418ffdb4364a181b98161b51157",...</msg>
 <status status="PASS" endtime="20181030 12:19:01.032" starttime="20181030 12:19:01.030"></status>
 </kw>
-<kw name="Log Json" library="HttpLibrary.HTTP">
+<kw name="# log json" library="HttpLibrary.HTTP">
 <doc>Logs a pretty printed version of the JSON document `json_string`.</doc>
 <arguments>
 <arg>${content}</arg>

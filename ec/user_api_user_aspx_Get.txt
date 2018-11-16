@@ -17,8 +17,8 @@ Class_01              [Documentation]    user_api/user.aspx TestCase测试用例
 user_api_user_aspx_Getns_Keywords
     [Arguments]    ${option}    ${touid}    ${ret}    ${msg}
     [Documentation]    user_api/user.aspx 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${touid}    oneclickdetails_userinfo    uid    ${userName}
@@ -30,7 +30,7 @@ user_api_user_aspx_Getns_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

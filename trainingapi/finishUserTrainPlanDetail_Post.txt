@@ -18,8 +18,8 @@ Class_01              [Documentation]     finishUserTrainPlanDetail TestCase测�
 opinion_join_plan
     [Arguments]    ${userplandetailId}    ${ret}    ${msg}
     [Documentation]    判断用户是否正在参加训练计划
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username    a
     ${cont_time}=    get_timestamp
@@ -34,8 +34,8 @@ opinion_join_plan
 opinion_join_again
     [Arguments]    ${userPlanDetails}    ${ret}    ${msg}
     [Documentation]    再次判断
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${userplandetailIds}    Get From List    ${userPlanDetails}    0
     ${userplandetailId}    get json value    ${userplandetailIds}    /userplandetailId
     ${plandetailId}    get json value    ${userplandetailIds}    /plandetailId
@@ -48,8 +48,8 @@ opinion_join_again
 finishUserTrainPlanDetail_Post_Keywords
     [Arguments]    ${userplandetailId}    ${ret}    ${msg}
     [Documentation]    finishUserTrainPlanDetail 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     #${userplandetailIdsrc}    Get From List    ${userplandetailId}    0
@@ -61,7 +61,7 @@ finishUserTrainPlanDetail_Post_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

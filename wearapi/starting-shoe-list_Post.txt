@@ -17,8 +17,8 @@ Class_01              [Documentation]    starting-shoe-list列表-无传参
 starting-shoe-list_Post_assertClass
     [Arguments]    ${expected_code}
     [Documentation]    starting-shoe-list基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /starting-shoe-list
     ${maps}=    create dictionary
     log    ---输出参数---
@@ -27,9 +27,9 @@ starting-shoe-list_Post_assertClass
     log    ${wear_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wear_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

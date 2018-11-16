@@ -5,7 +5,7 @@ Library           RequestsLibrary
 Library           pymysql
 Library           DatabaseLibrary
 Library           String
-Library           HttpLibrary.HTTP
+# Library           HttpLibrary.HTTP
 Library           ../Public/Lib/tools_library.py
 Resource          ../Public/public_lib.txt
 
@@ -24,8 +24,8 @@ Class_01              [Documentation]                     eventapp/crew-event-de
 eventapp_crew-event-detail-app_Get_Keywords
     [Arguments]    ${event_id}    ${crewid}    ${ret}    ${msg}
     [Documentation]    eventapp/crew-event-detail-app 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${crewId}    getMyCrewInfo    crewid    ${userName}
@@ -45,7 +45,7 @@ eventapp_crew-event-detail-app_Get_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

@@ -17,8 +17,8 @@ Class_01              [Documentation]    listOnlineLiveRace-无传参
 listOnlineLiveRace_Post_assertClass
     [Arguments]    ${expected_code}
     [Documentation]    listOnlineLiveRace基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /listOnlineLiveRace
     ${maps}=    create dictionary
     #set to dictionary    ${maps}    uid=${uid}
@@ -28,9 +28,9 @@ listOnlineLiveRace_Post_assertClass
     log    ${live_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${live_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

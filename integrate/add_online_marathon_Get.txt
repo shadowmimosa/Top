@@ -17,8 +17,8 @@ Class_01              [Documentation]    marathon_api/marathon/online-mls-apply-
 marathon_Choice
     [Arguments]    ${marathonId}
     [Documentation]    marathon_api/marathon/online-mls-apply-add 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     ${userName}    Env_username
     ${timeonline}    Gettimes    mm,0,times
@@ -33,8 +33,8 @@ marathon_Choice
 marathon_subject
     [Arguments]    ${marathonId}    ${userName}    ${pwd}
     [Documentation]    marathon_api/marathon/online-mls-apply-add 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     log    =====选中塞事：${marathonId}
     log    ======查询该塞事的里程项目
     ${path}=    set variable    /marathon_api/marathon/online-mls-subject
@@ -44,7 +44,7 @@ marathon_subject
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     ${contentsubject}    get json value    ${content}    /data
     ${subjectCodes}    FilterList    ${contentsubject}    distance,3,11    subjectCode
     ${marathonSubject}    randomchoice    ${subjectCodes}    ,
@@ -78,7 +78,7 @@ marathon_Add
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}    ${pwd}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     should contain    ${content}    "ret":"0"
     ${pathv}    set variable    /marathon_api/marathon/online-mls-detail
@@ -86,7 +86,7 @@ marathon_Add
     set to dictionary    ${mapsv}    marathonId=${marathonId}
     ${marathonrsp}    thejoyrun_get_nosign    ${pathv}    ${mapsv}    ${userName}    ${ec_URL}    ${pwd}
     ${marathonVer}=    charconver    ${marathonrsp.content}
-    log json    ${marathonVer}
+    # log json    ${marathonVer}
     should contain    ${marathonVer}    "marathonId":${marathonId}
     log    ====赛事ID：${marathonId}验证通过！！=======
     should contain    ${marathonVer}    "applyStatus":0

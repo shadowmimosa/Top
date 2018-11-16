@@ -17,8 +17,8 @@ Class_01              [Documentation]    跑步记录地图设置私密接口Set
 SetPrivate_select
     [Arguments]    ${fid}    ${ret}
     [Documentation]    跑步记录地图设置私密接口SetPrivate.aspx
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${time}=    Get Time    epoch
     log    time= ${time}
     ${dateline}=    convert to string    ${time}
@@ -33,8 +33,8 @@ SetPrivate_select
 SetPrivate_Post_assertClass
     [Arguments]    ${fid}    ${userName}    ${ret}
     [Documentation]    跑步记录地图设置私密接口SetPrivate.aspx
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /Run/SetPrivate.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fid=${fid}
@@ -44,9 +44,9 @@ SetPrivate_Post_assertClass
     #log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

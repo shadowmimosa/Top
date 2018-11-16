@@ -22,8 +22,8 @@ Class_02              [Documentation]    upnt-point-info跑者等级相关接口
 upnt-point-info_Post_assertClass
     [Arguments]    ${uid}    ${expected_code}
     [Documentation]    upnt-point-info基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /upnt-point-info
     ${maps}=    create dictionary
     set to dictionary    ${maps}    uid=${uid}
@@ -33,9 +33,9 @@ upnt-point-info_Post_assertClass
     log    ${point_UrL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${point_UrL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

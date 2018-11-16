@@ -17,8 +17,8 @@ Class_01              [Documentation]    我的动态列表-无传参feedListv5.
 feedListv5_Post_assertClass
     [Arguments]    ${expected_code}
     [Documentation]    我的动态列表的基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /feedListv5.aspx
     ${maps}=    create dictionary
     log    ---输出参数---
@@ -29,7 +29,7 @@ feedListv5_Post_assertClass
     ${content}=    charconver    ${resp.content}
     ${data}    get json value    ${content}    /datas
     ${data}=    charconver    ${data}
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${expected_code}

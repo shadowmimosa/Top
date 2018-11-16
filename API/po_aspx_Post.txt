@@ -17,8 +17,8 @@ Class_01              [Documentation]                                           
 po_aspxPost_assertClass
     [Arguments]    ${imgs}    ${type}    ${city}    ${province}    ${memo}
     [Documentation]    /po.aspx 发布动态接口基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${NewTopic}    Get_Global_Var    /newTopic/getHotsFeedList    ${userName}    http://topic.api.thejoyrun.com
     ${fidslist}    Find And Value    ${NewTopic}    fid    ,    0
     ${fids}    Get From List    ${fidslist}    1
@@ -43,9 +43,9 @@ po_aspxPost_assertClass
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

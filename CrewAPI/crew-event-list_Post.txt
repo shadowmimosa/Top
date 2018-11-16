@@ -22,8 +22,8 @@ Class_02              [Documentation]    获取跑团活动crew-event-list-测�
 crew-event-list_Post_assertClass
     [Arguments]    ${crewid}    ${userName}    ${expected_code}
     [Documentation]    获取跑团活动crew-event-listt基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /crew-event-list
     ${maps}=    create dictionary
     set to dictionary    ${maps}    crewid=${crewid}
@@ -33,9 +33,9 @@ crew-event-list_Post_assertClass
     log    ${crew_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

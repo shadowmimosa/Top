@@ -17,8 +17,8 @@ Class_01              [Documentation]    feed/delete 发布及删除动态-
 Addongtai
     [Arguments]    ${imgs}    ${type}    ${city}    ${province}    ${memo}
     [Documentation]    /po.aspx发布动态
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /po.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    imgs=${imgs}
@@ -32,9 +32,9 @@ Addongtai
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     ${ret}    get json value    ${content}    /ret
     ${fid}=    Run Keyword If    ${ret}=="0"    get json value    ${content}    /fid
@@ -45,8 +45,8 @@ Addongtai
 feed_delete_assertClass
     [Arguments]    ${fid}    ${expected_code}
     [Documentation]    /feed.aspx评论与删除接口基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${img}=    set variable    \[\{\"fileImgUrl\":\"/storage/emulated/0/linked-joyrun/cache/temp/1519368006857.jpg\",\"imgurl\":\"http://linked-runner.b0.upaiyun.com/feed/2018/2/23/android__u_86072310_1519367097268.jpg\",\"imgheight\":750,\"imgwidth\":750\}\]
     ${fid}=    Addongtai    ${img}    2    广州    广东    \#悦跑圈勋章\#我获得了「2018春节」勋章
     log    fid=====${fid}
@@ -59,9 +59,9 @@ feed_delete_assertClass
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

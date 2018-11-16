@@ -27,7 +27,7 @@ challengeList_Get
     ${resp}=    thejoyrun_getp    ${path}    ${maps}    ${userName}    ${challenge_URL}
     ${content}=    charconver    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ret 符合预期为:${expected}
     log    验证msg是否符合预期
     Run Keyword If    ${expected}=="0"    get json value    ${content}    /data

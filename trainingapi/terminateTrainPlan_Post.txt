@@ -17,8 +17,8 @@ Class_01              [Documentation]    terminateTrainPlan TestCase测试用例
 opinion_join_plan
     [Arguments]    ${userplanId}    ${ret}    ${msg}
     [Documentation]    判断用户是否正在参加训练计划
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     ${userName}    Env_username    a
     @{str}    callkeywords    Getmyplanid:${userName}:${pwd}
@@ -30,8 +30,8 @@ opinion_join_plan
 terminateTrainPlan_Post_Keywords
     [Arguments]    ${userplanId}    ${ret}    ${msg}
     [Documentation]    terminateTrainPlan 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /terminateTrainPlan
     ${maps}=    create dictionary
     set to dictionary    ${maps}    userplanId=${userplanId}
@@ -39,9 +39,9 @@ terminateTrainPlan_Post_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${training_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     ${userplanHisId}    get json value    ${content}    /data
-    Run Keyword If    '${userplanHisId}'<>'0'    addStopReason    不想继续训练计划    ${userplanHisId}
+    Run Keyword If    '${userplanHisId}'!='0'    addStopReason    不想继续训练计划    ${userplanHisId}
     ...    ELSE    log    ========输出错误码:${msg}
     log    ======开始断言验证====================${userplanHisId}
     log    ======开始断言验证=====
@@ -57,8 +57,8 @@ terminateTrainPlan_Post_Keywords
 addStopReason
     [Arguments]    ${reason}    ${userplanHisId}
     [Documentation]    addStopReason 添加终止原因
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /addStopReason
     ${maps}=    create dictionary
     set to dictionary    ${maps}    reason=${reason}

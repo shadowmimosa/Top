@@ -4,7 +4,7 @@ Library           RequestsLibrary
 Library           pymysql
 Library           DatabaseLibrary
 Library           String
-Library           HttpLibrary.HTTP
+# Library           HttpLibrary.HTTP
 Library           ../Lib/tools_library.py
 Library           ../Lib/Usertool_01.py
 *** Variable ***

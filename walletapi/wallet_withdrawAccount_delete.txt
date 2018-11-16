@@ -17,8 +17,8 @@ Class_01              [Documentation]      删除绑定帐号
 withdrawAccount_delete
     [Arguments]    ${withdrawAccountId}    ${ret}    ${msg}
     [Documentation]    绑定钱包手机号
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /withdrawAccount/delete
     ${maps}=    create dictionary
     set to dictionary    ${maps}    withdrawAccountId=${withdrawAccountId}
@@ -28,7 +28,7 @@ withdrawAccount_delete
     log    ${bet_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

@@ -26,8 +26,8 @@ weatherr_Post_assertClass
     [Arguments]    ${city}    ${citycode}    ${longitude}    ${latitude}    ${province}    ${ret}
     ...    ${msg}
     [Documentation]    weatherr_Post接口，【示例中仅提供最基础内容，实际编写时，可以此基础上扩展】
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /weather
     ${maps}=    create dictionary
     set to dictionary    ${maps}    city=${city}
@@ -39,9 +39,9 @@ weatherr_Post_assertClass
     log    ${maps}${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

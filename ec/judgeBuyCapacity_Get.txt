@@ -17,8 +17,8 @@ Class_01              [Documentation]    judgeBuyCapacity TestCase测试用例
 judgeBuyCapacity_Getns_Keywords
     [Arguments]    ${activityId}    ${uid}    ${ret}    ${msg}
     [Documentation]    是否可购买与优惠
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${path}=    set variable    /ec_api/judgeBuyCapacity
@@ -29,7 +29,7 @@ judgeBuyCapacity_Getns_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

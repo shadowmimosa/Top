@@ -22,20 +22,20 @@ Class_02              [Documentation]    validate/registered TestCase测试用�
 validate_registered_Post_Keywords
     [Arguments]    ${cellNumber}    ${nick}    ${city}    ${ret}    ${msg}
     [Documentation]    validate/registered 注册检查接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${path}=    set variable    /validate/registered
     ${maps}=    create dictionary
     Run Keyword If    ${cellNumber}>0    set to dictionary    ${maps}    cellNumber=${cellNumber}
     Run Keyword If    '${nick}'!='0'    set to dictionary    ${maps}    nick=${nick}
-    Run Keyword If    '${nick}'<>'0'    set to dictionary    ${maps}    city=${city}
+    Run Keyword If    '${nick}'!='0'    set to dictionary    ${maps}    city=${city}
     log    ========输出接口URL：${api_URL}${path}
     log dictionary    ${maps}
     ${resp}=    thejoyrun_postnl    ${path}    ${maps}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

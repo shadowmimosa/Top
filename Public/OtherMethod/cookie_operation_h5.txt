@@ -2,7 +2,7 @@
 Library           Collections
 Library           RequestsLibrary
 Resource          http_request.txt
-Library           HttpLibrary.HTTP
+# Library           HttpLibrary.HTTP
 Library           String
 Library            ../Lib/tools_library.py
 Library            ../Usertool_01.py
@@ -120,11 +120,11 @@ ac_get_token_h5
     log    ${resp.headers}
     #将header输出
     ${resp.headers}    evaluate    json.dumps(${resp.headers})    json
-    log json    ${resp.headers}
+    # log json    ${resp.headers}
     #获取有效的JSON串
     ${json_content}    getH5JsonData    ${resp.content}
     ${json_content}    evaluate    json.dumps(${json_content})    json
-    log json    ${json_content}
+    # log json    ${json_content}
     #从响应体获取ticket值
     ${ticket}    get json value    ${json_content}    /data/ticket
 

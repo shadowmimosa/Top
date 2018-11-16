@@ -12,8 +12,8 @@ import itchat
 type = sys.getfilesystemencoding()
 
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# Evaluate    reload(sys)    sys
+# sys.setdefaultencoding('utf-8')
 
 '''图灵key
 ## 8edce3ce905a4c1dbb965e6b35c3834d
@@ -29,7 +29,7 @@ def itchat_SendMsg(nm, msg, second=None):
         itchat.auto_login(hotReload=True)
         myfriend = itchat.search_friends(name=nm)
         myfriendUserName = myfriend[0]['UserName']
-        print  myfriendUserName
+        print(myfriendUserName)
         itchat.send(msg, toUserName=myfriendUserName)
         if second != None:
             t = time(second, itchat_SendMsg(nm, msg, second))

@@ -1,15 +1,15 @@
 ﻿#coding=utf-8
 import time,traceback
 import os
-import sys
+# import sys
 import platform
 import subprocess
 import random
 import re
 
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 #=======================线上发布连接地址(Online)========================
 # 登录地址

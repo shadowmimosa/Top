@@ -17,8 +17,8 @@ Class_01              [Documentation]    /crew-event-cancle-app 取消跑团活�
 /crew-event-cancle-app_Post_Keywords
     [Arguments]    ${crewid}    ${event_id}    ${ret}    ${msg}
     [Documentation]    /crew-event-cancle-app
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     ${emv}    Env_username    1
     #${userName}    Env_username
@@ -40,7 +40,7 @@ Class_01              [Documentation]    /crew-event-cancle-app 取消跑团活�
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crewapp_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     Run Keyword If    "${event_id}"=="2e1b98234a9f4c58a4e7ffd9ae077c4d" and "${emv}" =="Test"    should contain    ${content}    "ret":"3","msg":"event not exist"

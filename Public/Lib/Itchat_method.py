@@ -1,20 +1,9 @@
-﻿#_*_ coding:utf-8 _*_
-import time
-import datetime
-import os
-import json
+﻿from time import time
 import sys
-import string
 import requests
 import itchat
 
-
 type = sys.getfilesystemencoding()
-
-
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
 '''图灵key
 ## 8edce3ce905a4c1dbb965e6b35c3834d
 ## eb720a8970964f3f855d863d24406576
@@ -29,7 +18,7 @@ def itchat_SendMsg(nm, msg, second=None):
         itchat.auto_login(hotReload=True)
         myfriend = itchat.search_friends(name=nm)
         myfriendUserName = myfriend[0]['UserName']
-        print  myfriendUserName
+        print(myfriendUserName)
         itchat.send(msg, toUserName=myfriendUserName)
         if second != None:
             t = time(second, itchat_SendMsg(nm, msg, second))
@@ -58,7 +47,6 @@ def GetTuling_response(msg):
         # 将会返回一个None
         return
 
+
 if __name__ == '__main__':
-    itchat_SendMsg('高向阳', 'abc')
-    #autoReplay()
-    # pass
+    itchat_SendMsg('LiúYǔqíng', '啧啧，机器统治人类')

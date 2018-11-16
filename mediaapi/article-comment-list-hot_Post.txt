@@ -17,8 +17,8 @@ Class_01              [Documentation]    article-comment-list-hot TestCase测试
 article-comment-list-hot_Post_Keywords
     [Arguments]    ${article_id}    ${size}    ${ret}    ${msg}
     [Documentation]    article-comment-list-hot 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${path}=    set variable    /article-comment-list-hot
@@ -29,7 +29,7 @@ article-comment-list-hot_Post_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${media_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

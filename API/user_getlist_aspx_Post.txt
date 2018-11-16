@@ -18,8 +18,8 @@ Class_01              [Documentation]           user/getlist.aspx TestCase测试
 user_getlist_aspx_Post_Keywords
     [Arguments]    ${fields}    ${uids}    ${ret}    ${msg}
     [Documentation]    user/getlist.aspx 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /user/getlist.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fields=${fields}
@@ -27,7 +27,7 @@ user_getlist_aspx_Post_Keywords
     log    ========输出接口入参：${api_URL}${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

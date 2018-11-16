@@ -18,8 +18,8 @@ wallet_codeVerify_Get_Keywords
     [Arguments]    ${mobile}    ${verifyCodes}    ${userName}    ${pwd}    ${verifyCode}    ${ret}
     ...    ${msg}
     [Documentation]    wallet/codeVerify 验证验证码
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /codeVerify
     ${maps}=    create dictionary
     set to dictionary    ${maps}    verifyCode=${verifyCode}
@@ -39,7 +39,7 @@ VerifyCodes
     ...    ${msg}
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${wallet_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"
@@ -53,8 +53,8 @@ VerifyCodes
 sendVerifyCode
     [Arguments]    ${mobile}    ${userName}    ${pwd}
     [Documentation]    /sendVerifyCode发送验证码
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /sendVerifyCode
     ${maps}=    create dictionary
     set to dictionary    ${maps}    mobile=${mobile}
@@ -64,7 +64,7 @@ sendVerifyCode
     log    ${wallet_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${wallet_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     ${data1}    get json value    ${content}    /ret
     ${data2}    get json value    ${content}    /msg
     [Return]    ${data1}    ${data2}

@@ -22,8 +22,8 @@ Class_02              [Documentation]    corpcrew/crewMemberTotal/getRankByPage�
 getRankByPage_Post_assertClass
     [Arguments]    ${uid}    ${cycle}    ${page}    ${pageSize}    ${crewId}    ${expected_code}
     [Documentation]    corpcrew/crewMemberTotal/getRankByPage跑团排名接口
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /corpcrew/crewMemberTotal/getRankByPage
     ${maps}=    create dictionary
     set to dictionary    ${maps}    uid=${uid}
@@ -35,9 +35,9 @@ getRankByPage_Post_assertClass
     log    接口入参为：${maps}
     ${resp}=    thejoyrun_postjson_wxminp    ${path}    ${maps}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

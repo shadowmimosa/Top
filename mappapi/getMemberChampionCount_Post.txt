@@ -23,8 +23,8 @@ Class_02              [Documentation]    corpcrew/crewDailyChampion/getMemberCha
 getMemberChampionCount_Post_assertClass
     [Arguments]    ${targetUid}    ${crewId}    ${expected_code}
     [Documentation]    /corpcrew/crewMemberRun/getMemberDayRank跑团成员跑量接口
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /corpcrew/crewDailyChampion/getMemberChampionCount
     ${maps}=    create dictionary
     set to dictionary    ${maps}    targetUid=${targetUid}
@@ -34,7 +34,7 @@ getMemberChampionCount_Post_assertClass
     ${resp}=    thejoyrun_postjson_wxminp    ${path}    ${maps}    ${mapp_URL}
     ${content}=    charconver    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

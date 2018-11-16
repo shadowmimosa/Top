@@ -4,7 +4,8 @@ Library           RequestsLibrary
 Library           pymysql
 Library           DatabaseLibrary
 Library           String
-Library           HttpLibrary.HTTP
+# Library           HttpLibrary.HTTP
+Library           C:/Users/ShadowMimosa/Documents/STU/Top/Python/try_test/get_json_value_test.py
 Library           ../Lib/tool_reptile.py
 Library           ../Lib/tools_library.py
 Resource          ../OtherMethod/cookie_operation.txt
@@ -29,7 +30,7 @@ Gettimes
     ${fieldnum}    Get From List    ${fieldslist}    1
     ${returnfield}    Get From List    ${fieldslist}    2
     ${localtime}=    Get Time    epoch
-    ${localtimes}    Evaluate    long(${localtime})
+    ${localtimes}    Evaluate    int(${localtime})
     ${localctime}    Evaluate    time.ctime(${localtimes})    time,datetime
     ${lyy}    ${lmm}    ${ldd}    ${lhour}    ${lmin}    ${lsec}    Get Time
     ...    year,month,day,hour,min,sec
@@ -105,6 +106,7 @@ FilterList
     ${filterfield2max}    Get From List    ${filterstrList2}    2
     ${filterfield3max}    Get From List    ${filterstrList3}    2
     ##兼容字段值带引号的情况
+    # ${SrcListstr}    Evaluate          str(${SrcListstr})
     ${SrcListstr}    replace string    ${SrcListstr}    ${EMPTY}[{    {
     ${SrcListstr}    replace string    ${SrcListstr}    }]${EMPTY}    }
     ${SrcListstr}    replace string    ${SrcListstr}    ${SPACE}    ${EMPTY}
@@ -128,7 +130,13 @@ FilterList
     \    log    filterfield3----${scrsingle}
     \    ${scrsingle}    replace string    ${scrsingle}    ${Returnfield}":${SPACE}    ${Returnfield}":
     \    ${scrsingle}    replace string    ${scrsingle}    ${Returnfield}":"    ${Returnfield}":
-    \    log    Returnfield----${scrsingle}
+    # \    log    Returnfield----${scrsingle}
+    # \    ${buchongfu1234}      Evaluate         type(${scrsingle})
+    # \    log        -------${buchongfu1234}
+    # # \    ${scrsingle}          Evaluate         str(${scrsingle})
+    # \    ${scrsingle}          To Str           ${scrsingle}
+    # \    ${buchongfu1234}      Evaluate         type(${scrsingle})
+    # \    log        -------${buchongfu1234}
     \    ${filterfield1str}    Get Regexp Matches    ${scrsingle}    "${filterfield1}":([A-Za-z0-9]+)    1
     \    ${filterfield1strlen}    evaluate    len(${filterfield1str})
     \    ${field1Value}    Run Keyword If    ${filterfield1strlen}>0    Get From List    ${filterfield1str}    0
@@ -144,18 +152,23 @@ FilterList
     \    ${Returnfieldstrlen}    evaluate    len(${Returnfieldstr})
     \    ${ReturnfieldValue1}    Run Keyword If    ${Returnfieldstrlen}>0    Get From List    ${Returnfieldstr}    0
     \    ...    ELSE    set variable    ${EMPTY}
-    \    ${field1Value}    Run Keyword If    '${field1Value}'=='null'    set variable    -1
+    \    ${field1Value}    Run Keyword If    '${field1Value}'=='None'    set variable    -1
     \    ...    ELSE    set variable    ${field1Value}
-    \    ${field2Value}    Run Keyword If    '${field2Value}'=='null'    set variable    -1
+    \    ${field2Value}    Run Keyword If    '${field2Value}'=='None'    set variable    -1
     \    ...    ELSE    set variable    ${field2Value}
-    \    ${field3Value}    Run Keyword If    '${field3Value}'=='null'    set variable    -1
+    \    ${field3Value}    Run Keyword If    '${field3Value}'=='None'    set variable    -1
     \    ...    ELSE    set variable    ${field3Value}
-    \    ${ReturnfieldValue}    Run Keyword If    "${Returnfield}"<>"All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}    set variable    ${ReturnfieldValue1}
+    \    
+    \    ${field1Value}     Get Int      ${field1Value}
+    \    ${field2Value}     Get Int      ${field2Value}
+    \    ${field3Value}     Get Int      ${field3Value}
+    \
+    \    ${ReturnfieldValue}    Run Keyword If    "${Returnfield}"!="All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}    set variable    ${ReturnfieldValue1}
     \    ...    ELSE IF    "${Returnfield}"=="All" and ${filterfield1min}<=${field1Value}<=${filterfield1max} and ${filterfield2min}<=${field2Value}<=${filterfield2max} and ${filterfield3min}<=${field3Value}<=${filterfield3max}    set variable    ${scr_single}
     \    ...    ELSE    set variable    joyrunzzqtestspit
     \    ${Valuelen}    Evaluate    len(R'${ReturnValue}')
-    \    ${ReturnValue}    Run Keyword If    "${Returnfield}"<>"All" and ${Valuelen}>=1    set variable    ${ReturnValue},${ReturnfieldValue}
-    \    ...    ELSE IF    "${Returnfield}"<>"All" and ${Valuelen}<1    set variable    ${ReturnfieldValue}
+    \    ${ReturnValue}    Run Keyword If    "${Returnfield}"!="All" and ${Valuelen}>=1    set variable    ${ReturnValue},${ReturnfieldValue}
+    \    ...    ELSE IF    "${Returnfield}"!="All" and ${Valuelen}<1    set variable    ${ReturnfieldValue}
     \    ...    ELSE    set variable    ${ReturnValue}zzqtestlistspit${ReturnfieldValue}
     \    ${ReturnValue}    replace string    ${ReturnValue}    ,joyrunzzqtestspit    ${EMPTY}
     \    ${ReturnValue}    replace string    ${ReturnValue}    joyrunzzqtestspit,    ${EMPTY}
@@ -256,7 +269,11 @@ arraytostring
     [Arguments]    ${array}
     [Documentation]    将字符类型改为数组类型，例如变量值"[a,b c]" 换成[a,b,c]
     log    arraytostring Start ......
-    ${list}=    evaluate    "".join(${array})
+    log    ${array}
+    # ${array}    Evaluate    ${array}.replace('"','')
+    # ${list}=    Evaluate    "".join(${array})
+    ${list}=    set variable    ${array}
+    log    ${list}
     log    arraytostring End ......
     [Return]    ${list}
 
@@ -302,7 +319,11 @@ GetServertime
     Run Keyword If    ${isend}>=0    Create Session    timestamp    ${login_URL}
     ${resptime}    Run Keyword If    ${isend}>=0    RequestsLibrary.Get Request    timestamp    /GetTimestamp.aspx
     ${contentime}    Run Keyword If    ${isend}>=0    charconver    ${resptime.content}
-    Run Keyword If    ${isend}>=0    log json    ${resptime.content}
+    # Run Keyword If    ${isend}>=0      # # log json    ${resptime.content}
+
+    # ${abc}     get json value    ${contentime}    /lasttime
+    # ${timestamp}    Run Keyword If    ${isend}>=0    set variable    ${abc}
+
     ${timestamp}    Run Keyword If    ${isend}>=0    get json value    ${contentime}    /lasttime
     ...    ELSE    set variable    ${Goltimestamp}
     set global variable    ${Goltimestamp}    ${timestamp}
@@ -353,13 +374,13 @@ thejoyrun_postd
     ${URL}=    set variable    ${Base_URL}
     ${sign_dict}=    create dictionary    timestamp=${timestamp}
     ${post_dict}=    create dictionary    timestamp=${timestamp}
-    @{mapstolist_sign}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist_sign}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist_sign}
     \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
-    ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.iteritems())
+    ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.items())
     ${len}=    evaluate    len(${sign_dict_tolist})
     ${signparam} =    set variable    ${EMPTY}
     : FOR    ${index}    IN RANGE    0    ${len}
@@ -397,9 +418,9 @@ thejoyrun_postd
     #log    _sign====${_sign}
     #log    signature====${signature}
     set to dictionary    ${post_dict}    signature=${signature}
-    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
+    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.items())
     log    参数编码前：${post_dict}
-    ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    ${post_param}    Evaluate    urllib.parse.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Post Request    run    uri=${path}    data=${post_param}
@@ -455,15 +476,15 @@ thejoyrun_postnl
     ${sign_dict}=    create dictionary    timestamp=${timestamp}
     log dictionary    ${sign_dict}
     ${post_dict}=    create dictionary    timestamp=${timestamp}
-    @{mapstolist_sign}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist_sign}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist_sign}
     \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}
     \    log dictionary    ${sign_dict}
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     \    log dictionary    ${post_dict}
-    ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.iteritems())
+    ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.items())
     ${len}=    evaluate    len(${sign_dict_tolist})
     ${signparam} =    set variable    ${EMPTY}
     : FOR    ${index}    IN RANGE    0    ${len}
@@ -499,9 +520,9 @@ thejoyrun_postnl
     #log    _sign====${_sign}
     #log    signature====${signature}
     set to dictionary    ${post_dict}    signature=${signature}
-    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
+    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.items())
     log    参数编码前：${post_dict}
-    ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    ${post_param}    Evaluate    urllib.parse.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
     #${post_param}=    Evaluate    '${post_param}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
@@ -548,7 +569,7 @@ thejoyrun_post_nosign
     log    sid ===${sid}
     log    heards_dict ===${heards_dict}
     ${post_dict}=    create dictionary
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     set to dictionary    ${heards_dict}    APPVERSION=${APPVERSION}
@@ -558,7 +579,7 @@ thejoyrun_post_nosign
     set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION}
     set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}
     log    参数编码前：${post_dict}
-    ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    ${post_param}    Evaluate    urllib.parse.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
     #因后端和运维的签名方法不一致，兼容处理
     ${path}    set variable    ${path}?${post_param}
@@ -566,7 +587,9 @@ thejoyrun_post_nosign
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     #${resp}=    Post Request    run    uri=${path}    data=${post_param}
     ${resp}=    Post Request    run    uri=${path}
-    ${get_count}    Get Count    ${resp.content}    ret\":"401"
+    ${Temporary}     To Str       ${resp.content}
+    ${get_count}    Get Count    ${Temporary}    ret\":"401"
+    # ${get_count}    Get Count    ${resp.content}    ret\":"401"
     Run Keyword If    ${get_count}==1    log    ${userName}的SID过期而登录失败
     Run Keyword If    ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}
     ${Retry}    Run Keyword If    ${get_count}==1    Evaluate    ${Retry}-1
@@ -589,7 +612,7 @@ thejoyrun_postjson_wxminp
     ${ContentType}    Set Variable    application/json;charset=UTF-8
     ${wxminpnames}    Split String    ${path}    /
     ${wxminpname1}    Get From List    ${wxminpnames}    1
-    ${wxminpname}    Run Keyword If    '${wxminpname1}'<>'wallet'    set variable    ${wxminpname1}
+    ${wxminpname}    Run Keyword If    '${wxminpname1}'!='wallet'    set variable    ${wxminpname1}
     ...    ELSE    Set variable    corpcrew
     ${appid}    set variable    ${${wxminpname}appid}
     ${sid}    set variable    ${${wxminpname}sid}
@@ -614,7 +637,7 @@ thejoyrun_postjson_wxminp
     set to dictionary    ${post_dict}    appid=${appid}
     set to dictionary    ${post_dict}    sid=${sid}
     log    post_dict：${post_dict}
-    #${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    #${post_param}    Evaluate    urllib.parse.urlencode(${post_dict})    urllib
     #log    参数编码后：${post_param}
     #签名
     ${signkey}=    Run Keyword If    ${uid}==0    set variable    ${appid}${timestamp}${sid}${appkey}
@@ -643,7 +666,7 @@ thejoyrun_get_wxminp
     log    thejoyrun_get_wxminp Start ......
     ${wxminpnames}    Split String    ${path}    /
     ${wxminpname1}    Get From List    ${wxminpnames}    1
-    ${wxminpname}    Run Keyword If    '${wxminpname1}'<>'wallet'    set variable    ${wxminpname1}
+    ${wxminpname}    Run Keyword If    '${wxminpname1}'!='wallet'    set variable    ${wxminpname1}
     ...    ELSE    Set variable    corpcrew
     ${appid}    set variable    ${${wxminpname}appid}
     ${sid}    set variable    ${${wxminpname}sid}
@@ -682,7 +705,7 @@ thejoyrun_get_wxminp
     log    sign====${sign}
     log    post_dict======${post_dict}
     log    参数编码前：${post_dict}
-    ${post_dict}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    ${post_dict}    Evaluate    urllib.parse.urlencode(${post_dict})    urllib
     log    参数编码后：${post_dict}
     Create Session    run    ${URL}    headers=${heards_dict}
     ${resp}=    Get Request    run    uri=${path}    params=${post_dict}
@@ -722,25 +745,39 @@ thejoyrun_getp
     ${URL}=    set variable    ${Base_URL}
     ${sign_dict}=    create dictionary    timestamp=${timestamp}
     ${post_dict}=    create dictionary    timestamp=${timestamp}
-    @{mapstolist_sign}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist_sign}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist_sign}
     \    set to dictionary    ${sign_dict}    ${map[0]}=${map[1]}
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     #排序及格式处理
-    ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.iteritems())
-    ${signparam}=    convert to string    ${sign_dict_tolist}
-    ${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    u'    '
-    ${signparam}=    Replace String    ${signparam}    ', '    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ('    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ')    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}
-    ${signparam}=    Replace String    ${signparam}    ]    ${EMPTY}
+    ${sign_dict_tolist}=    evaluate    sorted(${sign_dict}.items())
+
+    # ${buchongfu123}         Evaluate    type(${sign_dict_tolist})
+    # log                     -------${buchongfu123}------
+    # ${signparam}=    convert to string    ${sign_dict_tolist}
+    # ${signparam}=    Replace String    ${signparam}    [    ${EMPTY}
+    # ${signparam}=    Replace String    ${signparam}    u'    '
+    # ${signparam}=    Replace String    ${signparam}    ', '    ${EMPTY}
+    # ${signparam}=    Replace String    ${signparam}    ('    ${EMPTY}
+    # ${signparam}=    Replace String    ${signparam}    ')    ${EMPTY}
+    # ${signparam}=    Replace String    ${signparam}    ,${SPACE}    ${EMPTY}
+    # ${signparam}=    Replace String    ${signparam}    ]    ${EMPTY}
+
     #${signparam}=    Replace String    ${signparam}    &    ${EMPTY}
-    ${signparam}=    Evaluate    '${signparam}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
+    # ${signparam}=    Evaluate    '${signparam}'.decode('unicode_escape')    #对中文做处理，将unicode字符解码成对应的中文字符
     #log    ${signparam}
+
+
+    ${len}=    evaluate    len(${sign_dict_tolist})
+    ${signparam} =    set variable    ${EMPTY}
+    : FOR    ${index}    IN RANGE    0    ${len}
+    \    ${signparamkey}    set variable    ${sign_dict_tolist[${index}][0]}
+    \    ${signparamValue}    set variable    ${sign_dict_tolist[${index}][1]}
+    \    ${signparamsting}    set variable    ${signparamkey}${signparamValue}
+    \    ${signparam} =    set variable    ${signparam}${signparamsting}
+    log    signparam=======${signparam}
     #排序及格式处理
     log    signparam===${signparam}
     ${signkey1}=    set variable    ${signparam}${appkey1}${uid}${sid}
@@ -771,11 +808,13 @@ thejoyrun_getp
     #log    signature====${signature}
     set to dictionary    ${post_dict}    signature=${signature}
     log    参数编码前：${post_dict}
-    ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    ${post_param}    Evaluate    urllib.parse.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Get Request    run    uri=${path}    params=${post_param}
-    ${get_count}    Get Count    ${resp.content}    ret\":"401"
+    ${Temporary}     To Str       ${resp.content}
+    # ${get_count}    Get Count    ${resp.content}    ret\":"401"
+    ${get_count}    Get Count    ${Temporary}    ret\":"401"
     Run Keyword If    ${get_count}==1    log    ${userName}的SID过期而登录失败
     Run Keyword If    ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}
     ${Retry}    Run Keyword If    ${get_count}==1    Evaluate    ${Retry}-1
@@ -819,7 +858,7 @@ thejoyrun_get_nosign
     #log    heards_dict ===${heards_dict}
     ${URL}=    set variable    ${Base_URL}
     ${post_dict}=    create dictionary
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     #排序及格式处理
@@ -830,11 +869,12 @@ thejoyrun_get_nosign
     set to dictionary    ${heards_dict}    SYSVERSION=${SYSVERSION}
     set to dictionary    ${heards_dict}    MODELTYPE=${MODELTYPE}
     log    参数编码前：${post_dict}
-    ${post_param}    Evaluate    urllib.urlencode(${post_dict})    urllib
+    ${post_param}    Evaluate    urllib.parse.urlencode(${post_dict})    urllib
     log    参数编码后：${post_param}
     Create Session    run    ${URL}    headers=${heards_dict}    cookies=${cookies}
     ${resp}=    Get Request    run    uri=${path}    params=${post_param}
-    ${get_count}    Get Count    ${resp.content}    ret\":"401"
+    ${Temporary}     To Str       ${resp.content}
+    ${get_count}    Get Count    ${Temporary}    ret\":"401"
     Run Keyword If    ${get_count}==1    log    ${userName}的SID过期而登录失败
     Run Keyword If    ${get_count}==1    Pop From Dictionary    ${usersinfo_dict}    ${env}${userName}
     ${Retry}    Run Keyword If    ${get_count}==1    Evaluate    ${Retry}-1

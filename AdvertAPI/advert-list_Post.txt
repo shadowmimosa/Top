@@ -17,8 +17,8 @@ Class_01              [Documentation]    氛围广告启动页接口advert-list-
 advert-list_Post_assertClass
     [Arguments]    ${expected_code}
     [Documentation]    氛围广告启动页接口advert-list-无参数-基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /advert-list
     ${maps}=    create dictionary
     log    ---输出参数---
@@ -37,7 +37,7 @@ advert-list_Post_assertClass
     #当需要添加对data的内容进行单独验证时，可以以下方式
     ${data}    get json value    ${content}    /data
     ${data}    Evaluate    list(${data})
-    ${aaa}    pyfilter    ${data}    ad_type>=8 And ad_duration<>112
+    ${aaa}    pyfilter    ${data}    ad_type>=8 And ad_duration!=112
     log list    ${aaa}
     ${aaa1}    get from list    ${aaa}    0
     log    ${aaa1}

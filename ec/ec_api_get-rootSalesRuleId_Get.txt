@@ -17,15 +17,15 @@ Class_01              [Documentation]    ec_api/get-rootSalesRuleId TestCase测�
 ec_api_get-rootSalesRuleId_Getns_Keywords
     [Arguments]    ${marathonId}    ${ret}    ${msg}
     [Documentation]    ec_api/get-rootSalesRuleId 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /ec_api/get-rootSalesRuleId
     ${maps}=    create dictionary
     set to dictionary    ${maps}    marathonId=${marathonId}
     log    ========输出接口入参：${ec_URL}${path}==${maps}==========
     ${resp}=    thejoyrun_get_nosign    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

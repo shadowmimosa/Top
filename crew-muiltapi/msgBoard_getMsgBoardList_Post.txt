@@ -17,8 +17,8 @@ Class_01              [Documentation]    获取跑团通知getMsgBoardList-线�
 getMsgBoardList_Post_assertClass
     [Arguments]    ${boardTime}    ${crewId}    ${nodeId}    ${userName}    ${expected_code}
     [Documentation]    获取跑团通知getMsgBoardList基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${crewId}    getMyCrewInfo    crewid    ${userName}
     ${path}=    set variable    /msgBoard/getMsgBoardList
     ${maps}=    create dictionary
@@ -31,9 +31,9 @@ getMsgBoardList_Post_assertClass
     log    ${crew_muilt_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

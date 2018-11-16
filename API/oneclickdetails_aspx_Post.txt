@@ -17,8 +17,8 @@ Class_01              [Documentation]    oneclickdetails用户本人用户信息
 oneclickdetails_Post
     [Arguments]    ${option}    ${ret}    ${msg}
     [Documentation]    oneclickdetails用户本人用户信息基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /oneclickdetails.aspx
     ${maps}=    create dictionary
     set to dictionary    ${maps}    option=${option}
@@ -28,9 +28,9 @@ oneclickdetails_Post
     ${content}=    charconver    ${resp.content}
     ${data}    get json value    ${content}    /datas
     ${data}=    charconver    ${data}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

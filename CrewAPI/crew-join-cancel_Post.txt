@@ -17,8 +17,8 @@ Class_01              [Documentation]    crew-join-cancel TestCase测试用例
 crew-join-cancel_Post_Keywords
     [Arguments]    ${userName}    ${crewid}    ${ret}    ${msg}
     [Documentation]    crew-join-cancel 20180529取消加入跑团申请
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #${userName}    Env_username
     ${path}=    set variable    /crew-join-cancel
     ${maps}=    create dictionary
@@ -27,7 +27,7 @@ crew-join-cancel_Post_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

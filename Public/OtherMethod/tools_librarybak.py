@@ -182,7 +182,7 @@ class tools_library(object):
 		return lines
 
 	def utf8urlencode(self,content):
-		str = urllib.urlencode({"a":content.encode("utf8")})
+		str = urllib.parse.urlencode({"a":content.encode("utf8")})
 		return str	
 		
 ###进房记录

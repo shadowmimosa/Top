@@ -17,8 +17,8 @@ Class_01              [Documentation]    个人信息列表-无传参dataMessage
 datamessages_Post_assertClass
     [Arguments]    ${lasttime}    ${expected_code}
     [Documentation]    Datamessage 基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /dataMessages
     ${maps}=    create dictionary
     set to dictionary    ${maps}    lasttime=${lasttime}
@@ -30,7 +30,7 @@ datamessages_Post_assertClass
     ${content}    thejoyrun_Keywords    ${api_URL}    ${path}    ${userName}    ${pwd}    None
     ...    lasttime    ${lasttime}
     #${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${expected_code}

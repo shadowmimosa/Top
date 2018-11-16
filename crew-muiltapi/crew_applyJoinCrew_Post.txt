@@ -18,8 +18,8 @@ crew_applyJoinCrew_Post_Keywords
     [Arguments]    ${userName}    ${autoPassPwd}    ${crewId}    ${msg}    ${nodeId}    ${ret}
     ...    ${msgs}
     [Documentation]    crew/applyJoinCrew 申请加入大跑团或子跑团
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /crew/applyJoinCrew
     ${maps}=    create dictionary
     set to dictionary    ${maps}    autoPassPwd=${autoPassPwd}
@@ -30,7 +30,7 @@ crew_applyJoinCrew_Post_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${crew_muilt_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

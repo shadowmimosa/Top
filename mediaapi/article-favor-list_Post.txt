@@ -17,8 +17,8 @@ Class_01              [Documentation]    article-favor-list TestCase测试用例
 article-favor-list_Post_Keywords
     [Arguments]    ${page}    ${pagesize}    ${ret}    ${msg}
     [Documentation]    article-favor-list 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /article-favor-list
     ${maps}=    create dictionary
     set to dictionary    ${maps}    page=${page}
@@ -27,7 +27,7 @@ article-favor-list_Post_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${media_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

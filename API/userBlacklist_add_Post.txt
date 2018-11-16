@@ -19,8 +19,8 @@ Class_01              [Documentation]    V3.2增加黑名单userBlacklist/add
 userBlacklist_add_Post_assertClass
     [Arguments]    ${toUid}    ${userName}    ${expected_code}
     [Documentation]    增加黑名单
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /userBlacklist/add
     ${maps}=    create dictionary
     set to dictionary    ${maps}    toUid=${toUid}
@@ -30,9 +30,9 @@ userBlacklist_add_Post_assertClass
     #log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

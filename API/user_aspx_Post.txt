@@ -37,8 +37,8 @@ user_Post_assertClass
     [Arguments]    ${touid}    ${to}    ${option}    ${dateline}    ${ret}    ${msg}
     ...    ${env}
     [Documentation]    user.aspx查询用户信息及本人的好友列表信息接口,随机friends、info、find、findmultiple、deviceinfo、record、friendrecommendinfeed、friendrecommendinrunnerlevel
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${userName}    Env_username    ${env}
     #${option}    randomchoice    record/info/friends/find/findmultiple/deviceinfo/friendrecommendinfeed/friendrecommendinrunnerlevel    /
     #${option}    set variable    friendrecommendinrunnerlevel
@@ -54,9 +54,9 @@ user_Post_assertClass
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

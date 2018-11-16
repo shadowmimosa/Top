@@ -26,7 +26,7 @@ newTopic_getHotsFeedList_Post_assertClass
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${topic_URL}
     ${content}=    charconver    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

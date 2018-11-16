@@ -20,8 +20,8 @@ class_01              [Documentation]    /challengeuser/join 参加挑战活动
 join_select
     [Arguments]    ${uid}    ${cid}    ${ret}    ${msg}
     [Documentation]    /challengeuser/join 参加挑战活动,判定是不是有活动可参加；
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${userName}    Env_username    a
     @{challengeList}    challengeList_filters    activityStatus,0,1.5    challengeId    ${userName}
     ${cids}    Get From List    ${challengeList}    0
@@ -65,7 +65,7 @@ joinchallengeuser_post
     ${content}=    charconver    ${resp.content}
     ${data}    get json value    ${content}    /data
     ${data}=    charconver    ${data}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     should contain    ${content}    "ret":${ret}
     log    ret 符合预期为:${ret}
     log    验证msg是否符合预期

@@ -17,8 +17,8 @@ Class_01              [Documentation]    live/races TestCase测试用例
 live_races_Get_Keywords
     [Arguments]    ${pageNum}    ${pageSize}    ${ret}    ${msg}
     [Documentation]    live/races 接口用例的Keywords关健字
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${path}=    set variable    /live/races
@@ -29,7 +29,7 @@ live_races_Get_Keywords
     log    ========接口的入参为：${userName}:${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${racelive_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"${ret}"

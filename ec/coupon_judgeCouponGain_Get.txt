@@ -17,8 +17,8 @@ Class_01              [Documentation]    coupon/judgeCouponGain TestCase测试�
 coupon_judgeCouponGain_Getw_Keywords
     [Arguments]    ${couponKey}    ${uid}    ${ret}    ${msg}
     [Documentation]    coupon/judgeCouponGain 20180530判断优惠券是否能领取
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     #从配置的用户列表中随机取一个用户运行此用例
     #${userName}    Env_username
     ${path}=    set variable    /ec_api/coupon/judgeCouponGain
@@ -29,7 +29,7 @@ coupon_judgeCouponGain_Getw_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

@@ -17,8 +17,8 @@ Class_01              [Documentation]    coupon/myAvailableUserCouponList TestCa
 coupon_myAvailableUserCouponList_Getw_Keywords
     [Arguments]    ${uid}    ${ret}    ${msg}
     [Documentation]    coupon/myAvailableUserCouponList 20180530我的可用优惠券
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /ec_api/coupon/myAvailableUserCouponList
     ${maps}=    create dictionary
     set to dictionary    ${maps}    uid=${uid}
@@ -26,7 +26,7 @@ coupon_myAvailableUserCouponList_Getw_Keywords
     log    ========接口的入参为：${maps}==========
     ${resp}=    thejoyrun_Getp    ${path}    ${maps}    ${userName}    ${ec_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${content}
+    # log json    ${content}
     log    ======开始断言验证=====
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}

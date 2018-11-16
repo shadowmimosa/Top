@@ -17,8 +17,8 @@ Class_01              [Documentation]    /api/dynamic_config.do动态升级接�
 dynamic_config_Post_assertClass
     [Arguments]    ${expected_code}
     [Documentation]    /api/dynamic_config.do基本验证
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /api/dynamic_config.do
     ${maps}=    create dictionary
     #set to dictionary    ${maps}    uid=${uid}
@@ -28,9 +28,9 @@ dynamic_config_Post_assertClass
     log    ${beta_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${beta_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    response数据为：
     log    ${resp}

@@ -3,7 +3,7 @@ Library           Collections
 Library           RequestsLibrary
 Library           ../Lib/tools_library.py
 Resource          ../Public/http_request.txt
-Library           HttpLibrary.HTTP
+# Library           HttpLibrary.HTTP
 Library           String
 
 *** Keywords ***

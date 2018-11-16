@@ -16,7 +16,7 @@ acshow_post_h5
     ${uid}=    set variable    ${logintoken[1]}
 
     ${post_dict}=    create dictionary
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${post_dict}    ${map[0]}=${map[1]}
     #定义H5 ,密钥Key值，如果字符串首字符用#号，需要使用\进行转义
@@ -57,7 +57,7 @@ acshow_get_h5
     ${URL}=    set variable    ${acshow_URL}    #${acURL}    #ac_config.py
     ${post_dict}=    create dictionary
     ${map_dict}    create dictionary
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${map_dict}    ${map[0]}=${map[1]}
     ${map_dict_param}=    convert to string    ${map_dict}
@@ -77,7 +77,7 @@ acshow_get_h5
     set to dictionary    ${post_dict}    sign=${sign}
     #set to dictionary    ${post_dict}    chennelid    ${chennelid}
     set to dictionary    ${post_dict}    data=${signparam}
-    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
+    ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.items())
     ${post_param}=    convert to string    ${post_dict_tolist1}
     ${post_param}=    Replace String    ${post_param}    [    ${EMPTY}
     ${post_param}=    Replace String    ${post_param}    u'    '
@@ -98,7 +98,7 @@ acshow_nosign_get
     ${URL}=    set variable    ${acshow_URL}    #${acURL}    #ac_config.py
     ${post_dict}=    create dictionary
     ${map_dict}    create dictionary
-    @{mapstolist}=    evaluate    sorted(${maps}.iteritems())
+    @{mapstolist}=    evaluate    sorted(${maps}.items())
     : FOR    ${map}    IN    @{mapstolist}
     \    set to dictionary    ${map_dict}    ${map[0]}=${map[1]}
     ${map_dict_param}=    convert to string    ${map_dict}
@@ -118,7 +118,7 @@ acshow_nosign_get
     # set to dictionary    ${post_dict}    sign    ${sign}
     # #set to dictionary    ${post_dict}    chennelid    ${chennelid}
     # set to dictionary    ${post_dict}    data    ${signparam}
-    # ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.iteritems())
+    # ${post_dict_tolist1}=    evaluate    sorted(${post_dict}.items())
     # ${post_param}=    convert to string    ${post_dict_tolist1}
     # ${post_param}=    Replace String    ${post_param}    [    ${EMPTY}
     # ${post_param}=    Replace String    ${post_param}    u'    '

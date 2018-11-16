@@ -20,8 +20,8 @@ class_01              [Documentation]    check/run查询跑步记录是不是发
 check_run
     [Arguments]    ${fid}    ${postRunId}    ${ret}    ${msg}
     [Documentation]    check/run查询跑步记录是不是发过动态
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${userName}    Env_username    a
     ${fids}    UserRunList_Fid    ${userName}    fraud,0,0.5    fid
     ${fid}    randomchoice    ${fids}    ,
@@ -42,7 +42,7 @@ check_run
     ${data}    get json value    ${content}    /data
     ${data}=    charconver    ${data}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    验证ret是否符合预期
     should contain    ${content}    "ret":${ret}
     log    ret 符合预期为:${ret}

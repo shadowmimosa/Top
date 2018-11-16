@@ -18,8 +18,8 @@ Class_01              [Documentation]    /run/delete删除跑步记录
 deleteRun_selete
     [Arguments]    ${fid}    ${postRunId}
     [Documentation]    /run/delete删除跑步记录
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${time}=    Get Time    epoch
     log    time= ${time}
     ${timemin}    evaluate    int(${time})-86400
@@ -45,8 +45,8 @@ deleteRun_selete
 deleteRun
     [Arguments]    ${fid}    ${postRunId}    ${userName}
     [Documentation]    /feed/post/run发布跑步动态
-    Evaluate    reload(sys)    sys
-    Evaluate    sys.setdefaultencoding( "utf-8" )    sys
+    # Evaluate    reload(sys)    sys
+    # Evaluate    sys.setdefaultencoding( "UTF-8" )    sys
     ${path}=    set variable    /run/delete
     ${maps}=    create dictionary
     set to dictionary    ${maps}    fid=${fid}
@@ -57,9 +57,9 @@ deleteRun
     log    ${api_URL}
     ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${userName}    ${api_URL}
     ${content}=    charconver    ${resp.content}
-    log json    ${resp.content}
+    # log json    ${resp.content}
     log    ---输出返回内容----
-    log json    ${content}
+    # log json    ${content}
     log    ---开始断言验证---
     log    验证ret是否符合预期
     should contain    ${content}    "ret":"0"
