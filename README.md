@@ -1,5 +1,9 @@
 ## Convert python2 to python3  
 
+### Need import `jsonpointer`  
+
+### Please read Script changes in [README.MD](./Public/Lib/README.pdf)  
+
 ### Unified modification  
 
 + Replace `Library           HttpLibrary.HTTP` with `# Library           HttpLibrary.HTTP`  

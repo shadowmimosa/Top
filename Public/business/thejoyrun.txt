@@ -5,7 +5,7 @@ Library           pymysql
 Library           DatabaseLibrary
 Library           String
 # Library           HttpLibrary.HTTP
-Library           C:/Users/ShadowMimosa/Documents/STU/Top/Python/try_test/get_json_value_test.py
+Library           ../Lib/method_private_forPy3.py
 Library           ../Lib/tool_reptile.py
 Library           ../Lib/tools_library.py
 Resource          ../OtherMethod/cookie_operation.txt
