@@ -1,36 +1,5 @@
 import jsonpointer
-# import json
-# import logging
-# from logging.handlers import RotatingFileHandler
 
-# ### Logging can only be defined once in multithreading
-# logging.basicConfig(
-#     level=logging.DEBUG,
-#     filename='./Python/try_test/get_json_value.log',
-#     format=
-#     '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s')
-
-
-
-# ### Independent logs in file
-# logger = logging.getLogger(__name__)
-# if not logger.handlers:
-#     formatter = logging.Formatter(
-#         '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-#     logger.setLevel(logging.DEBUG)
-
-#     handler_name = logging.FileHandler(__name__ + '.log')
-#     handler_name.setLevel(logging.DEBUG)
-#     handler_name.setFormatter(formatter)
-
-#     handler_backup = RotatingFileHandler(
-#         'backup_for_scriptlog.log', maxBytes=10 * 1024 * 1024, backupCount=999)
-#     handler_backup.setLevel(logging.INFO)
-#     handler_backup.setFormatter(formatter)
-
-#     logger.addHandler(handler_backup)
-#     logger.addHandler(handler_name)
 
 ### global variable
 null = None
@@ -40,13 +9,6 @@ false = False
 
 def use_jsonpointer(doc, pointer):
 
-    # logger.info('The doc\'s type is %s', type(doc))
-    # logger.info('The doc is %s', doc)
-    # logger.info('The pointer\'s type is %s', type(pointer))
-    # logger.info('The pointer is %s', pointer)
-
-    ### jsonpointer.resolve need a dict and str
-    # if type(doc) == str and json.loads(doc.replace('\'', '\"')):
     if type(doc) == str and doc != '0':
         if doc == 'None':
             print('The data is null')
@@ -87,9 +49,6 @@ def use_jsonpointer(doc, pointer):
     print('The data finally is', pointer_in_doc.replace('\'', '\"'))
 
     pointer_in_doc = pointer_in_doc.replace('\'', '\"')
-
-    # logger.info('The fianl doc\'s type is %s', type(pointer_in_doc))
-    # logger.info('The fianl doc is %s', pointer_in_doc)
 
     return pointer_in_doc
 
@@ -155,7 +114,6 @@ def get_int(one=None, two=None, three=None, four=None, five=None):
         pass
 
     num_list = [one, two, three, four, five]
-    # veriable_list = ['one', 'two', 'three', 'four', 'five']
     new_list = []
 
     for index in range(len(num_list)):
@@ -166,33 +124,3 @@ def get_int(one=None, two=None, three=None, four=None, five=None):
 
     return new_list[0], new_list[1], new_list[2], new_list[3], new_list[4]
 
-
-### For debugging
-if __name__ == '__main__':
-
-    obj = {
-        'foo': {
-            'anArray': [{
-                'prop': 44
-            }, {
-                'prop1': 45
-            }],
-            'another prop': {
-                'baz': 'A string'
-            }
-        },
-        'a%20b': 1,
-        'c d': 2
-    }
-
-    json_need = get_json_value(obj, '/foo/anArray/1')
-    print(json_need)
-
-    mm, dd, hh, mm1, ss = get_int('02', '03', '04', '05', '06')
-    print(mm)
-
-    bb = get_int(
-        '00000000013200000003414000041041040000200000000000000000000000000000002321331sjdadjaldjie0219313013091920310'
-    )
-    cc = get_int('0')
-    print(bb, cc)
