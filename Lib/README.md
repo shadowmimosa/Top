@@ -113,10 +113,33 @@
   Modify import mode to `from urllib.parse import quote, unquote` This package has changed in python3  
   Change `'\]' '\['` to `'\\]' '\\['` Avoid ambiguity  
   Change all backslask to double backslash, avoiding ambiguity  
+  Change  `str = content.decode(encoding='UTF-8', errors='strict')` to `str = content(encoding='UTF-8', errors='strict')`  
+  Change  
+  ```python
+          if type == 'md5':
+            str = encrypttype.get(type)(encstr, bit)
+        else:
+            str = encrypttype.get(type)(encstr)
+        return str
+  ```
+  To  
+  ```python
+          if type == 'md5':
+            str = encrypttype.get(type)(encstr.encode('utf-8'), bit)
+        else:
+            str = encrypttype.get(type)(encstr.encode('utf-8'))
+        return str
+  ```
+  Replace `print('Bind failed. Error Code : %s, Message: %s' % (str(msg[0]), msg[1]))` with `pass`  
+  Replace `str = content.decode(encoding='UTF-8', errors='strict')` with `str = content(encoding='UTF-8', errors='strict')`  
+  Replace `str1 = content(encoding='UTF-8', errors='strict')` with `str1 = str(content, encoding='UTF-8')`  
+  Change `string = content.decode('unicode_escape')` to `string = content('unicode_escape')`
+  Change  `string = content.decode('unicode_escape')` to `string = content('unicode_escape')`
   Change `str = string.join(l).replace(' ', '')` to `str = ''.join(l).replace(' ', '')`  
   Delete `from Crypto.Cipher import PKCS1_OAEP` No using  
   The `Crypto.Cipher` was abandoned in python3, needing to use `pip3 install pycryptodome`  
   Change `except socket.error, msg:` to `except socket.error as msg:` The method of except & try has changed in python3  
+  
 + [Usertool_01&period;py](./Usertool_01.py)  
   Delete useless comments  
   Change `import StringIO` to `from io import StringIO`  

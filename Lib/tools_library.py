@@ -40,14 +40,23 @@ class tools_library(object):
 		ex:
 		| charconver | ${resp.content} |
 		"""
-        #CODEC = 'utf-8'
-        #str = content.decode(CODEC)
-        str = content.decode(encoding='UTF-8', errors='strict')
-        return str
+        print(type(content))
+        print(content)
+        if type(content) == bytes:
+            content = str(content, encoding='UTF-8')
+            print(type(content))
+            print(content)
+            return content
+        elif type(content) == str:
+            return content
+        elif type(content) == dict:
+            return str(content)
+        else:
+            raise TypeError
 
     def charconver_unicode(self, content):
         """converts chinese(unicode_escape) to unicode"""
-        string = content.decode('unicode_escape')
+        string = content('unicode_escape')
         return string
 
 ##匹配php的获取第几周接口
@@ -122,9 +131,9 @@ class tools_library(object):
         }
 
         if type == 'md5':
-            str = encrypttype.get(type)(encstr, bit)
+            str = encrypttype.get(type)(encstr.encode('utf-8'), bit)
         else:
-            str = encrypttype.get(type)(encstr)
+            str = encrypttype.get(type)(encstr.encode('utf-8'))
         return str
 
 ###随机生成字符串
@@ -354,8 +363,7 @@ class tools_library(object):
                 % (int(roomid), str(userid), nickname, int(richlevel),
                    staruserid, key, int(kugouid)))
         except socket.error as msg:
-            print('Bind failed. Error Code : %s, Message: %s' % (str(msg[0]),
-                                                                msg[1]))
+            pass
         # #查询socket
         # qs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # try:
@@ -365,7 +373,6 @@ class tools_library(object):
         # except socket.error, msg:
         #     print( msg)
         # qs.close()
-
         time.sleep(20)  #进房记录保持20秒
         es.close()
 
@@ -407,8 +414,7 @@ class tools_library(object):
         try:
             es.send(msg + '\r\n')
         except socket.error as msg:
-            print('socketsend. Error Code : %s, Message: %s' % (str(msg[0]),
-                                                                msg[1]))
+            pass
 
     def queryRoomInfo(self, *userid):
         """用于校验进房是否成功，请勿单独调用

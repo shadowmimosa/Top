@@ -1,7 +1,7 @@
 // ConsoleApplication2.cpp: 定义控制台应用程序的入口点。
 //
 
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "stdlib.h"
 #include "iostream"
 #include <fstream>
@@ -47,7 +47,7 @@ int BuildTime()
 			//日
 			for (int k = 0; k < 31; k++)
 			{
-				if (year > 2017 && month > 7 && k > 9) //2018.8.10日之后，结束循环
+				if (year > 2017 && month > 10 && k > 18) //2018.11.19日之后，结束循环
 					return 0;
 				if (month == 2 && k < 28) //2月只有28天
 				{

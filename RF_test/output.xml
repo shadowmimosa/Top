@@ -1,85 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 3.0.4 (Python 3.7.0 on win32)" generated="20181015 16:33:43.607">
-<suite id="s1" name="user create class role Get" source="C:\Users\ShadowMimosa\Desktop\STU\Top\RF_test\user_create_class_role_Get.txt">
-<test id="s1-t1" name="Class_01">
-<kw name="createclassrole_Get_assertClass">
-<doc>user/create/class/role跑班创建权限查询</doc>
-<arguments>
-<arg>13829744541</arg>
-<arg>"0"</arg>
-</arguments>
-<kw name="Set Variable" library="BuiltIn">
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<arguments>
-<arg>/user/create/class/role</arg>
-</arguments>
-<assign>
-<var>${path}</var>
-</assign>
-<msg timestamp="20181015 16:33:43.780" level="INFO">${path} = /user/create/class/role</msg>
-<status status="PASS" starttime="20181015 16:33:43.780" endtime="20181015 16:33:43.780"></status>
-</kw>
-<kw name="Create Dictionary" library="BuiltIn">
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<assign>
-<var>${maps}</var>
-</assign>
-<msg timestamp="20181015 16:33:43.781" level="INFO">${maps} = {}</msg>
-<status status="PASS" starttime="20181015 16:33:43.780" endtime="20181015 16:33:43.781"></status>
-</kw>
+<robot generator="Robot 3.0.4 (Python 3.7.1 on win32)" generated="20181106 16:20:39.457">
+<suite id="s1" name="For Get Json" source="C:\Users\ShadowMimosa\Documents\STU\Top\RF_test\for_get_json.robot">
+<test id="s1-t1" name="case1 helloworld">
 <kw name="Log" library="BuiltIn">
 <doc>Logs the given message with the given level.</doc>
 <arguments>
-<arg>---输出预期值---</arg>
+<arg>chenyuebai first rfw case</arg>
 </arguments>
-<msg timestamp="20181015 16:33:43.781" level="INFO">---输出预期值---</msg>
-<status status="PASS" starttime="20181015 16:33:43.781" endtime="20181015 16:33:43.781"></status>
+<msg timestamp="20181106 16:20:39.485" level="INFO">chenyuebai first rfw case</msg>
+<status status="PASS" starttime="20181106 16:20:39.485" endtime="20181106 16:20:39.485"></status>
 </kw>
-<kw name="Log" library="BuiltIn">
-<doc>Logs the given message with the given level.</doc>
-<arguments>
-<arg>${expected}</arg>
-</arguments>
-<msg timestamp="20181015 16:33:43.781" level="INFO">"0"</msg>
-<status status="PASS" starttime="20181015 16:33:43.781" endtime="20181015 16:33:43.781"></status>
-</kw>
-<kw name="Log" library="BuiltIn">
-<doc>Logs the given message with the given level.</doc>
-<arguments>
-<arg>${bet_URL}</arg>
-</arguments>
-<msg timestamp="20181015 16:33:43.782" level="FAIL">Variable '${bet_URL}' not found.</msg>
-<status status="FAIL" starttime="20181015 16:33:43.782" endtime="20181015 16:33:43.782"></status>
-</kw>
-<status status="FAIL" starttime="20181015 16:33:43.779" endtime="20181015 16:33:43.782"></status>
-</kw>
-<doc>user/create/class/role跑班创建权限查询-无参数</doc>
-<tags>
-<tag>Online</tag>
-<tag>Test</tag>
-</tags>
-<status status="FAIL" starttime="20181015 16:33:43.778" endtime="20181015 16:33:43.783" critical="yes">Variable '${bet_URL}' not found.</status>
+<status status="PASS" starttime="20181106 16:20:39.484" endtime="20181106 16:20:39.485" critical="yes"></status>
 </test>
-<doc>跑班创建权限查询</doc>
-<status status="FAIL" starttime="20181015 16:33:43.609" endtime="20181015 16:33:43.783"></status>
+<test id="s1-t2" name="case2 path">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>../try_test/get_json_value_test</arg>
+</arguments>
+<msg timestamp="20181106 16:20:39.486" level="INFO">../try_test/get_json_value_test</msg>
+<status status="PASS" starttime="20181106 16:20:39.486" endtime="20181106 16:20:39.487"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.486" endtime="20181106 16:20:39.487" critical="yes"></status>
+</test>
+<test id="s1-t3" name="case3 runkeywordif">
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${abc}==9</arg>
+<arg>log</arg>
+<arg>right</arg>
+</arguments>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>right</arg>
+</arguments>
+<msg timestamp="20181106 16:20:39.488" level="INFO">right</msg>
+<status status="PASS" starttime="20181106 16:20:39.488" endtime="20181106 16:20:39.488"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.487" endtime="20181106 16:20:39.488"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.487" endtime="20181106 16:20:39.488" critical="yes"></status>
+</test>
+<test id="s1-t4" name="case4 getjsonvalue">
+<kw name="Get Json Value" library="get_json_value_test">
+<arguments>
+<arg>${content}</arg>
+<arg>/foo</arg>
+</arguments>
+<msg timestamp="20181106 16:20:39.489" level="INFO">&lt;class 'str'&gt;
+&lt;class 'str'&gt;
+&lt;class 'dict'&gt;</msg>
+<status status="PASS" starttime="20181106 16:20:39.489" endtime="20181106 16:20:39.489"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.489" endtime="20181106 16:20:39.490" critical="yes"></status>
+</test>
+<test id="s1-t5" name="case5 getjsonvalue2">
+<kw name="Get Json Value" library="get_json_value_test">
+<arguments>
+<arg>${content}</arg>
+<arg>/c d</arg>
+</arguments>
+<msg timestamp="20181106 16:20:39.491" level="INFO">&lt;class 'str'&gt;
+&lt;class 'str'&gt;
+&lt;class 'dict'&gt;</msg>
+<status status="PASS" starttime="20181106 16:20:39.490" endtime="20181106 16:20:39.491"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.490" endtime="20181106 16:20:39.491" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20181106 16:20:39.458" endtime="20181106 16:20:39.492"></status>
 </suite>
 <statistics>
 <total>
-<stat pass="0" fail="1">Critical Tests</stat>
-<stat pass="0" fail="1">All Tests</stat>
+<stat pass="5" fail="0">Critical Tests</stat>
+<stat pass="5" fail="0">All Tests</stat>
 </total>
 <tag>
-<stat pass="0" fail="1">Online</stat>
-<stat pass="0" fail="1">Test</stat>
 </tag>
 <suite>
-<stat pass="0" fail="1" id="s1" name="user create class role Get">user create class role Get</stat>
+<stat pass="5" fail="0" id="s1" name="For Get Json">For Get Json</stat>
 </suite>
 </statistics>
 <errors>
-<msg timestamp="20181015 16:33:43.727" level="ERROR">Error in test library 'pymysql': Creating keyword 'Connect' failed: Keyword with same name defined multiple times.</msg>
-<msg timestamp="20181015 16:33:43.756" level="ERROR">Error in file 'C:\Users\ShadowMimosa\Desktop\STU\Top\RF_test\public_lib.txt': Resource file '..\business\thejoyrun.txt' does not exist.</msg>
-<msg timestamp="20181015 16:33:43.758" level="ERROR">Error in file 'C:\Users\ShadowMimosa\Desktop\STU\Top\RF_test\public_lib.txt': Resource file '..\business\joyrunbusiness.txt' does not exist.</msg>
-<msg timestamp="20181015 16:33:43.759" level="ERROR">Error in file 'C:\Users\ShadowMimosa\Desktop\STU\Top\RF_test\public_lib.txt': Variable file '..\Config.py' does not exist.</msg>
 </errors>
 </robot>
