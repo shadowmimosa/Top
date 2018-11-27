@@ -1,0 +1,40 @@
+and 与
+ or 或
+ not 非
+86
+ != (not equal) 不等于
+ == (equal) 等于
+ >= (greater-than-equal) 大于等于
+ <= (less-than-equal) 小于等于
+ True 真
+ False 假
+
+ex28
+布尔逻辑表达式(boolean logic 
+expression)
+
+ex30
+if 语句(if-statements)
+
+ex31
+嵌套(nested)
+
+ex32
+for-loop （for 循环）
+
+ex33
+while-loop``（while 循环）
+: （冒号, colon）
+
+ex34
+序数(ordinal number)
+index（索引）
+基数(cardinal number)
+
+ex38
+流程图(flow chart)”
+
+ex39
+追加
+(append)
+括号 ( (parenthesis)
