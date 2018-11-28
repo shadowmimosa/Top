@@ -38,3 +38,9 @@ ex39
 追加
 (append)
 括号 ( (parenthesis)
+面向对象编程(Object Oriented Programming) 简称 OOP
+函数编程(functional 
+programming)
+
+ex40
+字典(dictionary) “hash”
