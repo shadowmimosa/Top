@@ -1,0 +1,341 @@
+{
+	"id": "ecfb7908-e13c-949f-3f98-cd5a16266359",
+	"name": "api-test.thejoyrun.com",
+	"description": "",
+	"order": [
+		"1a81b8f6-60b8-40fd-4a18-8321bdafa199",
+		"4271824d-b373-1de5-4650-22babb8a58ce",
+		"983e727f-4d1f-583d-b5ea-659f59c390e1",
+		"6347f966-23b0-83bc-ea2b-56f5a57af3b3",
+		"a5e67896-9bc7-43c3-115a-5d2137cf0e10"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1516172508382,
+	"owner": "3180625",
+	"public": false,
+	"requests": [
+		{
+			"id": "1a81b8f6-60b8-40fd-4a18-8321bdafa199",
+			"headers": "//Content-Type: application/x-www-form-urlencoded\n//ypcookie: sid=12b51bc3f1d0aeefc15a56d35b4744dc&uid=210868\n//APP_DEV_INFO: Android#3.1.0#Xiaomi Redmi 3S#6.0.1#862374038782369#210868#debug\n//_sign: a9ff6970eb814e6894389ca8b12f3030\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "ypcookie",
+					"value": "sid=12b51bc3f1d0aeefc15a56d35b4744dc&uid=210868",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "APP_DEV_INFO",
+					"value": "Android#3.1.0#Xiaomi Redmi 3S#6.0.1#862374038782369#210868#debug",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "_sign",
+					"value": "a9ff6970eb814e6894389ca8b12f3030",
+					"description": "master_sign",
+					"enabled": false
+				}
+			],
+			"url": "http://api-test.thejoyrun.com/GetTimestamp.aspx",
+			"queryParams": [],
+			"preRequestScript": "const $ = cheerio.load(responseBody);\npm.globals.set(\"timestamp\",$('lasttime').text())",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [
+				{
+					"key": "lasttime",
+					"value": "0",
+					"description": "",
+					"type": "text",
+					"enabled": false
+				},
+				{
+					"key": "signature",
+					"value": "73204F4A230211A913F10A6AF487009A",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "timestamp",
+					"value": "1516172354",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1517825433418,
+			"name": "时间戳",
+			"description": "登录",
+			"collectionId": "ecfb7908-e13c-949f-3f98-cd5a16266359"
+		},
+		{
+			"id": "4271824d-b373-1de5-4650-22babb8a58ce",
+			"headers": "//Content-Type: application/x-www-form-urlencoded\n//ypcookie: sid=12b51bc3f1d0aeefc15a56d35b4744dc&uid=210868\nAPPVERSION: 100.3.3.1\n_sign: A9FF6970EB814E6894389CA8B12F3030\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "ypcookie",
+					"value": "sid=12b51bc3f1d0aeefc15a56d35b4744dc&uid=210868",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "APPVERSION",
+					"value": "100.3.3.1",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "_sign",
+					"value": "A9FF6970EB814E6894389CA8B12F3030",
+					"description": "master_sign",
+					"enabled": true
+				}
+			],
+			"url": "http://api-test.thejoyrun.com/user/login/normal?username=20380217&pwd=670b14728ad9902aecba32e22fa4f6bd&timestamp={{$timestamp}}",
+			"folder": null,
+			"queryParams": [
+				{
+					"key": "username",
+					"value": "20380217",
+					"equals": true,
+					"description": "用户名",
+					"enabled": true
+				},
+				{
+					"key": "pwd",
+					"value": "670b14728ad9902aecba32e22fa4f6bd",
+					"equals": true,
+					"description": "密码",
+					"enabled": true
+				},
+				{
+					"key": "timestamp",
+					"value": "{{$timestamp}}",
+					"equals": true,
+					"description": "时间戳",
+					"enabled": true
+				}
+			],
+			"preRequestScript": "",
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [
+				{
+					"key": "lasttime",
+					"value": "0",
+					"type": "text",
+					"enabled": false
+				},
+				{
+					"key": "signature",
+					"value": "73204F4A230211A913F10A6AF487009A",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "timestamp",
+					"value": "1516172354",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1536048982005,
+			"name": "登录",
+			"description": "登录",
+			"collectionId": "ecfb7908-e13c-949f-3f98-cd5a16266359"
+		},
+		{
+			"folder": null,
+			"id": "6347f966-23b0-83bc-ea2b-56f5a57af3b3",
+			"name": "注销",
+			"dataMode": "urlencoded",
+			"data": [
+				{
+					"key": "lasttime",
+					"value": "0",
+					"type": "text",
+					"enabled": false
+				},
+				{
+					"key": "signature",
+					"value": "73204F4A230211A913F10A6AF487009A",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "timestamp",
+					"value": "1516175483",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"auth": null,
+			"events": null,
+			"rawModeData": null,
+			"descriptionFormat": null,
+			"description": "注销",
+			"variables": null,
+			"headers": "//Content-Type: application/x-www-form-urlencoded\n//ypcookie: sid=12b51bc3f1d0aeefc15a56d35b4744dc&uid=210868\n//APP_DEV_INFO: Android#3.1.0#Xiaomi Redmi 3S#6.0.1#862374038782369#210868#debug\n_sign: a9ff6970eb814e6894389ca8b12f3030\n",
+			"method": "POST",
+			"pathVariables": {},
+			"url": "http://api-test.thejoyrun.com/logout.aspx",
+			"preRequestScript": null,
+			"tests": null,
+			"currentHelper": null,
+			"helperAttributes": null,
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"enabled": false
+				},
+				{
+					"key": "ypcookie",
+					"value": "sid=12b51bc3f1d0aeefc15a56d35b4744dc&uid=210868",
+					"enabled": false
+				},
+				{
+					"key": "APP_DEV_INFO",
+					"value": "Android#3.1.0#Xiaomi Redmi 3S#6.0.1#862374038782369#210868#debug",
+					"enabled": false
+				},
+				{
+					"key": "_sign",
+					"value": "a9ff6970eb814e6894389ca8b12f3030",
+					"description": "master_sign",
+					"enabled": true
+				}
+			],
+			"pathVariableData": [],
+			"collectionId": "ecfb7908-e13c-949f-3f98-cd5a16266359"
+		},
+		{
+			"folder": null,
+			"id": "983e727f-4d1f-583d-b5ea-659f59c390e1",
+			"name": "feed互动消息查询",
+			"dataMode": "urlencoded",
+			"data": [
+				{
+					"key": "lasttime",
+					"value": "0",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "signature",
+					"value": "73204F4A230211A913F10A6AF487009A",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "timestamp",
+					"value": "1516173837",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"auth": null,
+			"events": null,
+			"rawModeData": null,
+			"descriptionFormat": null,
+			"description": "feed互动消息查询",
+			"variables": null,
+			"headers": "Content-Type: application/x-www-form-urlencoded\n//ypcookie: sid=12b51bc3f1d0aeefc15a56d35b4744dc&uid=210868\nAPP_DEV_INFO: Android#3.1.0#Xiaomi Redmi 3S#6.0.1#862374038782369#210868#debug\n_sign: a9ff6970eb814e6894389ca8b12f3030\n",
+			"method": "POST",
+			"pathVariables": {},
+			"url": "http://api-test.thejoyrun.com/feedMessageList.aspx",
+			"preRequestScript": null,
+			"tests": null,
+			"currentHelper": null,
+			"helperAttributes": null,
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"enabled": true
+				},
+				{
+					"key": "ypcookie",
+					"value": "sid=12b51bc3f1d0aeefc15a56d35b4744dc&uid=210868",
+					"enabled": false
+				},
+				{
+					"key": "APP_DEV_INFO",
+					"value": "Android#3.1.0#Xiaomi Redmi 3S#6.0.1#862374038782369#210868#debug",
+					"enabled": true
+				},
+				{
+					"key": "_sign",
+					"value": "a9ff6970eb814e6894389ca8b12f3030",
+					"enabled": true
+				}
+			],
+			"pathVariableData": [],
+			"collectionId": "ecfb7908-e13c-949f-3f98-cd5a16266359"
+		},
+		{
+			"id": "a5e67896-9bc7-43c3-115a-5d2137cf0e10",
+			"headers": "",
+			"headerData": [],
+			"url": "",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "ecfb7908-e13c-949f-3f98-cd5a16266359",
+			"data": null,
+			"dataMode": "params",
+			"name": "跑友圈动态",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1517827228496,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		}
+	]
+}

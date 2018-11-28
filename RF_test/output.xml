@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.0.4 (Python 3.7.1 on win32)" generated="20181106 16:20:39.457">
+<suite id="s1" name="For Get Json" source="C:\Users\ShadowMimosa\Documents\STU\Top\RF_test\for_get_json.robot">
+<test id="s1-t1" name="case1 helloworld">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>chenyuebai first rfw case</arg>
+</arguments>
+<msg timestamp="20181106 16:20:39.485" level="INFO">chenyuebai first rfw case</msg>
+<status status="PASS" starttime="20181106 16:20:39.485" endtime="20181106 16:20:39.485"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.484" endtime="20181106 16:20:39.485" critical="yes"></status>
+</test>
+<test id="s1-t2" name="case2 path">
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>../try_test/get_json_value_test</arg>
+</arguments>
+<msg timestamp="20181106 16:20:39.486" level="INFO">../try_test/get_json_value_test</msg>
+<status status="PASS" starttime="20181106 16:20:39.486" endtime="20181106 16:20:39.487"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.486" endtime="20181106 16:20:39.487" critical="yes"></status>
+</test>
+<test id="s1-t3" name="case3 runkeywordif">
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${abc}==9</arg>
+<arg>log</arg>
+<arg>right</arg>
+</arguments>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>right</arg>
+</arguments>
+<msg timestamp="20181106 16:20:39.488" level="INFO">right</msg>
+<status status="PASS" starttime="20181106 16:20:39.488" endtime="20181106 16:20:39.488"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.487" endtime="20181106 16:20:39.488"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.487" endtime="20181106 16:20:39.488" critical="yes"></status>
+</test>
+<test id="s1-t4" name="case4 getjsonvalue">
+<kw name="Get Json Value" library="get_json_value_test">
+<arguments>
+<arg>${content}</arg>
+<arg>/foo</arg>
+</arguments>
+<msg timestamp="20181106 16:20:39.489" level="INFO">&lt;class 'str'&gt;
+&lt;class 'str'&gt;
+&lt;class 'dict'&gt;</msg>
+<status status="PASS" starttime="20181106 16:20:39.489" endtime="20181106 16:20:39.489"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.489" endtime="20181106 16:20:39.490" critical="yes"></status>
+</test>
+<test id="s1-t5" name="case5 getjsonvalue2">
+<kw name="Get Json Value" library="get_json_value_test">
+<arguments>
+<arg>${content}</arg>
+<arg>/c d</arg>
+</arguments>
+<msg timestamp="20181106 16:20:39.491" level="INFO">&lt;class 'str'&gt;
+&lt;class 'str'&gt;
+&lt;class 'dict'&gt;</msg>
+<status status="PASS" starttime="20181106 16:20:39.490" endtime="20181106 16:20:39.491"></status>
+</kw>
+<status status="PASS" starttime="20181106 16:20:39.490" endtime="20181106 16:20:39.491" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20181106 16:20:39.458" endtime="20181106 16:20:39.492"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="5" fail="0">Critical Tests</stat>
+<stat pass="5" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="5" fail="0" id="s1" name="For Get Json">For Get Json</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

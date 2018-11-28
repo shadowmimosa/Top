@@ -1,0 +1,281 @@
+
+{
+    "ret": "0",
+    "msg": "成功",
+    "data": [
+        {
+            "raceId": 4,
+            "raceName": "北马赛事荐",
+            "priority": 120,
+            "coverUrl": "http://linked-runner.b0.upaiyun.com//linked-runner/u_23_avatar_160403_1610192441.jpg",
+            "shelveTime": 1534074914000,
+            "unshelveTime": 1535630114000,
+            "teamBizBase": 8,
+            "calendarDate": 1534074914000,
+            "advIds": "1,2,3",
+            "popupImgUrl": "http://linked-runner.b0.upaiyun.com//linked-runner/u_3_avatar_160515_2341548997.jpg",
+            "cityName": "中国,北京",
+            "startTime": 1535889314000,
+            "endTime": 1536407714000,
+            "createTime": 1534234505000,
+            "updateTime": 1534761723000,
+            "delFlag": 0,
+            "createBossUid": 0,
+            "updateBossUid": 0,
+            "campIds": null
+        },
+        {
+            "raceId": 2,
+            "raceName": "厦门赛事",
+            "priority": 6,
+            "coverUrl": "http://linked-runner.b0.upaiyun.com//linked-runner/u_3_avatar_160515_2341548997.jpg",
+            "shelveTime": 1533470114000,
+            "unshelveTime": 1534938914000,
+            "teamBizBase": 10,
+            "calendarDate": 1533210914000,
+            "advIds": "",
+            "popupImgUrl": "http://linked-runner.b0.upaiyun.com//linked-runner/u_3_avatar_160515_2341548997.jpg",
+            "cityName": "福建,厦门",
+            "startTime": 1533210914000,
+            "endTime": 1533264062000,
+            "createTime": 1533264062000,
+            "updateTime": 1534387135000,
+            "delFlag": 0,
+            "createBossUid": 0,
+            "updateBossUid": 0,
+            "campIds": null
+        }
+    ]
+}
+
+
+
+{
+    "ret": "0",
+    "msg": "成功",
+    "data": 2
+}
+
+{
+    "ret": "0",
+    "msg": "成功",
+    "data": {
+        "uid": 20380137,
+        "gender": 1,
+        "nickName": "u444",
+        "faceUrl": "http://linked-runner.b0.upaiyun.com/linked-runner/u_20380137_avatar_161107_1751055116.jpg",
+        "raceId": 1,
+        "raceItemId": 4,
+        "bib": "你好20380137",
+        "targetSecs": 300,
+        "historyPb": 2757,
+        "historyTimes": 1,
+        "teamId": 19,
+        "teamName": "joyrun",
+        "role": 1,
+        "raceItemName": "广州测试项目",
+        "raceName": "广州赛事"
+    }
+}
+
+
+{
+    "ret": "0",
+    "msg": "成功",
+    "data": [
+        {
+            "liveRunner": {
+                "id": 35,
+                "uid": 20380137,
+                "gender": 1,
+                "nickName": "u444",
+                "faceUrl": "http://linked-runner.b0.upaiyun.com/linked-runner/u_20380137_avatar_161107_1751055116.jpg",
+                "raceId": 1,
+                "raceItemId": 4,
+                "bib": "你好20380137",
+                "runId": 0,
+                "targetSecs": 300,
+                "recvLikes": 0,
+                "status": 0,
+                "historyPb": 2757,
+                "historyTimes": 1,
+                "createTime": 1534408516000,
+                "updateTime": 1534473009000
+            },
+            "liveRaceItem": {
+                "id": 4,
+                "raceId": 1,
+                "name": "广州测试项目",
+                "meters": 10000,
+                "startTime": 1535457314000,
+                "closeTime": 1538135714000,
+                "startValidTime": 1535457314000,
+                "startInvalidTime": 1535543714000,
+                "startLongitude": 123.0000000,
+                "startLatitude": 123.0000000,
+                "endLongitude": 123.0000000,
+                "endLatitude": 0E-7,
+                "delFlag": 1,
+                "createTime": 1534132845000,
+                "updateTime": 1534749533000,
+                "priority": 0
+            }
+        }
+    ]
+}
+
+
+{
+    "ret": "0",
+    "msg": "成功",
+    "data": [
+        {
+            "id": 7,
+            "raceId": 4,
+            "name": "10公里",
+            "meters": 80000,
+            "startTime": 1534736460000,
+            "closeTime": 1534736460000,
+            "startValidTime": 1536047700000,
+            "startInvalidTime": 1536065714000,
+            "startLongitude": 116.4000000,
+            "startLatitude": 39.9000000,
+            "endLongitude": 117.1000000,
+            "endLatitude": 40.0600000,
+            "delFlag": 0,
+            "createTime": 1534234722000,
+            "updateTime": 1534321459000,
+            "priority": 23
+        },
+        {
+            "id": 6,
+            "raceId": 4,
+            "name": "半马",
+            "meters": 21098,
+            "startTime": 1535975714000,
+            "closeTime": 1535982914000,
+            "startValidTime": 1535961314000,
+            "startInvalidTime": 1535979314000,
+            "startLongitude": 116.4000000,
+            "startLatitude": 39.9000000,
+            "endLongitude": 117.1200000,
+            "endLatitude": 40.1000000,
+            "delFlag": 0,
+            "createTime": 1534234722000,
+            "updateTime": 1534471634000,
+            "priority": 1
+        }
+    ]
+}
+
+
+{
+    "ret": "0",
+    "msg": "成功",
+    "data": [
+        {
+            "raceId": 4,
+            "raceName": "北马赛事荐",
+            "priority": 120,
+            "coverUrl": "http://linked-runner.b0.upaiyun.com//linked-runner/u_23_avatar_160403_1610192441.jpg",
+            "shelveTime": 1534074914000,
+            "unshelveTime": 1535630114000,
+            "teamBizBase": 8,
+            "calendarDate": 1534074914000,
+            "advIds": "1,2,3",
+            "popupImgUrl": "http://linked-runner.b0.upaiyun.com//linked-runner/u_3_avatar_160515_2341548997.jpg",
+            "cityName": "中国,北京",
+            "startTime": 1535889314000,
+            "endTime": 1536407714000,
+            "createTime": 1534234505000,
+            "updateTime": 1534761723000,
+            "delFlag": 0,
+            "raceItems": [
+                {
+                    "id": 7,
+                    "raceId": 4,
+                    "name": "10公里",
+                    "meters": 80000,
+                    "startTime": 1534736460000,
+                    "closeTime": 1534736460000,
+                    "startValidTime": 1536047700000,
+                    "startInvalidTime": 1536065714000,
+                    "startLongitude": 116.4000000,
+                    "startLatitude": 39.9000000,
+                    "endLongitude": 117.1000000,
+                    "endLatitude": 40.0600000,
+                    "delFlag": 0,
+                    "createTime": 1534234722000,
+                    "updateTime": 1534321459000,
+                    "priority": 23
+                },
+                {
+                    "id": 6,
+                    "raceId": 4,
+                    "name": "半马",
+                    "meters": 21098,
+                    "startTime": 1535975714000,
+                    "closeTime": 1535982914000,
+                    "startValidTime": 1535961314000,
+                    "startInvalidTime": 1535979314000,
+                    "startLongitude": 116.4000000,
+                    "startLatitude": 39.9000000,
+                    "endLongitude": 117.1200000,
+                    "endLatitude": 40.1000000,
+                    "delFlag": 0,
+                    "createTime": 1534234722000,
+                    "updateTime": 1534471634000,
+                    "priority": 1
+                }
+            ]
+        },
+        {
+            "raceId": 2,
+            "raceName": "厦门赛事",
+            "priority": 6,
+            "coverUrl": "http://linked-runner.b0.upaiyun.com//linked-runner/u_3_avatar_160515_2341548997.jpg",
+            "shelveTime": 1533470114000,
+            "unshelveTime": 1534938914000,
+            "teamBizBase": 10,
+            "calendarDate": 1533210914000,
+            "advIds": "",
+            "popupImgUrl": "http://linked-runner.b0.upaiyun.com//linked-runner/u_3_avatar_160515_2341548997.jpg",
+            "cityName": "福建,厦门",
+            "startTime": 1533210914000,
+            "endTime": 1533264062000,
+            "createTime": 1533264062000,
+            "updateTime": 1534387135000,
+            "delFlag": 0,
+            "raceItems": []
+        }
+    ]
+}
+
+
+
+
+{
+    "ret": "0",
+    "msg": "成功",
+    "data": {
+        "raceId": 4,
+        "raceName": "北马赛事荐",
+        "priority": 120,
+        "coverUrl": "http://linked-runner.b0.upaiyun.com//linked-runner/u_23_avatar_160403_1610192441.jpg",
+        "shelveTime": 1534074914000,
+        "unshelveTime": 1535630114000,
+        "teamBizBase": 8,
+        "calendarDate": 1534074914000,
+        "advIds": "1,2,3",
+        "popupImgUrl": "http://linked-runner.b0.upaiyun.com//linked-runner/u_3_avatar_160515_2341548997.jpg",
+        "cityName": "中国,北京",
+        "startTime": 1535889314000,
+        "endTime": 1536407714000,
+        "createTime": 1534234505000,
+        "updateTime": 1534761723000,
+        "delFlag": 0,
+        "createBossUid": 0,
+        "updateBossUid": 0,
+        "campIds": null
+    }
+}

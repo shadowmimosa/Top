@@ -1,0 +1,2 @@
+*** keyword ***
+    func    ${arg1}
