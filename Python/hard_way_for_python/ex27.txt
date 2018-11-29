@@ -50,3 +50,6 @@ ex41
 
 ex42
 Object Oriented Programming（面向对象编程）
+
+ex44
+实例(instance)
