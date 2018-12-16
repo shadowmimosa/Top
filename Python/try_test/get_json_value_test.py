@@ -165,6 +165,25 @@ def get_int(one=None, two=None, three=None, four=None, five=None):
     return new_list[0], new_list[1], new_list[2], new_list[3], new_list[4]
 
 
+def list_or_str(altitude):
+
+    try:
+        altitude=altitude.replace('\"', '')
+        if type(eval(altitude)) == list or type(eval(altitude)) == str:
+            print('In the trying now, altitude\'s type is %s. \nAnd altitude is %s'
+                % (type(altitude), altitude))
+            length = len(eval(altitude))
+            print(length)
+            return length != 0
+    except:
+        print(
+            'In the excepting now, altitude\'s type is %s. \nAnd altitude is %s'
+            % (type(altitude), altitude))
+        return len(altitude)
+
+# Library           C:/Users/ShadowMimosa/Documents/GitRepository/Top/Top/Python/try_test/get_json_value_test.py
+
+
 ### For debugging
 if __name__ == '__main__':
 
