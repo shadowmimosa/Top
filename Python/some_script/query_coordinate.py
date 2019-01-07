@@ -9,6 +9,9 @@ print(coordinate1)  # None
 coordinate1 = get_coordinate('吉林')
 print(coordinate1)  # None
 
+print(get_coordinate('眉山'))
+print(get_coordinate('上海'))   # 2018.1.7 已更新，只有 "上海" 会被取出
+
 list = ('武陟', '上海', '璧山', '吉林', '祁县', '大竹', '眉山')
 i=0
 while i < 7:
