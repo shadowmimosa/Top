@@ -107,12 +107,16 @@ def down_finaurl_text(path):
     for index in range(0, len(urls)):
         url = urls[index].replace("\n", '')
         re_return = pull_get(url)
+
         raw_text = soup_select(
             re_return,
             'body > div.list > div > div > div.list_con > table > tbody > tr > td > table > tbody > tr > td'
         )
+        soup = BeautifulSoup(re_return.content, 'html.parser')
+        text_table=soup.find_all('table')
+        text_td=soup.find_all('td')
         print(raw_text)
-        write_file("./raw_html.txt", raw_text)
+        write_file("./python/reptile/hard/raw_html.txt", raw_text)
 
 
 if __name__ == "__main__":
@@ -121,9 +125,9 @@ if __name__ == "__main__":
     # push_post_and_down_element(path)
     # parse_element(path, "./try_url.txt")
     # open_url("./try_url.txt")
-    # down_finaurl_text("./finally_url.txt")
-    re_return = pull_get(
-        # "https://m.anjuke.com/wh/xinfang/?from=anjuke_home&tdsourcetag=s_pctim_aiomsg"
-        "https://m.anjuke.com/xinfang/api/loupan/similarities?cid=22&page=2&is_homeIndex=1&history_url=https:%2F%2Fm.anjuke.com%2Fwh%2Fxinfang%2F%3Ffrom%3Danjuke_home%26tdsourcetag%3Ds_pctim_aiomsg"
-    )
+    down_finaurl_text("./python/reptile/hard/finally_url.txt")
 
+    # re_return = pull_get(
+    #     # "https://m.anjuke.com/wh/xinfang/?from=anjuke_home&tdsourcetag=s_pctim_aiomsg"
+    #     "https://m.anjuke.com/xinfang/api/loupan/similarities?cid=22&page=2&is_homeIndex=1&history_url=https:%2F%2Fm.anjuke.com%2Fwh%2Fxinfang%2F%3Ffrom%3Danjuke_home%26tdsourcetag%3Ds_pctim_aiomsg"
+    # )
