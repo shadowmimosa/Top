@@ -22,6 +22,7 @@ def write_file(path, content):
      ``path`` 文件路径  
      ``content`` 写入的内容  
     """
+    
     with open(path, 'w', encoding='utf-8') as fn:
         if type(content) == dict:
             json.dump(content, fn, ensure_ascii=False)

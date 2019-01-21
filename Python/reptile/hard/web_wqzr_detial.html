@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta name="renderer" content="webkit">
+	<title>沈阳联合产权交易所系统</title>
+	<link href="./newcss/indexmore.css" rel="stylesheet" type="text/css" />
+	<link href="./newcss/list2more.css" rel="stylesheet" type="text/css" />
+	<link href="./newcss/listmore.css" rel="stylesheet" type="text/css" />
+	<link href="http://61.161.158.178:9090/saee/content/template/saee_web_bdw/css/web_bdw_detial1.css" rel="stylesheet"
+	 type="text/css" />
+	<link href="http://61.161.158.178:9090/saee/content/template/saee_web_bdw/css/index1.css" rel="stylesheet" type="text/css" />
+	<script src="http://61.161.158.178:9090/saee//content/plugins/jquery-1.8.2.min.js" type="text/javascript"></script>
+	<script src="http://61.161.158.178:9090/saee/content/template/inc/js/selectSSHY.js" type="text/javascript"></script>
+	<script src="http://61.161.158.178:9090/saee/content/template/inc/js/selectProvince.js" type="text/javascript"></script>
+	<script src="http://61.161.158.178:9090/saee/content/plugins/workDays.js" type="text/javascript"></script>
+	<script src="./web_wqzr_detial.js" type="text/javascript"></script>
+	<script src="http://61.161.158.178:9090/saee/content/template/saee_web_bdw/js/j360.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		var wqzr_uuid = "0777cc960a4a11e9a31e3335b50aeba5";
+		var basePath = "http://61.161.158.178:9090/saee/";
+
+		// 			  jQuery(document).ready(function() {
+		// 	                jQuery('#product').j360();
+		// 	            });
+	</script>
+</head>
+<!--
+	author:   yxk
+	fileName:  物权转让项目
+	-->
+
+<body>
+	<div id="title">
+		<div class="logo"><img alt="" src="images/logo.png"></div>
+		<div class="tel"><img alt="" src="images/tel.png"></div>
+	</div>
+	<!--//-->
+	<!--nav-->
+	<div class="nav">
+		<ul>
+			<li><a href="http://www.sprtc.com/index.htm">首页</a></li>
+			<li><a href="http://www.sprtc.com/jyzn.htm">交易指南</a></li>
+			<li><a href="http://www.sprtc.com/zcfg.htm">政策法规</a></li>
+			<li><a href="http://www.sprtc.com/xzzq.htm">下载专区</a></li>
+			<li><a href="http://www.sprtc.com/sjsdt.htm">沈交所动态</a></li>
+			<li><a href="http://www.sprtc.com/gywm.htm">关于我们</a></li>
+		</ul>
+	</div>
+	<!--//-->
+	<!--banner-->
+	<!--//-->
+	<!--list-->
+	<div class="list">
+		<div class="list">
+			<div class="listk">
+				<div class="second_lj">当前位置：<a href="http://www.sprtc.com/index.htm">首页</a>><a>内容页</a></div>
+				<div class="list_con">
+					<input id="basePath" value="http://61.161.158.178:9090/saee/" style="display:none;">
+					<input id="basePath" value="http://61.161.158.178:9090/saee/" style="display:none;">
+					<TABLE border="0" cellSpacing="0" cellPadding="0" width="778" bgColor="#000000" align="center">
+						<TBODY>
+							<TR>
+								<TD bgColor="#ffffff" vAlign="top" align="middle">
+									<TABLE border="0" cellSpacing="0" cellPadding="0" width="900">
+										<TBODY>
+											<TR>
+												<TD bgColor="#ffffff" vAlign="top" align="left">
+													<TABLE border="0" cellSpacing="0" cellPadding="0" width="100%">
+														<TBODY>
+															<TR>
+																<TD class="xm_logo" id="wqzr_bdmc">
+																</TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+													<TABLE class="xm_tab" border="0" cellSpacing="0" cellPadding="0" width="100%">
+														<TBODY>
+															<TR>
+																<TD class="xmtd1" width="15%">标的名称</TD>
+																<TD class="xmtd2" colSpan="3" id="wqzr_bdmc1">&nbsp;<SPAN class="red"></SPAN>
+																</TD>
+															</TR>
+															<TR>
+																<TD class="xmtd1">项目编号</TD>
+																<TD class="xmtd2" width="38%" id="wqzr_xmbh">&nbsp;</TD>
+																<TD class="xmtd1" width="11%">转让底价(万元)</TD>
+																<TD class="xmtd2" width="40%" id="wqzr_gpjg">&nbsp;</TD>
+															</TR>
+															<TR>
+																<TD class="xmtd1">信息披露公告期</TD>
+																<TD class="xmtd2" id="wqzr_gpggq" colSpan="3">&nbsp;</TD>
+															</TR>
+															<TR>
+																<TD class="xmtd1">信息披露起日期</TD>
+																<TD class="xmtd2" id="wqzr_gpqsrq">&nbsp;</TD>
+																<TD class="xmtd1">信息披露止日期</TD>
+																<TD class="xmtd2" id="wqzr_gpqmrq">&nbsp;</TD>
+															</TR>
+															<!-- 
+														<TR>
+															<TD class="xmtd1">标的所属行业</TD>
+															<TD class="xmtd2" id="wqzr_bdsshy" colSpan="3">&nbsp;</TD>
+														</TR>
+														 -->
+														</TBODY>
+													</TABLE>
+													<BR></BR>
+													<TABLE class="xm_tab" border="0" cellSpacing="0" cellPadding="0" width="100%">
+														<TR>
+															<TD class="xmtd1 redtitle" colSpan="6">一、资产信息</TD>
+														</TR>
+														<!-- 
+													<TR>
+														<TD class="xmtd1" width="15%">资产编号</TD>
+														<TD class="xmtd2" colSpan="5" id="zcxx_zcbh">&nbsp;</TD>
+													</TR>
+													 -->
+														<TR>
+															<TD class="xmtd1" width="15%">资产名称</TD>
+															<TD class="xmtd2" colSpan="5" id="zcxx_zcmc">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">资产类型</TD>
+															<TD class="xmtd2" colSpan="5" id="zcxx_zclx">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">异常处理方式</TD>
+															<TD class="xmtd2" colSpan="5" id="zcxx_ycclfs">&nbsp;</TD>
+														</TR>
+														<!--TR>
+													    <TD class="xmtd1" width="15%" rowspan="2">项目负责人及部门</TD>
+														<TD class="xmtd1" width="15%">项目负责人</TD>
+														<TD class="xmtd2" colSpan="5" id="zcxx_zcfzr">&nbsp;</TD>
+													</TR>
+													<TR>
+														<TD class="xmtd1" width="15%">项目所属部门</TD>
+														<TD class="xmtd2" colSpan="5" id="zcxx_zcssbm">&nbsp;</TD>
+													</TR-->
+														<TR>
+															<TD class="xmtd1" width="15%" rowspan="5">交易机构联系信息</TD>
+															<TD class="xmtd1" width="15%">交易机构项目联系人</TD>
+															<TD class="xmtd2" colSpan="5" id="zcxx_jyjgzclxr">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">联系电话</TD>
+															<TD class="xmtd2" colSpan="5" id="zcxx_jyjgzclxfs">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">交易机构部门负责人</TD>
+															<TD class="xmtd2" colSpan="5" id="zcxx_jyjgbmfzr">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">联系电话</TD>
+															<TD class="xmtd2" colSpan="5" id="zcxx_jyjgbmlxfs">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">传真</TD>
+															<TD class="xmtd2" colSpan="5" id="zcxx_fax">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1 redtitle" colSpan="7">二、子资产情况</TD>
+														</TR>
+														<TR id="bdjk_tbody">
+														<TR>
+														<TR>
+															<TD class="xmtd1 redtitle" colSpan="7">三、转让方情况</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">转让方名称</TD>
+															<TD class="xmtd2" colSpan="5" id="zrfmc_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">企业产权隶属关系</TD>
+															<TD class="xmtd2" colSpan="5" id="qycqlsgx_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">类型</TD>
+															<TD class="xmtd2" colSpan="5" id="lx_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">国资监管类型</TD>
+															<TD class="xmtd2" colSpan="5" id="gzjglx_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">国资监管机构</TD>
+															<TD class="xmtd2" colSpan="5" id="gzjgjg_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">主管集团或其他部门名称</TD>
+															<TD class="xmtd2" colSpan="5" id="ssjthzgbmmc_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">主管集团或其他部门组织机构代码</TD>
+															<TD class="xmtd2" colSpan="5" id="zgjthqtbmzzjgdm_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">所在地区</TD>
+															<TD class="xmtd2" colSpan="5">
+																<select id="szdq_zrfi" disabled>
+																</select>
+																<select id="szdq_zrfii" disabled>
+																</select>
+															</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">注册地(地址)</TD>
+															<TD class="xmtd2" colSpan="5" id="zcd_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">注册资本(万元)</TD>
+															<TD class="xmtd2" colSpan="5" id="zczb_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">公司类型(经济性质)</TD>
+															<TD class="xmtd2" colSpan="5" id="gslx_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">经济类型</TD>
+															<TD class="xmtd2" colSpan="5" id="jjlx_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">法定代表人</TD>
+															<TD class="xmtd2" colSpan="5" id="fddbr_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">所属行业</TD>
+															<TD class="xmtd2" colSpan="5">
+																<select id="sshy_zrf" disabled>
+																</select>
+																<select id="sshyi_zrf" disabled>
+																</select>
+															</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">经营规模</TD>
+															<TD class="xmtd2" colSpan="5" id="jygm_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">组织机构代码</TD>
+															<TD class="xmtd2" colSpan="5" id="zzjgdm_zrf">&nbsp;</TD>
+														</TR>
+														<!--
+													<TR>
+														<TD class="xmtd1" width="15%">工商注册码</TD>
+														<TD class="xmtd2" colSpan="5" id="gszcm_zrf">&nbsp;</TD>
+													</TR>
+													-->
+														<TR>
+															<TD class="xmtd1" width="15%">总资产转让价格(万元)</TD>
+															<TD class="xmtd2" colSpan="5" id="zrjg_zrf">&nbsp;</TD>
+														</TR>
+														<!-- 
+													<TR>
+														<TD class="xmtd1" width="15%">持有标的企业产(股)权比例（%）</TD>
+														<TD class="xmtd2" colSpan="5" id="cybdqycgqbl_zrf">&nbsp;</TD>
+													</TR>
+													 -->
+														<TR>
+															<TD class="xmtd1" width="15%">转让比例（%）</TD>
+															<TD class="xmtd2" colSpan="5" id="nzrcgqbl_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">批准单位名称</TD>
+															<TD class="xmtd2" colSpan="5" id="pzdwmc_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">批准文件名称</TD>
+															<TD class="xmtd2" colSpan="5" id="pzwjmc_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">批准日期</TD>
+															<TD class="xmtd2" colSpan="5" id="pzrq_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">批准文件类型及文号</TD>
+															<TD class="xmtd2" colSpan="5" id="pzwjlxjwh_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">批准文号</TD>
+															<TD class="xmtd2" colSpan="5" id="pzwh_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">内部审议情况</TD>
+															<TD class="xmtd2" colSpan="5" id="nbsyqk_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">联系人</TD>
+															<TD class="xmtd2" colSpan="5" id="lxr_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">电话</TD>
+															<TD class="xmtd2" colSpan="5" id="lxdh_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1" width="15%">传真</TD>
+															<TD class="xmtd2" colSpan="5" id="fax_zrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1 redtitle" colSpan="6">四、评估信息资产 </TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">评估机构</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_pgjg">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">评估核准（备案）机构</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_hzjg">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">核准（备案）日期</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_hzrq">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">评估基准日</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_pgjzr">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">评估基准日审计机构</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_pgjzrsjjg">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">律师事务所</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_lssws">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">转让标的对应评估值(万元)</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_zrbddypgz">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">账面净值（如没有，需提供账面原值）</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_zmjz">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1 redtitle" colSpan="7">五、其他披露信息</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">内部决议方式</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_nbsyqk">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">重大事项及其他披露内容</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_qtplnr">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">挂牌价格（万元）</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_jytj_gpjg">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">价款支付方式</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_jytj_jkzffs">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">与转让相关其他条件</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_jytj_yzrxgqttj">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">受让方资格条件</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_jytj_srfzgtj">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">保证金金额（万元）</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_jytj_jnje">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">交纳形式</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_jytj_jnfs">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">交纳时间</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_jytj_jnsj">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">挂牌公告期</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_gp_gpggq">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">挂牌期满后如未征集到意向受让方</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_gp_wzjdyxsrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">挂牌期满后征集到一家意向受让方</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_gp_zjdyjyxsrf">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">交易方式</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_gp_jyfs">&nbsp;</TD>
+														</TR>
+														<TR>
+															<TD class="xmtd1">招投标(或权重报价)实施方案主要内容</TD>
+															<TD class="xmtd2" colSpan="5" id="wqzr_gp_qzbj">&nbsp;</TD>
+														</TR>
+														<TR id="tp">
+														</TR>
+														<!-- <TR>
+															<TD colSpan="6">
+															<div id="product" style="width: 100%; height: 480px; overflow: hidden;">
+											                <img src="images/01.jpg" />
+											                <img src="images/02.jpg" />
+											                <img src="images/03.jpg" />
+											                <img src="images/04.jpg" />
+											                <img src="images/05.jpg" />
+											                <img src="images/06.jpg" />
+											                <img src="images/07.jpg" />
+											                <img src="images/08.jpg" />
+											                <img src="images/09.jpg" />
+											                <img src="images/10.jpg" />
+											                <img src="images/11.jpg" />
+											                <img src="images/12.jpg" />
+											                <img src="images/13.jpg" />
+											                <img src="images/14.jpg" />
+											                <img src="images/15.jpg" />
+											                <img src="images/16.jpg" />
+											                <img src="images/17.jpg" />
+											                <img src="images/18.jpg" />
+											                <img src="images/19.jpg" />
+											                <img src="images/20.jpg" />
+											                <img src="images/21.jpg" />
+											                <img src="images/22.jpg" />
+											                <img src="images/23.jpg" />
+											                <img src="images/24.jpg" />
+											                <img src="images/25.jpg" />
+											                <img src="images/26.jpg" />
+											                <img src="images/27.jpg" />
+											                <img src="images/28.jpg" />
+											                <img src="images/29.jpg" />
+											                <img src="images/30.jpg" />
+											                <img src="images/31.jpg" />
+											                <img src="images/32.jpg" />
+											                <img src="images/33.jpg" />
+											                <img src="images/34.jpg" />
+											                <img src="images/35.jpg" />
+											                <img src="images/36.jpg" />
+											            </div>
+															</TD>
+														</TR>-->
+
+													</TABLE>
+													<!-- <iframe width="604" height="862" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://j.map.baidu.com/j4DkL"></iframe> -->
+												</TD>
+											</TR>
+										</TBODY>
+									</TABLE>
+								</TD>
+							</TR>
+						</TBODY>
+					</TABLE>
+				</div>
+				<!-- JiaThis Button BEGIN -->
+				<div class="jiathis_style">
+					<a class="jiathis_button_qzone"></a>
+					<a class="jiathis_button_tsina"></a>
+					<a class="jiathis_button_weixin"></a>
+					<a class="jiathis_button_print"></a>
+					<a class="jiathis_button_copy"></a>
+					<a class="jiathis_button_fav"></a>
+					<a class="jiathis_button_renren"></a>
+					<a href="http://www.jiathis.com/share 
+				
+				" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+					<a class="jiathis_counter_style"></a>
+				</div>
+				<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js 
+				
+				" charset="utf-8"></script>
+				<!-- JiaThis Button END -->
+				<div style="clear: both"></div>
+			</div>
+		</div>
+	</div>
+	<!--//-->
+	<!--footer-->
+	<div class="footer"><img alt="" src="images/footer.png" style="height: 100%; width: 100%"> </div>
+	<!--//-->
+</body>
+
+</html>
