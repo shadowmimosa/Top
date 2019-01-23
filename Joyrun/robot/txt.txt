@@ -1,0 +1,32 @@
+GET http://api-test.thejoyrun.com/daily/getDaily?timestamp=1548140661&signature=6CF9F75B109A37F0F5F7BF027A72D323 HTTP/1.1
+Accept: */*
+Content-Type: application/x-www-form-urlencoded
+Cookie: ypcookie=sid%3d17d5a5172d2dddbcaea9ccd91fe3eef6%26uid%3d32519818
+ypcookie: sid=17d5a5172d2dddbcaea9ccd91fe3eef6&uid=32519818
+MODELTYPE: Xiaomi MIX 2S
+SYSVERSION: 9
+APPVERSION: 4.6.0.01.21.15
+MODELIMEI: 868144035936779
+
+APP_DEV_INFO: Android#4.6.0.01.21.15#Xiaomi MIX 2S#9#868144035936779#32519818#alpha
+_sign: 29F0E66E9F78F68BCEB5B50904FFFD74
+Host: api-test.thejoyrun.com
+Connection: keep-alive
+Accept-Encoding: gzip, deflate
+User-Agent: okhttp/3.11.0
+
+
+GET http://api-test.thejoyrun.com/daily/getDaily?signature=37A58524BC8851CBDADA3069408ECE6F&timestamp=1548139767 HTTP/1.1
+Cookie: ypcookie=sid%3d17d5a5172d2dddbcaea9ccd91fe3eef6%26uid%3d32519818
+ypcookie: sid=17d5a5172d2dddbcaea9ccd91fe3eef6&uid=32519818
+MODELTYPE: Xiaomi MIX 2S
+SYSVERSION: 9
+APPVERSION: 4.6.0.01.21.15
+MODELIMEI: 868144035936779
+Accept-Language: zh_CN
+APP_DEV_INFO: Android#4.6.0.01.21.15#Xiaomi MIX 2S#9#868144035936779#32519818#alpha
+_sign: 29F0E66E9F78F68BCEB5B50904FFFD74
+Host: api-test.thejoyrun.com
+Connection: Keep-Alive
+Accept-Encoding: gzip
+User-Agent: okhttp/3.11.0

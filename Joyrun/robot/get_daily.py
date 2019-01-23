@@ -1,7 +1,8 @@
 import requests
-
+from thejoyrun import *
 
 def get_daily(mothod):
+
     if mothod == 'post':
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -30,46 +31,56 @@ def get_daily(mothod):
 
     elif mothod == 'get':
         header = {
-            "Cookie":
-            "ypcookie=sid%3d4aa6fff54cee4197ad5c880128791825%26uid%3d32519888",
             "ypcookie":
             "sid=4aa6fff54cee4197ad5c880128791825&uid=32519888",
-            "MODELTYPE":
-            "Xiaomi MIX 2S",
-            "SYSVERSION":
-            "9",
+            # "MODELTYPE":
+            # "Xiaomi MIX 2S",
+            # "SYSVERSION":
+            # "9",
             "APPVERSION":
             "4.6.0.01.21.10",
-            "MODELIMEI":
-            "868144035936779",
-            "Accept-Language":
-            "zh_CN",
-            "APP_DEV_INFO":
-            "Android#4.6.0.01.21.10#Xiaomi MIX 2S#9#868144035936779#32519888#alpha",
+            # "MODELIMEI":
+            # "868144035936779",
+            # "Accept-Language":
+            # "zh_CN",
+            # "APP_DEV_INFO":
+            # "Android#4.6.0.01.21.10#Xiaomi MIX 2S#9#868144035936779#32519888#alpha",
             "_sign":
-            "CFAC588461640E71222EEB02A30695C1",
-            "Host":
-            "api-test.thejoyrun.com",
-            "Connection":
-            "Keep-Alive",
-            "Accept-Encoding":
-            "gzip",
-            "User-Agent":
-            "okhttp/3.11.0"
+            "A9FF6970EB814E6894389CA8B12F3030",
+            # "Host":
+            # "api-test.thejoyrun.com",
+            # "Connection":
+            # "Keep-Alive",
+            # "Accept-Encoding":
+            # "gzip",
+            # "User-Agent":
+            # "okhttp/3.11.0"
         }
+        cookie = {
+            "ypcookie":"sid%3d4aa6fff54cee4197ad5c880128791825%26uid%3d32519888"
+        }
+
+
+        signature = RequestMethod().build_signature(user="32519888/4aa6fff54cee4197ad5c880128791825")
+        time=get_server_time()
+        post_dict = {"timestamp": time}
+        post_dict["signature"] = signature
+
         re = requests.get(
             url=
-            'http://api-test.thejoyrun.com/daily/getDaily?signature=F1D4D055C0A37B26B59473DC400BF1A1&timestamp=1548049613',
-            headers=header)
+            'http://api-test.thejoyrun.com/daily/getDaily',
+            params=post_dict,
+            headers=header,
+            cookies=cookie)
         print(re.text)
 
 
 if __name__ == "__main__":
     get_daily('get')
 
-    url="http://api-test.thejoyrun.com/GetTimestamp.aspx"
-    import requests 
-    re=requests.get(url)
+    url = "http://api-test.thejoyrun.com/GetTimestamp.aspx"
+    import requests
+    re = requests.get(url)
     print(re.text)
-    content=eval(re.text)["lasttime"]
+    content = eval(re.text)["lasttime"]
     print(content)

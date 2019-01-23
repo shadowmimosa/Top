@@ -81,9 +81,8 @@ appkey2 = '1fd6e28fd158406995f77727b35bf20a'
 #前端验签名的版本号（需要与appkey1相对应，服务根据这个版本号验证appkey1）
 APPVERSION = '100.4.1.0'
 
-JoyrunEvn = 'Beta'
+JoyrunEvn = 'Test'
 
-Env = ''
 ##根据JoyrunEnv变量导入不同的变量文件；
 if JoyrunEvn in ['Test', 'test', '0', 0]:
     from JoyrunTestEnv_var import *
