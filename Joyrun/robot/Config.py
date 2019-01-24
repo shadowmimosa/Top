@@ -85,11 +85,11 @@ JoyrunEvn = 'Test'
 
 ##根据JoyrunEnv变量导入不同的变量文件；
 if JoyrunEvn in ['Test', 'test', '0', 0]:
-    from JoyrunTestEnv_var import *
+    from .JoyrunTestEnv_var import *
     Env = 'Test'
 elif JoyrunEvn in ['Beta', 'beta', 'BeataEnv', 'betaenv', '1', 1, None]:
-    from JoyrunBetaEnv_var import *
+    from .JoyrunBetaEnv_var import *
     Env = 'Beta'
 else:
-    from JoyrunOnline_var import *
+    from .JoyrunOnline_var import *
     Env = 'Online'

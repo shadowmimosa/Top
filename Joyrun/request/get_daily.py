@@ -1,5 +1,6 @@
 import requests
-from thejoyrun import *
+from .thejoyrun import *
+
 
 def get_daily(mothod):
 
@@ -31,22 +32,19 @@ def get_daily(mothod):
 
     elif mothod == 'get':
         header = {
-            "ypcookie":
-            "sid=4aa6fff54cee4197ad5c880128791825&uid=32519888",
+            "ypcookie": "sid=4aa6fff54cee4197ad5c880128791825&uid=32519888",
             # "MODELTYPE":
             # "Xiaomi MIX 2S",
             # "SYSVERSION":
             # "9",
-            "APPVERSION":
-            "4.6.0.01.21.10",
+            "APPVERSION": "4.6.0.01.21.10",
             # "MODELIMEI":
             # "868144035936779",
             # "Accept-Language":
             # "zh_CN",
             # "APP_DEV_INFO":
             # "Android#4.6.0.01.21.10#Xiaomi MIX 2S#9#868144035936779#32519888#alpha",
-            "_sign":
-            "A9FF6970EB814E6894389CA8B12F3030",
+            "_sign": "A9FF6970EB814E6894389CA8B12F3030",
             # "Host":
             # "api-test.thejoyrun.com",
             # "Connection":
@@ -57,18 +55,18 @@ def get_daily(mothod):
             # "okhttp/3.11.0"
         }
         cookie = {
-            "ypcookie":"sid%3d4aa6fff54cee4197ad5c880128791825%26uid%3d32519888"
+            "ypcookie":
+            "sid%3d4aa6fff54cee4197ad5c880128791825%26uid%3d32519888"
         }
 
-
-        signature = RequestMethod().build_signature(user="32519888/4aa6fff54cee4197ad5c880128791825")
-        time=get_server_time()
-        post_dict = {"timestamp": time}
+        signature = RequestMethod().build_signature(
+            user="32519888/4aa6fff54cee4197ad5c880128791825")
+        time = get_server_time()
+        post_dict = {"timestamp": server_timestamp}
         post_dict["signature"] = signature
 
         re = requests.get(
-            url=
-            'http://api-test.thejoyrun.com/daily/getDaily',
+            url='http://api-test.thejoyrun.com/daily/getDaily',
             params=post_dict,
             headers=header,
             cookies=cookie)
@@ -79,7 +77,6 @@ if __name__ == "__main__":
     get_daily('get')
 
     url = "http://api-test.thejoyrun.com/GetTimestamp.aspx"
-    import requests
     re = requests.get(url)
     print(re.text)
     content = eval(re.text)["lasttime"]

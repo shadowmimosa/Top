@@ -3,7 +3,7 @@ import time
 import hashlib
 import urllib
 
-from Config import *
+from ..robot.Config import *
 
 server_timestamp = 0
 
@@ -124,47 +124,6 @@ class RequestMethod(object):
         print(re.status_code)
 
 
-def cut_string(sign):
-
-    new_sign = ''
-
-    if '?' in sign:
-        sign_list = sign.split('?')
-        new_sign = new_sign + sign_list[0]
-        sign = sign_list[-1]
-
-    if '&' in sign:
-        sign_list = sign.split('&')
-        sign_list = sorted(sign_list)
-        for index in sign_list:
-            new_sign = new_sign + index
-    #         if '=' in index:
-    #             index = index.split('=')
-    #             new_sign = new_sign + index[0] + index[-1]
-    # elif '=' in sign:
-    #     sign=sign.split('=')
-    #     new_sign = new_sign + sign[0] + sign[-1]
-
-    return new_sign
-
-
-def check(sign):
-
-    sign = cut_string(sign)
-
-    _sign = "0AA65D69C29E0FF7D4F5E7840565D951"
-    # "A20E12CBEF371E51785C09988144F751"
-    # "43136B804F02E9662C2C81629DDEB9A3"
-    # "00CF00A55EB5AD6550577F8CCD048F02"
-    # "8CC06A1729F338FCC4ADAF60C2BC9F67"
-    # "0AA65D69C29E0FF7D4F5E7840565D951"
-
-    _signed = hashlib.md5(sign.encode('utf-8')).hexdigest().upper()
-    print(_signed)
-    if _signed == _sign:
-        print("It's Rriht!!!")
-
-
 if __name__ == "__main__":
     get = RequestMethod().get
 
@@ -181,11 +140,3 @@ if __name__ == "__main__":
         base_url=advert_URL,
     ))
     print(get("/daily/getDaily", base_url=api_URL))
-
-    arg = "http://advert-test.api.thejoyrun.com/advert-list?signature=3D46E029E48D817BB4132D0B21E7ECDF&timestamp=1548233533"
-
-    sign1 = arg.split('/')[-1]
-    sign2 = arg.split('?')[-1]
-
-    check(sign1)
-    check(sign2)
