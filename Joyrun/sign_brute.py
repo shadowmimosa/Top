@@ -42,6 +42,18 @@ class BruteForce():
         if _signed == _sign:
             print("It's Rriht!!!")
 
+def to_lower():
+    from ..Python.reptile.hard.try_ import FileOperation
+
+    fn=FileOperation()
+
+    raw_list=fn.read_file("./robot/Config.py")
+
+    for index in raw_list:
+        index=index.lower()
+        fn.write_file("./robot/")
+
+
 if __name__ == "__main__":
     arg = "http://advert-test.api.thejoyrun.com/advert-list?signature=3D46E029E48D817BB4132D0B21E7ECDF&timestamp=1548233533"
 
@@ -51,3 +63,4 @@ if __name__ == "__main__":
     brute=BruteForce().check
     brute(sign1)
     brute(sign2)
+
