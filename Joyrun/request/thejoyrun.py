@@ -2,8 +2,9 @@ import requests
 import time
 import hashlib
 import urllib
+import sys, os
 
-from ..robot.Config import *
+from robots.Config import *
 
 server_timestamp = 0
 

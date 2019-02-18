@@ -1,4 +1,5 @@
 import requests
+
 from .thejoyrun import *
 
 
@@ -61,7 +62,6 @@ def get_daily(mothod):
 
         signature = RequestMethod().build_signature(
             user="32519888/4aa6fff54cee4197ad5c880128791825")
-        time = get_server_time()
         post_dict = {"timestamp": server_timestamp}
         post_dict["signature"] = signature
 
@@ -73,11 +73,11 @@ def get_daily(mothod):
         print(re.text)
 
 
-if __name__ == "__main__":
-    get_daily('get')
+# if __name__ == "__main__":
+#     get_daily('get')
 
-    url = "http://api-test.thejoyrun.com/GetTimestamp.aspx"
-    re = requests.get(url)
-    print(re.text)
-    content = eval(re.text)["lasttime"]
-    print(content)
+#     url = "http://api-test.thejoyrun.com/GetTimestamp.aspx"
+#     re = requests.get(url)
+#     print(re.text)
+#     content = eval(re.text)["lasttime"]
+#     print(content)
