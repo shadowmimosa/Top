@@ -50,5 +50,3 @@ if __name__ == "__main__":
     path = "C:\\Users\\ShadowMimosa\\Documents\\STU\\Top\\ForDjango\\joyrun\\background\\reports"
     FileOperation().del_file(path, ['html', 'xml'])
     FileOperation().del_file(path, ['html', 'xml'], sign=True)
-
-    list_a="["five","ten","half"]"
