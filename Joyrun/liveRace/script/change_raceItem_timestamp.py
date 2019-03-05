@@ -14,19 +14,18 @@ def read_file(path):
         with open(path, 'r', encoding='utf-8') as fn:
             raw_text = fn.read().replace("\n", '').replace(' ', '')
             text_json = json.loads(raw_text)
-        
+
         print("---> Reading file is down!")
         return text_json
-    except Exception as e:
-        print("Reading file is error, the reason is {}".format(e))
-        
+    except Exception as exc:
+        print("Reading file is error, the reason is {}".format(exc))
 
 
 def write_file(path, content):
-    """打开文件，并写入内容  
+    """打开文件，并写入内容
 
-     ``path`` 文件路径  
-     ``content`` 写入的内容  
+     ``path`` 文件路径\n
+     ``content`` 写入的内容
     """
 
     try:
@@ -66,7 +65,7 @@ def change_time(item_json, change_id=False):
 
     item_json['updateTime'] = start_timestamp
 
-    # 尝试修改时间戳，遇到异常则输出异常信息 
+    # 尝试修改时间戳，遇到异常则输出异常信息
     try:
         for index in range(0, len(item_json['raceItems'])):
             item_json['raceItems'][index]['createTime'] = start_timestamp

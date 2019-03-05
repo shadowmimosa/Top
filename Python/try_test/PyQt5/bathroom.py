@@ -15,7 +15,7 @@ def requests_get():
         print(res.text)
 
 
-class main(QDialog):
+class Main(QDialog):
     def __init__(self):
         super().__init__()
         self.loadMenu()
@@ -63,7 +63,6 @@ class main(QDialog):
     def closeEvent(self, event):
         if self.trayIcon.isVisible():
             self.trayIcon.hide()
-
 
 
 class DlgMain(QDialog):
@@ -133,7 +132,10 @@ class Tray(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = main()
+
+    # ex = Main()
+    ex=Tray()
+
     # sys.exit(app.exec_())
     # import icon
     # tray = QSystemTrayIcon()
