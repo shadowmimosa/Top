@@ -25,4 +25,7 @@
 import uiautomator2 as u2
 
 device = u2.connect('10.99.1.93')
+# device = u2.connect('d19b1585')
 print(device.info)
+
+device.healthcheck()

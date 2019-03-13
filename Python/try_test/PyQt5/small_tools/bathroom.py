@@ -4,16 +4,20 @@ def requests_get():
 
     import requests
 
-    res = requests.get(url, verify=False)
+    resp = requests.get(url, verify=False)
 
-    if res.status_code == 200:
-        return res.text
+    if resp.status_code == 200:
+        return resp.text
     else:
-        
+        requests_get()
 
 
 def main():
     while True:
-        requests_get()
+        raw_list = requests_get()
+        single_left, single_right = raw_list[0], raw_list[1]
+        print('2')
+
+
 
 main()
