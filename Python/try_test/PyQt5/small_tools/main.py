@@ -1,103 +1,118 @@
+import os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 import sys
-from PyQt5.QtWidgets import QWidget, QMenu, QAction, QSystemTrayIcon, QApplication, QVBoxLayout, QListWidget, QListWidgetItem
+from PyQt5.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QWidget, QAction, qApp
+
+# from PyQt5.QtCore import
 from PyQt5.QtGui import QIcon
-from config import menu_items
 
 
-class Tray(QWidget):
-    """构建主要窗体"""
+class bathroom_flush(object):
+    """处理接口数据"""
 
-    def __init__(self):
-        """初始化"""
-        super().__init__()
+    def __init__(
+            self,
+            url="https://beta.thejoyrun.com/bathroom/bathrooms?key=0fc37aac2993ed1894b1dfde9ef686b8"
+    ):
+        """初始化类"""
+        self.url = url
 
-        self.load_menu()
-        self.init_ui()
+    def requests_get():
+        """Not Empty"""
+        import requests
 
-    def load_menu(self):
-        """加载菜单"""
+        resp = requests.get(url, verify=False)
 
-        menu_items.append({
-            "text": "启动",
-            "icon": "./icons/set.png",
-            "event": self.show,
-            "hot": "D"
-        })
-        menu_items.append({
-            "text": "退出",
-            "icon": "./icons/close.png",
-            "event": self.close,
-            "hot": "Q"
-        })
+        if resp.status_code == 200:
+            pass
+        else:
+            requests_get()
 
-        self.tray_menu = QMenu(self)
+        return resp.text
 
-        for value in menu_items:
-            tmp = QAction(
-                QIcon(value["icon"]),
-                value["text"],
-                self,
-                triggered=value["event"])
-            tmp.setShortcut(self.tr(value["hot"]))
 
-            self.tray_menu.addAction(tmp)
+class TrayIcon(QSystemTrayIcon):
+    def __init__(self, parent=None):
+        super(TrayIcon, self).__init__(parent)
+        self.show_menu()
+        self.other()
 
-    def load_list(self):
-        """"""
-        lv = QListWidget()
-        for index in range(len(menu_items)):
-            value = menu_items[index]
-            if not 'icon' in value.keys():
-                value["icon"] = None
-            if not 'event' in value.keys():
-                value["event"] = self.show
-            if not 'hot' in value.keys():
-                value["hot"] = 'None'
-            qlv = QListWidgetItem(
-                QIcon(value["icon"]),
-                self.tr(value["text"]) + " (" + value["hot"] + ")")
-            qlv.event = value["event"]
-            lv.insertItem(index + 1, qlv)
-        lv.itemDoubleClicked.connect(self.dbclickItem)
-        self.layout.addWidget(lv)
+    def show_menu(self):
+        """设计托盘的菜单，这里我实现了一个二级菜单"""
 
-    def dbclickItem(self, item):
-        item.event()
+        self.menu = QMenu()
+        self.menu1 = QMenu()
 
-    def init_ui(self):
-        """初始化 UI"""
-        self.tray_icon = QSystemTrayIcon(self)
-        self.tray_icon.setIcon(QIcon("./icons/menu2.png"))
+        self.showAction = QAction("悦跑蹲", self, triggered=self.show_action)
+        self.showAction2 = QAction("显示消息2", self, triggered=self.show_action)
 
-        self.tray_icon.setContextMenu(self.tray_menu)
-        self.tray_icon.show()
+        self.quitAction = QAction("退出", self, triggered=self.quit)
 
-        self.layout = QVBoxLayout()
-        self.load_list()
-        self.setLayout(self.layout)
+        self.menu.addAction(self.showAction)
+        self.menu.addAction(self.showAction2)
+        #         self.menu1.addAction(self.showAction2)
+        self.menu.addMenu(self.menu1)
+        self.menu1.setTitle("二级菜单")
+        self.menu1.addAction(self.showAction)
 
-        self.setWindowIcon(QIcon("./icons/menu2.png"))
-        self.setGeometry(300, 300, 220, 300)
-        self.setWindowTitle("joyrun")
+        self.menu.addAction(self.showAction)
+        #         self.menu.addAction(self.showAction2)
+        self.menu.addAction(self.quitAction)
+        self.setContextMenu(self.menu)
 
-        self.show()
+    def other(self):
+        self.activated.connect(self.iconClied)  # 把鼠标点击图标的信号和槽连接
+
+        self.messageClicked.connect(self.menu_clicked)  # 把鼠标点击弹出消息的信号和槽连接
+        # 设置图标
+        self.setIcon(QIcon("./icons/menu2.png"))
+        self.icon = self.MessageIcon()
+
+    def iconClied(self, reason):
+        """鼠标点击icon传递的信号会带有一个整形的值，1是表示单击右键，2是双击，3是单击左键，4是用鼠标中键点击"""
+        if reason in (2, 3):
+            power_key = self.parent()
+
+            if power_key.isVisible():
+                power_key.hide()
+            else:
+                power_key.show()
+
+        print(reason)
+
+    def menu_clicked(self):
+        self.showMessage("提示", "你点了消息", self.icon)
+
+    def show_action(self):
+
+        self.showMessage("测试", "我是消息", self.icon)
+
+    def quit(self):
+        """保险起见，为了完整的退出"""
+
+        self.setVisible(False)
+        # self.parent().exit()
+        qApp.quit()
+        # sys.exit()
+
+
+class window(QWidget):
+    def __init__(self, parent=None):
+        super(window, self).__init__(parent)
+        ti = TrayIcon(self)
+        # self.hide()
+        ti.show()
+        self.hide()
 
     def closeEvent(self, event):
-        if self.tray_icon.isVisible():
-            self.tray_icon.hide()
+        event.ignore()  # 忽略关闭事件
+        self.hide()  # 隐藏窗体
 
 
 if __name__ == "__main__":
-    import os
-    # os.sys.path
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    # a=os.getcwd()
-    # sys.path.append(os.path.abspath(__file__))
-    # sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
-    # with open("./icons/pic.ico",'w') as fn:
-    #     print('true')
+    import sys
     app = QApplication(sys.argv)
-    tray = Tray()
-
-    app.exec_()
+    w = window()
+    # w.show()
+    sys.exit(app.exec_())

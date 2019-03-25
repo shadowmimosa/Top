@@ -1,5 +1,5 @@
-import requests
 import time
+import requests
 import hashlib
 import urllib
 import sys, os
@@ -124,20 +124,73 @@ class RequestMethod(object):
             url=url, params=post_dict, headers=header, cookies=cookies)
         print(re.status_code)
 
+    def post(self, path, maps={}, user='', base_url=api_URL):
+        """post 方法"""
+
+        url = self.url.format(base_url, path)
+        ypcookie = self.build_cookie(user)
+
+        header = {
+            "ypcookie": ypcookie,
+            "APPVERSION": APPVERSION,
+            "Content-Type": ContentType,
+            "User-Agent": UserAgent,
+            "APP_DEV_INFO": APPDEVINFO,
+            "SYSVERSION": SYSVERSION,
+            "MODELTYPE": MODELTYPE,
+            "_sign": self.sign_beta,
+        }
+        cookies = {
+            "app_version": appversion,
+            "ypcookie": urllib.parse.quote(ypcookie)
+        }
+
+        signature = self.build_signature(maps, user)
+
+        post_dict = {"timestamp": server_timestamp}
+        post_dict["signature"] = signature
+
+        for map_ in sorted(maps.items()):
+            post_dict[map_[0]] = map_[1]
+
+        resp = requests.post(
+            url=url,
+            data=post_dict,
+            json=None,
+            headers=header,
+            cookies=cookies)
+
+        # re = requests.get(
+        #     url=url, params=post_dict, headers=header, cookies=cookies)
+
+        print(resp.status_code)
+
 
 if __name__ == "__main__":
+    import os
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
     get = RequestMethod().get
 
     print(get_server_time())
-    print(get("/user/getUserInfo", base_url=trip_URL))
+    # print(get("/user/getUserInfo", base_url=trip_URL))
 
-    # print(
-    #     get("http://trip-test.api.thejoyrun.com/user/getUserInfo",
-    #         user=["32519818", "17d5a5172d2dddbcaea9ccd91fe3eef6"]))
+    # # print(
+    # #     get("http://trip-test.api.thejoyrun.com/user/getUserInfo",
+    # #         user=["32519818", "17d5a5172d2dddbcaea9ccd91fe3eef6"]))
 
-    print(get(
-        "/notify-list-id",
-        {"ntfId": 13002},
-        base_url=advert_URL,
-    ))
+    # print(get(
+    #     "/notify-list-id",
+    #     {"ntfId": 13002},
+    #     base_url=advert_URL,
+    # ))
     print(get("/daily/getDaily", base_url=api_URL))
+
+    post=RequestMethod().post
+
+    print(
+        post("/feed.aspx", {
+            "fid": "99261765",
+            "option": "like"
+        },
+            base_url=api_URL))
