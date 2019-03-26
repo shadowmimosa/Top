@@ -43,6 +43,7 @@ files = {'file': open('robot', 'rb')}
 
 # resp = requests.post(url=url, files=files, headers=headers)
 
+
 def addTripRaceTopicRaceRelevance():
     headers = {
         "Host":
@@ -70,11 +71,13 @@ def addTripRaceTopicRaceRelevance():
     }
     topic_id = 22
     race_id = 0
+    msg = "{} is {}!!! The reason is {}. It takes {} milliseconds total.\n"
     import time
 
     for i in range(0, 9):
         topic_id += 1
         for j in range(0, 2700):
+            startstamp = int(time.time() * 1000)
             race_id += 1
 
             data = {'topicId': topic_id, 'weight': 0, 'raceId': race_id}
@@ -83,10 +86,21 @@ def addTripRaceTopicRaceRelevance():
                 "http://os2-test.thejoyrun.com/trip/topic/addTripRaceTopicRaceRelevance",
                 data=data,
                 headers=headers)
-            print(resp.status_code)
-            print(time.time())
-            time.sleep(5)
-            print(time.time())
+            if resp.status_code == 200:
+                resp_ = eval(resp.text)
+                if resp_['ret'] == "0":
+                    msg_ = "Success"
+                    time.sleep(5)
+                    reason = ""
+                else:
+                    msg_ = "Fail"
+                    reason = resp_['msg'].split(':')[-1]
+                    time.sleep(1.5)
+
+            # msg = msg.format(msg_, int(time.time() * 1000) - startstamp)
+            print(
+                msg.format(race_id, msg_, reason,
+                           int(time.time() * 1000) - startstamp))
         requests.post(
             url=
             "http://os2-test.thejoyrun.com/trip/topic/upOrDownTripRaceTopic",
@@ -95,8 +109,6 @@ def addTripRaceTopicRaceRelevance():
                 "status": 1
             },
             headers=headers)
-
-        pass
 
 
 def opea_sql():
