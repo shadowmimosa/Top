@@ -69,13 +69,34 @@ def download(url):
                         .format(value.replace('.ts', ''), size, num))
 
 
+def multi_thread():
+    """多线程，默认 4 线程"""
+
+    import threading
+    
+    
+    thread0 = threading.Thread(target=download, args=path, name="thread_0")
+    thread1 = threading.Thread(target=download, args=path, name="thread_0")
+    thread2 = threading.Thread(target=download, args=path, name="thread_0")
+    thread3 = threading.Thread(target=download, args=path, name="thread_0")
+
+
 def main():
     """The function of main"""
-    download("https://uuxo5.com/videos/5beb9dce9c68d1a465fe122b/")
+
+    while True:
+        pass
+    # download("https://uuxo5.com/videos/5beb9dce9c68d1a465fe1230/")
+
+    # resp=session.get(url="https://uuxo5.com/videos/5beb9dce9c68d1a465fe122b/thumbnails.jpg")
+    # with open("thumbnails.jpg","wb") as fb:
+    #     fb.write(resp.content)
+    # download("https://uuxo5.com/videos/5beb9dce9c68d1a465fe122b/")
 
 
 if __name__ == "__main__":
     session = get_session()
     main()
     # url = "https://uuxo8.com/videos/5bb88e4b5d4b454c7e8d415d/"
-    url = "https://uuxo5.com/videos/5beb9dce9c68d1a465fe122b/"
+    # url = "https://uuxo5.com/videos/5beb9dce9c68d1a465fe122b/"
+    # url = "https://uuxo5.com/videos/5beb9dce9c68d1a465fe1230"
