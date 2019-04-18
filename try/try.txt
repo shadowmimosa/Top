@@ -1,0 +1,53 @@
+*** Settings ***
+Documentation     badge/getBadgeByTypeAndBusinessId 根据勋章类型、业务key获取勋章信息接口
+Resource          ../Public/public_lib.txt
+Library           ./try.py
+
+*** Variable ***
+${pwd}            123456    # 密码
+${userName}       13829744541    # 默认的用户名
+${ContentType}    application/x-www-form-urlencoded;charset=UTF-8    # POST数据格式
+
+*** Test Cases ***    option          fid                                         ret       msg
+Class_01              [Documentation]    badge/getBadgeByTypeAndBusinessId TestCase测试用例
+                      [Tags]             Test                                               Online    gxy
+                      [Template]         badge_getBadgeByTypeAndBusinessId_Post_Keywords
+                      like               283844538                                             0         成功
+
+*** Keywords ***
+badge_getBadgeByTypeAndBusinessId_Post_Keywords
+    [Arguments]    ${option}    ${fid}    ${ret}    ${msg}
+    [Documentation]    badge/getBadgeByTypeAndBusinessId 接口用例的Keywords关健字
+
+    ${path}=    set variable    /feed.aspx
+    ${maps}=    create dictionary
+    ${mapss}=    create dictionary
+    set to dictionary    ${maps}    option=${option}
+    set to dictionary    ${maps}    fid=${fid}
+    set to dictionary    ${mapss}    fid=${fid}
+    set to dictionary    ${mapss}    option=re
+    set to dictionary    ${mapss}    touid=0
+
+    log    ========输出接口URL：${user_URL}${path}
+    log    ========接口的入参为：${userName}:${maps}==========
+    # ${user_list}=       create list     32520519 32520520 32520526 32520533 32520535 32520539 32520544 32520550 32520553 32520554 32520558 32520560 32520563 32520564 32520571 32520572 32520575 32520577 32520582 32520589 32520595 32520597 32520603 32520606 32520611 32520614 32520620 32520626 32520633 32520639 32520645 32520651 32520657 32520664 32520671 32520674 32520677 32520680 32520681 32520686 32520693 32520698 32520700 32520706 32520710 32520716 32520720 32520722 32520726 32520730 32520733 32520738 32520744 32520748 32520755 32520756 32520762 32520769 32520776 32520780 32520781 32520786 32520789 32520793 32520796 32520797 32520803 32520808 32520810 32520815 32520819 3252082 32520826 32520832 32520839 32520841 32520848 32520853 32520855 32520858 32520859 32520860 32520863 32520870 32520876 32520880 32520887 32520888 32520891 32520896 32520901 32520903 32520909 32520914 32520921 32520923 32520927 32520928 32520929 32520931    
+    # ${len}     evaluate    len(${user_list})
+    # : FOR    ${index}    IN RANGE    0    8
+    # \    ${value}      Try Try     ${user_list}
+    # \    ${username1}=     evaluate       '${value[0]}'
+    # \    ${user_list}=     create list       ${value[1]}
+    # \    ${resp}=    thejoyrun_postd    ${path}    ${maps}    ${username1}    ${api_URL}
+    
+
+    
+    # ${user_list}=       create list       33@yy.com 34@yy.com 35@yy.com 36@yy.com 37@yy.com 38@yy.com 39@yy.com 40@yy.com
+    # ${user_list}=       create list       32519837 32519884 32519888 32519896 32519897 32519913 32519916 32519920 32519920
+    : FOR    ${index}    IN RANGE    0    8
+    \    ${value}      Try Try     ${user_list}
+    \    ${username1}=     evaluate       '${value[0]}'
+    \    ${user_list}=     create list       ${value[1]}
+    \    ${memo}=    Try Again    
+    \    set to dictionary    ${mapss}    memo=${memo}
+    \    ${resp}=    thejoyrun_postd    ${path}    ${mapss}    ${username1}    ${api_URL}
+    
+

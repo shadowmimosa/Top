@@ -1,6 +1,7 @@
 import requests
 import csv
 import re
+import time
 from urllib.parse import quote
 from bs4 import BeautifulSoup
 
@@ -33,7 +34,7 @@ def post(pagenum=None):
         fn.write(nickname)
 
 
-def get(nickname):
+def get(nickname, filename="china0508_03.txt"):
     resp = requests.get(level_url.format(nickname))
     raw = resp.text
     soup = BeautifulSoup(raw, 'lxml')
@@ -60,9 +61,24 @@ def get(nickname):
         final_str += value
         final_str += '\t'
 
-    with open("china0508_01.txt", 'a') as fn:
+    with open(filename, 'a') as fn:
         fn.write(final_str)
         fn.write('\n')
+
+
+def multi_processes(processes=10):
+
+    from multiprocessing import Pool
+
+    pool = Pool(processes)
+
+    with open("china0508.txt", 'r') as fn:
+        nickname = fn.readlines()
+    for value in nickname:
+        pool.apply_async(get, (value.replace('\n', ''), ))
+
+    pool.close()
+    pool.join()
 
 
 def main():
@@ -72,9 +88,19 @@ def main():
     with open("china0508.txt", 'r') as fn:
         nickname = fn.readlines()
     for value in nickname:
-        get(value.replace('\n', ''))
+        get(value.replace('\n', ''), "china0508_02.txt")
 
 
 if __name__ == "__main__":
+    import os
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+    timestamps = time.time()
     main()
-    
+    single_times = time.time() - timestamps
+
+    timestamps = time.time()
+    multi_processes()
+    multi_times = time.time() - timestamps
+
+    print(single_times, '\n', multi_times)

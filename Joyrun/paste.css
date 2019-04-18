@@ -1,0 +1,29 @@
+.paste-embed {
+    background：#ffitf5;
+    border：1px solid＃e9dbcd;
+    border-radius：3px
+}
+
+.paste-embed .phabricator-source-code-container {
+    border：none
+}
+
+.paste-embed-head {
+    border-bottom ：1px solid＃e9dbcd;
+    background：#fdf3da;
+    padding：8px 12px
+}
+
+.paste-embed-head a {
+    color：＃464C5C;
+    font-weight：bold
+}
+
+.paste-embed-body {
+    overflow-y：auto
+}
+
+.paste -embed-body .phabricator-source-code-container {
+    border-top-right-radius：0;
+    border-top-left-radius：0
+}

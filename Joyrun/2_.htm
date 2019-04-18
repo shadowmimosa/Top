@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>⚡ iOS 集成测试报告【v4.7.1】</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="mask-icon" color="#3D4B67"
+        href="http://ph.thejoyrun.com/res/phabricator/e132a80f/rsrc/favicons/mask-icon.svg" />
+    <link rel="apple-touch-icon" sizes="76x76"
+        href="http://ph.thejoyrun.com/file/data/qzsou6kqt4v6ph72ynxe/PHID-FILE-rzzdp6uzq7j76zchx7ha/favicon" />
+    <link rel="apple-touch-icon" sizes="120x120"
+        href="http://ph.thejoyrun.com/file/data/rp5fezf4o6p5tzvtenyz/PHID-FILE-27nwwiqkp6uvyv7wdn35/favicon" />
+    <link rel="apple-touch-icon" sizes="152x152"
+        href="http://ph.thejoyrun.com/file/data/6jzhdkxpqf3k6xpwzhlz/PHID-FILE-nr6x46fmqw6djgiuogsh/favicon" />
+    <link rel="icon" id="favicon"
+        href="http://ph.thejoyrun.com/file/data/eo4qbjrcm75ukxbntnb4/PHID-FILE-wta37zhitbz5spxnfpwp/favicon" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="stylesheet" type="text/css"
+        href="http://ph.thejoyrun.com/res/redgreenX/phabricator/9d1148a4/core.pkg.css" />
+    <link rel="stylesheet" type="text/css"
+        href="http://ph.thejoyrun.com/res/redgreenX/phabricator/9fcc9773/rsrc/css/application/paste/paste.css" />
+    <link rel="stylesheet" type="text/css"
+        href="http://ph.thejoyrun.com/res/redgreenX/phabricator/2ab25dfa/rsrc/css/layout/phabricator-source-code-view.css" />
+    <link rel="stylesheet" type="text/css"
+        href="http://ph.thejoyrun.com/res/redgreenX/phabricator/ac68149f/rsrc/css/phui/phui-comment-form.css" />
+    <link rel="stylesheet" type="text/css"
+        href="http://ph.thejoyrun.com/res/redgreenX/phabricator/c4ac41f9/rsrc/css/phui/phui-document.css" />
+    <link rel="stylesheet" type="text/css"
+        href="http://ph.thejoyrun.com/res/redgreenX/phabricator/dd79b5df/rsrc/css/phui/phui-document-pro.css" />
+    <link rel="stylesheet" type="text/css"
+        href="http://ph.thejoyrun.com/res/redgreenX/phabricator/e68cf1fa/conpherence.pkg.css" />
+    <script type="text/javascript"
+        src="http://ph.thejoyrun.com/res/redgreenX/phabricator/8d83d2a1/rsrc/externals/javelin/core/init.js"></script>
+</head>
+
+<body class="device-desktop platform-windows phui-theme-blindigo">
+    <div class="main-page-frame" id="main-page-frame">
+        <div id="phabricator-standard-page" class="phabricator-standard-page">
+            <div class="phabricator-main-menu phabricator-main-menu-background" id="UQ0_32"><a
+                    class=" phabricator-core-user-menu phabricator-core-user-mobile-menu" href="#" role="button"
+                    data-sigil="phui-dropdown-menu" data-meta="0_104"><span class="aural-only">Page Menu</span><span
+                        class="visual-only phui-icon-view phui-font-fa fa-bars" data-meta="0_105"
+                        aria-hidden="true"></span><span class="caret"></span></a><a
+                    class="phabricator-main-menu-search-button phabricator-expand-application-menu"
+                    data-sigil="jx-toggle-class" data-meta="0_103"><span
+                        class="phabricator-menu-button-icon phui-icon-view phui-font-fa fa-search"
+                        id="UQ0_55"></span></a><a class="phabricator-main-menu-brand" href="/"><span
+                        class="aural-only">Home</span><span class="phabricator-main-menu-eye"
+                        style="background-size: 40px 40px; background-position: 0 0; background-image: url(http://ph.thejoyrun.com/file/data/gjo5iwqn5foztxvsowbh/PHID-FILE-zjpx7mz6ykd3dxle6n6g/logo)"></span><span
+                        class="phabricator-wordmark">Joyrun</span></a>
+                <div class="visual-only phabricator-main-menu-alerts" aria-hidden="true"><a href="/notification/"
+                        class="alert-notifications" id="UQ0_38"><span
+                            class="phabricator-main-menu-alert-icon phui-icon-view phui-font-fa fa-bell"
+                            data-sigil="menu-icon"></span><span id="UQ0_36"
+                            class="phabricator-main-menu-alert-count">0</span></a><a href="/conpherence/"
+                        class="alert-notifications" id="UQ0_33"><span
+                            class="phabricator-main-menu-message-icon phui-icon-view phui-font-fa fa-comments"
+                            data-sigil="menu-icon"></span><span id="UQ0_34"
+                            class="phabricator-main-menu-message-count">0</span></a></div><span class="aural-only">No
+                    messages. No notifications.</span>
+                <ul class="phui-list-view phabricator-search-menu">
+                    <li class="phui-list-item-view phui-list-item-type-link phabricator-main-menu-search">
+                        <div class="">
+                            <form action="/search/" method="POST"><input type="hidden" name="__csrf__"
+                                    value="B@czfw4rdq27e0c1239f33dea7" /><input type="hidden" name="__form__"
+                                    value="1" />
+                                <div class="phabricator-main-menu-search-container"><input type="text" name="query"
+                                        id="UQ0_56" autocomplete="off" autocorrect="off" autocapitalize="off"
+                                        spellcheck="false" /><button id="UQ0_87"
+                                        class="phui-icon-view phui-font-fa fa-search"><span
+                                            class="aural-only">搜索</span></button><button
+                                        class="button dropdown has-icon phui-button-default phabricator-main-menu-search-dropdown"
+                                        id="UQ0_88" data-sigil="global-search-dropdown" data-meta="0_106"><span
+                                            class="aural-only">Configure Global Search</span><span
+                                            class="visual-only phui-icon-view phui-font-fa fa-globe"
+                                            data-sigil="global-search-dropdown-icon" data-meta="0_107"
+                                            aria-hidden="true"></span><span class="caret"></span></button><input
+                                        type="hidden" name="search:scope" value="all"
+                                        data-sigil="global-search-dropdown-input" /><input type="hidden" id="UQ0_89"
+                                        name="search:application" value="PhabricatorPhrictionApplication"
+                                        data-sigil="global-search-dropdown-app" /><input type="hidden"
+                                        name="search:primary" value="true" />
+                                    <div id="UQ0_86" class="phabricator-main-menu-search-target"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+                <div id="UQ0_37" class="phabricator-notification-menu" style="display: none;"
+                    data-sigil="phabricator-notification-menu"></div>
+                <div id="UQ0_35" class="phabricator-notification-menu" style="display: none;"
+                    data-sigil="phabricator-notification-menu"></div><a class=" phabricator-core-user-menu"
+                    href="/p/shadowmimosa/" role="button" id="UQ0_67"><span class="aural-only">Account Menu</span><span
+                        style="background-image: url(http://ph.thejoyrun.com/file/data/56pyoooq5ovxcwlikuhj/PHID-FILE-r3asgfdzqdecenf5hdgi/profile);"
+                        class="visual-only phui-icon-view phuihead-small" data-meta="0_108"
+                        aria-hidden="true"></span><span class="caret"></span></a><a class=" phabricator-core-user-menu"
+                    href="#" role="button" data-sigil="phui-dropdown-menu" data-meta="0_109"><span
+                        class="aural-only">Favorites Menu</span><span
+                        class="visual-only phui-icon-view phui-font-fa fa-star" data-meta="0_110"
+                        aria-hidden="true"></span><span class="caret"></span></a>
+            </div>
+            <div id="phabricator-standard-page-body" class="phabricator-standard-page-body">
+                <div class="phui-crumbs-view phui-crumbs-border">
+                    <div class="phui-crumbs-actions"><a href="/phriction/" class="phui-crumbs-action"
+                            data-sigil=""><span class="visual-only phui-icon-view phui-font-fa fa-home"
+                                data-meta="0_111" aria-hidden="true"></span><span
+                                class="phui-crumbs-action-name">Index</span></a><a
+                            href="/phriction/new/?slug=test/app/v4.7.1/test_report/" class="phui-crumbs-action"
+                            data-sigil="workflow"><span class="visual-only phui-icon-view phui-font-fa fa-plus-square"
+                                data-meta="0_112" aria-hidden="true"></span><span
+                                class="phui-crumbs-action-name">新建文档</span></a></div><a href="/w/"
+                        class="phui-crumb-view phui-crumb-has-icon"><span
+                            class="visual-only phui-icon-view phui-font-fa fa-book" data-meta="0_113"
+                            aria-hidden="true"></span><span class="phui-crumb-name"> Phriction</span> </a><span
+                        class="visual-only phui-icon-view phui-font-fa fa-angle-right phui-crumb-divider phui-crumb-view"
+                        data-meta="0_114" aria-hidden="true"></span><a href="/w/" class="phui-crumb-view"><span
+                            class="phui-crumb-name"> 文档中心</span> </a><span
+                        class="visual-only phui-icon-view phui-font-fa fa-angle-right phui-crumb-divider phui-crumb-view"
+                        data-meta="0_115" aria-hidden="true"></span><a href="/w/test/" class="phui-crumb-view"><span
+                            class="phui-crumb-name"> 测试部文档</span> </a><span
+                        class="visual-only phui-icon-view phui-font-fa fa-angle-right phui-crumb-divider phui-crumb-view"
+                        data-meta="0_116" aria-hidden="true"></span><a href="/w/test/app/" class="phui-crumb-view"><span
+                            class="phui-crumb-name"> App版本</span> </a><span
+                        class="visual-only phui-icon-view phui-font-fa fa-angle-right phui-crumb-divider phui-crumb-view"
+                        data-meta="0_117" aria-hidden="true"></span><a href="/w/test/app/v4.7.1/"
+                        class="phui-crumb-view"><span class="phui-crumb-name"> V4.7.1</span> </a><span
+                        class="visual-only phui-icon-view phui-font-fa fa-angle-right phui-crumb-divider phui-crumb-view"
+                        data-meta="0_118" aria-hidden="true"></span><a href="/w/test/app/v4.7.1/test_report/"
+                        class="phui-crumb-view phabricator-last-crumb"><span class="phui-crumb-name"> iOS
+                            集成测试报告【v4.7.1】</span> </a>
+                </div>
+                <div class="phui-document-container ">
+                    <div class="phui-document-view phui-document-view-pro has-curtain">
+                        <div class="phui-document-content">
+                            <div class="phui-document-inner">
+                                <div class="phui-document-toc-container" id="UQ0_11"><a
+                                        class="button has-icon phui-button-simple phui-document-toc" role="button"
+                                        data-sigil="jx-toggle-class" data-meta="0_84"><span
+                                            class="visual-only phui-icon-view phui-font-fa fa-align-left"
+                                            data-meta="0_85" aria-hidden="true"></span></a>
+                                    <div class="phui-list-sidenav phui-document-toc-list">
+                                        <div class="phui-document-toc-content">
+                                            <div class="phui-document-toc-header">Contents</div>
+                                            <ul>
+                                                <ul>
+                                                    <li><a href="#1">一）测试结论</a></li>
+                                                    <li><a href="#2">二）需求项目信息</a></li>
+                                                    <li><a href="#3">三）主要风险及遗留问题</a></li>
+                                                    <li><a href="#4">四）基础功能检查单</a></li>
+                                                </ul>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="phui-header-shell phui-header-tall ">
+                                    <h1 class="phui-header-view">
+                                        <div class="phui-header-row">
+                                            <div class="phui-header-col2"><span class="phui-header-header">iOS
+                                                    集成测试报告【v4.7.1】</span>
+                                                <div class="phui-header-subheader"><span
+                                                        class="phui-tag-view phui-tag-type-shade phui-tag-shade phui-tag-icon-view "><span
+                                                            class="phui-tag-core "><span
+                                                                class="visual-only phui-icon-view phui-font-fa fa-clock-o bluegrey"
+                                                                data-meta="0_102" aria-hidden="true"></span>更新于15
+                                                            天前</span></span><span class="policy-header-callout"><span
+                                                            class="visual-only phui-icon-view phui-font-fa fa-users bluegrey"
+                                                            data-meta="0_101" aria-hidden="true"></span><a
+                                                            class="policy-link"
+                                                            href="/policy/explain/PHID-WIKI-xbvucksutx3zsvynvumy/view/"
+                                                            data-sigil="workflow">所有用户</a></span></div>
+                                            </div>
+                                            <div class="phui-header-col3">
+                                                <div class="phui-header-action-links"><a
+                                                        class="button button-grey has-icon has-text phui-button-default phui-mobile-menu msl phui-header-action-link"
+                                                        href="#" role="button" data-sigil="phui-dropdown-menu"
+                                                        data-meta="0_98"><span
+                                                            class="visual-only phui-icon-view phui-font-fa fa-bars"
+                                                            data-meta="0_99" aria-hidden="true"></span>
+                                                        <div class="phui-button-text">操作</div>
+                                                    </a></div>
+                                            </div>
+                                        </div>
+                                    </h1>
+                                </div>
+                                <div class="phui-document-content-outer">
+                                    <div class="phui-document-content-inner">
+                                        <div class="phui-document-content-view">
+                                            <div class="phabricator-remarkup">
+                                                <h3 class="remarkup-header"><a name="1"></a>一）测试结论</h3>
+
+                                                <p><tt class="remarkup-monospaced">Joyrun v4.7.1</tt>版本 iOS 端<tt
+                                                        class="remarkup-monospaced">集成测试通过</tt>，现<tt
+                                                        class="remarkup-monospaced">可进入灰度发版阶段</tt><br />
+                                                    该需求的质量风险数据如下：</p>
+
+                                                <div class="remarkup-table-wrap">
+                                                    <table class="remarkup-table">
+                                                        <tr>
+                                                            <th>质量指标</th>
+                                                            <th>标准要求</th>
+                                                            <th>实际情况</th>
+                                                            <th>验证结果</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>遗留问题（包括历史遗留问题）的风险总值</td>
+                                                            <td>&lt;=30</td>
+                                                            <td>7.5</td>
+                                                            <td>通过</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>有无&gt;=4风险值的缺陷</td>
+                                                            <td>0</td>
+                                                            <td>0</td>
+                                                            <td>通过</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>机型兼容</td>
+                                                            <td>兼容 iPhone 5 - iPhone X，iOS 8.4.1 - iOS 12.1.3</td>
+                                                            <td>
+                                                                <div class="paste-embed">
+                                                                    <div class="paste-embed-head"><a href="/P23">P23 iOS
+                                                                            v4.7.1 兼容机型</a></div>
+                                                                    <div class="paste-embed-body"
+                                                                        style="max-height: 27.6em;">
+                                                                        <div class="phabricator-source-code-container">
+                                                                            <table
+                                                                                class="phabricator-source-code-view remarkup-code PhabricatorMonospaced"
+                                                                                data-sigil="phabricator-source has-symbols"
+                                                                                data-meta="0_44">
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>1</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone 5s iOS 8.4.1
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>2</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone 5c iOS 9.2.1
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>3</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone 5 iOS 10.0.1
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>4</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone SE iOS 10.3.3
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>5</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone 6 Plus iOS 10.3.3
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>6</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone 8 iOS 11.2
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>7</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone X iOS 11.2
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>8</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone 7 Plus iOS 11.2.6
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>9</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone 6s iOS 11.4.1
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>10</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone 7 Plus iOS 12.1.4
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th class="phabricator-source-line">
+                                                                                        <span>11</span></th>
+                                                                                    <td class="phabricator-source-code">
+                                                                                        iPhone 7 iOS 12.2 </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>通过</td>
+                                                        </tr>
+                                                        <tr></tr>
+                                                    </table>
+                                                </div>
+
+
+
+                                                <h3 class="remarkup-header"><a name="2"></a>二）需求项目信息</h3>
+
+                                                <div class="remarkup-table-wrap">
+                                                    <table class="remarkup-table">
+                                                        <tr>
+                                                            <th>序号</th>
+                                                            <th>需求名称</th>
+                                                            <th>需求优先级</th>
+                                                            <th>产品 / 需求</th>
+                                                            <th>开发人员</th>
+                                                            <th>测试人员</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td><a href="/T258"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_0"><span
+                                                                        class="phui-tag-core-closed"><span
+                                                                            class="phui-tag-core phui-tag-color-object">T258:
+                                                                            用户加 V 与认证</span></span></a></td>
+                                                            <td>最高</td>
+                                                            <td><a href="/p/xiaomi/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_43"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@xiaomi</span></a>
+                                                            </td>
+                                                            <td><a href="/p/JerryFans/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_42"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@JerryFans</span></a>
+                                                            </td>
+                                                            <td><a href="/p/shadowmimosa/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_41"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@shadowmimosa</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td><a href="/T198"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_1"><span
+                                                                        class="phui-tag-core phui-tag-color-object">T198:
+                                                                        跑团主页架构调整产品文档</span></a></td>
+                                                            <td>最高</td>
+                                                            <td><a href="/p/maochuting/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_40"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@maochuting</span></a>
+                                                            </td>
+                                                            <td><a href="/p/karim/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_39"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@karim</span></a>
+                                                            </td>
+                                                            <td><a href="/p/ghost/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_38"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@ghost</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td><a href="/T125"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_2"><span
+                                                                        class="phui-tag-core-closed"><span
+                                                                            class="phui-tag-core phui-tag-color-object">T125:
+                                                                            跑步记录-累计总消耗-数字显示问题</span></span></a></td>
+                                                            <td>最高</td>
+                                                            <td><a href="/p/tanyuchen/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_37"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@tanyuchen</span></a>
+                                                            </td>
+                                                            <td><a href="/p/JerryFans/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_36"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@JerryFans</span></a>
+                                                            </td>
+                                                            <td><a href="/p/shadowmimosa/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_35"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@shadowmimosa</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>4</td>
+                                                            <td><a href="/T224"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_3"><span
+                                                                        class="phui-tag-core-closed"><span
+                                                                            class="phui-tag-core phui-tag-color-object">T224:
+                                                                            App 首页添加跑者大学入口</span></span></a></td>
+                                                            <td>高</td>
+                                                            <td><a href="/p/tanyuchen/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_34"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@tanyuchen</span></a>
+                                                            </td>
+                                                            <td><a href="/p/Blade/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_33"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@Blade</span></a>
+                                                            </td>
+                                                            <td><a href="/p/ghost/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_32"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@ghost</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>5</td>
+                                                            <td><a href="/T252"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_4"><span
+                                                                        class="phui-tag-core-closed"><span
+                                                                            class="phui-tag-core phui-tag-color-object">T252:
+                                                                            扫一扫-跑步中-水印相机加入扫码功能</span></span></a></td>
+                                                            <td>中</td>
+                                                            <td><a href="/p/tanyuchen/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_31"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@tanyuchen</span></a>
+                                                            </td>
+                                                            <td><a href="/p/Blade/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_30"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@Blade</span></a>
+                                                            </td>
+                                                            <td><a href="/p/ghost/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_29"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@ghost</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td><a href="/T351"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_5"><span
+                                                                        class="phui-tag-core-closed"><span
+                                                                            class="phui-tag-core phui-tag-color-object">T351:
+                                                                            v4.7.1话题banner应急需求</span></span></a></td>
+                                                            <td>最高</td>
+                                                            <td><a href="/p/xiaomi/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_28"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@xiaomi</span></a>
+                                                            </td>
+                                                            <td><a href="/p/Blade/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_27"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@Blade</span></a>
+                                                            </td>
+                                                            <td><a href="/p/ghost/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_26"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@ghost</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>7</td>
+                                                            <td><a href="/T263"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_6"><span
+                                                                        class="phui-tag-core phui-tag-color-object">T263:
+                                                                        约定跑绑定微信服务号消息推送产品文档</span></a></td>
+                                                            <td>最高</td>
+                                                            <td><a href="/p/maochuting/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_25"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@maochuting</span></a>
+                                                            </td>
+                                                            <td><a href="/p/Blade/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_24"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@Blade</span></a>
+                                                            </td>
+                                                            <td><a href="/p/zouzhiquan/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_23"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@zouzhiquan</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td><a href="/T276"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_7"><span
+                                                                        class="phui-tag-core-closed"><span
+                                                                            class="phui-tag-core phui-tag-color-object">T276:
+                                                                            新增GPS定位广告跑前弹窗</span></span></a></td>
+                                                            <td>高</td>
+                                                            <td><a href="/p/maochuting/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_22"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@maochuting</span></a>
+                                                            </td>
+                                                            <td><a href="/p/Blade/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_21"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@Blade</span></a>
+                                                            </td>
+                                                            <td><a href="/p/shadowmimosa/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_20"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@shadowmimosa</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>9</td>
+                                                            <td><a href="/T346"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_8"><span
+                                                                        class="phui-tag-core-closed"><span
+                                                                            class="phui-tag-core phui-tag-color-object">T346:
+                                                                            跑步记录-iOS生物识别提示文案修改</span></span></a></td>
+                                                            <td>最高</td>
+                                                            <td><a href="/p/tanyuchen/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_19"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@tanyuchen</span></a>
+                                                            </td>
+                                                            <td><a href="/p/Blade/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_18"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@Blade</span></a>
+                                                            </td>
+                                                            <td><a href="/p/ghost/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_17"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@ghost</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>10</td>
+                                                            <td><a href="/T352"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_9"><span
+                                                                        class="phui-tag-core phui-tag-color-object">T352:
+                                                                        4.7.1 版本动态图片展示规则</span></a></td>
+                                                            <td>最高</td>
+                                                            <td><a href="/p/wangsiwen/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_16"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@wangsiwen</span></a>
+                                                            </td>
+                                                            <td><a href="/p/JerryFans/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_15"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@JerryFans</span></a>
+                                                            </td>
+                                                            <td><a href="/p/ghost/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_14"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@ghost</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>11</td>
+                                                            <td><a href="/T336"
+                                                                    class="phui-tag-view phui-tag-type-object "
+                                                                    data-sigil="hovercard" data-meta="0_10"><span
+                                                                        class="phui-tag-core-closed"><span
+                                                                            class="phui-tag-core phui-tag-color-object">T336:
+                                                                            分享卡片-消耗热量-自定义图片对应文案颜色</span></span></a></td>
+                                                            <td>低</td>
+                                                            <td><a href="/p/tanyuchen/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_13"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@tanyuchen</span></a>
+                                                            </td>
+                                                            <td><a href="/p/JerryFans/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_12"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@JerryFans</span></a>
+                                                            </td>
+                                                            <td><a href="/p/ghost/"
+                                                                    class="phui-tag-view phui-tag-type-person "
+                                                                    data-sigil="hovercard" data-meta="0_11"><span
+                                                                        class="phui-tag-core phui-tag-color-person">@ghost</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr></tr>
+                                                    </table>
+                                                </div>
+
+
+
+                                                <h3 class="remarkup-header"><a name="3"></a>三）主要风险及遗留问题</h3>
+
+                                                <ol class="remarkup-list">
+                                                    <li class="remarkup-list-item"><a
+                                                            href="http://jira.thejoyrun.com/browse/JOYRUN-5650"
+                                                            class="remarkup-link" target="_blank" rel="noreferrer">iOS 8
+                                                            查看勋章，会闪退</a>，线上问题，跟下个版本上线；</li>
+                                                    <li class="remarkup-list-item"><a
+                                                            href="http://jira.thejoyrun.com/browse/JOYRUN-5653"
+                                                            class="remarkup-link" target="_blank"
+                                                            rel="noreferrer">约定跑支付完成中，点击分享跑友圈时，会自动关闭弹窗导致无法分享至跑友圈</a>，其他页面的分享不受影响，下个版本修复；
+                                                    </li>
+                                                    <li class="remarkup-list-item">少量 UI 问题。</li>
+                                                </ol>
+
+                                                <p>以上问题技术与产品经理达成一致，留待后续版本修复。</p>
+
+                                                <h3 class="remarkup-header"><a name="4"></a>四）基础功能检查单</h3>
+
+                                                <p><a href="http://ph.thejoyrun.com/w/test/app/v4.7.1/basic_function_checklist/"
+                                                        class="remarkup-link" target="_blank" rel="noreferrer">iOS
+                                                        v4.7.1 基础功能检查单</a></p>
+                                            </div>
+                                        </div>
+                                        <div class="phui-document-curtain">
+                                            <div class="">
+                                                <div
+                                                    class="phui-box phui-box-border phui-object-box mlt mll mlr phui-two-column-properties">
+                                                    <ul class="phabricator-action-list-view " id="UQ0_0">
+                                                        <li id="UQ0_13"
+                                                            class="phabricator-action-view phabricator-action-view-href action-has-icon"
+                                                            style=""><a href="/phriction/edit/49/"
+                                                                class="phabricator-action-view-item"><span
+                                                                    class="visual-only phui-icon-view phui-font-fa fa-pencil phabricator-action-view-icon"
+                                                                    data-meta="0_86" aria-hidden="true"></span>编辑文档</a>
+                                                        </li>
+                                                        <li id="UQ0_15"
+                                                            class="phabricator-action-view phabricator-action-view-href action-has-icon"
+                                                            style=""><a
+                                                                href="/phriction/history/test/app/v4.7.1/test_report/"
+                                                                class="phabricator-action-view-item"><span
+                                                                    class="visual-only phui-icon-view phui-font-fa fa-history phabricator-action-view-icon"
+                                                                    data-meta="0_87" aria-hidden="true"></span>查看历史</a>
+                                                        </li>
+                                                        <li id="UQ0_17"
+                                                            class="phabricator-action-view phabricator-action-view-disabled phabricator-action-view-href action-has-icon"
+                                                            style=""><a href="/phriction/publish/49/181/"
+                                                                class="phabricator-action-view-item"
+                                                                data-sigil="workflow"><span
+                                                                    class="visual-only phui-icon-view phui-font-fa fa-upload grey phabricator-action-view-icon"
+                                                                    data-meta="0_88" aria-hidden="true"></span>Publish
+                                                                Draft</a></li>
+                                                        <li id="UQ0_19"
+                                                            class="phabricator-action-view phabricator-action-view-href action-has-icon"
+                                                            style=""><a href="/phriction/move/49/"
+                                                                class="phabricator-action-view-item"
+                                                                data-sigil="workflow"><span
+                                                                    class="visual-only phui-icon-view phui-font-fa fa-arrows phabricator-action-view-icon"
+                                                                    data-meta="0_89" aria-hidden="true"></span>移动文档</a>
+                                                        </li>
+                                                        <li id="UQ0_21"
+                                                            class="phabricator-action-view phabricator-action-view-href action-has-icon"
+                                                            style=""><a href="/phriction/delete/49/"
+                                                                class="phabricator-action-view-item"
+                                                                data-sigil="workflow"><span
+                                                                    class="visual-only phui-icon-view phui-font-fa fa-times phabricator-action-view-icon"
+                                                                    data-meta="0_90" aria-hidden="true"></span>删除文档</a>
+                                                        </li>
+                                                        <li id="UQ0_23"
+                                                            class="phabricator-action-view phabricator-action-view-href action-has-icon"
+                                                            style=""><a
+                                                                href="/w/test/app/v4.7.1/test_report/?__print__=1"
+                                                                class="phabricator-action-view-item" target="_blank"
+                                                                rel="noreferrer"><span
+                                                                    class="visual-only phui-icon-view phui-font-fa fa-print phabricator-action-view-icon"
+                                                                    data-meta="0_91" aria-hidden="true"></span>可打印页面</a>
+                                                        </li>
+                                                        <li id="UQ0_25"
+                                                            class="phabricator-action-view phabricator-action-view-href action-has-icon"
+                                                            style="">
+                                                            <form
+                                                                action="/subscriptions/delete/PHID-WIKI-xbvucksutx3zsvynvumy/"
+                                                                method="POST" data-sigil="workflow"><input type="hidden"
+                                                                    name="__csrf__"
+                                                                    value="B@czfw4rdq27e0c1239f33dea7" /><input
+                                                                    type="hidden" name="__form__" value="1" /><button
+                                                                    class="phabricator-action-view-item"><span
+                                                                        class="visual-only phui-icon-view phui-font-fa fa-minus-circle phabricator-action-view-icon"
+                                                                        data-meta="0_92"
+                                                                        aria-hidden="true"></span>取消订阅</button></form>
+                                                        </li>
+                                                        <li id="UQ0_27"
+                                                            class="phabricator-action-view phabricator-action-view-href action-has-icon"
+                                                            style=""><a
+                                                                href="/subscriptions/mute/PHID-WIKI-xbvucksutx3zsvynvumy/"
+                                                                class="phabricator-action-view-item"
+                                                                data-sigil="workflow"><span
+                                                                    class="visual-only phui-icon-view phui-font-fa fa-volume-up phabricator-action-view-icon"
+                                                                    data-meta="0_93" aria-hidden="true"></span>Mute
+                                                                Notifications</a></li>
+                                                        <li id="UQ0_29"
+                                                            class="phabricator-action-view phabricator-action-view-href action-has-icon"
+                                                            style=""><a
+                                                                href="/token/give/PHID-WIKI-xbvucksutx3zsvynvumy/"
+                                                                class="phabricator-action-view-item"
+                                                                data-sigil="workflow"><span
+                                                                    class="visual-only phui-icon-view phui-font-fa fa-trophy phabricator-action-view-icon"
+                                                                    data-meta="0_94" aria-hidden="true"></span>颁发徽章</a>
+                                                        </li>
+                                                        <li id="UQ0_31"
+                                                            class="phabricator-action-view phabricator-action-view-href action-has-icon"
+                                                            style=""><a
+                                                                href="/flag/edit/PHID-WIKI-xbvucksutx3zsvynvumy/"
+                                                                class="phabricator-action-view-item"
+                                                                data-sigil="workflow"><span
+                                                                    class="visual-only phui-icon-view phui-font-fa fa-flag phabricator-action-view-icon"
+                                                                    data-meta="0_95" aria-hidden="true"></span>稍后再看</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="phui-curtain-panel ">
+                                                        <div class="phui-curtain-panel-header">标签</div>
+                                                        <div class="phui-curtain-panel-body">
+                                                            <ul class="phabricator-handle-tag-list ">
+                                                                <li class="phabricator-handle-tag-list-item"><a
+                                                                        href="/project/view/59/"
+                                                                        class="phui-tag-view phui-tag-type-shade phui-tag-blue phui-tag-shade phui-tag-icon-view "
+                                                                        data-sigil="hovercard" data-meta="0_97"><span
+                                                                            class="phui-tag-core "><span
+                                                                                class="visual-only phui-icon-view phui-font-fa fa-map-marker"
+                                                                                data-meta="0_96"
+                                                                                aria-hidden="true"></span>测试部
+                                                                            (v4.7.1)</span></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="phui-curtain-panel ">
+                                                        <div class="phui-curtain-panel-header">订阅用户</div>
+                                                        <div class="phui-curtain-panel-body"><a href="/p/wangsiwen/"
+                                                                class="phui-handle phui-link-person">wangsiwen</a>, <a
+                                                                href="/p/xiaomi/"
+                                                                class="phui-handle phui-link-person">xiaomi</a>, <a
+                                                                href="/p/maochuting/"
+                                                                class="phui-handle phui-link-person">maochuting</a> and
+                                                            <a href="/subscriptions/list/PHID-WIKI-xbvucksutx3zsvynvumy/"
+                                                                data-sigil="workflow">8 other(s)</a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="phui-document-view-pro-box">
+                    <div class="phui-property-list-view ">
+                        <div class="phui-property-list-section">
+                            <div class="phui-property-list-container grouped">
+                                <div class="phui-property-list-properties-wrap ">
+                                    <dl class="phui-property-list-properties">
+                                        <dt class="phui-property-list-key">最后编辑 </dt>
+                                        <dd class="phui-property-list-value"><a href="/p/ghost/"
+                                                class="phui-handle phui-link-person">ghost</a> </dd>
+                                        <dt class="phui-property-list-key">Last Edited </dt>
+                                        <dd class="phui-property-list-value">周一, Apr 1, 11:36 AM </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="phui-document-view-pro-box">
+                    <div class="phui-timeline-view" id="UQ0_1">
+                        <h3 class="aural-only">Event Timeline</h3>
+                        <div class="phui-timeline-event-view phui-timeline-spacer"></div>
+                        <div class="phui-timeline-shell" id="anchor-339" data-sigil="transaction" data-meta="0_50">
+                            <div class="phui-timeline-event-view phui-timeline-minor-event">
+                                <div class="phui-timeline-content"><a
+                                        style="background-image: url(http://ph.thejoyrun.com/file/data/dexyc6hbtsqeh4cjv4ph/PHID-FILE-5jmmmhxxbj2qk4c57tqy/profile)"
+                                        class="phui-timeline-image visual-only" href="/p/ghost/"></a>
+                                    <div class="phui-timeline-wedge" style=""></div>
+                                    <div class="phui-timeline-group"><a name="339" id="339"
+                                            class="phabricator-anchor-view"></a>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-pencil phui-timeline-icon"
+                                                    data-meta="0_46" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a>
+                                            添加了此文档。<span class="phui-timeline-extra"><a href="#339"
+                                                    data-sigil="has-tooltip" data-meta="0_45">周五, Mar 29, 5:24
+                                                    PM</a></span></div>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-pencil phui-timeline-icon"
+                                                    data-meta="0_47" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a> edited
+                                            the content of this document. <a
+                                                href="/transactions/detail/PHID-XACT-WIKI-5fc7jkyiul423fb/"
+                                                data-sigil="workflow">显示详情</a></div>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-link phui-timeline-icon"
+                                                    data-meta="0_48" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a> 加入到 1
+                                            个项目: <a href="/project/view/59/"
+                                                class="phui-handle handle-status-closed">测试部 (v4.7.1)</a> 中去。</div>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-user-plus phui-timeline-icon"
+                                                    data-meta="0_49" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a> added 11
+                                            subscriber(s): <a href="/p/shadowmimosa/"
+                                                class="phui-handle phui-link-person">shadowmimosa</a>, <a
+                                                href="/p/zouzhiquan/"
+                                                class="phui-handle phui-link-person">zouzhiquan</a>, <a
+                                                href="/p/JerryFans/" class="phui-handle phui-link-person">JerryFans</a>
+                                            and <a href="/subscriptions/transaction/add/PHID-XACT-WIKI-cglxeq5iaqigpyd/"
+                                                data-sigil="workflow">8 other(s)</a>.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phui-timeline-event-view phui-timeline-spacer"></div>
+                        <div class="phui-timeline-shell" id="anchor-346" data-sigil="transaction" data-meta="0_55">
+                            <div class="phui-timeline-event-view phui-timeline-minor-event">
+                                <div class="phui-timeline-content"><a
+                                        style="background-image: url(http://ph.thejoyrun.com/file/data/dexyc6hbtsqeh4cjv4ph/PHID-FILE-5jmmmhxxbj2qk4c57tqy/profile)"
+                                        class="phui-timeline-image visual-only" href="/p/ghost/"></a>
+                                    <div class="phui-timeline-wedge" style=""></div>
+                                    <div class="phui-timeline-group"><a name="346" id="346"
+                                            class="phabricator-anchor-view"></a>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-pencil phui-timeline-icon"
+                                                    data-meta="0_52" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a> edited
+                                            the content of this document. <a
+                                                href="/transactions/detail/PHID-XACT-WIKI-lik6lcvwuinwvfs/"
+                                                data-sigil="workflow">显示详情</a><span class="phui-timeline-extra"><a
+                                                    href="#346" data-sigil="has-tooltip" data-meta="0_51">周五, Mar 29,
+                                                    5:29 PM</a></span></div>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-pencil phui-timeline-icon"
+                                                    data-meta="0_53" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a> edited
+                                            the content of this document. <a
+                                                href="/transactions/detail/PHID-XACT-WIKI-ycwkve67mz4w7gv/"
+                                                data-sigil="workflow">显示详情</a></div>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-pencil phui-timeline-icon"
+                                                    data-meta="0_54" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a> edited
+                                            the content of this document. <a
+                                                href="/transactions/detail/PHID-XACT-WIKI-pwdegc7jqezmttw/"
+                                                data-sigil="workflow">显示详情</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phui-timeline-event-view phui-timeline-spacer"></div>
+                        <div class="phui-timeline-shell" id="anchor-350" data-sigil="transaction" data-meta="0_58">
+                            <div class="phui-timeline-event-view phui-timeline-minor-event">
+                                <div class="phui-timeline-content"><a
+                                        style="background-image: url(http://ph.thejoyrun.com/file/data/dexyc6hbtsqeh4cjv4ph/PHID-FILE-5jmmmhxxbj2qk4c57tqy/profile)"
+                                        class="phui-timeline-image visual-only" href="/p/ghost/"></a>
+                                    <div class="phui-timeline-wedge" style=""></div>
+                                    <div class="phui-timeline-group"><a name="350" id="350"
+                                            class="phabricator-anchor-view"></a>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-pencil phui-timeline-icon"
+                                                    data-meta="0_57" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a> edited
+                                            the content of this document. <a
+                                                href="/transactions/detail/PHID-XACT-WIKI-7drsmdwjf7hahzp/"
+                                                data-sigil="workflow">显示详情</a><span class="phui-timeline-extra"><a
+                                                    href="#350" data-sigil="has-tooltip" data-meta="0_56">周五, Mar 29,
+                                                    6:16 PM</a></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phui-timeline-event-view phui-timeline-spacer"></div>
+                        <div class="phui-timeline-shell" id="anchor-351" data-sigil="transaction" data-meta="0_61">
+                            <div class="phui-timeline-event-view phui-timeline-minor-event">
+                                <div class="phui-timeline-content"><a
+                                        style="background-image: url(http://ph.thejoyrun.com/file/data/dexyc6hbtsqeh4cjv4ph/PHID-FILE-5jmmmhxxbj2qk4c57tqy/profile)"
+                                        class="phui-timeline-image visual-only" href="/p/ghost/"></a>
+                                    <div class="phui-timeline-wedge" style=""></div>
+                                    <div class="phui-timeline-group"><a name="351" id="351"
+                                            class="phabricator-anchor-view"></a>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-pencil phui-timeline-icon"
+                                                    data-meta="0_60" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a> edited
+                                            the content of this document. <a
+                                                href="/transactions/detail/PHID-XACT-WIKI-qiwnkxgddo5fo6i/"
+                                                data-sigil="workflow">显示详情</a><span class="phui-timeline-extra"><a
+                                                    href="#351" data-sigil="has-tooltip" data-meta="0_59">周五, Mar 29,
+                                                    6:35 PM</a></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phui-timeline-event-view phui-timeline-spacer"></div>
+                        <div class="phui-timeline-shell" id="anchor-459" data-sigil="transaction" data-meta="0_65">
+                            <div class="phui-timeline-event-view phui-timeline-minor-event">
+                                <div class="phui-timeline-content"><a
+                                        style="background-image: url(http://ph.thejoyrun.com/file/data/dexyc6hbtsqeh4cjv4ph/PHID-FILE-5jmmmhxxbj2qk4c57tqy/profile)"
+                                        class="phui-timeline-image visual-only" href="/p/ghost/"></a>
+                                    <div class="phui-timeline-wedge" style=""></div>
+                                    <div class="phui-timeline-group"><a name="459" id="459"
+                                            class="phabricator-anchor-view"></a>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-pencil phui-timeline-icon"
+                                                    data-meta="0_63" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a> changed
+                                            the title from <span class="phui-timeline-value">【草稿】iOS
+                                                集成测试报告【v4.7.1】</span> to <span class="phui-timeline-value">iOS
+                                                集成测试报告【v4.7.1】</span>.<span class="phui-timeline-extra"><a href="#459"
+                                                    data-sigil="has-tooltip" data-meta="0_62">周一, Apr 1, 11:36
+                                                    AM</a></span></div>
+                                        <div class="phui-timeline-title phui-timeline-title-with-icon"><span
+                                                class="phui-timeline-icon-fill"><span
+                                                    class="visual-only phui-icon-view phui-font-fa fa-pencil phui-timeline-icon"
+                                                    data-meta="0_64" aria-hidden="true"></span></span><a
+                                                href="/p/ghost/" class="phui-handle phui-link-person">ghost</a> edited
+                                            the content of this document. <a
+                                                href="/transactions/detail/PHID-XACT-WIKI-r77znsc2vs4v55h/"
+                                                data-sigil="workflow">显示详情</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phui-timeline-event-view phui-timeline-spacer"></div>
+                    </div>
+                    <div class="phui-box phui-box-border phui-object-box mlt mll mlr phui-object-box-flush phui-comment-form-view"
+                        data-sigil="phui-comment-form">
+                        <h3 class="aural-only">添加评论</h3>
+                        <div style="background-image: url(http://ph.thejoyrun.com/file/data/56pyoooq5ovxcwlikuhj/PHID-FILE-r3asgfdzqdecenf5hdgi/profile)"
+                            class="phui-comment-image visual-only"></div>
+                        <div class="phui-timeline-wedge"></div>
+                        <form class="phui-comment-has-actions" action="/phriction/document/edit/49/comment/"
+                            method="POST" id="UQ0_2" data-sigil="transaction-append workflow" data-meta="0_83"><input
+                                type="hidden" name="__csrf__" value="B@czfw4rdq27e0c1239f33dea7" /><input type="hidden"
+                                name="__form__" value="1" />
+                            <div class="phui-form-view"><input type="hidden" name="editengine.actions" id="UQ0_4" />
+                                <div class="phui-comment-action-bar grouped">
+                                    <div
+                                        class="aphront-form-control grouped aphront-form-control-select aphront-form-control-nolabel phui-comment-fullwidth-control phui-comment-action-control">
+                                        <div class="aphront-form-input"><select id="UQ0_3">
+                                                <option value="+">选中执行的操作...</option>
+                                                <option value="projectPHIDs">Change Project Tags</option>
+                                                <option value="subscriberPHIDs">修改订阅人</option>
+                                            </select></div>
+                                    </div>
+                                </div>
+                                <div id="UQ0_5" class="phui-comment-control-stack"></div>
+                                <div
+                                    class="aphront-form-control grouped aphront-form-control-textarea aphront-form-control-nolabel phui-comment-fullwidth-control phui-comment-textarea-control">
+                                    <div class="aphront-form-input">
+                                        <div id="UQ0_9" data-sigil="remarkup-assist-control">
+                                            <div class="remarkup-assist-bar"><a
+                                                    class="remarkup-assist-nodevice remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_68" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-bold">
+                                                        <span class="aural-only">加粗</span></div>
+                                                </a><a class="remarkup-assist-nodevice remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_69" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-italic">
+                                                        <span class="aural-only">斜体</span></div>
+                                                </a><a class="remarkup-assist-nodevice remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_70" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-text-width">
+                                                        <span class="aural-only">Monospaced</span></div>
+                                                </a><a class="remarkup-assist-nodevice remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_71" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-link">
+                                                        <span class="aural-only">链接</span></div>
+                                                </a><span
+                                                    class="remarkup-assist-nodevice remarkup-assist-separator"></span><a
+                                                    class="remarkup-assist-nodevice remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_72" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-list-ul">
+                                                        <span class="aural-only">无序列表</span></div>
+                                                </a><a class="remarkup-assist-nodevice remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_73" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-list-ol">
+                                                        <span class="aural-only">有序列表</span></div>
+                                                </a><a class="remarkup-assist-nodevice remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_74" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-code">
+                                                        <span class="aural-only">代码块</span></div>
+                                                </a><a class="remarkup-assist-nodevice remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_75" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-quote-right">
+                                                        <span class="aural-only">引用</span></div>
+                                                </a><a class="remarkup-assist-nodevice remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_76" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-table">
+                                                        <span class="aural-only">表格</span></div>
+                                                </a><a class="remarkup-assist-button remarkup-assist-upload" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_77" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-cloud-upload">
+                                                        <span class="aural-only">上传文件</span></div>
+                                                </a><span class="remarkup-assist-separator"></span><a
+                                                    class="remarkup-assist-button" href="#" tabindex="-1"
+                                                    data-sigil="remarkup-assist has-tooltip" data-meta="0_78"
+                                                    data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-meh-o">
+                                                        <span class="aural-only">Meme</span></div>
+                                                </a><a class="remarkup-assist-right remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_79" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-eye">
+                                                        <span class="aural-only">预览</span></div>
+                                                </a><a class="remarkup-assist-right remarkup-assist-button"
+                                                    href="https://secure.phabricator.com/diviner/find/?name=Remarkup+Reference&amp;type=article&amp;jump=1"
+                                                    target="_blank" tabindex="-1"
+                                                    data-sigil="remarkup-assist has-tooltip" data-meta="0_80">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-book">
+                                                        <span class="aural-only">帮助</span></div>
+                                                </a><a class="remarkup-assist-right remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_81" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-arrows-alt">
+                                                        <span class="aural-only">全屏模式</span></div>
+                                                </a><a class="remarkup-assist-right remarkup-assist-button" href="#"
+                                                    tabindex="-1" data-sigil="remarkup-assist has-tooltip"
+                                                    data-meta="0_82" data-mustcapture="1">
+                                                    <div
+                                                        class="remarkup-assist phui-icon-view phui-font-fa bluegrey fa-thumb-tack">
+                                                        <span class="aural-only">在屏幕上固定表单</span></div>
+                                                </a></div><textarea name="comment" class="remarkup-assist-textarea"
+                                                id="UQ0_8">
+</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="aphront-form-control grouped aphront-form-control-submit aphront-form-control-nolabel phui-comment-fullwidth-control phui-comment-submit-control">
+                                    <div class="aphront-form-input"><button type="submit" name="__submit__"
+                                            data-sigil="submit-transactions">提交</button></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="UQ0_6" style="display: none" class="phui-comment-preview-view">
+                        <div class="phui-timeline-view" id="UQ0_7">
+                            <h3 class="aural-only">Event Timeline</h3>
+                            <div class="phui-timeline-event-view phui-timeline-spacer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="conpherence-durable-column" class="conpherence-durable-column loading " style="display: none;"
+            data-sigil="conpherence-durable-column">
+            <div class="conpherence-durable-column-header grouped" data-sigil="conpherence-minimize-window">
+                <div class="conpherence-durable-column-header-inner">
+                    <div class="aphlict-connection-status " id="UQ0_96"><span
+                            class="connection-status-text aphlict-connection-status-notenabled"><span
+                                class="visual-only phui-icon-view phui-font-fa fa-circle-o grey" data-meta="0_121"
+                                aria-hidden="true"></span>通知服务器未启用</span></div>
+                    <div class="conpherence-durable-column-header-text"
+                        data-sigil="conpherence-durable-column-header-text"><span>Conpherence</span></div>
+                    <ul class="phui-list-view phabricator-application-menu">
+                        <li class="phui-list-item-view phui-list-item-type-link phui-list-item-has-icon core-menu-item conpherence-settings-icon"
+                            id="UQ0_94" data-sigil="conpherence-settings-menu"><a href="#"
+                                class="phui-list-item-href"><span class="aural-only">聊天室操作</span><span
+                                    class="visual-only phui-icon-view phui-font-fa fa-gear phui-list-item-icon"
+                                    data-meta="0_122" aria-hidden="true"></span><span
+                                    class="phui-list-item-name visual-only">聊天室操作</span></a></li>
+                        <li class="phui-list-item-view phui-list-item-type-link phui-list-item-has-icon core-menu-item conpherence-minimize-icon"
+                            data-sigil="conpherence-minimize-window"><a href="#" class="phui-list-item-href"><span
+                                    class="aural-only">Minimize Window</span><span
+                                    class="visual-only phui-icon-view phui-font-fa fa-toggle-down phui-list-item-icon"
+                                    data-meta="0_123" aria-hidden="true"></span><span
+                                    class="phui-list-item-name visual-only">Minimize Window</span></a></li>
+                    </ul>
+                    <div id="UQ0_95"
+                        class="phabricator-main-menu-dropdown phui-list-sidenav conpherence-settings-dropdown"
+                        sigil="phabricator-notification-menu" style="display: none">
+                        <ul class="phui-list-view ">
+                            <li class="phui-list-item-view phui-list-item-type-link phui-list-item-has-icon "
+                                data-meta="0_120" data-sigil="conpherence-durable-column-header-action"><a href="#"
+                                    class="phui-list-item-href"><span
+                                        class="visual-only phui-icon-view phui-font-fa fa-times phui-list-item-icon"
+                                        data-meta="0_119" aria-hidden="true"></span><span
+                                        class="phui-list-item-name">隐藏窗口</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="conpherence-durable-column-body" data-sigil="conpherence-durable-column-body">
+                <div class="conpherence-durable-column-icon-bar"></div>
+                <div class="conpherence-durable-column-main" data-sigil="conpherence-durable-column-main">
+                    <div id="conpherence-durable-column-content" class="conpherence-durable-column-frame">
+                        <div class="conpherence-durable-column-transactions"
+                            data-sigil="conpherence-durable-column-transactions">加载中...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="http://ph.thejoyrun.com/res/redgreenX/phabricator/4bde473b/core.pkg.js">
+    </script>
+    <script type="text/javascript" src="http://ph.thejoyrun.com/res/redgreenX/phabricator/ef0b989b/differential.pkg.js">
+    </script>
+    <script type="text/javascript"
+        src="http://ph.thejoyrun.com/res/redgreenX/phabricator/59e27e74/rsrc/js/application/transactions/behavior-comment-actions.js">
+    </script>
+    <script type="text/javascript"
+        src="http://ph.thejoyrun.com/res/redgreenX/phabricator/210a16c1/rsrc/js/phuix/PHUIXFormControl.js"></script>
+    <script type="text/javascript"
+        src="http://ph.thejoyrun.com/res/redgreenX/phabricator/df1bbd34/rsrc/js/phuix/PHUIXAutocomplete.js"></script>
+    <data data-javelin-init-kind="merge"
+        data-javelin-init-data="{&quot;block&quot;:0,&quot;data&quot;:[{&quot;hoverPHID&quot;:&quot;PHID-TASK-odn35pojh3olytpetp3j&quot;},{&quot;hoverPHID&quot;:&quot;PHID-TASK-dg4rx7aotuqgx6kgupyu&quot;},{&quot;hoverPHID&quot;:&quot;PHID-TASK-4xuhgqsdgrh7qksifq7x&quot;},{&quot;hoverPHID&quot;:&quot;PHID-TASK-o7jm73hewekaifdmtn7c&quot;},{&quot;hoverPHID&quot;:&quot;PHID-TASK-rwdgowcutvf72zpneco4&quot;},{&quot;hoverPHID&quot;:&quot;PHID-TASK-nhqndis3ifcx6z4uqcbi&quot;},{&quot;hoverPHID&quot;:&quot;PHID-TASK-dmbpbsx7v3wguourqdum&quot;},{&quot;hoverPHID&quot;:&quot;PHID-TASK-mcq4vf22wlgk742kivk2&quot;},{&quot;hoverPHID&quot;:&quot;PHID-TASK-lnn7hyh4nhrgbof4g3jd&quot;},{&quot;hoverPHID&quot;:&quot;PHID-TASK-m6qi4vfhvasj4n47alai&quot;},{&quot;hoverPHID&quot;:&quot;PHID-TASK-dosrvhgcsvvigvrvk5rm&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-aftzymmecmfonwh3m5kz&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-f3kxefi7k2xsdxrtozn6&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-tqkqa6m4okjw5daf3gkt&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-aftzymmecmfonwh3m5kz&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-f3kxefi7k2xsdxrtozn6&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-tbbhhf6unselrodqo7mr&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-aftzymmecmfonwh3m5kz&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-oznvbwjgicdnm5hvzqds&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-tqkqa6m4okjw5daf3gkt&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-zxpayq3m5cgbddl5yx2m&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-oznvbwjgicdnm5hvzqds&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-ew56qwsvps77hjpvt6t3&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-wsf5emyitvhueywvhibg&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-oznvbwjgicdnm5hvzqds&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-ew56qwsvps77hjpvt6t3&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-aftzymmecmfonwh3m5kz&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-oznvbwjgicdnm5hvzqds&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-frpsdkoxhf2fs7ckb62u&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-aftzymmecmfonwh3m5kz&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-oznvbwjgicdnm5hvzqds&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-tqkqa6m4okjw5daf3gkt&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-aftzymmecmfonwh3m5kz&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-oznvbwjgicdnm5hvzqds&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-tqkqa6m4okjw5daf3gkt&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-zxpayq3m5cgbddl5yx2m&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-f3kxefi7k2xsdxrtozn6&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-tqkqa6m4okjw5daf3gkt&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-aftzymmecmfonwh3m5kz&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-vta5u75dflwmus42cnix&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-ew56qwsvps77hjpvt6t3&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-zxpayq3m5cgbddl5yx2m&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-f3kxefi7k2xsdxrtozn6&quot;},{&quot;hoverPHID&quot;:&quot;PHID-USER-frpsdkoxhf2fs7ckb62u&quot;},{&quot;uri&quot;:&quot;&quot;,&quot;symbols&quot;:null},{&quot;tip&quot;:&quot;Via Web&quot;},[],[],[],[],{&quot;phid&quot;:&quot;PHID-XACT-WIKI-ubzvl2qjcmmulrk&quot;,&quot;anchor&quot;:&quot;339&quot;},{&quot;tip&quot;:&quot;Via Web&quot;},[],[],[],{&quot;phid&quot;:&quot;PHID-XACT-WIKI-lik6lcvwuinwvfs&quot;,&quot;anchor&quot;:&quot;346&quot;},{&quot;tip&quot;:&quot;Via Web&quot;},[],{&quot;phid&quot;:&quot;PHID-XACT-WIKI-7drsmdwjf7hahzp&quot;,&quot;anchor&quot;:&quot;350&quot;},{&quot;tip&quot;:&quot;Via Web&quot;},[],{&quot;phid&quot;:&quot;PHID-XACT-WIKI-qiwnkxgddo5fo6i&quot;,&quot;anchor&quot;:&quot;351&quot;},{&quot;tip&quot;:&quot;Via Web&quot;},[],[],{&quot;phid&quot;:&quot;PHID-XACT-WIKI-g6fn7adwn3laozi&quot;,&quot;anchor&quot;:&quot;459&quot;},[],[],{&quot;action&quot;:&quot;fa-bold&quot;,&quot;tip&quot;:&quot;\u52a0\u7c97&quot;},{&quot;action&quot;:&quot;fa-italic&quot;,&quot;tip&quot;:&quot;\u659c\u4f53&quot;},{&quot;action&quot;:&quot;fa-text-width&quot;,&quot;tip&quot;:&quot;Monospaced&quot;},{&quot;action&quot;:&quot;fa-link&quot;,&quot;tip&quot;:&quot;\u94fe\u63a5&quot;},{&quot;action&quot;:&quot;fa-list-ul&quot;,&quot;tip&quot;:&quot;\u65e0\u5e8f\u5217\u8868&quot;},{&quot;action&quot;:&quot;fa-list-ol&quot;,&quot;tip&quot;:&quot;\u6709\u5e8f\u5217\u8868&quot;},{&quot;action&quot;:&quot;fa-code&quot;,&quot;tip&quot;:&quot;\u4ee3\u7801\u5757&quot;},{&quot;action&quot;:&quot;fa-quote-right&quot;,&quot;tip&quot;:&quot;\u5f15\u7528&quot;},{&quot;action&quot;:&quot;fa-table&quot;,&quot;tip&quot;:&quot;\u8868\u683c&quot;},{&quot;action&quot;:&quot;fa-cloud-upload&quot;,&quot;tip&quot;:&quot;\u4e0a\u4f20\u6587\u4ef6&quot;},{&quot;action&quot;:&quot;fa-meh-o&quot;,&quot;tip&quot;:&quot;Meme&quot;},{&quot;action&quot;:&quot;fa-eye&quot;,&quot;tip&quot;:&quot;\u9884\u89c8&quot;},{&quot;tip&quot;:&quot;\u5e2e\u52a9&quot;},{&quot;action&quot;:&quot;fa-arrows-alt&quot;,&quot;tip&quot;:&quot;\u5168\u5c4f\u6a21\u5f0f&quot;},{&quot;action&quot;:&quot;fa-thumb-tack&quot;,&quot;tip&quot;:&quot;\u5728\u5c4f\u5e55\u4e0a\u56fa\u5b9a\u8868\u5355&quot;},{&quot;objectPHID&quot;:&quot;PHID-WIKI-xbvucksutx3zsvynvumy&quot;},{&quot;map&quot;:{&quot;UQ0_11&quot;:&quot;phui-document-toc-open&quot;}},[],[],[],[],[],[],[],[],[],[],[],[],{&quot;hoverPHID&quot;:&quot;PHID-PROJ-ylenq2fbsfbztngo6ltr&quot;},{&quot;menuID&quot;:&quot;UQ0_0&quot;},[],[],[],[],{&quot;map&quot;:{&quot;UQ0_32&quot;:&quot;phabricator-search-menu-expanded&quot;,&quot;UQ0_55&quot;:&quot;menu-icon-selected&quot;}},{&quot;items&quot;:&quot;\u003cul class=\&quot;phabricator-action-list-view \&quot;\u003e\u003cli id=\&quot;UQ0_40\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href phabricator-action-view-type-link\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/w\/create\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u65b0\u5efa\u6587\u6863\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_42\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href phabricator-action-view-type-link\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/w\/\/phriction\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003eIndex\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_44\&quot; class=\&quot;phabricator-action-view phabricator-action-view-type-label\&quot; style=\&quot;\&quot;\u003e\u003cspan class=\&quot;phabricator-action-view-item\&quot;\u003e\u67e5\u8be2\u003c\/span\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_46\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href phabricator-action-view-type-link\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/phriction\/query\/active\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u53ef\u7528\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_48\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href phabricator-action-view-type-link\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/phriction\/query\/all\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u5168\u90e8\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_50\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href phabricator-action-view-type-link\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/phriction\/query\/edit\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u4fee\u6539\u67e5\u8be2\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_52\&quot; class=\&quot;phabricator-action-view phabricator-action-view-type-label\&quot; style=\&quot;\&quot;\u003e\u003cspan class=\&quot;phabricator-action-view-item\&quot;\u003e\u641c\u7d22\u003c\/span\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_54\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href phabricator-action-view-type-link\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/phriction\/query\/advanced\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u9ad8\u7ea7\u641c\u7d22\u003c\/a\u003e\u003c\/li\u003e\u003c\/ul\u003e&quot;},[],{&quot;items&quot;:[{&quot;name&quot;:&quot;\u641c\u7d22&quot;},{&quot;icon&quot;:&quot;fa-globe&quot;,&quot;name&quot;:&quot;\u6240\u6709\u6587\u6863&quot;,&quot;value&quot;:&quot;all&quot;},{&quot;icon&quot;:&quot;fa-book&quot;,&quot;name&quot;:&quot;Current Application&quot;,&quot;value&quot;:&quot;application&quot;},{&quot;name&quot;:&quot;\u5df2\u4fdd\u5b58\u7684\u67e5\u8be2&quot;},{&quot;icon&quot;:&quot;fa-certificate&quot;,&quot;name&quot;:&quot;Open Documents&quot;,&quot;value&quot;:&quot;open&quot;},{&quot;icon&quot;:&quot;fa-certificate&quot;,&quot;name&quot;:&quot;\u8fdb\u884c\u4e2d\u7684\u4efb\u52a1&quot;,&quot;value&quot;:&quot;open-tasks&quot;},{&quot;name&quot;:&quot;\u66f4\u591a\u9009\u9879&quot;},{&quot;icon&quot;:&quot;fa-search-plus&quot;,&quot;name&quot;:&quot;\u9ad8\u7ea7\u641c\u7d22&quot;,&quot;href&quot;:&quot;\/search\/query\/advanced\/&quot;},{&quot;icon&quot;:&quot;fa-book&quot;,&quot;name&quot;:&quot;User Guide: Search&quot;,&quot;href&quot;:&quot;https:\/\/secure.phabricator.com\/diviner\/find\/?name=Search+User+Guide&amp;type=article&amp;jump=1&quot;}],&quot;icon&quot;:&quot;fa-globe&quot;,&quot;value&quot;:&quot;all&quot;},[],[],{&quot;items&quot;:&quot;\u003cul class=\&quot;phabricator-action-list-view \&quot;\u003e\u003cli id=\&quot;UQ0_58\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href phabricator-action-view-type-link\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/maniphest\/task\/edit\/form\/2\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u65b0\u5efa\u4efb\u52a1\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_60\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href phabricator-action-view-type-link\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/project\/edit\/form\/default\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u65b0\u5efa\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_62\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href phabricator-action-view-type-link\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/diffusion\/edit\/form\/default\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u65b0\u5efa\u4ed3\u5e93\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_64\&quot; class=\&quot;phabricator-action-view phabricator-action-view-type-divider\&quot; style=\&quot;\&quot;\u003e\u003cspan class=\&quot;phabricator-action-view-item\&quot;\u003e\u003c\/span\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_66\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/favorites\/menu\/configure\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003eEdit Favorites\u003c\/a\u003e\u003c\/li\u003e\u003c\/ul\u003e&quot;},[],[],[],[],[],[],[],[],[],[],{&quot;action&quot;:&quot;hide_column&quot;},[],[],[]]}"></data><data
+        data-javelin-init-kind="behaviors"
+        data-javelin-init-data="{&quot;refresh-csrf&quot;:[{&quot;tokenName&quot;:&quot;__csrf__&quot;,&quot;header&quot;:&quot;X-Phabricator-Csrf&quot;,&quot;viaHeader&quot;:&quot;X-Phabricator-Via&quot;,&quot;current&quot;:&quot;B@czfw4rdq27e0c1239f33dea7&quot;}],&quot;history-install&quot;:[]}"></data><data
+        data-javelin-init-kind="behaviors"
+        data-javelin-init-data="{&quot;phui-hovercards&quot;:[],&quot;repository-crossreference&quot;:[],&quot;phabricator-transaction-list&quot;:[],&quot;phabricator-show-older-transactions&quot;:[{&quot;timelineID&quot;:&quot;UQ0_1&quot;,&quot;renderData&quot;:[]}],&quot;phabricator-watch-anchor&quot;:[],&quot;phabricator-tooltips&quot;:[],&quot;comment-actions&quot;:[{&quot;actionID&quot;:&quot;UQ0_3&quot;,&quot;inputID&quot;:&quot;UQ0_4&quot;,&quot;formID&quot;:&quot;UQ0_2&quot;,&quot;placeID&quot;:&quot;UQ0_5&quot;,&quot;panelID&quot;:&quot;UQ0_6&quot;,&quot;timelineID&quot;:&quot;UQ0_7&quot;,&quot;actions&quot;:{&quot;projectPHIDs&quot;:{&quot;key&quot;:&quot;projectPHIDs&quot;,&quot;label&quot;:&quot;Change Project Tags&quot;,&quot;type&quot;:&quot;tokenizer&quot;,&quot;spec&quot;:{&quot;markup&quot;:&quot;\u003cdiv class=\&quot;jx-tokenizer-frame\&quot; data-sigil=\&quot;tokenizer-frame\&quot;\u003e\u003cdiv class=\&quot;jx-tokenizer-container\&quot; data-sigil=\&quot;tokenizer-container\&quot;\u003e\u003cinput class=\&quot;jx-tokenizer-input\&quot; style=\&quot;width: 0px;\&quot; disabled=\&quot;disabled\&quot; type=\&quot;text\&quot; data-mustcapture=\&quot;1\&quot; data-sigil=\&quot;tokenizer-input\&quot; \/\u003e\u003cdiv style=\&quot;clear: both;\&quot;\u003e\u003c\/div\u003e\u003c\/div\u003e\u003ca class=\&quot;button button-grey has-icon phui-button-default tokenizer-browse-button\&quot; role=\&quot;button\&quot; data-sigil=\&quot;tokenizer-browse\&quot;\u003e\u003cspan class=\&quot;visual-only phui-icon-view phui-font-fa fa-search\&quot; data-meta=\&quot;0_66\&quot; aria-hidden=\&quot;true\&quot;\u003e\u003c\/span\u003e\u003c\/a\u003e\u003c\/div\u003e&quot;,&quot;config&quot;:{&quot;src&quot;:&quot;\/typeahead\/class\/PhabricatorProjectDatasource\/&quot;,&quot;browseURI&quot;:&quot;\/typeahead\/browse\/PhabricatorProjectDatasource\/&quot;,&quot;placeholder&quot;:&quot;\u8f93\u5165\u9879\u76ee\u540d\u79f0...&quot;,&quot;limit&quot;:null},&quot;value&quot;:{&quot;PHID-PROJ-ylenq2fbsfbztngo6ltr&quot;:[null,null,&quot;PHID-PROJ-ylenq2fbsfbztngo6ltr&quot;,null,&quot;\u6d4b\u8bd5\u90e8 (v4.7.1)&quot;,null,null,null,&quot;fa-map-marker&quot;,null,null,null,&quot;disabled&quot;]}},&quot;initialValue&quot;:[&quot;PHID-PROJ-ylenq2fbsfbztngo6ltr&quot;],&quot;groupKey&quot;:null,&quot;conflictKey&quot;:null,&quot;auralLabel&quot;:&quot;Remove Action: Change Project Tags&quot;,&quot;buttonText&quot;:null},&quot;subscriberPHIDs&quot;:{&quot;key&quot;:&quot;subscriberPHIDs&quot;,&quot;label&quot;:&quot;\u4fee\u6539\u8ba2\u9605\u4eba&quot;,&quot;type&quot;:&quot;tokenizer&quot;,&quot;spec&quot;:{&quot;markup&quot;:&quot;\u003cdiv class=\&quot;jx-tokenizer-frame\&quot; data-sigil=\&quot;tokenizer-frame\&quot;\u003e\u003cdiv class=\&quot;jx-tokenizer-container\&quot; data-sigil=\&quot;tokenizer-container\&quot;\u003e\u003cinput class=\&quot;jx-tokenizer-input\&quot; style=\&quot;width: 0px;\&quot; disabled=\&quot;disabled\&quot; type=\&quot;text\&quot; data-mustcapture=\&quot;1\&quot; data-sigil=\&quot;tokenizer-input\&quot; \/\u003e\u003cdiv style=\&quot;clear: both;\&quot;\u003e\u003c\/div\u003e\u003c\/div\u003e\u003ca class=\&quot;button button-grey has-icon phui-button-default tokenizer-browse-button\&quot; role=\&quot;button\&quot; data-sigil=\&quot;tokenizer-browse\&quot;\u003e\u003cspan class=\&quot;visual-only phui-icon-view phui-font-fa fa-search\&quot; data-meta=\&quot;0_67\&quot; aria-hidden=\&quot;true\&quot;\u003e\u003c\/span\u003e\u003c\/a\u003e\u003c\/div\u003e&quot;,&quot;config&quot;:{&quot;src&quot;:&quot;\/typeahead\/class\/PhabricatorMetaMTAMailableDatasource\/&quot;,&quot;browseURI&quot;:&quot;\/typeahead\/browse\/PhabricatorMetaMTAMailableDatasource\/&quot;,&quot;placeholder&quot;:&quot;\u8f93\u5165\u7528\u6237\u540d\u3001\u9879\u76ee\u540d\u79f0\uff0c\u5305\u540d \u6216 \u90ae\u4ef6\u5217\u8868\u540d\u79f0...&quot;,&quot;limit&quot;:null},&quot;value&quot;:{&quot;PHID-USER-tbbhhf6unselrodqo7mr&quot;:[null,null,&quot;PHID-USER-tbbhhf6unselrodqo7mr&quot;,null,&quot;wangsiwen (\u738b\u55e3\u6587)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;],&quot;PHID-USER-frpsdkoxhf2fs7ckb62u&quot;:[null,null,&quot;PHID-USER-frpsdkoxhf2fs7ckb62u&quot;,null,&quot;xiaomi (\u7c73\u6052\u7cb2)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;],&quot;PHID-USER-ew56qwsvps77hjpvt6t3&quot;:[null,null,&quot;PHID-USER-ew56qwsvps77hjpvt6t3&quot;,null,&quot;maochuting (\u6bdb\u695a\u5a77)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;],&quot;PHID-USER-tqkqa6m4okjw5daf3gkt&quot;:[null,null,&quot;PHID-USER-tqkqa6m4okjw5daf3gkt&quot;,null,&quot;tanyuchen (\u8c2d\u96e8\u6668)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;],&quot;PHID-USER-aftzymmecmfonwh3m5kz&quot;:[null,null,&quot;PHID-USER-aftzymmecmfonwh3m5kz&quot;,null,&quot;ghost (\u738b\u6b46)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;],&quot;PHID-USER-nzw5ra7o7xeeqhghrmfu&quot;:[null,null,&quot;PHID-USER-nzw5ra7o7xeeqhghrmfu&quot;,null,&quot;liukawai (\u5ed6\u5609\u851a)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;],&quot;PHID-USER-oznvbwjgicdnm5hvzqds&quot;:[null,null,&quot;PHID-USER-oznvbwjgicdnm5hvzqds&quot;,null,&quot;Blade (Cen weixiang)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;],&quot;PHID-USER-vta5u75dflwmus42cnix&quot;:[null,null,&quot;PHID-USER-vta5u75dflwmus42cnix&quot;,null,&quot;karim (\u5f20\u4e1a\u5764)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;],&quot;PHID-USER-f3kxefi7k2xsdxrtozn6&quot;:[null,null,&quot;PHID-USER-f3kxefi7k2xsdxrtozn6&quot;,null,&quot;JerryFans (\u6a0a\u5609\u8363)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;],&quot;PHID-USER-wsf5emyitvhueywvhibg&quot;:[null,null,&quot;PHID-USER-wsf5emyitvhueywvhibg&quot;,null,&quot;zouzhiquan (\u90b9\u5fd7\u6743)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;],&quot;PHID-USER-zxpayq3m5cgbddl5yx2m&quot;:[null,null,&quot;PHID-USER-zxpayq3m5cgbddl5yx2m&quot;,null,&quot;shadowmimosa (\u8f66\u70ab\u4e1c)&quot;,null,null,null,&quot;fa-user&quot;,null,null,&quot;blue&quot;,&quot;object&quot;]}},&quot;initialValue&quot;:[&quot;PHID-USER-tbbhhf6unselrodqo7mr&quot;,&quot;PHID-USER-frpsdkoxhf2fs7ckb62u&quot;,&quot;PHID-USER-ew56qwsvps77hjpvt6t3&quot;,&quot;PHID-USER-tqkqa6m4okjw5daf3gkt&quot;,&quot;PHID-USER-aftzymmecmfonwh3m5kz&quot;,&quot;PHID-USER-nzw5ra7o7xeeqhghrmfu&quot;,&quot;PHID-USER-oznvbwjgicdnm5hvzqds&quot;,&quot;PHID-USER-vta5u75dflwmus42cnix&quot;,&quot;PHID-USER-f3kxefi7k2xsdxrtozn6&quot;,&quot;PHID-USER-wsf5emyitvhueywvhibg&quot;,&quot;PHID-USER-zxpayq3m5cgbddl5yx2m&quot;],&quot;groupKey&quot;:null,&quot;conflictKey&quot;:null,&quot;auralLabel&quot;:&quot;Remove Action: \u4fee\u6539\u8ba2\u9605\u4eba&quot;,&quot;buttonText&quot;:null}},&quot;showPreview&quot;:true,&quot;actionURI&quot;:&quot;\/phriction\/document\/edit\/49\/comment\/&quot;,&quot;drafts&quot;:[],&quot;defaultButtonText&quot;:&quot;\u63d0\u4ea4&quot;}],&quot;aphront-drag-and-drop-textarea&quot;:[{&quot;target&quot;:&quot;UQ0_8&quot;,&quot;activatedClass&quot;:&quot;aphront-textarea-drag-and-drop&quot;,&quot;uri&quot;:&quot;\/file\/dropupload\/&quot;,&quot;chunkThreshold&quot;:4194304}],&quot;phabricator-remarkup-assist&quot;:[{&quot;pht&quot;:{&quot;bold text&quot;:&quot;bold text&quot;,&quot;italic text&quot;:&quot;italic text&quot;,&quot;monospaced text&quot;:&quot;monospaced text&quot;,&quot;List Item&quot;:&quot;List Item&quot;,&quot;Quoted Text&quot;:&quot;\u5f15\u7528\u6587\u672c&quot;,&quot;data&quot;:&quot;data&quot;,&quot;name&quot;:&quot;name&quot;,&quot;URL&quot;:&quot;URL&quot;,&quot;key-help&quot;:&quot;Pin or unpin the comment form.&quot;},&quot;canPin&quot;:true,&quot;disabled&quot;:null,&quot;sendOnEnter&quot;:false,&quot;rootID&quot;:&quot;UQ0_9&quot;,&quot;autocompleteMap&quot;:{&quot;64&quot;:{&quot;datasourceURI&quot;:&quot;\/typeahead\/class\/PhabricatorPeopleDatasource\/&quot;,&quot;headerIcon&quot;:&quot;fa-user&quot;,&quot;headerText&quot;:&quot;Find User:&quot;,&quot;hintText&quot;:&quot;\u8f93\u5165\u7528\u6237\u540d...&quot;},&quot;35&quot;:{&quot;datasourceURI&quot;:&quot;\/typeahead\/class\/PhabricatorProjectDatasource\/?autocomplete=1&quot;,&quot;headerIcon&quot;:&quot;fa-briefcase&quot;,&quot;headerText&quot;:&quot;Find Project:&quot;,&quot;hintText&quot;:&quot;\u8f93\u5165\u9879\u76ee\u540d\u79f0...&quot;},&quot;58&quot;:{&quot;datasourceURI&quot;:&quot;\/typeahead\/class\/PhabricatorEmojiDatasource\/&quot;,&quot;headerIcon&quot;:&quot;fa-smile-o&quot;,&quot;headerText&quot;:&quot;Find Emoji:&quot;,&quot;hintText&quot;:&quot;Type an emoji name...&quot;,&quot;ignore&quot;:[&quot;3&quot;,&quot;)&quot;,&quot;(&quot;,&quot;-&quot;,&quot;\/&quot;]},&quot;91&quot;:{&quot;datasourceURI&quot;:&quot;\/typeahead\/class\/PhrictionDocumentDatasource\/&quot;,&quot;headerIcon&quot;:&quot;fa-book&quot;,&quot;headerText&quot;:&quot;Find Document:&quot;,&quot;hintText&quot;:&quot;Type a document name...&quot;,&quot;cancel&quot;:[&quot;:&quot;,&quot;|&quot;,&quot;]&quot;],&quot;prefix&quot;:&quot;^\\[&quot;},&quot;40&quot;:{&quot;datasourceURI&quot;:&quot;\/typeahead\/class\/PhabricatorPhurlURLDatasource\/&quot;,&quot;headerIcon&quot;:&quot;fa-compress&quot;,&quot;headerText&quot;:&quot;Find Phurl:&quot;,&quot;hintText&quot;:&quot;Select a phurl...&quot;,&quot;cancel&quot;:[&quot;)&quot;],&quot;prefix&quot;:&quot;^\\(&quot;}}}],&quot;phabricator-reveal-content&quot;:[],&quot;phui-dropdown-menu&quot;:[],&quot;workflow&quot;:[],&quot;detect-timezone&quot;:[{&quot;offset&quot;:-480,&quot;uri&quot;:&quot;\/settings\/timezone\/&quot;,&quot;message&quot;:&quot;Your browser timezone setting differs from the timezone setting in your profile, click to reconcile.&quot;,&quot;ignoreKey&quot;:&quot;time.offset.ignore&quot;,&quot;ignore&quot;:null}],&quot;lightbox-attachments&quot;:[],&quot;aphront-form-disable-on-submit&quot;:[],&quot;toggle-class&quot;:[],&quot;phabricator-gesture&quot;:[],&quot;device&quot;:[],&quot;high-security-warning&quot;:[{&quot;show&quot;:false,&quot;uri&quot;:&quot;\/auth\/session\/downgrade\/&quot;,&quot;message&quot;:&quot;Your session is in high security mode. When you finish using it, click here to leave.&quot;}],&quot;aphlict-dropdown&quot;:[{&quot;bubbleID&quot;:&quot;UQ0_33&quot;,&quot;countID&quot;:&quot;UQ0_34&quot;,&quot;dropdownID&quot;:&quot;UQ0_35&quot;,&quot;loadingText&quot;:&quot;\u52a0\u8f7d\u4e2d...&quot;,&quot;uri&quot;:&quot;\/conpherence\/panel\/&quot;,&quot;countType&quot;:&quot;messages&quot;,&quot;countNumber&quot;:0,&quot;unreadClass&quot;:&quot;message-unread&quot;,&quot;favicon&quot;:&quot;http:\/\/ph.thejoyrun.com\/file\/data\/eo4qbjrcm75ukxbntnb4\/PHID-FILE-wta37zhitbz5spxnfpwp\/favicon&quot;,&quot;message_favicon&quot;:&quot;http:\/\/ph.thejoyrun.com\/file\/data\/qs23x4hoapkqxwtcjqfo\/PHID-FILE-65564ipsx5bfjiet7537\/favicon&quot;},{&quot;bubbleID&quot;:&quot;UQ0_38&quot;,&quot;countID&quot;:&quot;UQ0_36&quot;,&quot;dropdownID&quot;:&quot;UQ0_37&quot;,&quot;loadingText&quot;:&quot;\u52a0\u8f7d\u4e2d...&quot;,&quot;uri&quot;:&quot;\/notification\/panel\/&quot;,&quot;countType&quot;:&quot;notifications&quot;,&quot;countNumber&quot;:0,&quot;unreadClass&quot;:&quot;alert-unread&quot;,&quot;favicon&quot;:&quot;http:\/\/ph.thejoyrun.com\/file\/data\/eo4qbjrcm75ukxbntnb4\/PHID-FILE-wta37zhitbz5spxnfpwp\/favicon&quot;,&quot;message_favicon&quot;:&quot;http:\/\/ph.thejoyrun.com\/file\/data\/qs23x4hoapkqxwtcjqfo\/PHID-FILE-65564ipsx5bfjiet7537\/favicon&quot;},{&quot;bubbleID&quot;:&quot;UQ0_94&quot;,&quot;dropdownID&quot;:&quot;UQ0_95&quot;,&quot;local&quot;:true,&quot;containerDivID&quot;:&quot;conpherence-durable-column&quot;}],&quot;phabricator-keyboard-shortcuts&quot;:[{&quot;helpURI&quot;:&quot;\/help\/keyboardshortcut\/&quot;,&quot;searchID&quot;:&quot;UQ0_56&quot;,&quot;pht&quot;:{&quot;\/&quot;:&quot;Give keyboard focus to the search box.&quot;,&quot;?&quot;:&quot;Show keyboard shortcut help for the current page.&quot;}}],&quot;user-menu&quot;:[{&quot;menuID&quot;:&quot;UQ0_67&quot;,&quot;menu&quot;:{&quot;items&quot;:&quot;\u003cul class=\&quot;phabricator-action-list-view \&quot;\u003e\u003cli id=\&quot;UQ0_69\&quot; class=\&quot;phabricator-action-view\&quot; style=\&quot;\&quot;\u003e\u003cspan class=\&quot;phabricator-action-view-item\&quot;\u003e\u003cul class=\&quot;phui-oi-list-view phui-oi-list-flush phui-oi-list-simple phabricator-core-user-profile-object\&quot;\u003e\u003cli class=\&quot;phui-oi phui-oi-no-bar phui-oi-with-image phui-oi-standard\&quot; data-sigil=\&quot;\&quot;\u003e\u003cdiv class=\&quot;phui-oi-frame\&quot;\u003e\u003cdiv class=\&quot;phui-oi-frame-content\&quot;\u003e\u003cdiv class=\&quot;phui-oi-image\&quot; style=\&quot;background-image: url(http:\/\/ph.thejoyrun.com\/file\/data\/56pyoooq5ovxcwlikuhj\/PHID-FILE-r3asgfdzqdecenf5hdgi\/profile)\&quot;\u003e\u003c\/div\u003e\u003cdiv class=\&quot;phui-oi-content-box\&quot;\u003e\u003cdiv class=\&quot;phui-oi-table\&quot;\u003e\u003cdiv class=\&quot;phui-oi-table-row\&quot;\u003e\u003cdiv class=\&quot;phui-oi-col1\&quot;\u003e\u003cdiv class=\&quot;phui-oi-name\&quot;\u003e\u003cspan data-sigil=\&quot;slippery\&quot;\u003e\u003cspan class=\&quot;phui-oi-objname\&quot;\u003e\u8f66\u70ab\u4e1c\u003c\/span\u003e \u003cdiv class=\&quot;phui-oi-link\&quot;\u003e\u003c\/div\u003e\u003c\/span\u003e\u003c\/div\u003e\u003cdiv class=\&quot;phui-oi-content\&quot;\u003e\u003cdiv class=\&quot;phui-oi-subhead\&quot;\u003eshadowmimosa\u003c\/div\u003e\u003c\/div\u003e\u003c\/div\u003e\u003c\/div\u003e\u003c\/div\u003e\u003c\/div\u003e\u003c\/div\u003e\u003c\/div\u003e\u003c\/li\u003e\u003c\/ul\u003e\u003c\/span\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_71\&quot; class=\&quot;phabricator-action-view phabricator-action-view-type-divider\&quot; style=\&quot;\&quot;\u003e\u003cspan class=\&quot;phabricator-action-view-item\&quot;\u003e\u003c\/span\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_73\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/p\/shadowmimosa\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u7b80\u4ecb\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_75\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/settings\/user\/shadowmimosa\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u8bbe\u7f6e\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_77\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/people\/manage\/46\/\&quot; class=\&quot;phabricator-action-view-item\&quot;\u003e\u7ba1\u7406\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_79\&quot; class=\&quot;phabricator-action-view phabricator-action-view-type-divider\&quot; style=\&quot;\&quot;\u003e\u003cspan class=\&quot;phabricator-action-view-item\&quot; data-sigil=\&quot;help-item\&quot;\u003e\u003c\/span\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_81\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;https:\/\/secure.phabricator.com\/diviner\/find\/?name=Phriction+User+Guide&amp;amp;type=article&amp;amp;jump=1\&quot; class=\&quot;phabricator-action-view-item\&quot; target=\&quot;_blank\&quot; rel=\&quot;noreferrer\&quot; data-sigil=\&quot;help-item\&quot;\u003ePhriction User Guide\u003c\/a\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_83\&quot; class=\&quot;phabricator-action-view phabricator-action-view-type-divider\&quot; style=\&quot;\&quot;\u003e\u003cspan class=\&quot;phabricator-action-view-item\&quot; data-sigil=\&quot;logout-item\&quot;\u003e\u003c\/span\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_85\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;\/logout\/\&quot; class=\&quot;phabricator-action-view-item\&quot; data-sigil=\&quot;workflow logout-item\&quot;\u003eLog Out shadowmimosa\u003c\/a\u003e\u003c\/li\u003e\u003c\/ul\u003e&quot;}}],&quot;phabricator-search-typeahead&quot;:[{&quot;id&quot;:&quot;UQ0_86&quot;,&quot;input&quot;:&quot;UQ0_56&quot;,&quot;button&quot;:&quot;UQ0_87&quot;,&quot;selectorID&quot;:&quot;UQ0_88&quot;,&quot;applicationID&quot;:&quot;UQ0_89&quot;,&quot;defaultApplicationIcon&quot;:&quot;fa-dot-circle-o&quot;,&quot;appScope&quot;:&quot;application&quot;,&quot;src&quot;:&quot;\/typeahead\/class\/PhabricatorSearchDatasource\/&quot;,&quot;limit&quot;:10,&quot;placeholder&quot;:&quot;\u641c\u7d22&quot;,&quot;scopeUpdateURI&quot;:&quot;\/settings\/adjust\/?key=search-scope&quot;}],&quot;quicksand-blacklist&quot;:[{&quot;patterns&quot;:[&quot;\/phame\/live\/.*&quot;,&quot;\/conpherence\/.*&quot;,&quot;\/Z\\d+&quot;,&quot;\/file\/(data|download)\/.*&quot;,&quot;\/phortune\/.*&quot;,&quot;\/auth\/.*&quot;]}],&quot;durable-column&quot;:[{&quot;visible&quot;:false,&quot;minimize&quot;:false,&quot;visibleURI&quot;:&quot;\/settings\/adjust\/?key=conpherence-column&quot;,&quot;minimizeURI&quot;:&quot;\/settings\/adjust\/?key=conpherence-minimize-column&quot;,&quot;quicksandConfig&quot;:{&quot;title&quot;:&quot;\u26a1 iOS \u96c6\u6210\u6d4b\u8bd5\u62a5\u544a\u3010v4.7.1\u3011&quot;,&quot;bodyClasses&quot;:&quot;device-desktop platform-windows phui-theme-blindigo&quot;,&quot;aphlictDropdownData&quot;:[{&quot;isInstalled&quot;:true,&quot;countType&quot;:&quot;notifications&quot;,&quot;count&quot;:0,&quot;rawCount&quot;:0},{&quot;isInstalled&quot;:true,&quot;countType&quot;:&quot;messages&quot;,&quot;count&quot;:0,&quot;rawCount&quot;:0}],&quot;globalDragAndDrop&quot;:false,&quot;hisecWarningConfig&quot;:{&quot;show&quot;:false,&quot;uri&quot;:&quot;\/auth\/session\/downgrade\/&quot;,&quot;message&quot;:&quot;Your session is in high security mode. When you finish using it, click here to leave.&quot;},&quot;consoleConfig&quot;:null,&quot;applicationClass&quot;:&quot;PhabricatorPhrictionApplication&quot;,&quot;applicationSearchIcon&quot;:&quot;fa-book&quot;,&quot;helpItems&quot;:{&quot;items&quot;:&quot;\u003cul class=\&quot;phabricator-action-list-view \&quot;\u003e\u003cli id=\&quot;UQ0_91\&quot; class=\&quot;phabricator-action-view phabricator-action-view-type-divider\&quot; style=\&quot;\&quot;\u003e\u003cspan class=\&quot;phabricator-action-view-item\&quot; data-sigil=\&quot;help-item\&quot;\u003e\u003c\/span\u003e\u003c\/li\u003e\u003cli id=\&quot;UQ0_93\&quot; class=\&quot;phabricator-action-view phabricator-action-view-href\&quot; style=\&quot;\&quot;\u003e\u003ca href=\&quot;https:\/\/secure.phabricator.com\/diviner\/find\/?name=Phriction+User+Guide&amp;amp;type=article&amp;amp;jump=1\&quot; class=\&quot;phabricator-action-view-item\&quot; target=\&quot;_blank\&quot; rel=\&quot;noreferrer\&quot; data-sigil=\&quot;help-item\&quot;\u003ePhriction User Guide\u003c\/a\u003e\u003c\/li\u003e\u003c\/ul\u003e&quot;},&quot;pageObjects&quot;:{&quot;PHID-WIKI-xbvucksutx3zsvynvumy&quot;:true},&quot;subscriptions&quot;:[&quot;PHID-WIKI-xbvucksutx3zsvynvumy&quot;,&quot;PHID-USER-zxpayq3m5cgbddl5yx2m&quot;]}}],&quot;aphlict-status&quot;:[{&quot;nodeID&quot;:&quot;UQ0_96&quot;,&quot;pht&quot;:{&quot;setup&quot;:&quot;Setting Up Client&quot;,&quot;open&quot;:&quot;\u5df2\u8fde\u63a5&quot;,&quot;closed&quot;:&quot;Disconnected&quot;},&quot;icon&quot;:{&quot;open&quot;:{&quot;icon&quot;:&quot;fa-circle&quot;,&quot;color&quot;:&quot;green&quot;},&quot;setup&quot;:{&quot;icon&quot;:&quot;fa-circle&quot;,&quot;color&quot;:&quot;yellow&quot;},&quot;closed&quot;:{&quot;icon&quot;:&quot;fa-circle&quot;,&quot;color&quot;:&quot;red&quot;}}}]}"></data>
+</body>
+
+</html>
