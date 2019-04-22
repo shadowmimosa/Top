@@ -261,13 +261,14 @@ def multi_processes(processes=4):
 
 
 def main():
-    # change_url()  # 修改 advert 中 url
+    change_url()  # 修改 advert 中 url
     # build_imei()  # 生成 IMEI & IDFA
     # request_miaozhen()
-    multi_processes(100)
+    # multi_processes(100)
 
 
 if __name__ == "__main__":
     import os
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     main()
+
