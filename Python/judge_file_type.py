@@ -34,7 +34,7 @@ def use_filetype(filename):
 
 
 def main():
-    dirpath = 'C:/Users/ShadowMimosa/Desktop/Temp/world/'
+    dirpath = 'C:/Users/ShadowMimosa/Desktop/Temp/world/730'
 
     for filename in Path(dirpath).iterdir():
         if not filename.is_file():
